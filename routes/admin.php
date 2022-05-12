@@ -12,6 +12,8 @@ Route::group(['middleware'=>'auth:admin'],function() {
     Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
     Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
     Route::post('storegouvernement', [GouvernementController::class, 'store'])->name('storegouvernement');
+    Route::get('editgouvernement/{id}', [GouvernementController::class, 'edit'])->name('editgouvernement');
+    Route::post('updategouvernement', [GouvernementController::class, 'update'])->name('updategouvernement');
     Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
     Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
 }); 
