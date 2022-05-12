@@ -53,6 +53,11 @@ class GouvernementController extends Controller
         try
         {
             $gouvernement = Gouvernement::find($request->id);
+            if (!$gouvernement)
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() -> route('home');
+            }
             $gouvernement->delete();
                 return response()->json([
                     'status' => true,
@@ -67,22 +72,50 @@ class GouvernementController extends Controller
             return redirect() -> route('home');
         }
     }
-    public function edit(Request $request)
+    public function edit($id)
     {
         try
         {
-            $gouvernement = Gouvernement::find($request->id);
-            $gouvernement->update([
-                'name' => $request->name,
-            ]);
-                return response()->json([
-                    'status' => true,
-                    'msg' => 'deleted successfully',
-                    'name' => $request->name
-                ]);
-
+            $gouvernement = Gouvernement::find($id);  // search in given table id only
+        if (!$gouvernement)
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() -> route('home');
+            }
+            $gouvernement = Gouvernement::select('id', 'name')->find($id);
+           return view('admin.gouvernements.edit', compact('gouvernement'));
         }
         catch(Exception $ex)
+        {
+            alert()->error('Oops....','Something went wrong .. try again');
+            return redirect() -> route('home');
+        }
+        
+    }
+    public function update(Request $request)
+    {
+       try
+       {
+        $gouvernement = Gouvernement::find($request ->id);
+        if (!$gouvernement)
+            return response()->json([
+                'status' => false,
+                'msg' =>'this element does not exist',
+            ]);
+
+        //update data
+        $gouvernement->update(
+            [
+                'name' => $request->name,
+            ]
+        );
+
+        return response()->json([
+            'status' => true,
+            'msg' =>'updated successufully'
+        ]);
+       }
+       catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
             return redirect() -> route('home');

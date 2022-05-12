@@ -2,8 +2,12 @@
 @section('title','dashboard')
 @section('content')
 <div class="wrapper">
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <div class="content-wrapper">
+    <div class="container">
+        <div class="alert alert-success" id="success_msg" style="margin-left:1%; background-color:#dff0d8; color: #3c763d;
+                                                            display: none;  margin-top:20px;">
+            <strong>Success!</strong> <span style="padding:10px;">Updated  sucessufully </span>
+    </div>
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -41,11 +45,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-              <form method="POST" action="{{ route('storegouvernement') }}">
+              <form method="POST" action="{{ route('updategouvernement') }}">
                         @csrf
                         <div class="form-group">
                           <label>Name</label>
-                          <input id="name" type="text" class="form-control" name="name"style="width: 100%;">
+                          <input id="name" type="text" class="form-control" name="name"style="width: 100%;" value="{{$gouvernement->name}}">
                         </div>
                         @error('name')
                           <div class="col-lg-7 font-weignt-bold py-3 ligne ">
@@ -56,9 +60,10 @@
                       <!-- /.col -->
                       <div class="col-md-6">
                       <div class="form-group">
+                      <input type="hidden" value="{{$gouvernement->id}}" id="id" name="id">
                       <label style="visibility: hidden;">button</label>
-                          <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                            create
+                          <button type="submit" class="btn btn-primary update-button" style="width: 100%;">
+                                            update Now
                           </button>
                         </div>
               </form>
@@ -352,4 +357,31 @@
   };
   // DropzoneJS Demo Code End
 </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+<script>
+
+        $(document).on('click', '.update-button', function (e) {
+            e.preventDefault();
+            var gouvernement_id = $('#id').val();
+            var gouvernement_name = $('#name').val();
+            $.ajax({
+                type: 'post',
+                url: "{{route('updategouvernement')}}",
+                data: {
+                    '_token': "{{csrf_token()}}",
+                    'id' :gouvernement_id,
+                    'name':gouvernement_name,
+                },
+                success: function (data) {
+                    $('#success_msg').show();
+                }, error: function (reject) {
+                     //swal("Something went wrong", "try again pleaseeee!", "error");
+                }
+            });
+        });
+    </script>
 @endsection

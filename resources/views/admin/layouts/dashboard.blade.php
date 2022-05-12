@@ -9,14 +9,44 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/brands.min.css" integrity="sha512-OivR4OdSsE1onDm/i3J3Hpsm5GmOVvr9r49K3jJ0dnsxVzZgaOJ5MfxEAxCyGrzWozL9uJGKz6un3A7L+redIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-
   <!-- Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style3.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style2.css')}}">
+<<<<<<< HEAD
   @yield('  css')
+=======
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/all.min.css')}}" />
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bootstrap4.min.css')}}"
+    />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/responsive.bootstrap4.min.css')}}"
+    />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/buttons.bootstrap4.min.css')}}"
+    />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/adminlte.min.css')}}"
+    />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/daterangepicker.css')}}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/icheck-bootstrap.min.css')}}">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bootstrap-colorpicker.min.css')}}">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/tempusdominus-bootstrap-4.min.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/select2.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/select2-bootstrap4.min.css')}}">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bootstrap-duallistbox.min.css')}}">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bs-stepper.min.css')}}">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/dropzone.min.css')}}">
+>>>>>>> 4c70180a23b1d823b1e89d0e0b3f251ef8ad6478
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -885,7 +915,72 @@
 <!-- overlayScrollbars -->
 <script src="{{asset('assets/admin/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
+<<<<<<< HEAD
 @yield('js')
 
+=======
+<script src="{{asset('assets/admin/js/jquery.min.js')}}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{asset('assets/admin/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{asset('assets/admin/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/jszip.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/pdfmake.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/vfs_fonts.js')}}"></script>
+    <script src="{{asset('assets/admin/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/buttons.print.min.js')}}"></script>
+     <script src="{{asset('assets/admin/js//buttons.colVis.min.js')}}"></script>
+     <script src="{{asset('assets/admin/js/select2.full.min.js')}}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{{asset('assets/admin/js/jquery.bootstrap-duallistbox.min.js')}}"></script>
+<!-- InputMask -->
+<script src="{{asset('assets/admin/js/moment.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/jquery.inputmask.min.js')}}"></script>
+<!-- date-range-picker -->
+<script src="{{asset('assets/admin/js/daterangepicker.js')}}"></script>
+<!-- bootstrap color picker -->
+<script src="{{asset('assets/admin/js/bootstrap-colorpicker.min.js')}}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{asset('assets/admin/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<!-- Bootstrap Switch -->
+<script src="{{asset('assets/admin/js/bootstrap-switch.min.js')}}"></script>
+<!-- BS-Stepper -->
+<script src="{{asset('assets/admin/js/bs-stepper.min.js')}}"></script>
+<!-- dropzonejs -->
+<script src="{{asset('assets/admin/js/dropzone.min.js')}}"></script>
+<!-- AdminLTE App -->
+<!-- AdminLTE for demo purposes -->
+<script src="{{asset('assets/admin/js/demo.js')}}"></script>
+
+    <!-- Page specific script -->
+    <script>
+      $(function () {
+        $("#example1")
+          .DataTable({
+            responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+          })
+          .buttons()
+          .container()
+          .appendTo("#example1_wrapper .col-md-6:eq(0)");
+        $("#example2").DataTable({
+          paging: true,
+          lengthChange: false,
+          searching: false,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+          responsive: true,
+        });
+      });
+    </script>
+>>>>>>> 4c70180a23b1d823b1e89d0e0b3f251ef8ad6478
 </body>
 </html>
