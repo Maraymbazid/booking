@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GouvernementController;
 Route::group(['middleware' => 'guest:admin'], function() {
@@ -14,7 +15,11 @@ Route::group(['middleware'=>'auth:admin'],function() {
     Route::post('storegouvernement', [GouvernementController::class, 'store'])->name('storegouvernement');
     Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
     Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
-}); 
+    Route::group(['prefix' => 'holels'], function () {
+        Route::any('/create', [HotelController::class, 'create'])->name('createHotel');
+        Route::any('/store', [HotelController::class, 'store'])->name('storeHotel');
+    });
+});
 
 Route::get('/home',  function()
 {

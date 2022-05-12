@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style3.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style2.css')}}">
+  @yield('  css')
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -215,6 +216,37 @@
               </li>
             </ul>
           </li>
+          {{-- hotels section --}}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                hotels
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('createHotel')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>create</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('allgouvernement')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>index</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>edit</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {{-- end  hotels section --}}
           <li class="nav-item">
             <a href="../widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -853,5 +885,7 @@
 <!-- overlayScrollbars -->
 <script src="{{asset('assets/admin/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
+@yield('js')
+
 </body>
 </html>
