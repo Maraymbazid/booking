@@ -10,12 +10,12 @@ trait media
     public function uploadMedia($image, $path)
     {
         $imageName = time() . '.' . $image->extension();
-        $image->move(public_path('images//' . $path), $imageName);
+        $image->move(public_path('assets/admin/img//' . $path), $imageName);
         return $imageName;
     }
     public function deleteMedia($oldImageProduct, $path)
     {
-        $oldImage = public_path("images//$path//" . $oldImageProduct);
+        $oldImage = public_path("assets/admin/img//$path//" . $oldImageProduct);
         if (file_exists($oldImage)) {
             unlink($oldImage);
         }

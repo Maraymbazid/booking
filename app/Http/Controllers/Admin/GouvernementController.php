@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\GouvernementRequest;
+use App\Http\Requests\Gouvernements\GouvernementRequest;
 use App\Models\Admin\Gouvernement;
 
 class GouvernementController extends Controller

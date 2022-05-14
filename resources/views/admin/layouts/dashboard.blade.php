@@ -17,7 +17,11 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style3.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style2.css')}}">
+<<<<<<< Updated upstream
   @yield('  css')
+=======
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bs-stepper.min.css')}}">
+>>>>>>> Stashed changes
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/all.min.css')}}" />
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bootstrap4.min.css')}}"
@@ -44,7 +48,11 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bs-stepper.min.css')}}">
   <!-- dropzonejs -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/dropzone.min.css')}}">
+<<<<<<< Updated upstream
 
+=======
+  @yield('css')
+>>>>>>> Stashed changes
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <!-- Site wrapper -->
@@ -274,6 +282,37 @@
             </ul>
           </li>
           {{-- end  hotels section --}}
+          {{-- apartement section --}}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                apartements
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('createapartement')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>create</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('allapartements')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>index</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>edit</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {{-- end  apartemant section --}}
           <li class="nav-item">
             <a href="../widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -913,7 +952,10 @@
 <script src="{{asset('assets/admin/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
 @yield('js')
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 <script src="{{asset('assets/admin/js/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('assets/admin/js/bootstrap.bundle.min.js')}}"></script>
@@ -976,5 +1018,9 @@
         });
       });
     </script>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 </body>
 </html>

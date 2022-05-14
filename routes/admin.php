@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\Admin\ApartementController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GouvernementController;
 Route::group(['middleware' => 'guest:admin'], function() {
@@ -9,6 +10,9 @@ Route::group(['middleware' => 'guest:admin'], function() {
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 });
 Route::group(['middleware'=>'auth:admin'],function() {
+    Route::get('/', function(){
+        return View('admin.layouts.lay');
+    });
     Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
     Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
     Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
@@ -24,6 +28,11 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::any('/create', [HotelController::class, 'create'])->name('createHotel');
         Route::any('/store', [HotelController::class, 'store'])->name('storeHotel');
         Route::any('/delete/{id}', [HotelController::class, 'destroy'])->name('deleteHotel');
+    });
+    Route::group(['prefix' => 'apartement'], function () {
+        Route::get('/allapartements', [ApartementController::class, 'index'])->name('allapartements');
+        Route::get('/create', [ApartementController::class, 'create'])->name('createapartement');
+        Route::post('/store', [ApartementController::class, 'store'])->name('storeapartement');
     });
 });
 
