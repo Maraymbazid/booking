@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.lay')
 @section('title','dashboard')
 @section('content')
 <div class="wrapper">
@@ -70,7 +70,7 @@
             <!-- /.row -->
           </div>
           <!-- /.card-body -->
-          
+
         </div>
         <div class="row">
           <div class="col-md-12">

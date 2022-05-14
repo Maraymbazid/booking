@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Hotel;
 use App\Http\traits\media;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        $hotels = DB::table('hotels')->get();
+        return view('admin.hotels.index', compact('hotels'));
     }
 
     /**
@@ -39,7 +41,6 @@ class HotelController extends Controller
      */
     public function store(Request $data)
     {
-
         $imageName = $this->uploadMedia($data->image, 'Hotels');
         $request = $data->except('_token', 'image');
         $request['image'] = $imageName;
@@ -74,9 +75,14 @@ class HotelController extends Controller
      * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Hotel $hotel)
+    public function edit($id)
     {
-        //
+        $hotel = DB::table('hotels')->where('id', $id)->first();
+        if ($hotel) {
+            return view('admin.hotels.edit', compact('hotel'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -86,9 +92,24 @@ class HotelController extends Controller
      * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateHotelRequest $request, Hotel $hotel)
+    public function update(Request $data, $id)
     {
-        //
+
+        $result = $data->except('page', 'image', '_token', '_method');
+        if ($data->has('image')) {
+            $oldImage = DB::table('hotels')->select('image')->where('id', $id)->first()->image;
+            $this->deleteMedia($oldImage, 'Hotels');
+            $imageName = $this->uploadMedia($data->image, 'Hotels');
+            $result['image'] = $imageName;
+        }
+        $update = DB::table('hotels')->where('id', $id)->update($result);
+        if ($update) {
+            alert()->success('Updated....', '  تم تعديل بينانات الفندق بنجاح');
+            return redirect()->route('Hotels');
+        } else {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('Hotels');
+        }
     }
 
     /**
@@ -97,8 +118,15 @@ class HotelController extends Controller
      * @param  \App\Models\Hotel  $hotel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hotel $hotel)
+    public function destroy($id)
     {
-        //
+        $delete = DB::table('hotels')->where('id', $id)->delete();
+        if ($delete) {
+            alert()->success('dleted....', '  تم مسح الفندق بنجاح');
+            return redirect()->route('Hotels');
+        } else {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('Hotels');
+        }
     }
 }

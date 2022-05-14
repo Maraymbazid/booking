@@ -28,7 +28,7 @@ class GouvernementController extends Controller
     }
     public function create()
     {
-        return view('admin.gouvernements.create');
+        return view('admin.gouvernements.create1');
     }
     public function store(GouvernementRequest $request)
     {
@@ -90,7 +90,7 @@ class GouvernementController extends Controller
             alert()->error('Oops....','Something went wrong .. try again');
             return redirect() -> route('home');
         }
-        
+
     }
     public function update(Request $request)
     {

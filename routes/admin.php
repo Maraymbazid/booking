@@ -18,8 +18,12 @@ Route::group(['middleware'=>'auth:admin'],function() {
     Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
     Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
     Route::group(['prefix' => 'holels'], function () {
+        Route::any('/', [HotelController::class, 'index'])->name('Hotels');
+        Route::any('/edit/{id}', [HotelController::class, 'edit'])->name('editHotel');
+        Route::any('/update/{id}', [HotelController::class, 'update'])->name('updateHotel');
         Route::any('/create', [HotelController::class, 'create'])->name('createHotel');
         Route::any('/store', [HotelController::class, 'store'])->name('storeHotel');
+        Route::any('/delete/{id}', [HotelController::class, 'destroy'])->name('deleteHotel');
     });
 });
 

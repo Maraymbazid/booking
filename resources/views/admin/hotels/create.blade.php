@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.lay')
 @section('title', ' إضافة فندق ')
 @section('css')
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
@@ -112,9 +112,17 @@
 
                                 </div>
                                 <hr>
-                                <button name="page" value="index" type="submit"
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <button name="page" value="index" type="submit"
                                     class="btn btn-primary btn-lg btn-block">إضافة</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <button type="reset"  class="btn btn-danger btn-lg btn-block">Cancel</button>
+                                    </div>
+                                </div>
                             </div>
                 </form>
 

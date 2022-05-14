@@ -17,9 +17,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style3.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style2.css')}}">
-<<<<<<< HEAD
   @yield('  css')
-=======
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/all.min.css')}}" />
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bootstrap4.min.css')}}"
@@ -46,7 +44,6 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/bs-stepper.min.css')}}">
   <!-- dropzonejs -->
   <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/dropzone.min.css')}}">
->>>>>>> 4c70180a23b1d823b1e89d0e0b3f251ef8ad6478
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -915,10 +912,8 @@
 <!-- overlayScrollbars -->
 <script src="{{asset('assets/admin/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
-<<<<<<< HEAD
 @yield('js')
 
-=======
 <script src="{{asset('assets/admin/js/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('assets/admin/js/bootstrap.bundle.min.js')}}"></script>
@@ -981,6 +976,5 @@
         });
       });
     </script>
->>>>>>> 4c70180a23b1d823b1e89d0e0b3f251ef8ad6478
 </body>
 </html>

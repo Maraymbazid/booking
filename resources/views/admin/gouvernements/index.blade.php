@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.lay')
 @section('title','dashboard')
 @section('content')
 <div class="content-wrapper">
@@ -76,7 +76,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script>
         $(document).on('click', '.button-delete', function (e) {
             e.preventDefault();
@@ -92,7 +92,7 @@
                     $('.gouvernementRow'+data.id).remove();
                     $('#success_msg').show();
                 }, error: function (reject) {
-                    
+
                 }
             });
         });
