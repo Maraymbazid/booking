@@ -33,12 +33,15 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::get('/allapartements', [ApartementController::class, 'index'])->name('allapartements');
         Route::get('/create', [ApartementController::class, 'create'])->name('createapartement');
         Route::post('/store', [ApartementController::class, 'store'])->name('storeapartement');
+        Route::post('delete-apartement', [ApartementController::class, 'delete'])->name('delete-apartement');
+        Route::get('editapartement/{id}', [ApartementController::class, 'edit'])->name('editapartement');
+        Route::post('updateapartement', [ApartementController::class, 'update'])->name('updateapartement');
     });
 });
 
 Route::get('/home',  function()
 {
-    return view('admin.layouts.dashboard');
+    return view('admin.layouts.lay');
 })->name('home');
 Route::get('/test',  function()
 {

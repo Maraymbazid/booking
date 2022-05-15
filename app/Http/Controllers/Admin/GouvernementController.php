@@ -22,31 +22,29 @@ class GouvernementController extends Controller
                 return redirect() -> route('home');
         }
     }
-    public function action()
-    {
-        return response()->json(['status'=>true,"redirect_url"=>url('admin/allgouvernement')]);
-    }
     public function create()
     {
         return view('admin.gouvernements.create1');
     }
     public function store(GouvernementRequest $request)
     {
-        try {
-                $gouvernement=Gouvernement::create([
+         $gouvernement=Gouvernement::create([
                     'name'=>$request->name,
                 ]);
                 if($gouvernement)
-                {
-                    alert()-> success('Added....', 'gouvernement added successfully');
-                    return redirect() -> route('allgouvernement');
-                }
-           }
-        catch(Exception $ex)
-        {
-                alert()->error('Oops....','Something went wrong .. try again');
-                return redirect() -> route('allgouvernement');
-        }
+                   {
+                    $status = 200;
+                    $msg  = 'تم حفظ الداتا بنجاح ';
+                    }
+                else 
+                  {
+                $status = 500;
+                $msg  = ' تعذر الحفظ هناك خطأ ما       ';
+                 }
+            return response()->json([
+                'status' => $status,
+                'msg' => $msg
+            ]);
     }
     public function delete(Request $request)
     {
@@ -61,7 +59,7 @@ class GouvernementController extends Controller
             $gouvernement->delete();
                 return response()->json([
                     'status' => true,
-                    'msg' => 'deleted successfully',
+                    'msg' => 'تم الحذف بنجاح',
                     'id' => $request->id
                 ]);
 
@@ -94,31 +92,20 @@ class GouvernementController extends Controller
     }
     public function update(Request $request)
     {
-       try
-       {
         $gouvernement = Gouvernement::find($request ->id);
         if (!$gouvernement)
             return response()->json([
                 'status' => false,
                 'msg' =>'this element does not exist',
             ]);
-
-        //update data
         $gouvernement->update(
             [
                 'name' => $request->name,
             ]
         );
-
         return response()->json([
             'status' => true,
-            'msg' =>'updated successufully'
+            'msg' =>'تم تعديل بنجاح'
         ]);
-       }
-       catch(Exception $ex)
-        {
-            alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
-        }
     }
 }

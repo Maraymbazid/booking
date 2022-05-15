@@ -27,6 +27,7 @@ class ApartementController extends Controller
         $request = $data->except('_token', 'image');
         $request['image'] = $imageName;
         $stored = DB::table('apartments')->insert($request);
+       //$stored=Apartement::create($request);
         if ($stored) {
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
@@ -42,10 +43,77 @@ class ApartementController extends Controller
     public function index()
     {
        
-       return  $results = DB::table('apartments')->get();
-       // return  view('payslips')->with('data',$results);
-       //return  $allapartements=Apartement::select('name_en','name_ar','description_ar','description_en','gouvernement','status')->get();
-        //return view('admin.Apartments.index',compact('allapartements'));
+        $allapartements=Apartement::select('id','name_ar','description_ar','address_ar','gouvernement','status')->get();
+        return view('admin.Apartments.index',compact('allapartements'));
+    }
+    public function delete(Request $request)
+    {
+        try
+        {
+            $apartement = Apartement::find($request->id);
+            if (!$apartement)
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() -> route('home');
+            }
+            $apartement->delete();
+                return response()->json([
+                    'status' => true,
+                    'msg' => 'تم الحذف بنجاح',
+                    'id' => $request->id
+                ]);
+
+        }
+        catch(Exception $ex)
+        {
+            alert()->error('Oops....','Something went wrong .. try again');
+            return redirect() -> route('home');
+        }
+    }
+    public function edit($id)
+    {
+        try
+        {
+            $apartement = Apartement::find($id);  // search in given table id only
+            $allgouvernements=Gouvernement::select('id','name')->get();
+        if (!$apartement)
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() -> route('home');
+            }
+            $apartement = Apartement::select('id', 'name_ar','description_ar','address_ar','status','gouvernement','image')->find($id);
+           return view('admin.Apartments.edit', compact('apartement','allgouvernements'));
+        }
+        catch(Exception $ex)
+        {
+            alert()->error('Oops....','Something went wrong .. try again');
+            return redirect() -> route('home');
+        }
+
+    }
+    public function update(Request $data)
+    {
+        $id=$data->id;
+        $result = $data->except('page', 'image', '_token', '_method');
+        if ($data->has('image')) {
+            $oldImage = DB::table('apartments')->select('image')->where('id', $id)->first()->image;
+            $this->deleteMedia($oldImage, 'apartements');
+            $imageName = $this->uploadMedia($data->image, 'apartements');
+            $result['image'] = $imageName;
+        }
+        //return $result['image'];
+        $update = DB::table('apartments')->where('id', $id)->update($result);
+        if ($update) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'تم تعديل بنجاح',
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'msg'  => 'تعذر الحفظ هناك خطأ ما',
+            ]);
+        }
     }
 
 }

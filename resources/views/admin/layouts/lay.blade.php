@@ -95,33 +95,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link ">
+                                    <a href="{{route('allgouvernement')}}" class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>الطلبات  المرفوضه</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>  الاكواد </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <p>الاحصائيات</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link">
-                                        <i class="fas fa-users"></i>
-                                        <p> المستخدمين </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link">
-                                        <i class="fas fa-users"></i>
-                                        <p> متابعة طلبات ال api  </p>
+                                        <p>كل محافظات</p>
                                     </a>
                                 </li>
                             </ul>
@@ -150,35 +126,28 @@
                             </ul>
                         </li>
                         <li class="nav-item ">
-                            <a href="#" class="nav-link">
+                            <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                    الخدمات
+                                     شقق  
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{route('createapartement')}}" class="nav-link">
                                         <i class="fas fa-folder"></i>
-                                        <p>الخدمات</p>
+                                        <p>إضافة شقة </p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{route('allapartements')}}" class="nav-link">
                                         <i class="fas fa-plus-square"></i>
-                                        <p>اضف خدمة</p>
+                                        <p>كل شقق</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link">
-                                        <i class="fas fa-plus-square"></i>
-                                        <p>اضف كود</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
+    </ul>
+    </li>
                         <li class="nav-item ">
                             <a href="#" class="nav-link">
                                 <i class="fas fa-folder-open"></i>

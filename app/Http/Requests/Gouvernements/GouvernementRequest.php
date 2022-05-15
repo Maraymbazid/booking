@@ -26,7 +26,7 @@ class GouvernementRequest extends FormRequest
     {
 
         return  [
-            'name' => 'unique:gouvernements,name|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|required|max:60',
+            'name' => 'unique:gouvernements,name|required|max:60',
         ];
     }
     public function messages()

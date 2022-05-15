@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.lay')
 @section('title','شقق' )
 @section('css')
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
@@ -20,7 +20,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <h2 class="text-center display-4">اضافق
+                <h2 class="text-center display-4">إضافة شقة
                 </h2>
 
                 <hr>
@@ -34,90 +34,88 @@
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>اسم الفندق</label>
+                                        <label>اسم شقة</label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="name_ar" id="name_ar"
                                                 class="form-control form-control-lg" placeholder="name_ar"
                                                 areia-describedby="helper" value="{{ old('name_ar') }}">
-                                            <span id='name_ar_error'> </span>
                                         </div>
+                                        <span class="invalid-feedback" role="alert" id='name_ar_error'> </span>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label> اسم الفندق بالانجليزية</label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="name_en" id="name_en"
-                                                class="form-control form-control-lg" placeholder="name_en"
-                                                areia-describedby="helper" value="{{ old('name_en') }}">
-                                            <span id='name_en_error'> </span>
-                                        </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label>نبذه عن الفندق </label>
+                                        <label>نبذه عن شقة </label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="description_ar" id="description_ar"
                                                 class="form-control form-control-lg" placeholder="description_ar"
                                                 areia-describedby="helper" value="{{ old('description_ar') }}">
-                                            <span id='description_ar_error'> </span>
                                         </div>
+                                        <span class="invalid-feedback" role="alert" id='description_ar_error'> </span>
+
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>نبذه عن الفندق باللغة الانجليزية </label>
+                                        <label> عنوان شقة </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="description_en" id="description_en"
-                                                class="form-control form-control-lg" placeholder="description_en"
-                                                areia-describedby="helper" value="{{ old('description_en') }}">
-                                            <span id='description_en_error'> </span>
+                                            <input type="text" name="address_ar" id="address_ar"
+                                                class="form-control form-control-lg" placeholder="address_ar"
+                                                areia-describedby="helper" value="{{ old('description_ar') }}">
                                         </div>
+                                        <span class="invalid-feedback" role="alert" id='address_ar_error'> </span>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>الحالة</label>
-                                        <select name="status" id="select2" class="select2" style="width: 100%;">
+                                        <select name="status" id="select2"  style="" class="form-control form-control-lg">
                                             <option {{ old('status') == 1 ? 'selected' : '' }} value="1"> تنشيط</option>
                                             <option {{ old('status') == 0 ? 'selected' : '' }} value="0">تعطيل</option>
                                         </select>
-                                        <span id='status_error'> </span>
                                     </div>
+                                    <span class="invalid-feedback" role="alert" id='status_error'> </span>
                                 </div>
-                                <div class="col-md-12 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>صورة الفندق </label>
+                                        <label>صورة شقة </label>
                                         <div class="input-group input-group-lg">
                                             <input type="file" name="image" id="" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
-                                            <span id='image_error'> </span>
                                         </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
                                     </div>
-                                    <span id='image_error'> </span>
                                 </div>
-                                <div class="col-md-12 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                       <label> gouvernements </label>
+                                       <label> محافظة </label>
                                         <div class="input-group input-group-lg">
                                         <select _ngcontent-c9="" class="form-control" id="gouvernement_id" name="gouvernement">
-                                @if($allgouvernements && $allgouvernements -> count() > 0)
-                                    @foreach($allgouvernements as $allgouvernement)
+                                        @if($allgouvernements && $allgouvernements -> count() > 0)
+                                            @foreach($allgouvernements as $allgouvernement)
                                         <option 
                                             value="{{$allgouvernement -> id }}">
                                             {{$allgouvernement -> name}}
                                         </option>
-                                    @endforeach
-                                @endif
+                                        @endforeach
+                                    @endif
                             </select>
-                                            <span id='gouvernement_id_error'> </span>
-                                        </div>
+                               </div>
+                               <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
                                     </div>
                                 </div>
                                 <hr>
-                                <button name="addapartement" value="index" type="submit"
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <button name="page" value="index" type="submit"
                                     class="btn btn-primary btn-lg btn-block">إضافة</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <button type="reset"  class="btn btn-danger btn-lg btn-block">Cancel</button>
+                                    </div>
+                                </div>
                             </div>
                 </form>
 
@@ -139,14 +137,15 @@
             }
             $('#name_ar').bind('keypress', validationArabic);
             $('#description_ar').bind('keypress', validationArabic);
+            $('#address_ar').bind('keypress', validationArabic);
             // filter english
-            function validationEnglish(event) {
-                var value = String.fromCharCode(event.which);
-                var regex = /^[a-z ]+[a-z0-9 ]*$/i;
-                return regex.test(value);
-            }
-            $('#description_en').bind('keypress', validationEnglish);
-            $('#name_en').bind('keypress', validationEnglish);
+            // function validationEnglish(event) {
+            //     var value = String.fromCharCode(event.which);
+            //     var regex = /^[a-z ]+[a-z0-9 ]*$/i;
+            //     return regex.test(value);
+            // }
+            // $('#description_en').bind('keypress', validationEnglish);
+            // $('#name_en').bind('keypress', validationEnglish);
 
        // save data
         $.ajaxSetup({
@@ -177,7 +176,8 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        $('#sucess_msg').text(response.msg);
+                       // $('#sucess_msg').text(response.msg);
+                       console.log(response.msg)
                     }
                 },
                 error: function(reject) {

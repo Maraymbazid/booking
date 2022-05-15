@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Apartement extends Model
 {
-    protected $table = 'apartments';
+    protected $table = 'apartments'; 
     protected $fillable = [
         'id',
         'name_ar',
@@ -17,6 +17,7 @@ class Apartement extends Model
         'gouvernement',
         'description_en',
         'description_ar',
+        'address_ar',
         'created_at',
         'updated_at',
     ];

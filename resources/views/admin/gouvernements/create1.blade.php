@@ -20,9 +20,8 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <h2 class="text-center display-4">اضافة فندق
+                <h2 class="text-center display-4">  إضافة محافظة
                 </h2>
-
                 <hr>
                 <span id='sucess_msg'> </span>
 
@@ -34,14 +33,15 @@
 
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label>اسم الفندق</label>
+                                        <label>اسم  محافظة</label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="name" id="name"
                                                 class="form-control form-control-lg" placeholder="name"
                                                 areia-describedby="helper" value="{{ old('name') }}">
-                                            <span id='name_ar_error'> </span>
-                                            {{-- <div class="alert alert-danger mt-3">{{ $message }}</div> --}}
                                         </div>
+                                        <span class="invalid-feedback" role="alert" id='name_ar_error' style="">
+                                            <h1></h1>
+                                        </span>
                                     </div>
                                 </div>
                                 <hr>
@@ -68,17 +68,19 @@
     </div>
 @endsection
 @section('js')
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> 
 
     <script>
-
-
-        //save data
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
-        // save data
+        function validationArabic(event) {
+            var value = String.fromCharCode(event.which);
+            var regex = /^[\u0621-\u064A\s]+$/gmu;
+            return regex.test(value);
+        }
+        $('#name').bind('keypress', validationArabic);
         $('#addgov').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
@@ -92,14 +94,21 @@
                 success: (response) => {
                     if (response) {
                         this.reset();
-
-                        $('#sucess_msg').text(response.msg);
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: response.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        //$('#sucess_msg').text(response.msg);
                     }
                 },
-                error: function(reject) {
+                error: function (reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(name, msg) {
-                        $('# ' + name + '_error').text(msg);
+                       $('#' + name + '_ar_error').text(msg[0]);
+                       //console.log('#' + name);
                     });
                 }
             });
