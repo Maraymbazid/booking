@@ -40,19 +40,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label> اسم الفندق بالانجليزية</label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="name_en" id="name_en"
-                                                class="form-control form-control-lg" placeholder="name_en"
-                                                areia-describedby="helper" value="{{ $hotel->name_en }}">
-                                            <span id='name_en_error'> </span>
 
-
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>نبذه عن الفندق </label>
@@ -64,17 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label>نبذه عن الفندق باللغة الانجليزية </label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="description_en" id="description_en"
-                                                class="form-control form-control-lg" placeholder="description_en"
-                                                areia-describedby="helper" value="{{ $hotel->description_en }}">
-                                            <span id='description_en_error'> </span>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>الحالة</label>
@@ -106,6 +84,24 @@
                                         </div>
                                     </div>
 
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                       <label> محافظة </label>
+                                        <div class="input-group input-group-lg">
+                                        <select _ngcontent-c9="" class="form-control" id="gouvernement_id" name="gouvernement">
+                                        @if($allgouvernements && $allgouvernements -> count() > 0)
+                                            @foreach($allgouvernements as $allgouvernement)
+                                        <option
+                                            value="{{$allgouvernement -> id }}">
+                                            {{$allgouvernement -> name}}
+                                        </option>
+                                        @endforeach
+                                    @endif
+                            </select>
+                               </div>
+                               <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="col-md-12 col-12">

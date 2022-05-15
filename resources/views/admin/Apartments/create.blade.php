@@ -91,9 +91,10 @@
                                        <label> محافظة </label>
                                         <div class="input-group input-group-lg">
                                         <select _ngcontent-c9="" class="form-control" id="gouvernement_id" name="gouvernement">
+                                            <option value="">إختار محافظة </option>
                                         @if($allgouvernements && $allgouvernements -> count() > 0)
                                             @foreach($allgouvernements as $allgouvernement)
-                                        <option 
+                                        <option
                                             value="{{$allgouvernement -> id }}">
                                             {{$allgouvernement -> name}}
                                         </option>
@@ -128,7 +129,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
             function validationArabic(event) {
                 var value = String.fromCharCode(event.which);

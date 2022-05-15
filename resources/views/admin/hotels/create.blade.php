@@ -44,19 +44,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label> اسم الفندق بالانجليزية</label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="name_en" id="name_en"
-                                                class="form-control form-control-lg" placeholder="name_en"
-                                                areia-describedby="helper" value="{{ old('name_en') }}">
-                                            <span id='name_en_error'> </span>
 
-
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>نبذه عن الفندق </label>
@@ -68,21 +56,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label>نبذه عن الفندق باللغة الانجليزية </label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="description_en" id="description_en"
-                                                class="form-control form-control-lg" placeholder="description_en"
-                                                areia-describedby="helper" value="{{ old('description_en') }}">
-                                            <span id='description_en_error'> </span>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>الحالة</label>
-                                        <select name="status" id="select2" class="select2" style="width: 100%;">
+                                        <select name="status" id="select2" class="form-control" style="width: 100%;">
                                             <option {{ old('status') == 1 ? 'selected' : '' }} value="1"> تنشيط</option>
                                             <option {{ old('status') == 0 ? 'selected' : '' }} value="0">تعطيل</option>
                                         </select>
@@ -99,7 +77,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-12">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label> محافظة </label>
+                                        <div class="input-group input-group-lg">
+                                            <select _ngcontent-c9="" class="form-control" id="gouvernement_id"
+                                                name="gouvernement">
+                                                <option value="">إختار محافظة </option>
+                                                @if ($allgouvernements && $allgouvernements->count() > 0)
+                                                    @foreach ($allgouvernements as $allgouvernement)
+                                                        <option value="{{ $allgouvernement->id }}">
+                                                            {{ $allgouvernement->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>صورة الفندق </label>
                                         <div class="input-group input-group-lg">
@@ -111,16 +108,17 @@
                                     </div>
 
                                 </div>
+
                                 <hr>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
-                                    class="btn btn-primary btn-lg btn-block">إضافة</button>
+                                            class="btn btn-primary btn-lg btn-block">إضافة</button>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <button type="reset"  class="btn btn-danger btn-lg btn-block">Cancel</button>
+                                        <button type="reset" class="btn btn-danger btn-lg btn-block">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -131,11 +129,13 @@
     </div>
 @endsection
 @section('js')
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
         function validationArabic(event) {
             var value = String.fromCharCode(event.which);

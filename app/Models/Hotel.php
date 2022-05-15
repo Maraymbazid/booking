@@ -18,6 +18,7 @@ class Hotel extends Model
         'image',
         'sort',
         'status',
+        'gouvernement',
         'description_en',
         'description_ar'
     ];

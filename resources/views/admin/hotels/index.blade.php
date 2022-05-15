@@ -89,7 +89,7 @@
                                     <thead>
                                         <tr>
                                             <th> الاسم بالعربي  </th>
-                                            <th> الاسم باللغه الانجليزية  </th>
+
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
@@ -98,18 +98,12 @@
 
                                         @foreach ($hotels as $hotel)
                                             <tr>
-
-
                                                 <td> {{ $hotel->name_ar }}</td>
-                                                <td> {{ $hotel->name_en }}</td>
-
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a
                                                             href="{{ route('editHotel', $hotel->id) }}">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
-
                                                     </button>
-
                                                 </td>
                                                 <td>
                                                     <form action="{{ route('deleteHotel', $hotel->id) }}" method="post"

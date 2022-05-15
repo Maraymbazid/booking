@@ -129,7 +129,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                     شقق  
+                                     شقق
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -198,7 +198,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer" style="text-align: center;">
-            جميع الحقوق محفوظة &copy; <strong><a href="#">ُELZERO</a></strong> 2022
+            جميع الحقوق محفوظة &copy; <strong><a href="#">AM</a></strong> 2022
         </footer>
     </div>
     <!-- ./wrapper -->

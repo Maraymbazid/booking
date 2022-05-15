@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Hotel;
 use App\Http\traits\media;
 use Illuminate\Http\Request;
+use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateHotelRequest;
 
@@ -30,7 +31,8 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('admin.hotels.create');
+        $allgouvernements = Gouvernement::select('id', 'name')->get();
+        return view('admin.hotels.create', compact('allgouvernements'));
     }
 
     /**
@@ -77,9 +79,10 @@ class HotelController extends Controller
      */
     public function edit($id)
     {
+        $allgouvernements = Gouvernement::select('id', 'name')->get();
         $hotel = DB::table('hotels')->where('id', $id)->first();
         if ($hotel) {
-            return view('admin.hotels.edit', compact('hotel'));
+            return view('admin.hotels.edit', compact('hotel', 'allgouvernements'));
         } else {
             return redirect()->back();
         }
