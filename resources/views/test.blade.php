@@ -1,201 +1,77 @@
-@extends('admin.layouts.lay')
-@section('title', 'الفنادق')
-
-
-@section('content')
-
-    <!-- Content Wrapper. Contains page content -->
-    <section class="content" style="text-align: center; direction: rtl;">
-        <div class="container-fluid">
-
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Row information</h4>
-                        </div>
-                        <div class="modal-body">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!-- /.row (main row) -->
-        </div>
-        <!-- /.container-fluid -->
-    </section>
-    <div class="content-wrapper">
-        @if (session()->has('success'))
-            <div class="alert alert-success mt-5 " role="alert">
-                {{ session()->get('success') }}
-            </div>
-        @endif
-        <section class="content" style="text-align: center; direction: rtl;">
-            <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
-                <div class="row">
-                    <div class="col-lg-12 col-12">
-
-                        <!-- small box -->
-
-                    </div>
-                    <!-- ./col -->
-
-                    <!-- ./col -->
-                    <div class="col-lg-4 col-12">
-                        <!-- small box -->
-
-                    </div>
-                    <!-- ./col -->
-
-                    <!-- ./col -->
-                </div>
-                <!-- /.row -->
-                <!-- Main row -->
-
-
-
-                <!-- Modal -->
-
-                <!-- /.row (main row) -->
-            </div>
-            <!-- /.container-fluid -->
-        </section>
-        <!-- Main content -->
-
-
-        <!---- new -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-
-                        <!-- /.card -->
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title"> الفنادق   </h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center">
-                                    <thead>
-                                        <tr>
-                                            <th> الاسم بالعربي  </th>
-                                            <th>   تعديل   </th>
-                                            <th>  مسح     </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach ($allgouvernements as $allgouvernement)
-                                            <tr>
-                                                <td> {{ $allgouvernement->name }}</td>
-                                                <td>
-                                                     <button  type="button" class="btn btn-warning"> <a
-                                                            href="" class="btn remove button-delete">
-                                                            <i  class="far fa-edit" aria-hidden="true"></i> </a>
-
-                                                    </button>
-
-                                                </td>
-                                                <td>
-                                                <button class="btn btn-danger rounded"> <a href="">
-                                                   <i class="fas fa-trash"></i></button>
-                                                        </a>
-                                                </td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-
-                                </table>
-
-
-
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </section>
-
-
-
-
-
-    </div>
-
-
-
-@endsection
-@section('js')
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script>
-        $(document).on('click', '.button-delete', function (e) {
-            e.preventDefault();
-           // var gouvernement_id = $(this).attr('gouvernement_id');
-            // $.ajax({
-            //     type: 'post',
-            //     url: "{{route('delete-gouvernement')}}",
-            //     data: {
-            //         '_token': "{{csrf_token()}}",
-            //         'id' :gouvernement_id
-            //     },
-            //     success: function (data) {
-            //         $('.gouvernementRow'+data.id).remove();
-            //         $('#success_msg').show();
-            //     }, error: function (reject) {
-
-            //     }
-            // });
-            console.log('hello ')
-        });
-    </script>
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "info": false,
-                "bPaginate": true,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-
-
-
-        Swal.bindClickHandler()
-
-
-        Swal.mixin({
-            title: 'هل تريد الاستمرار؟',
-            icon: 'question',
-            iconHtml: '؟',
-            confirmButtonText: 'نعم',
-            cancelButtonText: 'لا',
-            showCancelButton: true,
-            showCloseButton: true
-        }).bindClickHandler('data-swal-toast-template')
-    </script>
-
-
-    @endsection
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Style a checkbox using CSS </title>
+    <style>
+      h1 {
+        color: #8ebf42;
+      }
+      .script {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      /* Hide the default checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+      /* creating a custom checkbox based on demand */
+      .w3docs {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: black;
+      }
+      /* specify the background color to be shown when hovering over checkbox */
+      .script:hover input ~ .w3docs {
+        background-color: orange;
+      }
+      /* specify the background color to be shown when checkbox is active */
+      .script input:active ~ .w3docs {
+        background-color: red;
+      }
+      /* specify the background color to be shown when checkbox is checked */
+      .script input:checked ~ .w3docs {
+        background-color: black;
+      }
+      /* checkmark to be shown in checkbox */
+      /* It is not be shown when not checked */
+      .w3docs:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      /* display checkmark when checked */
+      .script input:checked ~ .w3docs:after {
+        display: block;
+      }
+      /* styling the checkmark using webkit */
+      /* creating a square to be the sign of checkmark */
+      .script .w3docs:after {
+        left: 6px;
+        bottom: 5px;
+        width: 6px;
+        height: 6px;
+        border: solid white;
+        border-width: 4px 4px 4px 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <label class="script" style="color:black;">
+      Yes
+      <input type="checkbox">
+      <span class="w3docs"></span>
+    </label>
+    <label class="script" style="color:black;">
+      Yes Of course
+      <input type="checkbox" checked="checked">
+      <span class="w3docs"></span>
+    </label>
+  </body>
+</html>

@@ -146,40 +146,65 @@
                                         <p>كل شقق</p>
                                     </a>
                                 </li>
-    </ul>
-    </li>
+                            </ul>
+                        </li>
+                        {{-- this part still pending --}}
                         <li class="nav-item ">
                             <a href="#" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                    الدفعات
+                                     الخدمات 
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{route('createservice')}}" class="nav-link">
                                         <i class="fas fa-folder"></i>
-                                        <p>التفاصيل</p>
+                                        <p>إضافة خدمة</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('allservices')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p> كل خدمات </p>
                                     </a>
                                 </li>
 
                             </ul>
                         </li>
-
-
+                        {{-- end of this part  --}}
+                        <li class="nav-item ">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                           الغرف    
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createroom')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> إضافة غرفة</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('allrooms')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p> كل الغرف  </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/logout') }}" class="nav-link">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <p>
                                     تسجيل خروج
-
                                 </p>
                             </a>
-
                         </li>
-
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

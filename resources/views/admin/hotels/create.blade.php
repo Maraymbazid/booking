@@ -8,7 +8,60 @@
         .col-12 {
             text-align: right;
         }
-
+        .script {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      /* Hide the default checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+      /* creating a custom checkbox based on demand */
+      .w3docs {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #DCDCDC;
+      }
+      /* specify the background color to be shown when hovering over checkbox */
+      .script:hover input ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is active */
+      .script input:active ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is checked */
+      .script input:checked ~ .w3docs {
+        background-color: green;
+      }
+      /* checkmark to be shown in checkbox */
+      /* It is not be shown when not checked */
+      .w3docs:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      /* display checkmark when checked */
+      .script input:checked ~ .w3docs:after {
+        display: block;
+      }
+      /* styling the checkmark using webkit */
+      /* creating a square to be the sign of checkmark */
+      .script .w3docs:after {
+        left: 6px;
+        bottom: 5px;
+        width: 6px;
+        height: 6px;
+        border: solid white;
+        border-width: 4px 4px 4px 4px;
+      }
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -26,7 +79,7 @@
                 <hr>
                 <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data" id='addgame'>
+                <form method="POST" enctype="multipart/form-data" id='addgame' >
                     @csrf
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
@@ -106,10 +159,45 @@
 
                                         </div>
                                     </div>
-
+                                 </div>
+                                 <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label >ترتيب الفندق فى الظهور</label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="number" name="sort" id="sort" class="form-control form-control-lg"
+                                                placeholder="sort" areia-describedby="helper" value="{{ old('sort') }}">
+                                            <span id='sort_error'> </span>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label >ترتيب الفندق فى الظهور</label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="number" name="sort" id="sort" class="form-control form-control-lg"
+                                                placeholder="sort" areia-describedby="helper" value="{{ old('sort') }}">
+                                            <span id='sort_error'> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12"> </div>
+                              @if(isset($allservices))
+                                 @foreach($allservices as $allservice)
+                                    <div class="col-md-3 col-12">  
 
-                                <hr>
+                                        <div class="form-group">
+                                                <div class="" style=" font-size:19.5px;">
+                                                
+                                                <label class="script" style="color:black;">{{$allservice->name}} 
+                                                <input type="checkbox" name="services[]" value="{{ $allservice->id}}" multiple>
+                                                <span class="w3docs"></span>
+                                                </label>    
+                                                </div>
+                                        </div>
+                                    </div>  
+                             @endforeach
+                             @endif 
+                             <span class="invalid-feedback" role="alert" id='service_id_error'> </span>       
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -144,21 +232,21 @@
         }
         $('#name_ar').bind('keypress', validationArabic);
         $('#description_ar').bind('keypress', validationArabic);
-        // filter english
-        function validationEnglish(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[a-z ]+[a-z0-9 ]*$/i;
-            return regex.test(value);
-        }
-        $('#description_en').bind('keypress', validationEnglish);
-        $('#name_en').bind('keypress', validationEnglish);
+        // // filter english
+        // function validationEnglish(event) {
+        //     var value = String.fromCharCode(event.which);
+        //     var regex = /^[a-z ]+[a-z0-9 ]*$/i;
+        //     return regex.test(value);
+        // }
+        // $('#description_en').bind('keypress', validationEnglish);
+        // $('#name_en').bind('keypress', validationEnglish);
 
         //save data
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         // save data
         $('#addgame').submit(function(e) {
             e.preventDefault();
@@ -186,10 +274,11 @@
                     }
                 },
                 error: function(reject) {
-                    var response = $.parseJSON(reject.responseText);
-                    $.each(response.errors, function(name, msg) {
-                        $('# ' + name + '_error').text(msg);
-                    });
+                    // var response = $.parseJSON(reject.responseText);
+                    // $.each(response.errors, function(name, msg) {
+                    //     $('# ' + name + '_error').text(msg);
+                    // });
+                    console.log('error');
                 }
             });
         });

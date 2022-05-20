@@ -7,6 +7,7 @@ use App\Models\Hotel;
 use App\Http\traits\media;
 use Illuminate\Http\Request;
 use App\Models\Admin\Gouvernement;
+use App\Models\Admin\Service;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateHotelRequest;
 
@@ -32,7 +33,8 @@ class HotelController extends Controller
     public function create()
     {
         $allgouvernements = Gouvernement::select('id', 'name')->get();
-        return view('admin.hotels.create', compact('allgouvernements'));
+        $allservices=Service::select('id','name')->get();
+        return view('admin.hotels.create', compact('allgouvernements','allservices'));
     }
 
     /**
@@ -44,10 +46,12 @@ class HotelController extends Controller
     public function store(Request $data)
     {
         $imageName = $this->uploadMedia($data->image, 'Hotels');
-        $request = $data->except('_token', 'image');
+        $request = $data->except('_token', 'image','services','page');
         $request['image'] = $imageName;
-        $stored = DB::table('hotels')->insert($request);
+        $stored = DB::table('hotels')->insertGetId($request);
         if ($stored) {
+            $hotel = Hotel::find($stored);
+            $hotel->services()->attach($data->services);
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else {
@@ -56,7 +60,7 @@ class HotelController extends Controller
         }
         return response()->json([
             'status' => $status,
-            'msg' => $msg
+            'msg' => $msg,
         ]);
     }
 
@@ -125,11 +129,18 @@ class HotelController extends Controller
     {
         $delete = DB::table('hotels')->where('id', $id)->delete();
         if ($delete) {
-            alert()->success('dleted....', '  تم مسح الفندق بنجاح');
+            alert()->success('deleted....', '  تم مسح الفندق بنجاح');
             return redirect()->route('Hotels');
         } else {
             alert()->error('Oops....', 'Something went wrong .. try again');
             return redirect()->route('Hotels');
         }
+    }
+    public function test()
+    {
+        $hotel = Hotel::find(7);
+        $hotel->services()->attach(12);
+       // return $hotel->services;
+
     }
 }
