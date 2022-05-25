@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\ServiceApartement;
 
 class Apartement extends Model
 {
@@ -15,6 +16,8 @@ class Apartement extends Model
         'image',
         'status',
         'gouvernement',
+        'price',
+        'area',
         'description_en',
         'description_ar',
         'address_ar',
@@ -25,4 +28,8 @@ class Apartement extends Model
         'created_at',
         'updated_at',
     ];
+    public function services()
+    {
+        return $this->belongsToMany(ServiceApartement::class,'pivot_two','apartement_id','service_id');
+    }
 }

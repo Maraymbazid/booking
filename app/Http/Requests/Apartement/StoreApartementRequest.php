@@ -30,7 +30,10 @@ class StoreApartementRequest extends FormRequest
            // 'description_en'=> 'required|max:100',
             'address_ar'=>'required|max:100',
             'image' => 'required|mimes:jpeg,jpg,png',
-            'status' => 'required|integer|between:0,1'
+            'status' => 'required|integer|between:0,1',
+            'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'gouvernement'=>'required',
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
         

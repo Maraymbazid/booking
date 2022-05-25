@@ -8,7 +8,61 @@
         .col-12 {
             text-align: right;
         }
-
+        .script {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      /* Hide the default checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+      /* creating a custom checkbox based on demand */
+      .w3docs {
+        position: absolute;
+        top: 0;
+        left: 28px;
+        height: 25px;
+        width: 25px;
+        background-color: #DCDCDC;
+       
+      }
+      /* specify the background color to be shown when hovering over checkbox */
+      .script:hover input ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is active */
+      .script input:active ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is checked */
+      .script input:checked ~ .w3docs {
+        background-color: green;
+      }
+      /* checkmark to be shown in checkbox */
+      /* It is not be shown when not checked */
+      .w3docs:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      /* display checkmark when checked */
+      .script input:checked ~ .w3docs:after {
+        display: block;
+      }
+      /* styling the checkmark using webkit */
+      /* creating a square to be the sign of checkmark */
+      .script .w3docs:after {
+        left: 10px;
+        bottom: 5px;
+        width: 6px;
+        height: 6px;
+        border: solid white;
+        border-width: 4px 4px 4px 4px;
+      }
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -26,7 +80,7 @@
                 <hr>
                 <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data" id='addgame'>
+                <form method="POST" enctype="multipart/form-data" id='addaprt'>
                     @csrf
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
@@ -102,10 +156,48 @@
                                     @endif
                             </select>
                                </div>
-                               <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
+                               <span class="invalid-feedback" role="alert" id='gouvernement_error'> </span>
                                     </div>
                                 </div>
                                 <hr>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  الحجم </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" name="area" id="area" class="form-control form-control-lg"
+                                                placeholder="" areia-describedby="helper" value="{{ old('sort') }}">
+                                        </div>
+                                        <span id='area_error' class="invalid-feedback" role="alert" > </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  السعر </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" name="price" id="price" class="form-control form-control-lg"
+                                                placeholder="" areia-describedby="helper" value="{{ old('sort') }}">
+                                        </div>
+                                        <span id='price_error' class="invalid-feedback" role="alert"> </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                </div>
+                                 <label style="color:black; font-size:18px; margin-right:20px;"> الميزات  </label>
+                                 <div class="col-md-12 col-12"> </div> 
+                                                @foreach($allservices as $service)   
+                                            <div class="row"> 
+                                                <div class="form-group" style="">
+                                                        <div class="" style="font-size:19.5px;">
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple>
+                                                        <span class="w3docs"></span> <br>
+                                                        </label>  
+                                                        </div>          
+                                               </div>
+                                            </div>
+                                            @endforeach 
+                                            <div class="col-md-12 col-12"> </div> 
+                             <span class="invalid-feedback" role="alert" id='services_error'> </span>       
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -155,7 +247,7 @@
             }
         });
         // save data
-        $('#addgame').submit(function(e) {
+        $('#addaprt').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
             $('#license_name_error').text('');

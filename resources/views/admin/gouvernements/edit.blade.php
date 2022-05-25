@@ -102,7 +102,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        //$('#sucess_msg').text(response.msg);
+                        window.location.href='{{ route('allgouvernement')}}';
                     }
                 },
                 error: function (reject) {

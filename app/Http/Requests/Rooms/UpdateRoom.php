@@ -31,8 +31,9 @@ class UpdateRoom extends FormRequest
             'adults'=> 'required|integer|between:0,10',
             'image' => 'mimes:jpeg,jpg,png',
             'internet' => 'required|integer|between:0,1',
-            'price' => 'required|numeric|min:1|regex:/^\d+(\.\d{1,2})?$/',
-            'area' => 'required|numeric|min:1|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'hotel_id'=>'required',
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
         

@@ -13,7 +13,7 @@ class UpdateApartement extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,18 @@ class UpdateApartement extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        return  [
+            'name_ar' => 'required|max:100',
+            //'name_en' => 'required|max:100',
+            'description_ar'=> 'required|max:100',
+           // 'description_en'=> 'required|max:100',
+            'address_ar'=>'required|max:100',
+            'image' => 'mimes:jpeg,jpg,png',
+            'status' => 'required|integer|between:0,1',
+            'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
+            'gouvernement'=>'required',
+            // we must need verify the id given by admin shoud equal to id stored in db
         ];
     }
 }

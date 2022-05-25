@@ -8,7 +8,62 @@
         .col-12 {
             text-align: right;
         }
-
+        .script {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      /* Hide the default checkbox */
+      input[type=checkbox] {
+        visibility: hidden;
+      }
+      /* creating a custom checkbox based on demand */
+      .w3docs {
+        position: absolute;
+        top: 0;
+        left: 28px;
+        height: 25px;
+        width: 25px;
+        background-color: #DCDCDC;
+       
+      }
+      /* specify the background color to be shown when hovering over checkbox */
+      .script:hover input ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is active */
+      .script input:active ~ .w3docs {
+        background-color: white;
+      }
+      /* specify the background color to be shown when checkbox is checked */
+      .script input:checked ~ .w3docs {
+        background-color: green;
+      }
+      /* checkmark to be shown in checkbox */
+      /* It is not be shown when not checked */
+      .w3docs:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      /* display checkmark when checked */
+      .script input:checked ~ .w3docs:after {
+        display: block;
+      }
+      /* styling the checkmark using webkit */
+      /* creating a square to be the sign of checkmark */
+      .script .w3docs:after {
+        left: 10px;
+        bottom: 5px;
+        width: 6px;
+        height: 6px;
+        border: solid white;
+        border-width: 4px 4px 4px 4px;
+      }
+   
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -114,10 +169,59 @@
                                     @endif
                             </select>
                                </div>
-                               <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
+                               <span class="invalid-feedback" role="alert" id='gouvernement_error'> </span>
                                     </div>
                                 </div>
                                 <hr>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  الحجم </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" name="area" id="area" class="form-control form-control-lg"
+                                                placeholder="" areia-describedby="helper" value="{{$apartement->area}}">
+                                        </div>
+                                        <span id='area_error' class="invalid-feedback" role="alert" > </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  السعر </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" name="price" id="price" class="form-control form-control-lg"
+                                                placeholder="" areia-describedby="helper" value="{{$apartement->price}}">
+                                        </div>
+                                        <span id='price_error' class="invalid-feedback" role="alert"> </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                </div>
+                                <label style="color:black; font-size:18px; margin-right:20px;"> الميزات  </label>
+                                 <div class="col-md-12 col-12"> </div> 
+                                            @foreach($allservices as $service)  
+                                            <?php $i=0; ?> 
+                                            <div class="row"> 
+                                                @foreach($ownservices as $own)
+                                                        @if($service->id == $own->id)
+                                                        <div class="form-group" style="">
+                                                        <?php $i=1;?>
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple checked>
+                                                        <span class="w3docs"></span> 
+                                                        </label> 
+                                                        </div>                      
+                                                        @endif
+                                                        @endforeach  
+                                                        @if($i == 0)
+                                                        <div class="form-group" style="">
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple >
+                                                        <span class="w3docs"></span> 
+                                                        </label>
+                                                        </div> 
+                                                        @endif
+                                            </div>
+                                            @endforeach 
+                             <span class="invalid-feedback" role="alert" id='services_error'> </span> 
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -189,6 +293,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
+                        window.location.href='{{ route('allapartements')}}';
                        // $('#sucess_msg').text(response.msg);
                        console.log(response.msg)
                     }

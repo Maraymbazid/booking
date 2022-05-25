@@ -124,30 +124,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-folder-open"></i>
-                                <p>
-                                     شقق
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('createapartement')}}" class="nav-link">
-                                        <i class="fas fa-folder"></i>
-                                        <p>إضافة شقة </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('allapartements')}}" class="nav-link">
-                                        <i class="fas fa-plus-square"></i>
-                                        <p>كل شقق</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        </li>                      
                         {{-- this part still pending --}}
                         <li class="nav-item ">
                             <a href="#" class="nav-link">
@@ -193,6 +170,75 @@
                                     <a href="{{route('allrooms')}}" class="nav-link">
                                         <i class="fas fa-plus-square"></i>
                                         <p> كل الغرف  </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                     شقق
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createapartement')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة شقة </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('allapartements')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل شقق</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                فلل
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createvilla')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة فلة </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('allvillas')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل فلل</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                     قاعات الاجتماعات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createmeetingroom')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة قاعة </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('allmeetingroom')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل قاعات</p>
                                     </a>
                                 </li>
                             </ul>
