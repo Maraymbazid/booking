@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
+use App\Models\Admin\ServiceApartement;
 use App\Http\traits\media;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
+use App\Http\Requests\Apartement\UpdateApartement;
 use App\Models\Admin\Gouvernement;
 
 
@@ -18,17 +20,22 @@ class ApartementController extends Controller
     {
         
         $allgouvernements=Gouvernement::select('id','name')->get();
-        return view('admin.Apartments.create',compact('allgouvernements'));
+        $allservices=ServiceApartement::select('id','name')->get();
+        return view('admin.Apartments.create',compact('allgouvernements','allservices'));
     }
 
     public function store(StoreApartementRequest $data)
     {
         $imageName = $this->uploadMedia($data->image, 'apartements');
-        $request = $data->except('_token', 'image');
+        $request = $data->except('_token', 'image','services','page');
         $request['image'] = $imageName;
-        $stored = DB::table('apartments')->insert($request);
+        $stored = DB::table('apartments')->insertGetId($request);
        //$stored=Apartement::create($request);
         if ($stored) {
+            $apartement = Apartement::find($stored);
+            $apartement->services()->attach($data->services);
+            $status = 200;
+            $msg  = 'تم حفظ الداتا بنجاح ';
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else {
@@ -43,31 +50,29 @@ class ApartementController extends Controller
     public function index()
     {
        
-        $allapartements=Apartement::select('id','name_ar','description_ar','address_ar','gouvernement','status')->get();
+        $allapartements=Apartement::select('id','name_ar')->get();
         return view('admin.Apartments.index',compact('allapartements'));
     }
     public function delete(Request $request)
     {
-        try
+        $apartement=Apartement::find($request->id);
+        if($apartement)
         {
-            $apartement = Apartement::find($request->id);
-            if (!$apartement)
-            {
-                alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
-            }
+            $apartement->services()->detach();
             $apartement->delete();
-                return response()->json([
-                    'status' => true,
-                    'msg' => 'تم الحذف بنجاح',
-                    'id' => $request->id
-                ]);
-
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
         }
-        catch(Exception $ex)
+       else 
         {
-            alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return response()->json
+            ([
+                //'status' => false,
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
         }
     }
     public function edit($id)
@@ -75,14 +80,16 @@ class ApartementController extends Controller
         try
         {
             $apartement = Apartement::find($id);  // search in given table id only
-            $allgouvernements=Gouvernement::select('id','name')->get();
         if (!$apartement)
-            {
+            {                
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
-            $apartement = Apartement::select('id', 'name_ar','description_ar','address_ar','status','gouvernement','image')->find($id);
-           return view('admin.Apartments.edit', compact('apartement','allgouvernements'));
+            $apartement = Apartement::select()->find($id);
+            $allservices=ServiceApartement::select('id','name')->get();
+            $ownservices=$apartement->services;
+            $allgouvernements=Gouvernement::select('id','name')->get();
+           return view('admin.Apartments.edit', compact('apartement','allgouvernements','allservices','ownservices'));
         }
         catch(Exception $ex)
         {
@@ -91,29 +98,45 @@ class ApartementController extends Controller
         }
 
     }
-    public function update(Request $data)
+    public function update(UpdateApartement $data)
     {
-        $id=$data->id;
-        $result = $data->except('page', 'image', '_token', '_method');
-        if ($data->has('image')) {
-            $oldImage = DB::table('apartments')->select('image')->where('id', $id)->first()->image;
-            $this->deleteMedia($oldImage, 'apartements');
-            $imageName = $this->uploadMedia($data->image, 'apartements');
-            $result['image'] = $imageName;
+        $apartement=Apartement::find($data->id);
+        if ($apartement)
+         {
+            $id=$data->id;
+            $result = $data->except('page', 'image', '_token', '_method','id','services');
+            if ($data->has('image')) {
+                $oldImage = DB::table('apartments')->select('image')->where('id', $id)->first()->image;
+                $this->deleteMedia($oldImage, 'apartements');
+                $imageName = $this->uploadMedia($data->image, 'apartements');
+                $result['image'] = $imageName;
+            }
+            $update = $apartement->update($result);
+            $apartement->services()->sync($data->services);
+            if ($update) 
+            {
+                
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+                
+            }
+            else 
+            {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
         }
-        //return $result['image'];
-        $update = DB::table('apartments')->where('id', $id)->update($result);
-        if ($update) {
-            return response()->json([
-                'status' => true,
-                'msg' => 'تم تعديل بنجاح',
-            ]);
-        } else {
-            return response()->json([
-                'status' => true,
-                'msg'  => 'تعذر الحفظ هناك خطأ ما',
-            ]);
+        else 
+        {
+           $status = 500;
+           $msg  = ' تعذر التعديل هناك خطأ ما';
         }
+        return response()->json
+       ([
+           'status' => $status,
+           'msg' => $msg,
+       ]);
+        
     }
 
 }

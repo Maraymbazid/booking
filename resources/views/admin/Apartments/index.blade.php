@@ -86,33 +86,25 @@
                                     <thead>
                                         <tr>
                                             <th> الاسم بالعربي  </th>
-                                            <th>  الوصف بالعربي  </th>
-                                            <th>  العنوان  </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         @foreach ($allapartements as $allapartement)
                                             <tr class="apartementRow{{$allapartement->id}}">
                                                 <td> {{ $allapartement->name_ar }}</td>
-                                                <td> {{ $allapartement->description_ar }}</td>
-                                                <td> {{ $allapartement->address_ar }}</td>
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a
-                                                            href="{{route('editapartement',$allapartement->id)}}" class="btn remove">
+                                                            href="{{route('editapartement',$allapartement->id)}}">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
-
                                                     </button>
-
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="btn remove button-delete" apartement_id="{{ $allapartement->id}}">
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" apartement_id="{{ $allapartement->id}}">
                                                    <i class="fas fa-trash"></i></button>
                                                         </a>
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                     </tbody>

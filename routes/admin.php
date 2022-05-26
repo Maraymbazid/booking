@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GouvernementController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\VillaController;
+use App\Http\Controllers\Admin\MeetingSallesController;
 Route::group(['middleware' => 'guest:admin'], function() {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -56,6 +58,22 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::post('delete-rooom', [RoomController::class, 'delete'])->name('delete-room');
         Route::get('editroom/{id}', [RoomController::class, 'edit'])->name('editroom');
         Route::post('updateroom', [RoomController::class, 'update'])->name('update-room');
+    });
+    Route::group(['prefix' => 'villa'], function () {
+        Route::get('/allvillas', [VillaController::class, 'index'])->name('allvillas');
+        Route::get('/create', [VillaController::class, 'create'])->name('createvilla');
+        Route::post('/store', [VillaController::class, 'store'])->name('storevilla');
+        Route::post('delete-villa', [VillaController::class, 'delete'])->name('delete-villa');
+        Route::get('editvilla/{id}', [VillaController::class, 'edit'])->name('editvilla');
+        Route::post('updatevilla', [VillaController::class, 'update'])->name('update-villa');
+    });
+    Route::group(['prefix' => 'meetingroom'], function () {
+        Route::get('/allmeetingroom', [MeetingSallesController::class, 'index'])->name('allmeetingroom');
+        Route::get('/create', [MeetingSallesController::class, 'create'])->name('createmeetingroom');
+        Route::post('/store', [MeetingSallesController::class, 'store'])->name('storesalle');
+        Route::post('delete-meetingroom', [MeetingSallesController::class, 'delete'])->name('delete-meetingroom');
+        Route::get('editmeetingroom/{id}', [MeetingSallesController::class, 'edit'])->name('editmeetingroom');
+        Route::post('updatemeetingroom', [MeetingSallesController::class, 'update'])->name('update-meetingroom');
     });
 });
 

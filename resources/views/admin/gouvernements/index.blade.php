@@ -99,15 +99,15 @@
                                             <tr class="gouvernementRow{{$allgouvernement->id}}">
                                                 <td> {{ $allgouvernement->name }}</td>
                                                 <td>
-                                                     <button  type="button" class="btn btn-warning"> <a
-                                                            href="{{ route('editgouvernement', $allgouvernement->id) }}" class="btn remove">
+                                                     <button type="button" class="btn btn-warning">  <a
+                                                            href="{{ route('editgouvernement', $allgouvernement->id) }}" class="">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
 
                                                     </button>
 
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="btn remove button-delete" gouvernement_id="{{$allgouvernement->id}}">
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" gouvernement_id="{{$allgouvernement->id}}">
                                                    <i class="fas fa-trash"></i></button>
                                                         </a>
                                                 </td>
