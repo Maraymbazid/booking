@@ -65,7 +65,7 @@
             <a class="brand-link">
                 <img src="{{ url('assest/admin/dist/img/LOGO.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">SW GAMES</span>
+                <span class="brand-text font-weight-light">Hotels </span>
             </a>
 
             <!-- Sidebar -->
@@ -124,13 +124,13 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>                      
-                        {{-- this part still pending --}}
+                        </li>
+                        {{--
                         <li class="nav-item ">
                             <a href="#" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                     الخدمات 
+                                     الخدمات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -155,7 +155,7 @@
                             <a href="#" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                           الغرف    
+                                           الغرف
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -239,6 +239,75 @@
                                     <a href="{{route('allmeetingroom')}}" class="nav-link">
                                         <i class="fas fa-plus-square"></i>
                                         <p>كل قاعات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                     الشركات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createCompany')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة شركة </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('createCar')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p> </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                     السيارات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createCar')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة سياره </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('carindex')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>السيارات  </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                     تاكسي المطار
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createTaxi')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة تاكسي </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('indexTaxi')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>عرض الكل  </p>
                                     </a>
                                 </li>
                             </ul>

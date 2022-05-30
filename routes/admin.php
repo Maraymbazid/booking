@@ -1,14 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\HotelController;
-use App\Http\Controllers\Admin\ApartementController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\GouvernementController;
-use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\VillaController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\ApartementController;
+use App\Http\Controllers\SubServicesHotelController;
+use App\Http\Controllers\Admin\GouvernementController;
 use App\Http\Controllers\Admin\MeetingSallesController;
+use App\Http\Controllers\TaxiController;
+
 Route::group(['middleware' => 'guest:admin'], function() {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -32,6 +37,8 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::any('/create', [HotelController::class, 'create'])->name('createHotel');
         Route::any('/store', [HotelController::class, 'store'])->name('storeHotel');
         Route::any('/delete/{id}', [HotelController::class, 'destroy'])->name('deleteHotel');
+        Route::any('/getSubByMainId', [SubServicesHotelController::class, 'getSubByMainId'])->name('getSubByMainId');
+        Route::any('/getOneSub/{id}', [SubServicesHotelController::class, 'getOneSub'])->name('getOneSub');
     });
     Route::group(['prefix' => 'apartement'], function () {
         Route::get('/allapartements', [ApartementController::class, 'index'])->name('allapartements');
@@ -74,6 +81,21 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::post('delete-meetingroom', [MeetingSallesController::class, 'delete'])->name('delete-meetingroom');
         Route::get('editmeetingroom/{id}', [MeetingSallesController::class, 'edit'])->name('editmeetingroom');
         Route::post('updatemeetingroom', [MeetingSallesController::class, 'update'])->name('update-meetingroom');
+    });
+    Route::group(['prefix' => 'company'], function () {
+        Route::get('/create', [CompanyController::class, 'create'])->name('createCompany');
+        Route::post('/store', [CompanyController::class, 'store'])->name('companyStore');
+    });
+    Route::group(['prefix' => 'cars'], function () {
+        Route::get('/create', [CarController::class, 'create'])->name('createCar');
+        Route::get('/', [CarController::class, 'index'])->name('carindex');
+        Route::post('/store', [CarController::class, 'store'])->name('CarStore');
+    });
+    Route::group(['prefix' => 'taxis'], function () {
+        Route::get('/create', [TaxiController::class, 'create'])->name('createTaxi');
+        Route::post('/store', [TaxiController::class, 'store'])->name('storeTaxi');
+        Route::get('/', [TaxiController::class, 'index'])->name('indexTaxi');
+
     });
 });
 

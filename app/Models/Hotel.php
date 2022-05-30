@@ -16,8 +16,11 @@ class Hotel extends Model
         'name_ar',
         'name_en',
         'image',
+        'cover',
         'sort',
+        'location',
         'status',
+        'title',
         'gouvernement',
         'description_en',
         'description_ar'

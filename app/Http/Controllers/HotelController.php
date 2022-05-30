@@ -45,13 +45,47 @@ class HotelController extends Controller
      */
     public function store(Request $data)
     {
+
+        // dd($data->all());
+        // $count =  count($data->subserv);
+        // for ($i = 0; $i < $count; $i++) {
+        //     DB::table('services_hotel')->insert([
+        //         'hotel_id' =>   1,
+        //         'sub_id'    => $data->subserv[$i]['service_id']
+        //     ]);
+        // }
+
+        // $request = $data->except('_token', 'image','services','page');
+        // $request['image'] = $imageName;
+        // $stored = DB::table('hotels')->insertGetId($request);
         $imageName = $this->uploadMedia($data->image, 'Hotels');
-        $request = $data->except('_token', 'image','services','page');
-        $request['image'] = $imageName;
-        $stored = DB::table('hotels')->insertGetId($request);
-        if ($stored) {
-            $hotel = Hotel::find($stored);
-            $hotel->services()->attach($data->services);
+        $cover = $this->uploadMedia($data->cover, 'Hotels/cover');
+
+        $hotel = new Hotel();
+        $hotel->name_ar = $data->name_ar;
+        $hotel->description_ar = $data->description_ar;
+        $hotel->status = $data->status;
+        $hotel->gouvernement = $data->gouvernement;
+        $hotel->sort = $data->sort;
+        $hotel->location = $data->location;
+        $hotel->title = $data->title;
+        $hotel->image = $imageName;
+        $hotel->cover = $cover;
+        $hotel->save();
+        $subServices = json_decode($data->subserv);
+        $count =  count($subServices);
+        for ($i = 0; $i < $count; $i++) {
+            // return response()->json(['test' => $subservices[$i]->service_id]);
+            DB::table('services_hotel')->insert([
+                'hotel_id' =>   $hotel->id,
+                'sub_id'    => $subServices[$i]->service_id
+            ]);
+        }
+
+
+        if ($hotel) {
+            // $hotel = Hotel::find($stored);
+            // $hotel->services()->attach($data->services);
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else {
@@ -64,23 +98,7 @@ class HotelController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Hotel  $hotel
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Hotel $hotel)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Hotel  $hotel
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $allgouvernements = Gouvernement::select('id', 'name')->get();
@@ -92,13 +110,7 @@ class HotelController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateHotelRequest  $request
-     * @param  \App\Models\Hotel  $hotel
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $data, $id)
     {
 
@@ -119,12 +131,7 @@ class HotelController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Hotel  $hotel
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $delete = DB::table('hotels')->where('id', $id)->delete();
@@ -140,7 +147,5 @@ class HotelController extends Controller
     {
         $hotel = Hotel::find(7);
         $hotel->services()->attach(12);
-       // return $hotel->services;
-
     }
 }

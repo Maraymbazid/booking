@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\TaxiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::get('/test', function () {
     return view('admin.dashboard');
+});
+Route::group(['prefix' => 'cars'], function () {
+    Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
+});
+Route::group(['prefix' => 'taxis'], function () {
+    Route::get('/', [TaxiController::class, 'userIndex'])->name('userIndexTax');
 });

@@ -1,7 +1,7 @@
 @extends('admin.layouts.lay')
 @section('title', ' إضافة فندق ')
 @section('css')
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ url('assest/admin/plugins/select2/css/select2.min.css') }}">
     <style>
         .col-md-3,
@@ -72,7 +72,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid">
+            <div class="container-fluid" id='createhotel'>
                 <h2 class="text-center display-4">اضافة فندق
                 </h2>
 
@@ -84,58 +84,43 @@
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
                             <div class="row">
-
+                                {{-- name  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>اسم الفندق</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="name_ar" id="name_ar"
-                                                class="form-control form-control-lg" placeholder="name_ar"
-                                                areia-describedby="helper" value="{{ old('name_ar') }}">
-                                            <span id='name_ar_error'> </span>
-                                            {{-- <div class="alert alert-danger mt-3">{{ $message }}</div> --}}
+                                            <input type="text" v-model='name_ar' id='name_ar' name='name_ar'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
-
+                                {{-- desc  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>نبذه عن الفندق </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="description_ar" id="description_ar"
-                                                class="form-control form-control-lg" placeholder="description_ar"
-                                                areia-describedby="helper" value="{{ old('description_ar') }}">
-                                            <span id='description_ar_error'> </span>
+                                            <input type="text" v-model="description_ar" name='description_ar' id="description_ar"
+                                                class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
-
+                                    {{-- status  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>الحالة</label>
-                                        <select name="status" id="select2" class="form-control" style="width: 100%;">
-                                            <option {{ old('status') == 1 ? 'selected' : '' }} value="1"> تنشيط</option>
-                                            <option {{ old('status') == 0 ? 'selected' : '' }} value="0">تعطيل</option>
+                                        <select v-model="status" name='status' id="select2" class="form-control" style="width: 100%;">
+                                            <option  value="1"> تنشيط</option>
+                                            <option  value="0"> تعطيل</option>
                                         </select>
                                         <span id='status_error'> </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label>ترتيب الفندق فى الظهور</label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="number" name="sort" id="sort" class="form-control form-control-lg"
-                                                placeholder="sort" areia-describedby="helper" value="{{ old('sort') }}">
-                                            <span id='sort_error'> </span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    {{-- gov  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label> محافظة </label>
                                         <div class="input-group input-group-lg">
-                                            <select _ngcontent-c9="" class="form-control" id="gouvernement_id"
-                                                name="gouvernement">
+                                            <select  class="form-control" id="gouvernement_id"
+                                                v-model="gouvernement" name='gouvernement'>
                                                 <option value="">إختار محافظة </option>
                                                 @if ($allgouvernements && $allgouvernements->count() > 0)
                                                     @foreach ($allgouvernements as $allgouvernement)
@@ -149,55 +134,84 @@
                                         <span class="invalid-feedback" role="alert" id='gouvernement_id_error'> </span>
                                     </div>
                                 </div>
+                                {{-- image  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>صورة الفندق </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file" name="image" id="" class="form-control form-control-lg"
+                                            <input type="file"  name="image" id="image" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
-                                            <span id='image_error'> </span>
-
                                         </div>
                                     </div>
-                                 </div>
-                                 <div class="col-md-4 col-12">
+                                </div>
+                                {{-- cover  --}}
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label >ترتيب الفندق فى الظهور</label>
+                                        <label>صورة الغلاف </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="number" name="sort" id="sort" class="form-control form-control-lg"
-                                                placeholder="sort" areia-describedby="helper" value="{{ old('sort') }}">
-                                            <span id='sort_error'> </span>
+                                            <input type="file"  name="cover" id="cover" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
+                                    </div>
+                                </div>
+                                {{-- sort --}}
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label >  التقيم </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="number" v-model="sort" name='sort' id="sort" class="form-control form-control-lg">
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- title --}}
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for='title' >  العنوان </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text"  name='title' id="title" class="form-control form-control-lg">
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- location --}}
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label>اللوكيشن </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" v-model='fram' id='location' name='location'  class="form-control form-control-lg"  >
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- serviceses --}}
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>اختر خدمة </label>
+                                        <select v-model="status" id="allserv" data-dependent="services" class="form-control roles" style="width: 100%;">
+                                            <option  value=""> اختر خدمة</option>
+                                            @foreach(\App\Models\MainServicesHotel::all() as $services)
+                                            <option  value="{{ $services->id}}"> {{$services->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label >ترتيب الفندق فى الظهور</label>
-                                        <div class="input-group input-group-lg">
-                                            <input type="number" name="sort" id="sort" class="form-control form-control-lg"
-                                                placeholder="sort" areia-describedby="helper" value="{{ old('sort') }}">
-                                            <span id='sort_error'> </span>
-                                        </div>
+                                        <label> اختر خدمة </label>
+                                        <select id="services" v-model='subId' @change='addnewSub'  class="form-control " style="width: 100%;">
+                                            <option>أختر خدمة فرعية </option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12"> </div>
-                              @if(isset($allservices))
-                                 @foreach($allservices as $allservice)
-                                    <div class="col-md-3 col-12">  
+                                <div class="col-md-4 col-12">
+                                </div>
 
-                                        <div class="form-group">
-                                                <div class="" style=" font-size:19.5px;">
-                                                
-                                                <label class="script" style="color:black;">{{$allservice->name}} 
-                                                <input type="checkbox" name="services[]" value="{{ $allservice->id}}" multiple>
-                                                <span class="w3docs"></span>
-                                                </label>    
-                                                </div>
-                                        </div>
-                                    </div>  
-                             @endforeach
-                             @endif 
-                             <span class="invalid-feedback" role="alert" id='service_id_error'> </span>       
+                                <div class='col-12 ' v-for='(subservice , index ) in  subservices'>
+                                <div class='col-3 mt-1 p-1' >
+                                    <select disabled   class="form-control " style="width: 100%;">
+                                        <option> @{{subservice.name}} </option>
+                                    </select>
+                                </div>
+                                <div class='col-3'>  <span @click='deletesubservice(subservice)'> delete  </span> </div>
+                                </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -212,7 +226,7 @@
                             </div>
                 </form>
 
-            </div>
+
         </section>
     </div>
 @endsection
@@ -224,7 +238,128 @@
     </script>
     <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
     <script>
+        hotels = new Vue({
+            'el' : '#createhotel',
+            'data' : {
+            'name_ar':'',
+            'description_ar':'',
+            'status' : '',
+            'gouvernement':'',
+            'subservices' : [],
+            'sort': '',
+            'subId' : '',
+            'userNamePr' : '',
+            'test' : '',
+            'fram' : ''
+            },
+            methods:{
+                addnewSub:function(){
+                    if (this.subId == '')
+                        return;
+                    this.userNamePr = this.getSubservice(this.subId)
+                },
+                getSubservice:function(id){
+                    this.$http.get('/admin/holels/getOneSub/'+ id).then(response => {
+                        // get body data
+                        console.log(response.data['sub'])
+                                this.subservices.push({
+                                'service_id':  response.data['sub'].id,
+                                'name' :   response.data['sub'].name,
+                                })
+                                this.subId = ''
+                                this.userNamePr = ''
+                                this.json_test()
+                        // this.jobs = response.data;
+                    }, response => {
+                        // error callback
+                    })
+                },
+                deletesubservice: function(subservice) {
+                    this.subservices.splice(this.subservices.indexOf(subservice), 1);
+                },
+                resetForm :function(){
+                    this.name_ar = '',
+                    this.description_ar = '',
+                    this.status = '',
+                    this.gouvernement = '',
+                    this.subservices = '',
+                    this.sort = ''
+                },
+                validation:function(){
+                        console.log('TETS');
+                },
+                json_test:function(){
+                 this.test =  JSON.parse(JSON.stringify(this.subservices))
+                },
+                senddata:function(e){
+                    $.ajaxSetup({
+                            headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                    });
+                    e.preventDefault();
+                    // var xhttp = new XMLHttpRequest();
+                    // xhttp.open("POST", "store", true);
+                    // xhttp.send(
+                    //     {
+                    //         'name_ar' : this.name_ar,
+                    //         'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    //     }
+                    // );
+
+
+                    values = {
+                            'name_ar' : this.name_ar,
+                            'description_ar' : this.description_ar,
+                            'status' : this.status,
+                            'gouvernement' : this.gouvernement,
+                            'sort' : this.sort,
+                            'subserv' : this.subservices,
+                        },
+                        $.ajaxSetup({
+                            headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                        formData = new FormData(document.getElementById("addgame"));
+                        console.log(formData);
+                        return 0
+                        let va = formData.append('subserv', this.subservices );
+                        let v = formData.append('subserv', this.subservices );
+                    $.ajax({
+                        type: 'POST',
+                        enctype: 'multipart/form-data',
+                        url: '{{ route('storeHotel') }}',
+                        data: values,
+                        success: function(res) {
+                            hotels.resetForm();
+                            swal({
+                                title:  res.msg,
+                                type: 'success',
+                                confirmButtonText: 'done',
+                                });
+                                return 0;
+                        },
+                        error: function(res) {
+                            var response = $.parseJSON(res.responseText);
+                            $.each(response.errors, function(name, msg) {
+                                swal({
+                                     title:  msg[0],
+                                     type: 'warning',
+                                     confirmButtonText: 'error',
+                                     });
+                            });
+                            return 0;
+                        }
+                    } );
+                },
+
+
+            }
+        });
         function validationArabic(event) {
             var value = String.fromCharCode(event.which);
             var regex = /^[\u0621-\u064A\s]+$/gmu;
@@ -232,27 +367,39 @@
         }
         $('#name_ar').bind('keypress', validationArabic);
         $('#description_ar').bind('keypress', validationArabic);
-        // // filter english
-        // function validationEnglish(event) {
-        //     var value = String.fromCharCode(event.which);
-        //     var regex = /^[a-z ]+[a-z0-9 ]*$/i;
-        //     return regex.test(value);
-        // }
-        // $('#description_en').bind('keypress', validationEnglish);
-        // $('#name_en').bind('keypress', validationEnglish);
-
         //save data
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('.roles').change(function() {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                $.ajax({
+                    url: "{{ route('getSubByMainId') }}",
+                    method: "POST",
+                    data: {
+                        'id': value,
+                        'dependent': dependent
+                    },
+                    success: function(result) {
+                        $('#' + dependent).html(result);
+                    }
+                })
+            }
+        });
         // save data
         $('#addgame').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
-            $('#license_name_error').text('');
-
+            // let sub = JSON.parse('test', true);//#endreg
+            console.log(JSON.stringify(hotels.subservices))
+            formData.append('subserv', JSON.stringify(hotels.subservices) );
+            formData.append('status', hotels.status );
+            console.log(formData)
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
@@ -274,10 +421,7 @@
                     }
                 },
                 error: function(reject) {
-                    // var response = $.parseJSON(reject.responseText);
-                    // $.each(response.errors, function(name, msg) {
-                    //     $('# ' + name + '_error').text(msg);
-                    // });
+
                     console.log('error');
                 }
             });
