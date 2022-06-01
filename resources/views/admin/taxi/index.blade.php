@@ -102,7 +102,7 @@
                                                 <td> {{ $taxi->company }}</td>
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a
-                                                            href="{{ route('editHotel', $taxi->id) }}">
+                                                            href="{{ route('editTaxi', $taxi->id) }}">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
                                                     </button>
                                                 </td>

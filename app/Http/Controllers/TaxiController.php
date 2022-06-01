@@ -50,4 +50,44 @@ class TaxiController extends Controller
         }
         return view('taxi.taxi')->with('taxis', $taxis);
     }
+
+    public function edit($id)
+    {
+        $tax = DB::table('taxis')->where('id', $id)->first();
+        $arr = [];
+        array_push($arr, $tax);
+        if ($tax) {
+            return view('admin.taxi.edit')->with('arr', json_encode($arr));
+        } else {
+            return redirect()->back();
+        }
+    }
+    public function update(Request $data)
+    {
+        // dd($data);
+        $result = $data->except('page', 'image',  'taxId', '_token', '_method');
+        if ($data->has('image')) {
+            $oldImage = DB::table('taxis')->select('image')->where('id', $data->taxId)->first()->image;
+            $this->deleteMedia($oldImage, 'taxi');
+            $imageName = $this->uploadMedia($data->image, 'taxi');
+            $result['image'] = $imageName;
+        }
+        $update = DB::table('taxis')->where('id', $data->taxId)->update($result);
+        if ($update) {
+            return response()->json([
+                'status' => 'done',
+                'msg' => 'done',
+            ]);
+        } else {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('Hotels');
+        }
+    }
+
+    public function oneTaxi($id)
+    {
+        $tax = DB::table('taxis')->where('id', $id)->first();
+        $tax->image = url('/') . '/assets/admin/img/taxi/' . $tax->image;
+        return view('taxi.taxform')->with('tax',  $tax);
+    }
 }

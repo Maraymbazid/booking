@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TaxiController;
+use App\Http\Controllers\HotelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,8 @@ Route::group(['prefix' => 'cars'], function () {
 });
 Route::group(['prefix' => 'taxis'], function () {
     Route::get('/', [TaxiController::class, 'userIndex'])->name('userIndexTax');
+    Route::get('detailsTaxi/{id}', [TaxiController::class, 'oneTaxi'])->name('userOneTax');
+});
+Route::group(['prefix' => 'hotels'], function () {
+    Route::get('/', [HotelController::class, 'userIndex'])->name('userIndexhotel');
 });

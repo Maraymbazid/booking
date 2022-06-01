@@ -51,4 +51,38 @@ class CarController extends Controller
         }
         return view('cars.cars')->with('cars', $cars);
     }
+
+    public function edit($id)
+    {
+        $car = DB::table('cars')->where('id', $id)->first();
+        $arr = [];
+        array_push($arr, $car);
+        if ($car) {
+            return view('admin.cars.edit')->with('arr', json_encode($arr));
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    public function update(Request $data)
+    {
+        // dd($data);
+        $result = $data->except('page', 'image',  'carId', '_token', '_method');
+        if ($data->has('image')) {
+            $oldImage = DB::table('cars')->select('image')->where('id', $data->carId)->first()->image;
+            $this->deleteMedia($oldImage, 'cars');
+            $imageName = $this->uploadMedia($data->image, 'cars');
+            $result['image'] = $imageName;
+        }
+        $update = DB::table('cars')->where('id', $data->carId)->update($result);
+        if ($update) {
+            return response()->json([
+                'status' => 'done',
+                'msg' => 'done',
+            ]);
+        } else {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('Hotels');
+        }
+    }
 }

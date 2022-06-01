@@ -18,7 +18,6 @@ class SubServicesHotelController extends Controller
      */
     public function getSubByMainId(Request $request)
     {
-
         $value = $request->get('id');
         $dependent = $request->get('dependent');
         $services = DB::table('sub_services_hotels')->where('main_service_id', $value)->get();
@@ -39,9 +38,14 @@ class SubServicesHotelController extends Controller
      * @param  \App\Http\Requests\StoreSubServicesHotelRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSubServicesHotelRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        DB::table('services_hotel')->insert([
+            'hotel_id'  =>   $request->hotel_id,
+            'sub_id'    =>  $request->subId
+        ]);
+        return response()->json(['msg' => 'saved'], 200);
     }
 
     /**
@@ -87,5 +91,19 @@ class SubServicesHotelController extends Controller
     public function destroy(SubServicesHotel $subServicesHotel)
     {
         //
+    }
+
+    public function getSubsByHotelId($id)
+    {
+        $sub = DB::table('services_hotel')
+        ->join('sub_services_hotels', 'services_hotel.sub_id', 'sub_services_hotels.id')
+        ->select('sub_services_hotels.name', 'sub_services_hotels.id', 'services_hotel.*')
+        ->where('services_hotel.hotel_id', $id)->get();
+        return response()->json(['sub' => $sub], 200);
+    }
+    public function deletSub($id)
+    {
+        $sub = DB::table('services_hotel')->where('id', $id)->delete();
+        return response()->json(['msg' => 'saved'], 200);
     }
 }

@@ -36,12 +36,12 @@
                 {{ session('error') }}
             </div>
         @endif
-            @foreach ($taxis as $taxi)
+            @foreach ($hotels as $hotel)
             <div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2">
-                <a href="{{route('userOneTax', $taxi->id )}}" style="text-decoration: none; ">
-                    <div class="card-image" style="background-image: url({{$taxi->image}});">
+                <a href="" style="text-decoration: none; ">
+                    <div class="card-image" style="background-image: url({{$hotel->image}});">
                     </div>
-                    <p class="card-title">{{$taxi->name}}</p>
+                    <p class="card-title">{{$hotel->name_ar}}</p>
                     {{-- <p class="company">{{$taxi->company}}</p> --}}
                 </a>
             </div>

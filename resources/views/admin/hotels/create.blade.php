@@ -185,7 +185,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>اختر خدمة </label>
-                                        <select v-model="status" id="allserv" data-dependent="services" class="form-control roles" style="width: 100%;">
+                                        <select  id="allserv" data-dependent="services" class="form-control roles" style="width: 100%;">
                                             <option  value=""> اختر خدمة</option>
                                             @foreach(\App\Models\MainServicesHotel::all() as $services)
                                             <option  value="{{ $services->id}}"> {{$services->name}}</option>
@@ -375,7 +375,7 @@
         });
         $('.roles').change(function() {
             if ($(this).val() != '') {
-                var select = $(this).attr("id");
+                var select = $(this).attr("id"); //id
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 $.ajax({
