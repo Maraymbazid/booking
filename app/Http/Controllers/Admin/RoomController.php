@@ -134,5 +134,10 @@ class RoomController extends Controller
        ]);
         
     }
+    // public function test()
+    // {
+    //     $room=Hotel::find(28);
+    //     return $room->rooms->name_ar;
+    // }
    
 }

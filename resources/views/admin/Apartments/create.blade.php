@@ -1,7 +1,7 @@
 @extends('admin.layouts.lay')
 @section('title','شقق' )
 @section('css')
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ url('assest/admin/plugins/select2/css/select2.min.css') }}">
     <style>
         .col-md-3,

@@ -5,6 +5,8 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ServiceApartement;
+use App\Models\Admin\Gouvernement;
+use App\Models\Admin\DiscountVilla;
 
 class Villa extends Model
 {
@@ -32,5 +34,15 @@ class Villa extends Model
     public function services()
     {
         return $this->belongsToMany(ServiceApartement::class,'pivot_tree','villa_id','service_id');
+    }
+    public function gouvernemente()
+    {
+       
+        return $this->belongsTo(Gouvernement::class,'gouvernement');
+
+    }
+    public function discounts()
+    {
+        return $this->hasMany(DiscountVilla::class,'villa_id');
     }
 }

@@ -247,29 +247,6 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                     الشركات
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('createCompany')}}" class="nav-link">
-                                        <i class="fas fa-folder"></i>
-                                        <p>إضافة شركة </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('createCar')}}" class="nav-link">
-                                        <i class="fas fa-plus-square"></i>
-                                        <p> </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-folder-open"></i>
-                                <p>
                                      السيارات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
@@ -308,6 +285,75 @@
                                     <a href="{{route('indexTaxi')}}" class="nav-link">
                                         <i class="fas fa-plus-square"></i>
                                         <p>عرض الكل  </p>
+
+                        </a>
+                        </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                خصم الفنادق 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('creatediscounthotel')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة خصم </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('alldiscounthotel')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل الخصومات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                   خصم شقق  
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('creatediscountapartement')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة خصم </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('alldiscountapartement')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل الخصومات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                   خصم فلل   
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('creatediscountvilla')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة خصم </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('alldiscountvilla')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل الخصومات</p>
                                     </a>
                                 </li>
                             </ul>
