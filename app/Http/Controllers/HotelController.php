@@ -103,28 +103,38 @@ class HotelController extends Controller
     {
         $allgouvernements = Gouvernement::select('id', 'name')->get();
         $hotel = DB::table('hotels')->where('id', $id)->first();
+        $arr = [];
+        array_push($arr, $hotel);
         if ($hotel) {
-            return view('admin.hotels.edit', compact('hotel', 'allgouvernements'));
+            return view('admin.hotels.edit')->with('arr', json_encode($arr))->with('allgouvernements', $allgouvernements);
         } else {
             return redirect()->back();
         }
     }
 
 
-    public function update(Request $data, $id)
+    public function update(Request $data)
     {
 
-        $result = $data->except('page', 'image', '_token', '_method');
+        $result = $data->except('page', 'image', 'cover', 'hotelId', '_token', '_method');
         if ($data->has('image')) {
-            $oldImage = DB::table('hotels')->select('image')->where('id', $id)->first()->image;
+            $oldImage = DB::table('hotels')->select('image')->where('id', $data->hotelId)->first()->image;
             $this->deleteMedia($oldImage, 'Hotels');
             $imageName = $this->uploadMedia($data->image, 'Hotels');
             $result['image'] = $imageName;
         }
-        $update = DB::table('hotels')->where('id', $id)->update($result);
+        if ($data->has('cover')) {
+            $oldcoverName = DB::table('hotels')->select('cover')->where('id', $data->hotelId)->first()->cover;
+            $this->deleteMedia($oldcoverName, 'Hotels');
+            $coverName = $this->uploadMedia($data->cover, 'Hotels');
+            $result['cover'] = $coverName;
+        }
+        $update = DB::table('hotels')->where('id', $data->hotelId)->update($result);
         if ($update) {
-            alert()->success('Updated....', '  تم تعديل بينانات الفندق بنجاح');
-            return redirect()->route('Hotels');
+            return response()->json([
+                'status' => 'done',
+                'msg' => 'done',
+            ]);
         } else {
             alert()->error('Oops....', 'Something went wrong .. try again');
             return redirect()->route('Hotels');
@@ -147,5 +157,14 @@ class HotelController extends Controller
     {
         $hotel = Hotel::find(7);
         $hotel->services()->attach(12);
+    }
+
+    public function userIndex()
+    {
+        $hotels = DB::table('hotels')->get();
+        foreach ($hotels as $t) {
+            $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
+        }
+        return view('hotels.hotels')->with('hotels', $hotels);
     }
 }

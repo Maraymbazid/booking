@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  lang="ar" dir="rtl">
 
 <head>
     <title>
@@ -38,7 +38,7 @@
                     </a>
                 </li> --}}
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="oyun">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{{ route('userIndexhotel')}}">
                         <span> <i class="fas fa-gamepad"></i></span>
                         <span class="nav-link-text">  الفنادق</span>
                     </a>
