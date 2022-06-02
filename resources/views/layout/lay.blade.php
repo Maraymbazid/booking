@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="center" title="para odame">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('userIndexVilla')}}">
                         <span><i class="fas fa-money-bill"></i></span>
                         <span class="nav-link-text">   الفلل </span>
                     </a>

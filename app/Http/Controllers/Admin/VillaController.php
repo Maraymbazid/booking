@@ -16,7 +16,7 @@ class VillaController extends Controller
     use media;
     public function create()
     {
-        
+
         $allgouvernements=Gouvernement::select('id','name')->get();
         $allservices=ServiceApartement::select('id','name')->get();
         return view('admin.villas.create',compact('allgouvernements','allservices'));
@@ -27,14 +27,13 @@ class VillaController extends Controller
         $request = $data->except('_token', 'image','services','page');
         $request['image'] = $imageName;
         $stored = DB::table('villas')->insertGetId($request);
-        if ($stored) 
+        if ($stored)
         {
             $villa = Villa::find($stored);
             $villa->services()->attach($data->services);
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
-        } 
-        else 
+        } else
         {
             $status = 500;
             $msg  = 'تعذر الحفظ هناك خطأ ما';
@@ -47,7 +46,7 @@ class VillaController extends Controller
     }
     public function index()
     {
-       
+
         $allvillas=Villa::select()->get();
         return view('admin.villas.index',compact('allvillas'));
     }
@@ -63,8 +62,7 @@ class VillaController extends Controller
                 'msg'  => 'تم حذف الداتا بنجاح ',
                 'id'=>$request->id,
             ],200);
-        }
-       else 
+        } else
         {
             return response()->json
             ([
@@ -78,8 +76,7 @@ class VillaController extends Controller
         try
         {
             $villa = Villa::find($id);  // search in given table id only
-        if (!$villa)
-            {                
+            if (!$villa) {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -111,20 +108,17 @@ class VillaController extends Controller
             }
             $update = $villa->update($result);
             $villa->services()->sync($data->services);
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
-            }
-            else 
+            } else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
-        }
-        else 
+        } else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -134,6 +128,14 @@ class VillaController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+    }
+
+    public function userIndex()
+    {
+        $villas = Villa::select()->get();
+        foreach ($villas as $t) {
+            $t->image = url('/') . '/assets/admin/img/villas/' . $t->image;
+        }
+        return view('villas.villa', compact('villas'));
     }
 }
