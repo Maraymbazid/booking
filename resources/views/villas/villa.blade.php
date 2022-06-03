@@ -24,6 +24,9 @@
 </form>
 <br>
 <div class="row">
+
+
+
         @if (session('status'))
             <div class="alert alert-success text-center">
                 {{ session('status') }}
@@ -33,12 +36,12 @@
                 {{ session('error') }}
             </div>
         @endif
-            @foreach ($cars as $car)
+            @foreach ($villas as $villa)
             <div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2">
-                <a href="{{route('userOneCar', $car->id )}}" style="text-decoration: none; ">
-                    <div class="card-image" style="background-image: url({{$car->image}});">
+                <a href="{{route('userOneTax', $villa->id )}}" style="text-decoration: none; ">
+                    <div class="card-image" style="background-image: url({{$villa->image}});">
                     </div>
-                    <p class="card-title">{{$car->name}}</p>
+                    <p class="card-title">{{$villa->name_ar}}</p>
                     {{-- <p class="company">{{$taxi->company}}</p> --}}
                 </a>
             </div>

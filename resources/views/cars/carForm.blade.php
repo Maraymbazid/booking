@@ -19,7 +19,7 @@
 
         <div class="option pb-5">
             <div class="image-option-games">
-                <img src="{{$tax->image}}" width="100%" ;
+                <img src="{{$car->image}}" width="100%" ;
                     style="border-radius: 25px 25px 0px 0px;">
             </div>
             <div class="option-description">
@@ -49,12 +49,12 @@
                             enctype="multipart/form-data">
                             @csrf
                             <tr>
-                                <td data-label="اسم السيارة">{{$tax->name}}</td>
+                                <td data-label="اسم السيارة">{{$car->name}}</td>
                                 <td data-label="موديل السيارة">
-                                    {{$tax->model}}
+                                    {{$car->model}}
                                 </td>
-                                <td data-label="السعر"> {{$tax->price}} </td>
-                                <td>{{$tax->company}}  </td>
+                                <td data-label="السعر"> {{$car->price}} </td>
+                                <td>{{$car->company}}  </td>
                                 {{-- <td><a style="color: #fff;" href="#"> <button name="page" value="index"
                                             class="btn btn-primary rounded form-control"> شراء
                                         </button></a></td> --}}
@@ -73,15 +73,22 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  الجنسية </label>
+                                <label for="place" class="col-sm-2 col-form-label">موقع تسليم السياره </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="place" placeholder="  من فضلك ادخل جنسيتك ">
+                                  <input type="text" class="form-control" id="place" placeholder="موقع تسليم السياره ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-2">
+                                <label for="place" class="col-sm-2 col-form-label">  المده </label>
+                                <div class="col-md-10 col-12">
+                                  <input type="number" class="form-control" id="place" placeholder="  من فضلك ادخل عدد الايام ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  تاريخ الوصول </label>
+                                <label for="place" class="col-sm-2 col-form-label">  تاريخ الاستلام </label>
                                 <div class="col-lg-10 col-12">
-                                  <input type="date" class="form-control" id="place" placeholder="  من فضلك حدد ميعاد الوصول">
+                                  <input type="date" class="form-control" id="place" placeholder="  من فضلك حدد ميعاد استلام السيارة">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
@@ -90,20 +97,6 @@
                                      <input type="number" class="form-control" id="place" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                                 </div>
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  الواجهة  </label>
-                                <div class="col-lg-10 col-12">
-                                     <input type="text" class="form-control" id="place" placeholder=" من فضلك أدخل وجهتك  ">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  صورة التذكرة  </label>
-                                <div class="col-lg-10 col-12">
-                                     <input type="file" class="form-control" id="place" placeholder=" من فضلك قم بإضافة صورة تذكرتك">
-                                </div>
-                            </div>
-
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
                                 <div class="col-lg-10 col-12">

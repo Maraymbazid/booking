@@ -86,7 +86,10 @@ class TaxiController extends Controller
 
     public function oneTaxi($id)
     {
-        $tax = DB::table('taxis')->where('id', $id)->first();
+        $tax = DB::table('taxis')
+        ->join('companies', 'taxis.company_id', '=', 'companies.id')
+        ->select('taxis.*', 'companies.name as company')
+        ->where('taxis.id', $id)->first();
         $tax->image = url('/') . '/assets/admin/img/taxi/' . $tax->image;
         return view('taxi.taxform')->with('tax',  $tax);
     }

@@ -85,4 +85,13 @@ class CarController extends Controller
             return redirect()->route('Hotels');
         }
     }
+    public function oneCar($id)
+    {
+        $car = DB::table('cars')
+        ->join('companies', 'cars.company_id', '=', 'companies.id')
+        ->select('cars.*', 'companies.name as company')
+        ->where('cars.id', $id)->first();
+        $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
+        return view('cars.carForm')->with('car',  $car);
+    }
 }
