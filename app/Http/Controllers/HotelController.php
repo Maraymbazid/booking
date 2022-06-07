@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Http\traits\media;
+use App\Models\Admin\Room;
+use App\Models\HotelOrder;
+use App\Models\RoomDiscount;
 use Illuminate\Http\Request;
-use App\Models\Admin\Gouvernement;
 use App\Models\Admin\Service;
+use App\Models\MainServicesHotel;
+use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateHotelRequest;
 
@@ -33,8 +37,8 @@ class HotelController extends Controller
     public function create()
     {
         $allgouvernements = Gouvernement::select('id', 'name')->get();
-        $allservices=Service::select('id','name')->get();
-        return view('admin.hotels.create', compact('allgouvernements','allservices'));
+        $allservices = Service::select('id', 'name')->get();
+        return view('admin.hotels.create', compact('allgouvernements', 'allservices'));
     }
 
     /**
@@ -46,18 +50,6 @@ class HotelController extends Controller
     public function store(Request $data)
     {
 
-        // dd($data->all());
-        // $count =  count($data->subserv);
-        // for ($i = 0; $i < $count; $i++) {
-        //     DB::table('services_hotel')->insert([
-        //         'hotel_id' =>   1,
-        //         'sub_id'    => $data->subserv[$i]['service_id']
-        //     ]);
-        // }
-
-        // $request = $data->except('_token', 'image','services','page');
-        // $request['image'] = $imageName;
-        // $stored = DB::table('hotels')->insertGetId($request);
         $imageName = $this->uploadMedia($data->image, 'Hotels');
         $cover = $this->uploadMedia($data->cover, 'Hotels/cover');
 
@@ -75,7 +67,6 @@ class HotelController extends Controller
         $subServices = json_decode($data->subserv);
         $count =  count($subServices);
         for ($i = 0; $i < $count; $i++) {
-            // return response()->json(['test' => $subservices[$i]->service_id]);
             DB::table('services_hotel')->insert([
                 'hotel_id' =>   $hotel->id,
                 'sub_id'    => $subServices[$i]->service_id
@@ -119,14 +110,14 @@ class HotelController extends Controller
         $result = $data->except('page', 'image', 'cover', 'hotelId', '_token', '_method');
         if ($data->has('image')) {
             $oldImage = DB::table('hotels')->select('image')->where('id', $data->hotelId)->first()->image;
-            $this->deleteMedia($oldImage, 'Hotels');
-            $imageName = $this->uploadMedia($data->image, 'Hotels');
+            // $this->deleteMedia($oldImage, 'hotels');
+            $imageName = $this->uploadMedia($data->image, 'hotels');
             $result['image'] = $imageName;
         }
         if ($data->has('cover')) {
             $oldcoverName = DB::table('hotels')->select('cover')->where('id', $data->hotelId)->first()->cover;
-            $this->deleteMedia($oldcoverName, 'Hotels');
-            $coverName = $this->uploadMedia($data->cover, 'Hotels');
+            // $this->deleteMedia($oldcoverName, 'hotels/cover/');
+            $coverName = $this->uploadMedia($data->cover, 'hotels/cover/');
             $result['cover'] = $coverName;
         }
         $update = DB::table('hotels')->where('id', $data->hotelId)->update($result);
@@ -161,10 +152,32 @@ class HotelController extends Controller
 
     public function userIndex()
     {
-        $hotels = DB::table('hotels')->get();
+        $hotels = DB::table('hotels')
+        ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
+        ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
+        ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
             $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
         }
+
         return view('hotels.hotels')->with('hotels', $hotels);
     }
+    public function getRoomsByHotelId($id)
+    {
+        $hotel = Hotel::with(['SubServices.MainSer' => function ($q) {
+            // $q->groupBy('MainSer.main_service_id');
+        }])->find($id);
+        $rooms = $hotel->rooms;
+        $hotel->cover  = url('/') . '/assets/admin/img/hotels/cover/' . $hotel->cover;
+        foreach ($rooms as $t) {
+            $t->image = url('/') . '/assets/admin/img/rooms/' . $t->image;
+            $t->services   = $t->services;
+            $t->discount   = $t->Discount;
+        }
+        // return $rooms;
+        $main_services = MainServicesHotel::all();
+        return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
+    }
+
+
 }

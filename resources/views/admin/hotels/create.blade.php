@@ -177,7 +177,8 @@
                                     <div class="form-group">
                                         <label>اللوكيشن </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='fram' id='location' name='location'  class="form-control form-control-lg"  >
+                                            <input type="text"  v-model='fram' id='location' name='location'  class="form-control form-control-lg"  >
+                                            <span @click='convert' style="color:red;  padding:20px" > معالجه </span>
                                         </div>
                                     </div>
                                 </div>
@@ -226,6 +227,7 @@
                             </div>
                 </form>
 
+                <iframe :src='link' width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
         </section>
     </div>
@@ -253,9 +255,17 @@
             'subId' : '',
             'userNamePr' : '',
             'test' : '',
-            'fram' : ''
+            'fram' : '',
+            'link' : ''
             },
             methods:{
+                convert:function(){
+                    var mylocation = this.fram
+                    var myArray = mylocation.split(" ");
+                    fram = myArray[1].split('"');
+                    this.fram = fram[1]
+                    this.link = fram[1]
+                },
                 addnewSub:function(){
                     if (this.subId == '')
                         return;
@@ -301,15 +311,6 @@
                                     }
                     });
                     e.preventDefault();
-                    // var xhttp = new XMLHttpRequest();
-                    // xhttp.open("POST", "store", true);
-                    // xhttp.send(
-                    //     {
-                    //         'name_ar' : this.name_ar,
-                    //         'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-                    //     }
-                    // );
-
 
                     values = {
                             'name_ar' : this.name_ar,

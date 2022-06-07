@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TaxiController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HotelOrderController;
 use App\Http\Controllers\Admin\VillaController;
 
 /*
@@ -33,7 +35,13 @@ Route::group(['prefix' => 'taxis'], function () {
 });
 Route::group(['prefix' => 'hotels'], function () {
     Route::get('/', [HotelController::class, 'userIndex'])->name('userIndexhotel');
+    Route::get('/rooms/{id}', [HotelController::class, 'getRoomsByHotelId'])->name('getRoomsByHotelId');
+
 });
 Route::group(['prefix' => 'villa'], function () {
     Route::get('/', [VillaController::class, 'userIndex'])->name('userIndexVilla');
+});
+Route::group(['prefix' => 'hotelOrder'], function () {
+    Route::post('/order/{hotelId}', [HotelOrderController::class, 'order'])->name('hotelorder');
+    Route::post('/saveOrder/{hotelId}/{roomId}', [HotelOrderController::class, 'store'])->name('sotororderhoter');
 });

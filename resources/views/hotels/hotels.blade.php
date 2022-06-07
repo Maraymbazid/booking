@@ -23,7 +23,7 @@
     </div>
 </form>
 <br>
-<div class="row">
+<div class="row " style='justify-content: center'>
 
 
 
@@ -37,16 +37,22 @@
             </div>
         @endif
             @foreach ($hotels as $hotel)
-            <div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2">
-                <a href="" style="text-decoration: none; ">
-                    <div class="card-image" style="background-image: url({{$hotel->image}});">
-                    </div>
-                    <p class="card-title">{{$hotel->name_ar}}</p>
-                    {{-- <p class="company">{{$taxi->company}}</p> --}}
+            <div class="card    col-md-5   " style="text-decoration: none; ">
+                <a href="{{route('getRoomsByHotelId' , $hotel->id)}}" style="text-decoration: none; ">
+                            <img src="{{$hotel->image}}" class="card-image" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">{{$hotel->name_ar}} </h5>
+                            <p class="card-text"> العنوان  : {{$hotel->title}}</p>
+                            <p class="card-text"> التقييم  : <small class="text-muted">
+                                @for($i=0;  $i < $hotel->sort; $i++)  <i class="fas fa-star"></i>   @endfor
+                                @for($i=$hotel->sort;  $i < 5; $i++)  <i class="far fa-star"></i>  @endfor    </small></p>
+                            </div>
                 </a>
             </div>
             @endforeach
-        </div>
+
+
+    </div>
 
 
 @endsection

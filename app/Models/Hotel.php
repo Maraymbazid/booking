@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Room;
 use App\Models\Admin\Service;
+use App\Models\ServicesHotel;
+use App\Models\SubServicesHotel;
+use App\Models\MainServicesHotel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hotel extends Model
 {
@@ -25,8 +29,18 @@ class Hotel extends Model
         'description_en',
         'description_ar'
     ];
-    public function services()
+    public function rooms()
     {
-        return $this->belongsToMany(Service::class,'hotel_services','hotel_id','service_id');
+        return $this->hasMany(Room::class, 'hotel_id');
+    }
+
+    public function SubServices()
+    {
+        return $this->belongsToMany(SubServicesHotel::class, 'services_hotel', 'hotel_id', 'sub_id');
+    }
+
+    public function test()
+    {
+        return $this->hasManyThrough(SubServicesHotel::class, ServicesHotel::class, 'hotel_id', 'sub_id');
     }
 }

@@ -70,9 +70,9 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-                    <a class="nav-link destek" href="https://wa.me/905374504741">
+                    <a class="nav-link destek" href="https://wa.me/212680695296?text=أهلاً،  السلام عليكم أبغى استفسر عن شئ فى موقعكم  ">
                         <span style="color: green;"> &nbsp <i class="fab fa-whatsapp"> &nbsp &nbsp &nbsp</i>
-                        <span class="nav-link-text "> &nbsp Destek </span>
+                        <span class="nav-link-text "> &nbsp تواصل معنا </span>
                     </a>
                 </li>
 

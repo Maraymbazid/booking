@@ -2,13 +2,16 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Room;
+use App\Models\RoomDiscount;
 use App\Models\Admin\ServiceRoom;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Room extends Model
 {
     use HasFactory;
-    protected $table = 'rooms'; 
+    protected $table = 'rooms';
     protected $fillable = [
         'id',
         'name_ar',
@@ -29,5 +32,13 @@ class Room extends Model
     public function services()
     {
         return $this->belongsToMany(ServiceRoom::class,'pivot_one','room_id','service_id');
+    }
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class, 'hotel_id');
+    }
+    public function Discount()
+    {
+        return $this->hasMany(RoomDiscount::class, 'room_id');
     }
 }
