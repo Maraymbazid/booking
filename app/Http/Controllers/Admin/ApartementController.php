@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
@@ -11,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
 use App\Models\Admin\Gouvernement;
-
-
 class ApartementController extends Controller
 {
     use media;

@@ -161,10 +161,58 @@ class HotelController extends Controller
 
     public function userIndex()
     {
+        $allgouvernements=Gouvernement::select('id', 'name')->get();
         $hotels = DB::table('hotels')->get();
         foreach ($hotels as $t) {
             $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
         }
-        return view('hotels.hotels')->with('hotels', $hotels);
+        return view('hotels.hotels',compact('allgouvernements','hotels'));
+    }
+    public function hotelsordered(Request $request)
+    {
+        $value = $request->get('id');
+        $dependent = $request->get('dependent');
+        $hotels = DB::table('hotels')->where('gouvernement', $value)->orderBy('sort', 'DESC')->get();
+        $output = '<span> </span>';
+        foreach ($hotels as $hotel) {
+            $hotel->image = url('/') . '/assets/admin/img/hotels/' . $hotel->image;
+            $output .=  '<div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2" id="gouvernements">
+                            <a href="'.route('hoteldetail',$hotel->id).'" style="text-decoration: none;">
+                            <div class="card-image" style="background-image: url('.$hotel->image.');">
+                            </div>
+                            <p class="card-title">'.$hotel->name_ar.'</p>
+                            <i class="material-icons" style="margin-right:60px; font-size:25px;">'.'add_location'.'</i>
+                            <span style="color:black; font-size: x-small;"> '.$hotel->location.' </span>
+                            <span _ngcontent-c5="" aria-valuemin="0" class="rating readonly" role="slider" tabindex="0" aria-valuemax="5"
+                            aria-valuenow="4.5"><!----><span _ngcontent-c5="" class="ng-star-inserted" style="margin-right:60px;">';
+                            for($i=0;$i<$hotel->sort;$i++) { 
+                                            $output .='<i _ngcontent-c5=""
+                                           data-icon="★" class="star-icon half100 color-icon" title="1" style="color:#FFD700; font-size: 1.5em;"
+                                           >☆</i>';
+                                }
+                                $output .= '</span> </span></a> </div> <br>';
+                               
+                        
+        }
+        echo $output;
+    }
+    public function hoteldetail($id)
+    {
+        try
+        {
+            $hotel = Hotel::find($id);  // search in given table id only
+        if (!$hotel)
+            {                
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() -> route('home1');
+            }
+            $hotel = Hotel::select()->find($id);
+            return view('hotels.detail', compact('hotel'));
+        }
+        catch(Exception $ex)
+        {
+            alert()->error('Oops....','Something went wrong .. try again');
+            return redirect() -> route('home1');
+        }
     }
 }

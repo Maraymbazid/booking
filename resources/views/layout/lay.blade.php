@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ url('assest/front/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url('assest/front/css/stylesheet.css') }}">
     <link rel="icon" type="image/png" href="{{ url('assest/front2/img/Untitled-123.png') }}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @yield('css')
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -86,15 +87,10 @@
 
     <div class="content-wrapper">
         <div class="container">
+            @yield('content')
+            @include('sweetalert::alert')
 
-
-
-
-
-    @yield('content')
-
-
-</div>
+    </div>
 </div>
     <footer class="sticky-footer">
         <div class="container">

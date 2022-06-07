@@ -65,49 +65,57 @@
                 <div class="container">
                     <div class="row mt-5">
                     <div class="col">
-                        <form>
+                        <form method="post" action="{{route('checkordercar')}}">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$car->id}}">
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">موقع إستلام السياره </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="place" placeholder="موقع استلام السياره ">
+                                  <input type="text" class="form-control" id="receivingplace"  name="receivingplace"  placeholder="موقع استلام السياره ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">موقع تسليم السياره </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="place" placeholder="موقع تسليم السياره ">
+                                  <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace"  placeholder="موقع تسليم السياره ">
                                 </div>
                             </div>
 
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  المده </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="number" class="form-control" id="place" placeholder="  من فضلك ادخل عدد الايام ">
+                                  <input type="number" class="form-control" id="numberdays"  name="numberdays" placeholder="  من فضلك ادخل عدد الايام ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  تاريخ الاستلام </label>
                                 <div class="col-lg-10 col-12">
-                                  <input type="date" class="form-control" id="place" placeholder="  من فضلك حدد ميعاد استلام السيارة">
+                                  <input type="date" class="form-control" id="date"  name="date" placeholder="  من فضلك حدد ميعاد استلام السيارة">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  رقم التليفون </label>
                                 <div class="col-lg-10 col-12">
-                                     <input type="number" class="form-control" id="place" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
+                                     <input type="number" class="form-control" id="number" name="number" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <label for="place" class="col-sm-2 col-form-label">  جنسية الزبون  </label>
+                                <div class="col-md-10 col-12">
+                                  <input type="text" class="form-control" id="nationality" name="nationality" placeholder="  من فضلك ادخل جنسيتك ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
                                 <div class="col-lg-10 col-12">
-                                    <select id="inputState" class="form-control">
+                                    <select id="inputState" class="form-control" name="chauffeur">
                                         <option selected>هل تريد سائق مع السياره أم لا </option>
                                         <option value="1"> نعم </option>
                                         <option value="0"> لا  </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center pb-5 mt-2">
+                            <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">       </label>
                                 <div class="col-lg-10 col-12 p-2">
                                        <button type="sumbit" class="btn btn-primary p-1 form-control" > أطلب الان  </button>

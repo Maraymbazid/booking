@@ -145,5 +145,9 @@ Route::get('/home',  function()
 // Route::get('/test',  function()
 // {
 //     return view('test');
-// });
+// // });
 Route::get('/test', [DiscountApartementController::class, 'test'])->name('test');
+Route::get('/home1',  function()
+{
+    return view('layout.lay');
+})->name('home1');
