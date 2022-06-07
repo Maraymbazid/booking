@@ -16,6 +16,7 @@ class HotelOrderController extends Controller
         $hotel =  Hotel::find($hotelId);
         $discount = RoomDiscount::where('room_id', $request->roomId)
             ->where('day_count', '<=', $request->daycount)->orderby('day_count', 'DESC')->get();
+        dd($discount);
         if ($discount->count() < 0) {
             $dis =  ($discount[0]->discount * $room->price) / 100;  // dis
             $price = $room->price *  $request->daycount;    //before dis
@@ -51,17 +52,17 @@ class HotelOrderController extends Controller
         $hotel =  Hotel::find($hotelId);
         $discount = RoomDiscount::where('room_id', $request->roomId)
             ->where('day_count', '<=', $request->daycount)->orderby('day_count', 'DESC')->get();
+
+
         if ($discount->count() < 0) {
             $dis =  ($discount[0]->discount * $room->price) / 100;  // dis
             $price = $room->price *  $request->daycount;    //before dis
             $finallPrice = $price - $dis;  // after dis
-
         } else {
             $dis = 0;
             $price = $room->price;
             $finallPrice = $room->price;
         }
-
         $order = new HotelOrder();
         $order->hotel_id = $hotelId;
         $order->room_id = $roomId;
@@ -74,6 +75,8 @@ class HotelOrderController extends Controller
         $order->discount = $dis;
         $order->status = 0;
         $order->total = $request->total;
-        return view('hotels.invoke', compact('order'));
+        $order->save();
+        return redirect()->route('userIndexhotel')->with(['status', 'تم ارسال الطلب بنجاح ']);
+
     }
 }

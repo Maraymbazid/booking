@@ -152,15 +152,48 @@ class HotelController extends Controller
 
     public function userIndex()
     {
+        return view('hotels.hotels');
+    }
+
+    public function getAllHotelsForUser()
+    {
         $hotels = DB::table('hotels')
-        ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
-        ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
-        ->orderby('hotels.sort', 'DESC')->get();
+            ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
+            ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
+            ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
             $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
         }
+        return response()->json(['hotels', $hotels], 200);
+    }
 
-        return view('hotels.hotels')->with('hotels', $hotels);
+    public function hotelsordered($govId)
+    {
+        // $hotels = DB::table('hotels')->where('gouvernement', $govId)->orderBy('sort', 'DESC')->get();
+        $hotels = DB::table('hotels')
+            ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
+            ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
+            ->where('hotels.gouvernement', $govId)
+            ->orderby('hotels.sort', 'DESC')->get();
+        foreach ($hotels as $t) {
+            $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
+        }
+        return response()->json(['hotels', $hotels], 200);
+    }
+    public function hoteldetail($id)
+    {
+        try {
+            $hotel = Hotel::find($id);  // search in given table id only
+            if (!$hotel) {
+                alert()->error('Oops....', 'this element does not exist .. try again');
+                return redirect()->route('home1');
+            }
+            $hotel = Hotel::select()->find($id);
+            return view('hotels.detail', compact('hotel'));
+        } catch (Exception $ex) {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('home1');
+        }
     }
     public function getRoomsByHotelId($id)
     {
@@ -178,6 +211,4 @@ class HotelController extends Controller
         $main_services = MainServicesHotel::all();
         return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
     }
-
-
 }

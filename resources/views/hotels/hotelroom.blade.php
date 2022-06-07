@@ -184,23 +184,18 @@
                         <div class="col-lg-9 ">
 
                             <div class="row">
+                                <p class="title-des "> @{{room.name_ar}} </p>
                                 <div class="col-lg-5 hight border">
-                                    <p class="title-des "> @{{room.name_ar}} </p>
-                                    <p class="title-des">يشمل الحجز:</p>
+
+                                    {{-- <p class="title-des">يشمل الحجز:</p> --}}
                                     <div class="boxes">
                                         <div class="row">
-                                            <div class="col-lg-6 col-9">
-                                                <p class="title-des"> اقامة فقط</p>
-                                            </div>
-                                            <div class="col-lg-6 col-3">
-
-                                               <div class="para mt-1" v-for='r in room.discount'>
-                                                <p class="title-des-left">يوم @{{r.day_count}} لحجز  @{{r.discount}}% خصم </p>
-                                                </div>
+                                            <div class="para col-lg-6 col-3 m-1" v-for='r in room.discount'>
+                                                <p class="title-des-left p-1">   خصم @{{r.discount}}%     </p>
                                             </div>
                                         </div>
-                                        <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-primary" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
-                                            تفاصيل أكتر
+                                        <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-primary mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
+                                              مميزات الغرفة
                                           </button>
                                             <ul class="ul">
                                                 <div class="modal fade" :id="'togle'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -270,7 +265,7 @@
                                         <input type="text"  name='whtsapp' v-model="whtsapp" value="">
                                         <input type="text"  name='roomId'  :value="room.id">
                                     </div>
-                                        <button type="submit" @click='sendOrder' class="btn btn-danger">احجز الان </button>
+                                        <button type="submit" @click='sendOrder' class="btn btn-danger mt-2">احجز الان </button>
                                     </form>
                                 </div>
                             </div>

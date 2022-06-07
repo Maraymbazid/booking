@@ -13,7 +13,9 @@ use App\Http\Controllers\SubServicesHotelController;
 use App\Http\Controllers\Admin\GouvernementController;
 use App\Http\Controllers\Admin\MeetingSallesController;
 use App\Http\Controllers\TaxiController;
-
+use App\Http\Controllers\Admin\DiscountHotel;
+use App\Http\Controllers\Admin\DiscountApartementController;
+use App\Http\Controllers\Admin\DiscountVillaController;
 Route::group(['middleware' => 'guest:admin'], function() {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -58,8 +60,6 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::post('delete-service', [ServiceController::class, 'delete'])->name('delete-service');
         Route::get('editservice/{id}', [ServiceController::class, 'edit'])->name('editservice');
         Route::post('updateservice', [ServiceController::class, 'update'])->name('updateservice');
-      // Route::get('test', [HotelController::class, 'test'])->name('test');
-      // Route::get('test', [ServiceController::class, 'test'])->name('test');
     });
     Route::group(['prefix' => 'room'], function () {
         Route::get('/allrooms', [RoomController::class, 'index'])->name('allrooms');
@@ -68,6 +68,7 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::post('delete-rooom', [RoomController::class, 'delete'])->name('delete-room');
         Route::get('editroom/{id}', [RoomController::class, 'edit'])->name('editroom');
         Route::post('updateroom', [RoomController::class, 'update'])->name('update-room');
+    
     });
     Route::group(['prefix' => 'villa'], function () {
         Route::get('/allvillas', [VillaController::class, 'index'])->name('allvillas');
@@ -103,6 +104,36 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::any('/update', [TaxiController::class, 'update'])->name('updateTax');
 
         Route::get('/', [TaxiController::class, 'index'])->name('indexTaxi');
+    });
+    Route::group(['prefix' => 'discounthotel'], function () {
+        Route::get('/alldiscounthotel', [DiscountHotel::class, 'index'])->name('alldiscounthotel');
+        Route::get('/create', [DiscountHotel::class, 'create'])->name('creatediscounthotel');
+        Route::post('/store', [DiscountHotel::class, 'store'])->name('storediscounthotel'); 
+        Route::post('/getRoom', [DiscountHotel::class, 'getSubRooms'])->name('getRoom');
+        Route::post('/getHotels', [DiscountHotel::class, 'getSubHotels'])->name('getHotels');
+        Route::post('/delete-discounthotel', [DiscountHotel::class, 'delete'])->name('delete-discounthotel');
+        Route::get('editdiscounthotel/{id}', [DiscountHotel::class, 'edit'])->name('editdiscounthotel');
+        Route::post('updatediscounthotel', [DiscountHotel::class, 'update'])->name('updatediscounthotel');
+
+    });
+    Route::group(['prefix' => 'discountapartement'], function () {
+        Route::get('/alldiscountapartement', [DiscountApartementController::class, 'index'])->name('alldiscountapartement');
+        Route::get('/create', [DiscountApartementController::class, 'create'])->name('creatediscountapartement');
+        Route::post('/store', [DiscountApartementController::class, 'store'])->name('storediscountapartement'); 
+        Route::post('/getApartement', [DiscountApartementController::class, 'getSubApartements'])->name('getApartement');
+        Route::post('/delete-discountapartement', [DiscountApartementController::class, 'delete'])->name('delete-discountapartement');
+        Route::get('editdiscountapartement/{id}', [DiscountApartementController::class, 'edit'])->name('editdiscountapartement');
+        Route::post('updatediscounthotel', [DiscountApartementController::class, 'update'])->name('updatediscountApartement');
+
+    });
+    Route::group(['prefix' => 'discountvilla'], function () {
+        Route::get('/alldiscountvilla', [DiscountVillaController::class, 'index'])->name('alldiscountvilla');
+        Route::get('/create', [DiscountVillaController::class, 'create'])->name('creatediscountvilla');
+        Route::post('/store', [DiscountVillaController::class, 'store'])->name('storediscountvilla'); 
+        Route::post('/getVilla', [DiscountVillaController::class, 'getSubvillas'])->name('getVilla');
+        Route::post('/delete-discountvilla', [DiscountVillaController::class, 'delete'])->name('delete-discountvilla');
+        Route::get('editdiscountvilla/{id}', [DiscountVillaController::class, 'edit'])->name('editdiscountvilla');
+        Route::post('updatediscountvilla', [DiscountVillaController::class, 'update'])->name('updatediscountvilla');
 
     });
 });
@@ -114,5 +145,9 @@ Route::get('/home',  function()
 // Route::get('/test',  function()
 // {
 //     return view('test');
-// });
-//Route::get('/create', [RoomController::class, 'create'])->name('createroom');
+// // });
+Route::get('/test', [DiscountApartementController::class, 'test'])->name('test');
+Route::get('/home1',  function()
+{
+    return view('layout.lay');
+})->name('home1');

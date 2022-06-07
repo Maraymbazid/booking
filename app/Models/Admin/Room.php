@@ -2,11 +2,14 @@
 
 namespace App\Models\Admin;
 
-use App\Models\Admin\Room;
+
 use App\Models\RoomDiscount;
 use App\Models\Admin\ServiceRoom;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use App\Models\Admin\HotelDiscount;
+use App\Models\Hotel;
 
 class Room extends Model
 {
@@ -29,16 +32,24 @@ class Room extends Model
         'created_at',
         'updated_at',
     ];
+
     public function services()
     {
-        return $this->belongsToMany(ServiceRoom::class,'pivot_one','room_id','service_id');
+        return $this->belongsToMany(ServiceRoom::class, 'pivot_one', 'room_id', 'service_id');
     }
+
     public function hotel()
     {
         return $this->belongsTo(Hotel::class, 'hotel_id');
     }
+
     public function Discount()
     {
         return $this->hasMany(RoomDiscount::class, 'room_id');
+    }
+
+    public function discounts()
+    {
+        return $this->hasMany(HotelDiscount::class, 'room_id');
     }
 }

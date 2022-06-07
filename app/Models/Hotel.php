@@ -10,11 +10,16 @@ use App\Models\MainServicesHotel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
+use App\Models\Admin\Gouvernement;
+
+
+
 class Hotel extends Model
 {
     use HasFactory;
 
-   protected $table = 'hotels';
+    protected $table = 'hotels';
     protected $fillable = [
         'id',
         'name_ar',
@@ -39,8 +44,13 @@ class Hotel extends Model
         return $this->belongsToMany(SubServicesHotel::class, 'services_hotel', 'hotel_id', 'sub_id');
     }
 
-    public function test()
+    public function gouvernemente()
     {
-        return $this->hasManyThrough(SubServicesHotel::class, ServicesHotel::class, 'hotel_id', 'sub_id');
+
+        return $this->belongsTo(Gouvernement::class, 'gouvernement');
     }
+    // public function getCoverAttribute($val)
+    // {
+    //     return ($val !== null) ? asset('assets/admin/img/hotels/cover/' . $val) : "";
+    // }
 }

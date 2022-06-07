@@ -24,9 +24,9 @@
             </div>
             <div class="option-description">
                 <p class="option-text"> </p>
-                @if (session()->has('success'))
+                @if (session()->has('status'))
                 <div class="alert alert-success text-center" role="alert">
-                    {{ session()->get('success') }}
+                    {{ session()->get('status') }}
                 </div>
                 @elseif (session()->has('error'))
                 <div class="alert alert-danger text-center" role="alert">
@@ -65,58 +65,59 @@
                 <div class="container">
                     <div class="row mt-5">
                     <div class="col">
-                        <form  method="post" onsubmit="myFunction()"  action='{{route('firstorder',$tax->id)}}'>
+                        <form method="post" action="{{route('checkorder')}}" enctype="multipart/form-data">
                             @csrf
-                            @method('POST')
+                            <input type="hidden" name="id" value="{{$tax->id}}">
+                            <input type="hidden" name="price" value="{{$tax->price}}">
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">موقع إستلام السياره </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" name='one' class="form-control" id="place" placeholder="موقع استلام السياره ">
+                                  <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace" placeholder="موقع استلام السياره ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  الجنسية </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" name='tow' class="form-control" id="place" placeholder="  من فضلك ادخل جنسيتك ">
+                                  <input type="text" class="form-control" id="nationality"  name="nationality" placeholder="  من فضلك ادخل جنسيتك ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  تاريخ الوصول </label>
                                 <div class="col-lg-10 col-12">
-                                  <input type="date" name='three' class="form-control" id="place" placeholder="  من فضلك حدد ميعاد الوصول">
+                                  <input type="date" class="form-control" id="datearrive" name="datearrive" placeholder="  من فضلك حدد ميعاد الوصول">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  رقم التليفون </label>
                                 <div class="col-lg-10 col-12">
-                                     <input type="number" name='phone' class="form-control" id="place" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
+                                     <input type="number" class="form-control" id="phone" name="phone" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  الواجهة  </label>
                                 <div class="col-lg-10 col-12">
-                                     <input type="text" name='place' class="form-control" id="place" placeholder=" من فضلك أدخل وجهتك  ">
+                                     <input type="text" class="form-control" id="destination" name="destination" placeholder=" من فضلك أدخل وجهتك  ">
                                 </div>
                             </div>
 
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  صورة التذكرة  </label>
                                 <div class="col-lg-10 col-12">
-                                     <input type="file" name='image' class="form-control" id="place" placeholder=" من فضلك قم بإضافة صورة تذكرتك">
+                                     <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
                                 </div>
                             </div>
 
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
                                 <div class="col-lg-10 col-12">
-                                    <select id="inputState" name='driver' class="form-control">
+                                    <select id="chauffeur" name="chauffeur" class="form-control">
                                         <option selected>هل تريد سائق مع السياره أم لا </option>
                                         <option value="1"> نعم </option>
                                         <option value="0"> لا  </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center pb-5 mt-2">
+                            <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">       </label>
                                 <div class="col-lg-10 col-12 p-2">
                                        <button type="sumbit" class="btn btn-primary p-1 form-control" > أطلب الان  </button>

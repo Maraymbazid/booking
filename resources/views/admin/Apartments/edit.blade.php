@@ -294,8 +294,6 @@
                             timer: 1500
                         })
                         window.location.href='{{ route('allapartements')}}';
-                       // $('#sucess_msg').text(response.msg);
-                       console.log(response.msg)
                     }
                 },
                 error: function(reject) {

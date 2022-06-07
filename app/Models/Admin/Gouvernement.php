@@ -4,7 +4,9 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Admin\Apartement;
+use App\Models\Admin\Apartement\Villa;
+use App\Models\Hotel;
 class Gouvernement extends Model
 {
     use HasFactory;
@@ -19,4 +21,17 @@ class Gouvernement extends Model
         'created_at',
         'updated_at',
     ];
+    public function apartements()
+    {
+        return $this->hasMany(Apartement::class,'gouvernement');
+    }
+    public function villas()
+    {
+        return $this->hasMany(Villa::class,'gouvernement');
+    }
+    public function hotels()
+    {
+        return $this->hasMany(Hotel::class,'gouvernement');
+    }
+    
 }

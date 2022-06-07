@@ -5,7 +5,8 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ServiceApartement;
-
+use App\Models\Admin\Gouvernement;
+use App\Models\Admin\DiscountApartement;
 class Apartement extends Model
 {
     protected $table = 'apartments'; 
@@ -31,5 +32,15 @@ class Apartement extends Model
     public function services()
     {
         return $this->belongsToMany(ServiceApartement::class,'pivot_two','apartement_id','service_id');
+    }
+    public function gouvernemente()
+    {
+       
+        return $this->belongsTo(Gouvernement::class,'gouvernement');
+
+    }
+    public function discounts()
+    {
+        return $this->hasMany(DiscountApartement::class,'apartement_id');
     }
 }
