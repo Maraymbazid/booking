@@ -16,7 +16,8 @@ class StoreRoom extends FormRequest
         return true;
     }
 
-    /**
+    /**  $this->validate($request, [
+
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -29,15 +30,16 @@ class StoreRoom extends FormRequest
             'children'=> 'required|integer|between:0,10',
            // 'description_en'=> 'required|max:100',
             'adults'=> 'required|integer|between:0,10',
-            'image' => 'required|mimes:jpeg,jpg,png',
+            'images' => 'required',
+            'images.*' => 'required|mimes:jpeg,jpg,png',
             'internet' => 'required|integer|between:0,1',
             'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
             'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
-            'image' => 'required|mimes:jpeg,jpg,png',
+            // 'image' => 'required|mimes:jpeg,jpg,png',
             'hotel_id'=>'required',
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
-        
+
     }
-   
+
 }

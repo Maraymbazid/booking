@@ -3,13 +3,14 @@
 namespace App\Models\Admin;
 
 
+use App\Models\Hotel;
+use App\Models\Image;
 use App\Models\RoomDiscount;
 use App\Models\Admin\ServiceRoom;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Admin\HotelDiscount;
-use App\Models\Hotel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Room extends Model
 {
@@ -23,6 +24,7 @@ class Room extends Model
         'area',
         'price',
         'image',
+        'beds',
         'internet',
         'hotel_id',
         'created_at',
@@ -51,5 +53,10 @@ class Room extends Model
     public function discounts()
     {
         return $this->hasMany(HotelDiscount::class, 'room_id');
+    }
+
+    public function Images()
+    {
+        return $this->hasMany(Image::class, 'room_id');
     }
 }

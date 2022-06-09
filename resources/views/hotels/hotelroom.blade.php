@@ -75,6 +75,9 @@
     .option-description{
         margin-top:65px;
     }
+    .ul{
+        display: inline-block;
+    }
     .ul li{
         display: block;
         padding:0;
@@ -134,27 +137,36 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         <tr scope="row"><td colspan="4">
                             {{$hotel->name_ar}}
-                            @foreach ($main_services as $main)
-                            <ul class='ul'>
-                                <li  style="text-align: right"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
-                                    @foreach ($hotel->SubServices as $hsub)
-                                        @if($hsub->MainSer->id == $main->id )
-                                        <li style="text-align: right">
-                                            {{  $hsub->name}}
-                                        </li>
-                                        @endif
-                                        @endforeach
-                                </li>
-                            </ul>
-                            @endforeach
+
 
                             </td></tr>
 
 
                     </tbody>
                 </table>
+                <div class="container" >
+                    <div class="row">
+                        @foreach ($main_services as $main)
+                        <div class="col-3">
+                            <ul class='ul'  style="text-align: right"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
+                                @foreach ($hotel->SubServices as $hsub)
+                                    @if($hsub->MainSer->id == $main->id )
+                                    <li style="text-align: right">
+                                        {{  $hsub->name}}
+                                    </li>
+                                    @endif
+                                    @endforeach
+                            </ul>
+                        </div>
+                        @endforeach
+
+                    </div>
+                </div>
+
+
                 <div class="container" >
                     <div class="row">
                         <form  class="parent">
@@ -169,24 +181,34 @@
                     </div>
 
                     <div class="row  mt-5 mx-1" v-for='room in v2'>
-
-                        <div class="col-lg-3 border">
-                            <div class="row">
-                                <div class="col-12 img-back">
-                                    <img :src="room.image">
+                            <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
+                                <div class="container" >
+                                    <div class="carousel-inner col-lg-6">
+                                        <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
+                                          <img :src="i.name" class="d-block w-100 " alt="..." style='max-height:250px' >
+                                        </div>
+                                      </div>
                                 </div>
-                                <div class="col-12">
+                                <button class="carousel-control-prev" type="button" :data-target="'#slide'+ room.id" data-slide="prev">
+                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                  <span class="sr-only">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" :data-target="'#slide'+ room.id" data-slide="next">
+                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                  <span class="sr-only">Next</span>
+                                </button>
+                              </div>
 
-                                </div>
+                        <div class="col-lg-3 border ">
+                            <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
-
                         </div>
                         <div class="col-lg-9 ">
 
                             <div class="row">
-                                <p class="title-des "> @{{room.name_ar}} </p>
-                                <div class="col-lg-5 hight border">
 
+                                <div class="col-lg-5 hight border">
+                                    <p class="title-des mt-3 "> @{{room.name_ar}} </p>
                                     {{-- <p class="title-des">يشمل الحجز:</p> --}}
                                     <div class="boxes">
                                         <div class="row">
@@ -194,10 +216,11 @@
                                                 <p class="title-des-left p-1">   خصم @{{r.discount}}%     </p>
                                             </div>
                                         </div>
-                                        <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-primary mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
-                                              مميزات الغرفة
+
+                                        <ul class="ul">
+                                            <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-primary mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
+                                                مميزات الغرفة
                                           </button>
-                                            <ul class="ul">
                                                 <div class="modal fade" :id="'togle'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                       <div class="modal-content">
@@ -227,7 +250,7 @@
                                                 {{-- <li><i class="fa-solid fa-wifi"></i> واي فاي </li>
                                                 <li><i class="fa-solid fa-fan"></i> تكييف </li>
                                                 <li><i class="fa-solid fa-tv"></i> تلفزيون </li> --}}
-                                            </ul>
+                                        </ul>
                                     </div>
                                 </div>
 
@@ -237,6 +260,7 @@
                                     <div class="boxes">
                                         <p class="money"><i class="fa-solid fa-user"></i> تتسع لـ @{{room.adults}}</p>
                                         <p class="money"><i class="fas fa-child"></i></i> تتسع لـ @{{room.children}}</p>
+                                        <p class="money"><i class="fa-solid fa-bed"></i>     @{{room.beds}}</p>
                                     </div>
                                 </div>
 
@@ -337,9 +361,20 @@
 
 @endsection
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
+
+            $(document).ready(function(){
+                $('.carousel').carousel()
+
+            })
+
+
         hotels = new Vue({
             'el' : '#content',
             'data' : {

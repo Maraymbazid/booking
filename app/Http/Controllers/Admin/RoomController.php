@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Admin\NameServices;
-use App\Models\Admin\ServiceRoom;
-use App\Models\Admin\PivotOne;
-use App\Models\Admin\Room;
 use App\Models\Hotel;
-use Illuminate\Support\Facades\DB;
+use App\Models\Image;
 use App\Http\traits\media;
+use App\Models\Admin\Room;
+use Illuminate\Http\Request;
+use App\Models\Admin\PivotOne;
+use App\Models\Admin\ServiceRoom;
+use App\Models\Admin\NameServices;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Rooms\StoreRoom;
 use App\Http\Requests\Rooms\UpdateRoom;
+
 class RoomController extends Controller
 {
     use media;
@@ -30,18 +32,30 @@ class RoomController extends Controller
     }
     public function store(StoreRoom $data)
     {
-        $imageName = $this->uploadMedia($data->image, 'rooms');
-         $request = $data->except('_token', 'image','services','page');
-         $request['image'] = $imageName;
-        $stored = DB::table('rooms')->insertGetId($request);
+
+
+        $request = $data->except('_token', 'images', 'services', 'page');
+        $stored = new Room();
+        $stored->name_ar =  $data->name_ar;
+        $stored->adults = $data->adults;
+        $stored->children = $data->children;
+        $stored->hotel_id = $data->hotel_id;
+        $stored->area = $data->area;
+        $stored->price = $data->price;
+        $stored->internet = $data->internet;
+        $stored->save();
+
+
         if ($stored)
          {
-         $room = Room::find($stored);
-         $room->services()->attach($data->services);
+            $stored->services()->attach($data->services);
+            for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                $imageName = $this->uploadManyMedia($data->images[$x], 'rooms', $x);
+                Image::create(['name' =>  $imageName, 'room_id' => $stored->id]);
+            }
          $status = 200;
          $msg  = 'تم حفظ الداتا بنجاح ';
-        }
-        else 
+        } else
         {
             $status = 500;
             $msg  = ' تعذر الحفظ هناك خطأ ما';
@@ -65,8 +79,7 @@ class RoomController extends Controller
                     'msg'  => 'تم حفظ الداتا بنجاح ',
                     'id'=>$request->id,
                 ],200);
-            }
-           else 
+        } else
             {
                 return response()->json
                 ([
@@ -115,14 +128,13 @@ class RoomController extends Controller
         }
         $update = $room->update($result);
         $room->services()->sync($data->services);
-        if ($update) 
+            if ($update)
         {
             $status = 200;
             $msg  = 'تم تعديل الداتا بنجاح ';
-            
+
         }
-       }
-       else 
+        } else
        {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -132,12 +144,12 @@ class RoomController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
     // public function test()
     // {
     //     $room=Hotel::find(28);
     //     return $room->rooms->name_ar;
     // }
-   
+
 }

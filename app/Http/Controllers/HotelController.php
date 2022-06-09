@@ -202,12 +202,17 @@ class HotelController extends Controller
         }])->find($id);
         $rooms = $hotel->rooms;
         $hotel->cover  = url('/') . '/assets/admin/img/hotels/cover/' . $hotel->cover;
+
         foreach ($rooms as $t) {
-            $t->image = url('/') . '/assets/admin/img/rooms/' . $t->image;
             $t->services   = $t->services;
             $t->discount   = $t->Discount;
+            $t->images      = $t->Images;
         }
-        // return $rooms;
+        foreach ($rooms as $t) {
+            foreach ($t->images as $s) {
+                $s->name = url('/') . '/assets/admin/img/rooms/' . $s->name;
+            }
+        }
         $main_services = MainServicesHotel::all();
         return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
     }
