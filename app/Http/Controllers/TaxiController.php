@@ -120,7 +120,7 @@ class TaxiController extends Controller
     public function checkorder(Request $data)
     {
         $id=$data->id;
-        //$id=(int)$id;
+        $id=(int)$id;
         if(is_integer($id))
         {
             $taxi=Taxi::find($id);
@@ -165,7 +165,8 @@ class TaxiController extends Controller
             $newreservation->user_id=1;
             $newreservation->taxi_id=$id;
             $newreservation->Num='DE0001';
-            $newreservation->price=60;
+            $newreservation->price=$cart->price;
+            $newreservation->number=$data->phone;
             $newreservation->deliveryplace=$data->deliveryplace;
             $newreservation->nationality=$data->nationality;
             $newreservation->datearrive=$data->datearrive;
@@ -182,8 +183,91 @@ class TaxiController extends Controller
             return response()->json(['msg' => ' حدث هناك خطأ يرجى إعادة محاولة لاحقا '], 500);
         }
     }
-   public function test()
-   {
-    return $this->image;	
-   }
+    public function getallorders()
+    {
+        $allorders=ReservationTaxi::get();
+        return view('admin.orderstaxiis.index',compact('allorders'));
+    }
+    public function editordertaxi($id)
+    {
+        $order=ReservationTaxi::find($id);
+        if($order)
+        {
+            return view('admin.orderstaxiis.edit',compact('order'));
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function updateordertaxi(Request $data)
+    {
+       $id=$data->id;
+       $order=$order=ReservationTaxi::find($id);
+       if($order)
+       {
+          $update=$order->update([
+              'Note' => $data->note,
+              'status'=> $data->status,
+          ]);
+          if ($update) 
+          {
+              
+              $status = 200;
+              $msg  = 'تم تعديل الداتا بنجاح ';
+              
+          }
+          else 
+          {
+              $status = 500;
+              $msg  = ' تعذر التعديل هناك خطأ ما';
+          }
+      }
+      else 
+      {
+         $status = 500;
+         $msg  = ' تعذر التعديل هناك خطأ ما';
+      }
+      return response()->json
+        ([
+            'status' => $status,
+            'msg' => $msg,
+        ]);
+      
+       }
+    public function deleteordertaxi(Request $request)
+    {
+        $ordertaxi=ReservationTaxi::find($request->id);
+        if($ordertaxi)
+        {
+            $ordertaxi->delete();
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
+        }
+       else 
+        {
+            return response()->json
+            ([
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
+        }
+    }
+    public function showdetailtaxi($id)
+    {
+        $order=ReservationTaxi::find($id);
+        if($order)
+        {
+            $order->ticket = url('/') . '/assets/admin/img/taxi/tickets/' . $order->ticket;
+            return view('admin.orderstaxiis.detail',compact('order'));
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
 }

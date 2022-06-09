@@ -30,11 +30,6 @@
     <li class="list-group-item"  id="date" value="{{$cartcar->date}}"> تاريخ الاستلام : {{  $cartcar->date}}</li>
     <li class="list-group-item"  id="numberdays" value="{{$cartcar->numberdays}}">  عدد الايام : {{  $cartcar->numberdays}}</li>
     <li class="list-group-item"  id="number" value="{{$cartcar->number}}">   رقم التليفون : {{  $cartcar->number}}</li>
-    @if($cartcar->chauffeur == 0)
-    <li class="list-group-item" id="chauffeur" value="0">   سيارة بدون سائق  </li>
-    @else
-    <li class="list-group-item"  id="chauffeur" value="1">  سيارة مع سائق  </li>
-    @endif
   </ul>
   <div class="card-body">
   <button class="btn btn-warning"> <a  href="" class="confirm-order"   car_id="{{$cartcar->car_id}}">تأكيد الحجز </a> </button>
@@ -58,7 +53,6 @@
              var date=document.getElementById("date").getAttribute('value');
              var numberdays=document.getElementById("numberdays").getAttribute('value');
              var number=document.getElementById("number").getAttribute('value'); 
-             var chauffeur=document.getElementById("chauffeur").getAttribute('value');
             $.ajax({
                 type: 'post',
                 url: "{{route('confirmordercar')}}",
@@ -71,7 +65,6 @@
                     'date':date,
                     'numberdays':numberdays,
                     'number':number,
-                    'chauffeur':chauffeur
                 },
                 success: (response) => {
                     if (response) {

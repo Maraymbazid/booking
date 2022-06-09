@@ -7,6 +7,7 @@ use App\Http\traits\media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ReservationCar;
+use App\Models\Admin\DiscountCar;
 use \stdClass;
 class CarController extends Controller
 {
@@ -90,20 +91,21 @@ class CarController extends Controller
             $car=Car::find($id);
             if($car)
             {
-                if(!empty($car->company_id))
-                  {
-                    $car = DB::table('cars')
-                    ->join('companies', 'cars.company_id', '=', 'companies.id')
-                    ->select('cars.*', 'companies.name as company')
-                    ->where('cars.id', $id)->first();
-                    $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
-                    return view('cars.carForm')->with('car',  $car);
-                  }
-                  else
-                  {
+                // return $car->discount->rate;
+                // if(!empty($car->company_id))
+                //   {
+                //     $car = DB::table('cars')
+                //     ->join('companies', 'cars.company_id', '=', 'companies.id')
+                //     ->select('cars.*', 'companies.name as company')
+                //     ->where('cars.id', $id)->first();
+                //     $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
+                //     return view('cars.carForm')->with('car',  $car);
+                //   }
+                //   else
+                //   {
                      $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
                       return view('cars.carForm')->with('car',  $car);
-                  }
+                  //}
             }
             else
             {
@@ -127,16 +129,28 @@ class CarController extends Controller
             $car=Car::find($id);
             if($car)
             {
+                    $discount = DiscountCar::where('car_id',$id)
+                    ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+                    if ($discount->count() > 0) 
+                    {
+                        $dis =  ($discount[0]->rate * $car->price) / 100;  // dis
+                        $price = $car->price *  $data->numberdays;    //before dis
+                        $finallPrice = $price - $dis;  // after dis
+                    } else 
+                    {
+                        $dis = 0;
+                        $price = $car->price;
+                        $finallPrice = $car->price;
+                    }
                      $cartcar = new \stdClass();
                      $cartcar->car_id=$car->id;
                      $cartcar->car_name=$car->name;
                      $cartcar->modal=$car->model;
-                     $cartcar->price=$car->price;
+                     $cartcar->price=$finallPrice;
                      $cartcar->deliveryplace=$data->deliveryplace;
                      $cartcar->nationality=$data->nationality;
                      $cartcar->date=$data->date;
                      $cartcar->receivingplace=$data->receivingplace;
-                     $cartcar->chauffeur=$data->chauffeur; 
                      $cartcar->numberdays=$data->numberdays; 
                      $cartcar->number=$data->number; 
                      return view('cars.detail',compact('cartcar'));   
@@ -159,20 +173,29 @@ class CarController extends Controller
         $car=Car::find($id);
         if($car)
         {
+            $discount = DiscountCar::where('car_id',$id)
+            ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+            if ($discount->count() > 0) {
+                $dis =  ($discount[0]->rate * $car->price) / 100;  // dis
+                $price = $car->price *  $data->numberdays;    //before dis
+                $finallPrice = $price - $dis;  // after dis
+            } else {
+                $dis = 0;
+                $price = $car->price;
+                $finallPrice = $car->price;
+            }
             $newreservation=new ReservationCar;
             $newreservation->user_id=1;
             $newreservation->car_id=$id;
-            // you should handle discount 
-            $newreservation->price=10;
+            $newreservation->price=$finallPrice;
             $newreservation->Num='DE0001';
             $newreservation->deliveryplace=$data->deliveryplace;
             $newreservation->nationality=$data->nationality;
             $newreservation->receivingplace=$data->receivingplace;
             $newreservation->date=$data->date;
-            $newreservation->chauffeur=$data->chauffeur; 
             $newreservation->numberdays=$data->numberdays; 
             $newreservation->number=$data->number; 
-            $newreservation->status=0;	
+            $newreservation->status='pending';	
             $newreservation->save();
             return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
 
@@ -183,5 +206,90 @@ class CarController extends Controller
         }
     }
    
-
+    public function getallorders()
+    {
+        $allorders=ReservationCar::get();
+        return view('admin.ordercars.index',compact('allorders'));
+    }
+    public function editordercar($id)
+    {
+        $order=ReservationCar::find($id);
+        if($order)
+        {
+            return view('admin.ordercars.edit',compact('order'));
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function updateorder(Request $data)
+    {
+       $id=$data->id;
+       $order=$order=ReservationCar::find($id);
+       if($order)
+       {
+          $update=$order->update([
+              'Note' => $data->note,
+              'status'=> $data->status,
+          ]);
+          if ($update) 
+          {
+              
+              $status = 200;
+              $msg  = 'تم تعديل الداتا بنجاح ';
+              
+          }
+          else 
+          {
+              $status = 500;
+              $msg  = ' تعذر التعديل هناك خطأ ما';
+          }
+      }
+      else 
+      {
+         $status = 500;
+         $msg  = ' تعذر التعديل هناك خطأ ما';
+      }
+      return response()->json
+        ([
+            'status' => $status,
+            'msg' => $msg,
+        ]);
+      
+       }
+    public function show($id)
+    {
+        $order=ReservationCar::find($id);
+        if($order)
+        {
+            return view('admin.ordercars.detail',compact('order'));
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function deleteordercar(Request $request)
+    {
+        $ordercar=ReservationCar::find($request->id);
+        if($ordercar)
+        {
+            $ordercar->delete();
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
+        }
+       else 
+        {
+            return response()->json
+            ([
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
+        }
+    }
 }

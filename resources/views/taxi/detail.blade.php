@@ -72,6 +72,7 @@
                     'phone':phone,
                     'chauffeur':chauffeur,
                     'ticket':ticket,
+                    'phone':phone,
 
                 },
                 success: (response) => {

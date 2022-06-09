@@ -16,6 +16,7 @@ use App\Http\Controllers\TaxiController;
 use App\Http\Controllers\Admin\DiscountHotel;
 use App\Http\Controllers\Admin\DiscountApartementController;
 use App\Http\Controllers\Admin\DiscountVillaController;
+use App\Http\Controllers\Admin\DiscountCarController;
 Route::group(['middleware' => 'guest:admin'], function() {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -136,17 +137,43 @@ Route::group(['middleware'=>'auth:admin'],function() {
         Route::post('updatediscountvilla', [DiscountVillaController::class, 'update'])->name('updatediscountvilla');
 
     });
+    Route::group(['prefix' => 'discountcar'], function () {
+        Route::get('/alldiscountcar', [DiscountCarController::class, 'index'])->name('alldiscountcar');
+        Route::get('/create', [DiscountCarController::class, 'create'])->name('creatediscountcar');
+        Route::post('/store', [DiscountCarController::class, 'store'])->name('storediscountcar'); 
+        // Route::post('/getVilla', [DiscountVillaController::class, 'getSubvillas'])->name('getVilla');
+        Route::post('/delete-discountcar', [DiscountCarController::class, 'delete'])->name('delete-discountcar');
+        Route::get('editdiscountcar/{id}', [DiscountCarController::class, 'edit'])->name('editdiscountcar');
+        Route::post('updatediscountcar', [DiscountCarController::class, 'update'])->name('updatediscountcar');
+
+    });
+    Route::group(['prefix' => 'ordercar'], function () {
+        Route::get('/allorderscars', [CarController::class, 'getallorders'])->name('allorderscars');
+        Route::get('editordercar/{id}', [CarController::class, 'editordercar'])->name('editordercar');
+        Route::post('/updateorder', [CarController::class, 'updateorder'])->name('updateorder');
+        Route::get('showdetailcar/{id}', [CarController::class, 'show'])->name('showdetailcar');
+        Route::post('deleteordercar', [CarController::class, 'deleteordercar'])->name('deleteordercar');
+
+    });
+    Route::group(['prefix' => 'ordertaxi'], function () {
+        Route::get('/allorderstaxis', [TaxiController::class, 'getallorders'])->name('allorderstaxis');
+        Route::get('editordertaxi/{id}', [TaxiController::class, 'editordertaxi'])->name('editordertaxi');
+        Route::post('/updateorder', [TaxiController::class, 'updateordertaxi'])->name('updateordertaxi');
+        Route::get('showdetailtaxi/{id}', [TaxiController::class, 'showdetailtaxi'])->name('showdetailtaxi');
+        Route::post('deleteordertaxi', [TaxiController::class, 'deleteordertaxi'])->name('deleteordertaxi');
+
+    });
 });
 
 Route::get('/home',  function()
 {
     return view('admin.layouts.lay');
 })->name('home');
-// Route::get('/test',  function()
-// {
-//     return view('test');
-// // });
-Route::get('/test', [DiscountApartementController::class, 'test'])->name('test');
+Route::get('/test',  function()
+{
+    return view('testt');
+});
+//Route::get('/test', [CarController::class, 'test'])->name('test');
 Route::get('/home1',  function()
 {
     return view('layout.lay');
