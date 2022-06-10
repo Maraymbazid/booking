@@ -162,7 +162,7 @@ class HotelController extends Controller
             ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
             ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
-            $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
+            $t->image = url('/') . '/assets/admin/img/Hotels/' . $t->image;
         }
         return response()->json(['hotels', $hotels], 200);
     }
@@ -176,7 +176,7 @@ class HotelController extends Controller
             ->where('hotels.gouvernement', $govId)
             ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
-            $t->image = url('/') . '/assets/admin/img/hotels/' . $t->image;
+            $t->image = url('/') . '/assets/admin/img/Hotels/' . $t->image;
         }
         return response()->json(['hotels', $hotels], 200);
     }
@@ -201,7 +201,7 @@ class HotelController extends Controller
             // $q->groupBy('MainSer.main_service_id');
         }])->find($id);
         $rooms = $hotel->rooms;
-        $hotel->cover  = url('/') . '/assets/admin/img/hotels/cover/' . $hotel->cover;
+        $hotel->cover  = url('/') . '/assets/admin/img/Hotels/cover/' . $hotel->cover;
 
         foreach ($rooms as $t) {
             $t->services   = $t->services;
