@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\DiscountHotel\StoreDiscountHotel;
-use App\Http\Requests\DiscountHotel\UpdateDiscountHotel;
 use App\Models\Hotel;
 use App\Models\Admin\Room;
+use App\Models\RoomDiscount;
+use Illuminate\Http\Request;
 use App\Models\Admin\Gouvernement;
-use App\Models\Admin\HotelDiscount;
 use Illuminate\Support\Facades\DB;
+use App\Models\Admin\HotelDiscount;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DiscountHotel\StoreDiscountHotel;
+use App\Http\Requests\DiscountHotel\UpdateDiscountHotel;
+
 class DiscountHotel extends Controller
 {
     public function index()
     {
-        $allDiscounts=HotelDiscount::get();
-        return view('admin.DiscountHotels.index',compact('allDiscounts'));
+        $allDiscounts = RoomDiscount::get();
+        return view('admin.DiscountHotels.index', compact('allDiscounts'));
     }
     public function create()
     {
@@ -25,14 +27,13 @@ class DiscountHotel extends Controller
     }
     public function store(StoreDiscountHotel $request)
     {
-       $request = $request->except('_token','page','gouvernement_id');
-        $stored = DB::table('discounthotels')->insert($request);
-        if ($stored) 
+        $request = $request->except('_token', 'page', 'gouvernement_id');
+        $stored = DB::table('rooms_discount')->insert($request);
+        if ($stored)
         {
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
-        } 
-        else 
+        } else
         {
             $status = 500;
             $msg  = 'تعذر الحفظ هناك خطأ ما';
@@ -66,7 +67,7 @@ class DiscountHotel extends Controller
     }
     public function delete(Request $request)
     {
-        $discounthotel=HotelDiscount::find($request->id);
+        $discounthotel = RoomDiscount::find($request->id);
         if($discounthotel)
         {
             $discounthotel->delete();
@@ -75,8 +76,7 @@ class DiscountHotel extends Controller
                 'msg'  => 'تم حذف الداتا بنجاح ',
                 'id'=>$request->id,
             ],200);
-        }
-       else 
+        } else
         {
             return response()->json
             ([
@@ -90,8 +90,7 @@ class DiscountHotel extends Controller
         try
         {
             $discounthotel = HotelDiscount::find($id);  // search in given table id only
-        if (!$discounthotel)
-            {                
+            if (!$discounthotel) {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -117,20 +116,17 @@ class DiscountHotel extends Controller
                     'rate'     => $result['rate'],
                 ]
             );
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
-            }
-            else 
+            } else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
-        }
-        else 
+        } else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -140,6 +136,6 @@ class DiscountHotel extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
 }

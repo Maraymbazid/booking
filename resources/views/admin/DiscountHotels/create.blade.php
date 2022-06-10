@@ -67,14 +67,14 @@
                                     <span class="invalid-feedback" role="alert" id='room_id_error'> </span>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label>  عدد الايام</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="number_days" id="number_days"
-                                                class="form-control form-control-lg" placeholder="name"
-                                                areia-describedby="helper" value="{{ old('name') }}">
+                                            <input type="text" name="day_count" id="number_days"
+                                                class="form-control form-control-lg" placeholder="day_count"
+                                                areia-describedby="helper" value="{{ old('day_count') }}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='number_days_error' style="">
                                             <h1></h1>
@@ -85,9 +85,9 @@
                                     <div class="form-group">
                                         <label>  نسبة الخصم</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="rate" id="rate"
-                                                class="form-control form-control-lg" placeholder="name"
-                                                areia-describedby="helper" value="{{ old('name') }}">
+                                            <input type="text" name="discount" id="rate"
+                                                class="form-control form-control-lg" placeholder="discount"
+                                                areia-describedby="helper" value="{{ old('discount') }}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='rate_error' style="">
                                             <h1></h1>
@@ -193,7 +193,7 @@
                     error: function (reject) {
                        console.log('error');
                     }
-                
+
                 });
             }
         });
@@ -215,10 +215,10 @@
                     error: function (reject) {
                        console.log('error');
                     }
-                
+
                 });
             }
         });
-                      
+
     </script>
 @endsection

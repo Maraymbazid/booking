@@ -7,24 +7,50 @@ use App\Models\Admin\Room;
 use App\Models\HotelOrder;
 use App\Models\RoomDiscount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class HotelOrderController extends Controller
 {
+
+    public function adminIndex()
+    {
+        $orders = DB::table('hotel_orders')
+            ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
+            ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
+            ->join('users', 'hotel_orders.user_id', 'users.id')
+            ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id', 'hotels.name_ar as hotel_name', 'hotels.id', 'users.name as user_name', 'users.id')
+            ->orderby('hotel_orders.id', 'DESC')->get();
+        // return $orders;
+        return view('admin.hotels.orders', compact('orders'));
+    }
+    public function userOrder()
+    {
+        $orders = DB::table('hotel_orders')
+            ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
+            ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
+            ->join('users', 'hotel_orders.user_id', 'users.id')
+            ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id', 'hotels.name_ar as hotel_name', 'hotels.id', 'users.name as user_name', 'users.id')
+            ->where('hotel_orders.user_id',  '=', Auth::user()->id)
+            ->orderby('hotel_orders.id', 'DESC')->get();
+        return view('orders.index', compact('orders'));
+    }
     public function order(Request $request, $hotelId)
     {
         $room =   Room::find($request->roomId);
         $hotel =  Hotel::find($hotelId);
         $discount = RoomDiscount::where('room_id', $request->roomId)
             ->where('day_count', '<=', $request->daycount)->orderby('day_count', 'DESC')->get();
-        dd($discount);
-        if ($discount->count() < 0) {
-            $dis =  ($discount[0]->discount * $room->price) / 100;  // dis
+
+        if ($discount->count() > 0) {
             $price = $room->price *  $request->daycount;    //before dis
+            $dis =  ($discount[0]->discount * $price) / 100;  // dis
             $finallPrice = $price - $dis;  // after dis
         } else {
+            $price = $room->price *  $request->daycount;
             $dis = 0;
-            $price = $room->price;
-            $finallPrice = $room->price;
+            $finallPrice = $price;
         }
         $order = new HotelOrder();
         $order->hotel_id = $hotelId;
@@ -36,12 +62,17 @@ class HotelOrderController extends Controller
         $order->daycount = $request->daycount;
         $order->arrival = $request->arrival;
         $order->checkout = $request->checkout;
-        $order->price = $finallPrice;
+        $order->price1 = $price;
+        $order->price2 = $finallPrice;
         $order->oneday = $room->price;
         $order->discount = $dis;
         $order->status = 0;
-
-        // $order->total = $request->total;
+        // $username = ' احمد ';
+        // $msg =  "لقد قام " . $request->name  . "بطلب غرفة   " . $room->name_ar . " التابعة لفندق " .  $hotel->name_ar;
+        // $msg .= " ورقم الواتساب الخاص به " . $request->whtsapp . " وحجز  " .  $request->daycount . "يوم ";
+        // $msg .= " وتاريخ وصوله " . $request->arrival . " والتكلفه الاجماليه " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+        // $msg .= "وهذا الطلب تم تنفيذه من حساب " . $username . " وتم تسجيل الطلب بنجاح ";
+        // $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
         return view('hotels.invoke', compact('order'));
     }
 
@@ -52,31 +83,42 @@ class HotelOrderController extends Controller
         $hotel =  Hotel::find($hotelId);
         $discount = RoomDiscount::where('room_id', $request->roomId)
             ->where('day_count', '<=', $request->daycount)->orderby('day_count', 'DESC')->get();
-
-
-        if ($discount->count() < 0) {
-            $dis =  ($discount[0]->discount * $room->price) / 100;  // dis
+        if ($discount->count() > 0) {
             $price = $room->price *  $request->daycount;    //before dis
+            $dis =  ($discount[0]->discount * $price) / 100;  // dis
             $finallPrice = $price - $dis;  // after dis
         } else {
+            $price = $room->price *  $request->daycount;
             $dis = 0;
-            $price = $room->price;
-            $finallPrice = $room->price;
+            $finallPrice = $price;
         }
         $order = new HotelOrder();
-        $order->hotel_id = $hotelId;
-        $order->room_id = $roomId;
-        $order->name = $request->name;
-        $order->whatsapp = $request->whatsapp;
-        $order->daycount = $request->daycount;
-        $order->arrival = $request->arrival;
-        $order->checkout = $request->checkout;
-        $order->price = $finallPrice;
-        $order->discount = $dis;
-        $order->status = 0;
-        $order->total = $request->total;
+        $order->hotel_id    = $hotelId;
+        $order->room_id     = $roomId;
+        $order->name        = $request->name;
+        $order->whatsapp    = $request->whatsapp;
+        $order->daycount    = $request->daycount;
+        $order->arrival     = $request->arrival;
+        $order->checkout    = $request->checkout;
+        $order->price       = $price;
+        $order->total       = $finallPrice;
+        $order->discount    = $dis;
+        $order->status      = 0;
+        $order->note        = '';
+        $order->user_id    =  Auth::user()->id;
         $order->save();
-        return redirect()->route('userIndexhotel')->with(['status', 'تم ارسال الطلب بنجاح ']);
+
+
+        $msg =  "لقد قام " . '  ' .  $request->name  . '  ' . "بطلب غرفة   " . '  ' . $room->name_ar . '  ' . " التابعة لفندق " . '  ' . $hotel->name_ar;
+        $msg .= " ورقم الواتساب الخاص به " . '  ' . $request->whatsapp . '  ' . " وحجز  " . '  ' . $request->daycount . "يوم ";
+        $msg .= " وتاريخ وصوله " . $request->arrival . " والتكلفه الاجماليه " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+        $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . " وتم تسجيل الطلب بنجاح ";
+        $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
+
+
+        return redirect()->route('userIndexhotel')->with(['status' => 'تم ارسال الطلب بنجاح ']);
 
     }
+
+
 }

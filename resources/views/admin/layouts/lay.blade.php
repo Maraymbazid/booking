@@ -293,7 +293,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                خصم الفنادق 
+                                خصم الفنادق
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -316,7 +316,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                   خصم شقق  
+                                   خصم شقق
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -339,7 +339,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                   خصم فلل   
+                                   خصم فلل
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -357,6 +357,17 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a href="{{route('hotelOrders')}}" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                   طلبات الفنادق
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/logout') }}" class="nav-link">

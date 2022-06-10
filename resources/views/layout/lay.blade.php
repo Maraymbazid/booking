@@ -70,6 +70,13 @@
 
                     </a>
                 </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="odmaelerim">
+                    <a class="nav-link" href="{{ route('userOrder')}}">
+                        <span><i class="fas fa-bell"></i></span>
+                        <span class="nav-link-text">  طلباتي </span>
+
+                    </a>
+                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
                     <a class="nav-link destek" href="https://wa.me/212680695296?text=أهلاً،  السلام عليكم أبغى استفسر عن شئ فى موقعكم  ">
                         <span style="color: green;"> &nbsp <i class="fab fa-whatsapp"> &nbsp &nbsp &nbsp</i>
@@ -77,9 +84,10 @@
                     </a>
                 </li>
 
-                <li class="nav-item login-out">
-                    <a class="nav-link" href="" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-fw fa-sign-out"></i>&nbsp Logout</a>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal"
+                        href="{{ route('logout') }}">
+                        <i class="fa fa-fw fa-sign-out"></i>تسجيل خروج</a>
                 </li>
             </ul>
         </div>
@@ -106,23 +114,31 @@
     </a>
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">هل تريد تسجيل الخروج حقا</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">اختر "تسجيل الخروج" أدناه إذا كنت مستعدًا لإنهاء جلستك الحالية.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">رجوع</button>
-                    <a class="btn btn-primary" >تسجيل خروج</a>
-                </div>
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">هل تريد تسجيل الخروج حقا</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">اختر "تسجيل الخروج" أدناه إذا كنت مستعدًا لإنهاء جلستك الحالية.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">رجوع</button>
+
+                <a class="btn btn-primary" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        تسجيل خروج
+                                    </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
+</div>
     </div>
 </body>
 

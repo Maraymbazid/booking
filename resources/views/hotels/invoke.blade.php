@@ -50,15 +50,18 @@
                                     <td> تكلفة الاقامة لليوم  </td>
                                     <td> {{$order->oneday }} </td>
                                 </tr>
-
+                                <tr class='text-center border border-light'>
+                                    <td> التكلفة الاجمالية قبل الخصم  </td>
+                                    <td> {{ $order->price1}} </td>
+                                </tr>
                                 <tr class='text-center border border-light'>
                                     <td> الخصم </td>
                                     <td>{{$order->discount}} </td>
                                 </tr>
 
                                 <tr class='text-center border border-light'>
-                                    <td> التكلفة الاجمالية  </td>
-                                    <td> {{ $order->price}} </td>
+                                    <td>  التكلفة الاجمالية بعد الخصم  </td>
+                                    <td> {{ $order->price2}} </td>
                                 </tr>
 
                                 <tr class='text-center border border-light'>

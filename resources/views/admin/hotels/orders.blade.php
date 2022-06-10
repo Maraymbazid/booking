@@ -1,4 +1,7 @@
 @extends('admin.layouts.lay')
+@section('title', 'الفنادق')
+
+
 @section('content')
 
     <!-- Content Wrapper. Contains page content -->
@@ -78,40 +81,54 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"> الخصومات   </h3>
+                                <h3 class="card-title"> اوردرات الفنادق   </h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th>  اسم الفندق  </th>
-                                            <th> اسم الغرفة </th>
-                                            <th> نسبة الخصم </th>
-                                            <th>   تعديل   </th>
+                                            <th>  الاسم   </th>
+                                            <th>   الفندق   </th>
+                                            <th>   الغرفة   </th>
+                                            <th>   رقم الواتساب   </th>
+                                            <th>   عدد الايام    </th>
+                                            <th>   تاريخ الوصول     </th>
+                                            <th>   تاريخ المغادرة     </th>
+                                            <th>    التكلفة الاجمالية     </th>
+                                            <th>     الخصم</th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        @foreach ($allDiscounts as $discount)
-                                            <tr class="RoomRow{{$discount->id}}">
-                                                <td> {{ $discount->room->hotel->name_ar  }}</td>
-                                                <td> {{ $discount->room->name_ar }}</td>
-                                                <td> % {{ $discount->discount }}</td>
-                                                <td>
-                                                     <button type="button" class="btn btn-warning">  <a
-                                                            href="{{ route('editdiscounthotel', $discount->id) }}" class="">
+                                        @foreach ($orders as $order)
+                                            <tr>
+                                                <td> {{ $order->user_name }}</td>
+                                                <td> {{ $order->hotel_name }}</td>
+                                                <td> {{ $order->room_name }}</td>
+                                                <td> {{ $order->whatsapp }}</td>
+                                                <td> {{ $order->daycount }}</td>
+                                                <td> {{ $order->arrival }}</td>
+                                                <td> {{ $order->checkout }}</td>
+                                                <td> {{ $order->total }} $</td>
+                                                <td> {{ $order->discount }}$</td>
+                                                <td> {{ $order->discount }}$</td>
+
+                                                {{-- <td>
+                                                     <button  type="button" class="btn btn-warning"> <a
+                                                            href="{{ route('editHotel', $hotel->id) }}">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
-
                                                     </button>
-
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" room_id="{{$discount->id}}">
-                                                   <i class="fas fa-trash"></i></button>
-                                                        </a>
-                                                </td>
+                                                    <form action="{{ route('deleteHotel', $hotel->id) }}" method="post"
+                                                        class="d-inline">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button class="btn btn-danger rounded"> <i class="fas fa-trash"></i></button>
+                                                    </form>
+                                                </td> --}}
 
                                             </tr>
                                         @endforeach
@@ -144,40 +161,8 @@
 
 @endsection
 @section('js')
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script>
-        $(document).on('click', '.button-delete', function (e) {
-            e.preventDefault();
-            var room_id = $(this).attr('room_id');
-            $.ajax({
-                type: 'post',
-                url: "{{route('delete-discounthotel')}}",
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id' :room_id
-                },
-                success: (response) => {
-                    if (response) {
-                    $('.RoomRow'+response.id).remove();
-                    Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: response.msg,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                }}
-                , error: function (reject) {
 
-                }
-            });
-           // console.log(gouvernement_id);
-        });
-    </script>
+
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -192,18 +177,10 @@
 
 
 
-        Swal.bindClickHandler()
 
 
-        Swal.mixin({
-            title: 'هل تريد الاستمرار؟',
-            icon: 'question',
-            iconHtml: '؟',
-            confirmButtonText: 'نعم',
-            cancelButtonText: 'لا',
-            showCancelButton: true,
-            showCloseButton: true
-        }).bindClickHandler('data-swal-toast-template')
+
+
     </script>
 
 
