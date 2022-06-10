@@ -108,6 +108,17 @@
                                         <span class="invalid-feedback" role="alert" id='children_error'> </span>
                                     </div>
                                 </div>
+                                   <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  عدد السرائر </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="number" name="beds" id=""
+                                                class="form-control form-control-lg" min="0" max="10"
+                                                areia-describedby="helper" value="">
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='children_error'> </span>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
