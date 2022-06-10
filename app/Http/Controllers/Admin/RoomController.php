@@ -42,6 +42,7 @@ class RoomController extends Controller
         $stored->hotel_id = $data->hotel_id;
         $stored->area = $data->area;
         $stored->price = $data->price;
+        $stored->beds = $data->beds;
         $stored->internet = $data->internet;
         $stored->save();
 
