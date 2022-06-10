@@ -80,7 +80,7 @@
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="fas fa-folder-open"></i>
                                 <p>
                                     المحافظات
                                     <i class="right fas fa-angle-left"></i>
@@ -104,7 +104,7 @@
                         </li>
                         <li class="nav-item ">
                             <a href="#" class="nav-link">
-                                <i class="fab fa-steam"></i>
+                                <i class="fas fa-folder-open"></i>
                                 <p>
                                         الفنادق
                                     <i class="fas fa-angle-left right"></i>
@@ -368,6 +368,62 @@
                                 </p>
                             </a>
 
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                  خصم السيارات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('creatediscountcar')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة خصم </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('alldiscountcar')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل الخصومات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                طلبات السيارات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('allorderscars')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> عرض الكل </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                طلبات تكسي المطار
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('allorderstaxis')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> عرض الكل </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/logout') }}" class="nav-link">

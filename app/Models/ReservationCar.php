@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Car;
 class ReservationCar extends Model
 {
     use HasFactory;
@@ -22,9 +22,13 @@ class ReservationCar extends Model
         'numberdays',
         'number',
         'date',
-        'chauffeur',
         'Num',
         'status',
+        'Note',
     ];
     protected $timestamp = false;
+    public function car()
+    {
+        return $this->belongsTo(Car::class,'car_id');
+    }
 }

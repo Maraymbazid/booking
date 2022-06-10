@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Admin\DiscountCar;
+use App\Models\Company;
+use App\Models\ReservationCar;
 class Car extends Model
 {
     use HasFactory;
@@ -20,6 +22,17 @@ class Car extends Model
         'price',
         'model',
     ];
-
-    protected $timestamp = true;
+    protected $timestamp = false;
+    public function discount()
+    {
+        return $this->hasMany(DiscountCar::class,'car_id');
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'company_id');
+    }
+    public function reservations()
+    {
+        return $this->hasMany(ReservationCar::class,'car_id');
+    }
 }

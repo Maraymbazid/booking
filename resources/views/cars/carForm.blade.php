@@ -40,7 +40,14 @@
                             <th scope="col">السيارة</th>
                             <th scope="col">الموديل  </th>
                             <th scope="col">سعر اليوم </th>
+                            @if($car->company)
                             <th scope="col"> شركة </th>
+                            @endif
+                            @if($car->discount)
+                            @foreach($car->discount as $discount)
+                            <th scope="col"> الخصم </th>
+                            @endforeach
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -54,10 +61,14 @@
                                     {{$car->model}}
                                 </td>
                                 <td data-label="السعر"> {{$car->price}} </td>
-                                <td>{{$car->company}}  </td>
-                                {{-- <td><a style="color: #fff;" href="#"> <button name="page" value="index"
-                                            class="btn btn-primary rounded form-control"> شراء
-                                        </button></a></td> --}}
+                                @if($car->company)
+                                <td>{{$car->company->name}}  </td>
+                                @endif
+                                @if($car->discount)
+                                @foreach($car->discount as $discount)
+                                <td> %{{$discount->rate}} </td>
+                                @endforeach
+                                @endif
                             </tr>
                         </form>
                     </tbody>
@@ -106,23 +117,11 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
-                                <div class="col-lg-10 col-12">
-                                    <select id="inputState" class="form-control" name="chauffeur">
-                                        <option selected>هل تريد سائق مع السياره أم لا </option>
-                                        <option value="1"> نعم </option>
-                                        <option value="0"> لا  </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">       </label>
                                 <div class="col-lg-10 col-12 p-2">
                                        <button type="sumbit" class="btn btn-primary p-1 form-control" > أطلب الان  </button>
                                 </div>
                             </div>
-
-
                           </form>
                     </div>
                 </div>
