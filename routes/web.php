@@ -5,6 +5,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\TaxiController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\Admin\VillaController;
+use App\Http\Controllers\Admin\ApartementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +43,21 @@ Route::group(['prefix' => 'hotels'], function () {
     Route::post('/hotelsorderd', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');
 });
+Route::group(['prefix' => 'Apartement'], function () {
+    Route::get('/userIndexApartement', [ApartementController::class, 'userIndex'])->name('userIndexApartement');
+    Route::get('userOneApartement/{id}', [ApartementController::class, 'oneApartement'])->name('userOneApartement');
+    Route::post('checkorderapartement', [ApartementController::class, 'checkorderapartement'])->name('checkorderapartement');
+    Route::post('confirmorder', [ApartementController::class, 'confirmorderapart'])->name('confirmorderapart');
+});
 Route::group(['prefix' => 'villa'], function () {
-    Route::get('/', [VillaController::class, 'userIndex'])->name('userIndexVilla');
+    Route::get('/userIndexVilla', [VillaController::class, 'userIndex'])->name('userIndexVilla');
+    Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla'); 
+    Route::post('checkorderapartement', [VillaController::class, 'checkordervilla'])->name('checkordervilla'); 
+    Route::post('VillaController', [VillaController::class, 'confirmordervilla'])->name('confirmordervilla');
+
+
 });
 
 //Route::get('/test1', [HotelController::class, 'test1'])->name('test1');
-Route::get('/test', [TaxiController::class, 'test'])->name('test');
+//Route::get('/test', [TaxiController::class, 'test'])->name('test');
 

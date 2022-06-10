@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\ServiceApartement;
+use App\Models\Admin\DiscountApartement;
 use App\Http\traits\media;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
 use App\Models\Admin\Gouvernement;
+use App\Models\ReservationApartement;
 class ApartementController extends Controller
 {
     use media;
@@ -135,5 +137,130 @@ class ApartementController extends Controller
        ]);
         
     }
-
+    public function userIndex()
+    {
+        $apartements =Apartement::get();
+        foreach ($apartements as $apart) {
+            $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
+        }
+        return view('Apartements.Apartements')->with('apartements',$apartements);
+    }
+    public function oneApartement($id)
+    {
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $apartement=Apartement::find($id);
+            if($apartement)
+            {
+                        $apartement->image =  url('/') . '/assets/admin/img/apartements/' . $apartement->image;
+                        return view('Apartements.ApartementForm')->with('apartement',$apartement);   
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() -> back();
+        }
+    }
+    public function checkorderapartement(Request $data)
+    {
+        $id=$data->id;
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $apartement=Apartement::find($id);
+            if($apartement)
+            {
+                    $discount = DiscountApartement::where('apartement_id',$id)
+                    ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+                    if ($discount->count() > 0) 
+                    {
+                        $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
+                        $price = $apartement->price *  $data->numberdays;    //before dis
+                        $finallPrice = $price - $dis;  // after dis
+                    } else 
+                    {
+                        $dis = 0;
+                        $price = $apartement->price;
+                        $finallPrice = $apartement->price;
+                    }
+                     $cartapart = new \stdClass();
+                     $cartapart->apart_id=$apartement->id;
+                     $cartapart->apart_name=$apartement->name_ar;
+                     $cartapart->price=$finallPrice;
+                     $cartapart->begindate=$data->begindate;
+                     $cartapart->enddate=$data->enddate;
+                     $cartapart->nationality=$data->nationality;
+                     $cartapart->numberdays=$data->numberdays; 
+                     $cartapart->number=$data->number; 
+                     $cartapart->personnes=$data->persones;
+                     return view('Apartements.detail',compact('cartapart'));   
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function confirmorderapart(Request $data)
+    {
+        $id=$data->id;
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $apartement=Apartement::find($id);
+            if($apartement)
+            {
+                    $discount = DiscountApartement::where('apartement_id',$id)
+                    ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+                    if ($discount->count() > 0) 
+                    {
+                        $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
+                        $price = $apartement->price *  $data->numberdays;    //before dis
+                        $finallPrice = $price - $dis;  // after dis
+                    } else 
+                    {
+                        $dis = 0;
+                        $price = $apartement->price;
+                        $finallPrice = $apartement->price;
+                    }
+                    $newreservation=new ReservationApartement;
+                    $newreservation->user_id=1;
+                    $newreservation->apartement_id=$id;
+                    $newreservation->price=$finallPrice;
+                    $newreservation->Num='DE0001';
+                    $newreservation->numerdays=$data->numberdays;
+                    $newreservation->nationality=$data->nationality;
+                    $newreservation->personnes=$data->personnes;
+                    $newreservation->begindate=$data->begindate;
+                    $newreservation->enddate=$data->enddate; 
+                    $newreservation->phone=$data->number; 
+                    $newreservation->status='pending';	
+                    $newreservation->save();
+                    return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
 }

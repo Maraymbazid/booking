@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr class='text-center border border-light'>
                                     <td>   سعر قبل الخصم  </td>
-                                    <td> {{$order->price }} </td>
+                                    <td> {{$order->car->price }} </td>
                                 </tr>
 
                                 <tr class='text-center border border-light'>

@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="movement">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{{ route('userIndexApartement')}}">
                         <span><i class="fas fa-shopping-cart"></i></span>
                         <span class="nav-link-text">  الشقق</span>
                     </a>

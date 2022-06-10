@@ -11,6 +11,8 @@ use App\Http\Requests\Villa\StoreVilla;
 use App\Models\Admin\Villa;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Villa\UpdateVilla;
+use App\Models\Admin\DiscountVilla;
+use App\Models\ReservationVilla;
 class VillaController extends Controller
 {
     use media;
@@ -137,5 +139,123 @@ class VillaController extends Controller
             $t->image = url('/') . '/assets/admin/img/villas/' . $t->image;
         }
         return view('villas.villa', compact('villas'));
+    }
+    public function oneVilla($id)
+    {
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $villa=Villa::find($id);
+            if($villa)
+            {
+                        $villa->image = url('/') . '/assets/admin/img/villas/' . $villa->image;
+                        return view('villas.villaForm')->with('villa',$villa);   
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() -> back();
+        }
+    }
+    public function checkordervilla(Request $data)
+    {
+        $id=$data->id;
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $villa=Villa::find($id);
+            if($villa)
+            {
+                    $discount = DiscountVilla::where('villa_id',$id)
+                    ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+                    if ($discount->count() > 0) 
+                    {
+                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
+                        $price = $villa->price *  $data->numberdays;    //before dis
+                        $finallPrice = $price - $dis;  // after dis
+                    } else 
+                    {
+                        $dis = 0;
+                        $price = $villa->price;
+                        $finallPrice = $villa->price;
+                    }
+                     $cartvilla = new \stdClass();
+                     $cartvilla->villa_id=$villa->id;
+                     $cartvilla->villa_name=$villa->name_ar;
+                     $cartvilla->price=$finallPrice;
+                     $cartvilla->begindate=$data->begindate;
+                     $cartvilla->enddate=$data->enddate;
+                     $cartvilla->nationality=$data->nationality;
+                     $cartvilla->numberdays=$data->numberdays; 
+                     $cartvilla->number=$data->number; 
+                     $cartvilla->personnes=$data->persones;
+                     return view('villas.detail',compact('cartvilla'));   
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function confirmordervilla(Request $data)
+    {
+        $id=$data->id;
+        $id=(int)$id;
+        if(is_integer($id))
+        {
+            $villa=Villa::find($id);
+            if($villa)
+            {
+                    $discount = DiscountVilla::where('villa_id',$id)
+                    ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+                    if ($discount->count() > 0) 
+                    {
+                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
+                        $price = $villa->price *  $data->numberdays;    //before dis
+                        $finallPrice = $price - $dis;  // after dis
+                    } else 
+                    {
+                        $dis = 0;
+                        $price = $villa->price;
+                        $finallPrice = $villa->price;
+                    }
+                    $newreservation=new ReservationVilla;
+                    $newreservation->user_id=1;
+                    $newreservation->villa_id=$id;
+                    $newreservation->price=$finallPrice;
+                    $newreservation->Num='DE0001';
+                    $newreservation->numerdays=$data->numberdays;
+                    $newreservation->nationality=$data->nationality;
+                    $newreservation->personnes=$data->personnes;
+                    $newreservation->begindate=$data->begindate;
+                    $newreservation->enddate=$data->enddate; 
+                    $newreservation->phone=$data->number; 
+                    $newreservation->status='pending';	
+                    $newreservation->save();
+                    return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
+            }
+            else
+            {
+                alert()->error('Oops....','this element does not exist .. try again');
+                return redirect() ->back();
+            }
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
     }
 }

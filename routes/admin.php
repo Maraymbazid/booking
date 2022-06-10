@@ -25,6 +25,10 @@ Route::group(['middleware'=>'auth:admin'],function() {
     Route::get('/', function(){
         return View('admin.layouts.lay');
     });
+        Route::get('/home',  function()
+    {
+        return view('admin.layouts.lay');
+    })->name('home');
     Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
     Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
     Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
@@ -165,10 +169,6 @@ Route::group(['middleware'=>'auth:admin'],function() {
     });
 });
 
-Route::get('/home',  function()
-{
-    return view('admin.layouts.lay');
-})->name('home');
 Route::get('/test',  function()
 {
     return view('testt');
