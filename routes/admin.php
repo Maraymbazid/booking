@@ -56,6 +56,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::any('/deletSub/{id}', [SubServicesHotelController::class, 'deletSub'])->name('deletSub');
         Route::any('/rtoreSub', [SubServicesHotelController::class, 'store'])->name('storeSub');
         Route::any('/getorders', [HotelOrderController::class, 'adminIndex'])->name('hotelOrders');
+        Route::any('/editorderhotel/{id}', [HotelOrderController::class, 'editorderhotel'])->name('editorderhotel');
+        Route::any('/updateorderhotel', [HotelOrderController::class, 'updateorderhotel'])->name('updateorderhotel');
+        
     });
     Route::group(['prefix' => 'apartement'], function () {
         Route::get('/allapartements', [ApartementController::class, 'index'])->name('allapartements');

@@ -16,7 +16,7 @@ class HotelOrderController extends Controller
 
     public function adminIndex()
     {
-        $orders = DB::table('hotel_orders')
+       $orders = DB::table('hotel_orders')
             ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
             ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
             ->join('users', 'hotel_orders.user_id', 'users.id')
@@ -121,5 +121,51 @@ class HotelOrderController extends Controller
 
     }
 
-
+    public function editorderhotel($id)
+    {
+        $order=HotelOrder::find($id);
+        if($order)
+        {
+            return view('admin.hotels.editorder',compact('order'));
+        }
+        else
+        {
+            alert()->error('Oops....','this element does not exist .. try again');
+            return redirect() ->back();
+        }
+    }
+    public function updateorderhotel(Request $data)
+    {
+        $id=$data->id;
+        $order=$order=HotelOrder::find($id);
+        if($order)
+        {
+           $update=$order->update([
+               'note' => $data->note,
+               'status'=> $data->status,
+           ]);
+           if ($update)
+           {
+ 
+               $status = 200;
+               $msg  = 'تم تعديل الداتا بنجاح ';
+ 
+           }
+           else
+           {
+               $status = 500;
+               $msg  = ' تعذر التعديل هناك خطأ ما';
+           }
+       }
+       else
+       {
+          $status = 500;
+          $msg  = ' تعذر التعديل هناك خطأ ما';
+       }
+       return response()->json
+         ([
+             'status' => $status,
+             'msg' => $msg,
+         ]);
+    }
 }
