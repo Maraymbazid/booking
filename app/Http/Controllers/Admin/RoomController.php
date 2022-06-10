@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Hotel;
 use App\Models\Image;
-use App\Http\traits\media;
+use App\Http\Traits\media;
+
 use App\Models\Admin\Room;
 use Illuminate\Http\Request;
 use App\Models\Admin\PivotOne;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Taxi;
-use App\Http\traits\media;
+use App\Http\Traits\media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ReservationTaxi;

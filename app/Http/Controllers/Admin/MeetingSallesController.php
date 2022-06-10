@@ -8,7 +8,8 @@ use App\Models\Admin\Gouvernement;
 use App\Models\Admin\MeetingSalles;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\MeetingServices;
-use App\Http\traits\media;
+use App\Http\Traits\media;
+
 use App\Http\Requests\Meeting\StoreSalle;
 use App\Http\Requests\Meeting\UpdateSalle;
 class MeetingSallesController extends Controller
@@ -16,7 +17,7 @@ class MeetingSallesController extends Controller
     use media;
     public function create()
     {
-        
+
         $allgouvernements=Gouvernement::select('id','name')->get();
         $allservices=MeetingServices::select('id','name')->get();
         return view('admin.meetings.create',compact('allgouvernements','allservices'));
@@ -27,14 +28,14 @@ class MeetingSallesController extends Controller
         $request = $data->except('_token', 'image','services','page');
         $request['image'] = $imageName;
         $stored = DB::table('meeting_rooms')->insertGetId($request);
-        if ($stored) 
+        if ($stored)
         {
             $salle = MeetingSalles::find($stored);
             $salle->services()->attach($data->services);
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
-        } 
-        else 
+        }
+        else
         {
             $status = 500;
             $msg  = 'تعذر الحفظ هناك خطأ ما';
@@ -47,7 +48,7 @@ class MeetingSallesController extends Controller
     }
     public function index()
     {
-       
+
         $allmeetingrooms=MeetingSalles::select()->get();
         return view('admin.meetings.index',compact('allmeetingrooms'));
     }
@@ -64,7 +65,7 @@ class MeetingSallesController extends Controller
                 'id'=>$request->id,
             ],200);
         }
-       else 
+       else
         {
             return response()->json
             ([
@@ -79,7 +80,7 @@ class MeetingSallesController extends Controller
         {
             $salle = MeetingSalles::find($id);  // search in given table id only
         if (!$salle)
-            {                
+            {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -111,20 +112,20 @@ class MeetingSallesController extends Controller
             }
             $update = $salle->update($result);
             $salle->services()->sync($data->services);
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
+
             }
-            else 
+            else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
         }
-        else 
+        else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -134,6 +135,6 @@ class MeetingSallesController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
 }
