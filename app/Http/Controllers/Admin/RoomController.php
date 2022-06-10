@@ -32,8 +32,6 @@ class RoomController extends Controller
     }
     public function store(StoreRoom $data)
     {
-
-
         $request = $data->except('_token', 'images', 'services', 'page');
         $stored = new Room();
         $stored->name_ar =  $data->name_ar;
@@ -45,8 +43,6 @@ class RoomController extends Controller
         $stored->beds = $data->beds;
         $stored->internet = $data->internet;
         $stored->save();
-
-
         if ($stored)
          {
             $stored->services()->attach($data->services);
@@ -119,13 +115,19 @@ class RoomController extends Controller
        $room=Room::find($data->id);
        if($room)
        {
-        $result = $data->except('page', 'image', '_token','services','id');
-        if ($data->has('image'))
+            $result = $data->except('page', 'images', '_token', 'services', 'id');
+            if ($data->has('images'))
          {
-            $oldImage = DB::table('rooms')->select('image')->where('id', $data->id)->first()->image;
-            $this->deleteMedia($oldImage, 'rooms');
-            $imageName = $this->uploadMedia($data->image, 'rooms');
-            $result['image'] = $imageName;
+                $oldImages =  $room->Images;
+
+                foreach ($oldImages as $old) {
+                    $this->deleteMedia($old->name, 'rooms');
+                    DB::table('images')->where('id', $old->id)->delete();
+                }
+                for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                    $imageName = $this->uploadManyMedia($data->images[$x], 'rooms', $x);
+                    Image::create(['name' =>  $imageName, 'room_id' => $room->id]);
+                }
         }
         $update = $room->update($result);
         $room->services()->sync($data->services);
