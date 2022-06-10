@@ -91,6 +91,7 @@
                                             <th>   الفندق   </th>
                                             <th>   الغرفة   </th>
                                             <th>  اسم الزبون </th>
+                                            <th>   حالة الطلب  </th>
                                             <th>   تعديل   </th>
                                             <th>  تفاصيل الطلب     </th>
                                             <th>  مسح     </th>
@@ -102,9 +103,10 @@
                                             <tr class="OrderRow{{$order->id}}">
                                                 <td> {{ $order->hotel_name }}</td>
                                                 <td> {{ $order->room_name }}</td>
-                                                <td> Ahmed Adawe</td>
+                                                <td> {{$order->user_name}}</td>
+                                                <td> {{$order->status}}</td>
                                                 <td>
-                                                     <button type="button" class="btn btn-warning"> 
+                                                     <button type="button" class="btn btn-warning">
                                                           <a
                                                             href="{{ route('editorderhotel', $order->id) }}" class="">
                                                             <i  class="far fa-edit" aria-hidden="true"></i>
@@ -113,7 +115,7 @@
 
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-warning"> 
+                                                <button class="btn btn-warning">
                                                     <a href="{{ route('showdetailhotel', $order->id) }}" class="">
                                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                                      </a>
@@ -124,7 +126,7 @@
                                                    <i class="fas fa-trash"></i></button>
                                                         </a>
                                                 </td>
-                                               
+
 
                                             </tr>
                                         @endforeach
@@ -212,5 +214,5 @@
             });
            // console.log(gouvernement_id);
         });
-    </script>   
+    </script>
     @endsection

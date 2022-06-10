@@ -119,7 +119,6 @@ class RoomController extends Controller
             if ($data->has('images'))
          {
                 $oldImages =  $room->Images;
-
                 foreach ($oldImages as $old) {
                     $this->deleteMedia($old->name, 'rooms');
                     DB::table('images')->where('id', $old->id)->delete();
