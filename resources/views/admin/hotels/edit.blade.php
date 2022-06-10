@@ -1,5 +1,5 @@
 @extends('admin.layouts.lay')
-@section('title', ' إضافة فندق ')
+@section('title', ' تعديل فندق ')
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ url('assest/admin/plugins/select2/css/select2.min.css') }}">
@@ -73,7 +73,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid" id='createhotel'>
-                <h2 class="text-center display-4">اضافة فندق
+                <h2 class="text-center display-4">تعديل فندق
                 </h2>
 
                 <hr>
@@ -205,22 +205,24 @@
                                 </div>
                                 <div class="col-md-4 col-12">
                                 </div>
-
-                                <div class='col-12 ' v-for='(subservice , index ) in  subservices'>
-                                <div class='col-3 mt-1 p-1' >
-                                    <select disabled   class="form-control " style="width: 100%;">
-                                        <option> @{{subservice.name}} </option>
-                                    </select>
-                                </div>
-                                <div class='col-3'>  <span @click='deletesubservice(subservice)'> delete  </span> </div>
-                                </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12" v-for='(subservice , index ) in  subservices'>
                                     <div class="form-group">
-                                        <button name="page" @click='sendData' value="index" type="submit"
-                                            class="btn btn-primary btn-lg btn-block">إضافة</button>
+                                        <div class="input-group input-group-lg">
+                                            <select disabled   class="form-control " style="width: 100%;">
+                                                <option> @{{subservice.name}} </option>
+                                            </select>
+                                        </div>
+                                        <i class="fas fa-trash" @click='deletesubservice(subservice)' ></i>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                            <br/>
+                                <div class=" col-12">
+                                    <div class="form-group">
+                                        <button name="page" @click='sendData' value="index" type="submit"
+                                            class="btn btn-primary btn-lg btn-block">تعديل</button>
+                                    </div>
+                                </div>
+                                <div class=" col-12">
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-danger btn-lg btn-block">Cancel</button>
                                     </div>
@@ -260,7 +262,8 @@
             'location' : '',
             'title' : '',
             'edit_id':'',
-            'hotelId':''
+            'hotelId':'',
+            'error' : []
             },
             methods:{
                 convert:function(){
@@ -357,14 +360,37 @@
                     this.subservices = '',
                     this.sort = ''
                 },
-                validation:function(){
-                        console.log('TETS');
+                falidation: function(item, val) {
+                    if (item == '') {
+                        this.error.push({
+                            'err' : 'err'
+                        });
+                        swal({
+                            title: val,
+                            type: 'warning',
+                            confirmButtonText: 'ok',
+                        });
+                        return false
+                    }
                 },
                 json_test:function(){
                  this.test =  JSON.parse(JSON.stringify(this.subservices))
                 },
                 sendData:function(e){
                     e.preventDefault();
+                    this.error = [],
+                    this.falidation(this.subservices , 'لا يمكن ترك الخدمات فارغة  ')
+                    this.falidation(this.fram , 'لا يمكن ترك الخريطه فارغ  ')
+                    this.falidation(this.title , 'لا يمكن ترك العنوان فارغ  ')
+                    this.falidation(this.sort , 'لا يمكن ترك التقييم فارغ  ')
+                    this.falidation(this.gouvernement , 'اختر محافظة ')
+                    // this.falidation(this.status , 'لا يمكن ترك الحاله فارغا ')
+                    this.falidation(this.description_ar , 'لا يمكن ترك الوصف فارغا ')
+                    this.falidation(this.name_ar , 'لا يمكن ترك الاسم فارغا ')
+                    // this.falidation(this. , 'لا يمكن ترك الحاله فارغا ')
+                    if (this.error.length != 0) {
+                        return false
+                    }
                     $.ajaxSetup({
                             headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -385,17 +411,15 @@
                                 type: 'success',
                                 confirmButtonText: 'ok',
                                 });
+                                return false
                         },
                         error: function(res) {
-                            var response = $.parseJSON(res.responseText);
-                            $.each(response.errors, function(name, msg) {
-                                swal({
-                                        title:  msg[0],
-                                        type: 'warning',
-                                        confirmButtonText: 'ok',
-                                        });
-                                    });
-                            return 0;
+                            swal({
+                                title:  'لا يمكن تحديث القيمه نفسها ',
+                                type: 'warning',
+                                confirmButtonText: 'ok',
+                                });
+                            return false
                         }
                     })
                 }

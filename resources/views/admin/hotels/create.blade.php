@@ -205,13 +205,15 @@
                                 <div class="col-md-4 col-12">
                                 </div>
 
-                                <div class='col-12 ' v-for='(subservice , index ) in  subservices'>
-                                <div class='col-3 mt-1 p-1' >
-                                    <select disabled   class="form-control " style="width: 100%;">
-                                        <option> @{{subservice.name}} </option>
-                                    </select>
-                                </div>
-                                <div class='col-3'>  <span @click='deletesubservice(subservice)'> delete  </span> </div>
+                                <div class="col-md-4 col-12" v-for='(subservice , index ) in  subservices'>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-lg">
+                                            <select disabled   class="form-control " style="width: 100%;">
+                                                <option> @{{subservice.name}} </option>
+                                            </select>
+                                        </div>
+                                        <i class="fas fa-trash" @click='deletesubservice(subservice)' ></i>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">

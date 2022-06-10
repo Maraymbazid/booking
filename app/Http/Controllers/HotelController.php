@@ -127,8 +127,10 @@ class HotelController extends Controller
                 'msg' => 'done',
             ]);
         } else {
-            alert()->error('Oops....', 'Something went wrong .. try again');
-            return redirect()->route('Hotels');
+            return response()->json([
+                'status' => 'done',
+                'msg' => ' هناك خطأ ما من فضلك أعد تحميل الصفحة',
+            ], 400);
         }
     }
 

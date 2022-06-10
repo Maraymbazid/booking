@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/home',  function()
     {
         return view('admin.layouts.lay');
-    })->name('home');
+    })->name('adminhome');
     Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
     Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
     Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
