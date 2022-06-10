@@ -111,7 +111,8 @@ class HotelOrderController extends Controller
 
         $msg =  "لقد قام " . '  ' .  $request->name  . '  ' . "بطلب غرفة   " . '  ' . $room->name_ar . '  ' . " التابعة لفندق " . '  ' . $hotel->name_ar;
         $msg .= " ورقم الواتساب الخاص به " . '  ' . $request->whatsapp . '  ' . " وحجز  " . '  ' . $request->daycount . "يوم ";
-        $msg .= " وتاريخ وصوله " . $request->arrival . " والتكلفه الاجماليه " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+
+        $msg .= " وتاريخ وصوله " . $request->arrival . "  والتكلفه الاجماليه قبل الخصم" . $price . "$" . "والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
         $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . " وتم تسجيل الطلب بنجاح ";
         $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
 
