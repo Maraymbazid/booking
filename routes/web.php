@@ -23,10 +23,8 @@ Auth::routes();
 Route::get('/', function () {
     return view('home');
 });
-// Route::get('/test', function () {
-//     return view('admin.dashboard');
-// });
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// ->middleware(['auth', 'verified']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
 
 Route::group(['prefix' => 'cars', 'middleware' => 'auth'], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
