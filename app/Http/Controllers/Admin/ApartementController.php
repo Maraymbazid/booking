@@ -5,13 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\ServiceApartement;
-<<<<<<< HEAD
 use App\Models\Admin\DiscountApartement;
 use App\Http\traits\media;
-=======
-use App\Http\Traits\media;
-
->>>>>>> faedfdbbfd541cef4ad1db7e978b784b446dbb01
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
