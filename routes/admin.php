@@ -58,7 +58,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::any('/getorders', [HotelOrderController::class, 'adminIndex'])->name('hotelOrders');
         Route::any('/editorderhotel/{id}', [HotelOrderController::class, 'editorderhotel'])->name('editorderhotel');
         Route::any('/updateorderhotel', [HotelOrderController::class, 'updateorderhotel'])->name('updateorderhotel');
-        
+        Route::any('deleteorderhotel', [HotelOrderController::class, 'deleteorderhotel'])->name('deleteorderhotel');
+
     });
     Route::group(['prefix' => 'apartement'], function () {
         Route::get('/allapartements', [ApartementController::class, 'index'])->name('allapartements');

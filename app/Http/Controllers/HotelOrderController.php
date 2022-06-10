@@ -168,4 +168,24 @@ class HotelOrderController extends Controller
              'msg' => $msg,
          ]);
     }
+    public function deleteorderhotel(Request $request)
+    {
+        $ordercar=HotelOrder::find($request->id);
+        if($ordercar)
+        {
+            $ordercar->delete();
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
+        }
+       else
+        {
+            return response()->json
+            ([
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
+        }
+    }
 }
