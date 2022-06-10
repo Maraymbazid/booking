@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\traits\media;
+use App\Http\Traits\media;
+
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\ServiceApartement;
 use App\Http\Requests\Villa\StoreVilla;

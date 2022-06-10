@@ -180,10 +180,43 @@
                     error: function (reject) {
                        console.log('error');
                     }
-                
+
                 });
             }
         });
-                      
+
+
+
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         'Content-Type' : "application/x-www-form-urlencoded"
+        //     }
+        // });
+        // DATA = { AgentId=11859
+        // SecretKey=slh9uoqzcmkdsdaf
+        // ServiceId=195
+        // Phone=057-2686379
+        // CustomerPhone="" }
+        // $('#formId').change(function() {
+        //     e.preventDefault();
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: "https://mogapay.org:443/api/v2/InqueryMobServices/GetInvoce?shhipping_val=",
+        //             data: DATA,
+        //             success: function(result) {
+        //                 $('#' + elementid).html(result);
+        //             },
+        //             error: function (reject) {
+        //                console.log('error');
+        //             }
+
+        //         });
+        // });
+
+
+
+
+
     </script>
 @endsection

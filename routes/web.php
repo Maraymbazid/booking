@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TaxiController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HotelOrderController;
 use App\Http\Controllers\Admin\VillaController;
 use App\Http\Controllers\Admin\ApartementController;
 
@@ -18,30 +20,32 @@ use App\Http\Controllers\Admin\ApartementController;
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
     return view('home');
 });
-// Route::get('/test', function () {
-//     return view('admin.dashboard');
-// });
-Route::group(['prefix' => 'cars'], function () {
+// ->middleware(['auth', 'verified']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
+
+Route::group(['prefix' => 'cars', 'middleware' => 'auth'], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
     Route::get('carDetails/{id}', [CarController::class, 'oneCar'])->name('userOneCar');
-    Route::post('checkordercar', [CarController::class, 'checkordercar'])->name('checkordercar'); 
+    Route::post('checkordercar', [CarController::class, 'checkordercar'])->name('checkordercar');
     Route::post('confirmordercar', [CarController::class, 'confirmordercar'])->name('confirmordercar');
-    
-   
 });
-Route::group(['prefix' => 'taxis'], function () {
+Route::group(['prefix' => 'taxis', 'middleware' => 'auth'], function () {
     Route::get('/', [TaxiController::class, 'userIndex'])->name('userIndexTax');
     Route::get('detailsTaxi/{id}', [TaxiController::class, 'oneTaxi'])->name('userOneTax');
     Route::post('checkorder', [TaxiController::class, 'checkorder'])->name('checkorder');
-    Route::post('confirmorder', [TaxiController::class, 'confirmorder'])->name('confirmorder');
+    Route::post('confirmorder/{taxId}', [TaxiController::class, 'confirmorder'])->name('confirmorder');
 });
-Route::group(['prefix' => 'hotels'], function () {
+Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/', [HotelController::class, 'userIndex'])->name('userIndexhotel');
-    Route::post('/hotelsorderd', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
+    Route::get('/getAllHotelsForUser', [HotelController::class, 'getAllHotelsForUser'])->name('getAllHotelsForUser');
+    Route::get('/rooms/{id}', [HotelController::class, 'getRoomsByHotelId'])->name('getRoomsByHotelId');
+    Route::get('/hotelsorderd/{govId}', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');
+    Route::get('/myorders', [HotelOrderController::class, 'userOrder'])->name('userOrder');
 });
 Route::group(['prefix' => 'Apartement'], function () {
     Route::get('/userIndexApartement', [ApartementController::class, 'userIndex'])->name('userIndexApartement');

@@ -11,36 +11,120 @@
         border-bottom: 1px solid #222;
 
     }
-
 </style>
 @endsection
 @section('content')
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top">
-  <div class="card-body">
-    <h5 class="card-title">تفاصيل حجز</h5>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item" id="name" value="{{$carttaxi->taxi_name}}">اسم سيارة: {{$carttaxi->taxi_name}} </li>
-    <li class="list-group-item" id="model" value="{{$carttaxi->model}}"> نوعها: {{$carttaxi->model}}</li>
-    <li class="list-group-item" id="price" value="{{$carttaxi->price}}">سعرها :{{$carttaxi->price}}</li>
-    <li class="list-group-item" id="phone" value="{{$carttaxi->price}}">رقم التليفون :{{$carttaxi->phone}}</li>
-    <li class="list-group-item" id="nationality" value="{{$carttaxi->nationality}}"> جنسية الزبون : {{$carttaxi->nationality}}</li>
-    <li class="list-group-item" id="destination" value="{{$carttaxi->destination}}"> الوجهة : {{$carttaxi->destination}}</li>
-    <li class="list-group-item" id="datearrive"  value="{{$carttaxi->datearrive}}"> تاريخ الوصول : {{$carttaxi->datearrive}}</li>
-    <li class="list-group-item" id="deliveryplace" value="{{$carttaxi->deliveryplace}}"> مكان التوصيل :{{$carttaxi->deliveryplace}}</li>
-    @if($carttaxi->chauffeur == 0)
-    <li class="list-group-item" id="chauffeur" value="0">   سيارة بدون سائق  </li>
-    @else
-    <li class="list-group-item"  id="chauffeur" value="1">  سيارة مع سائق  </li>
-    @endif
-  </ul>
-  </ul>
-  <div class="card-body">
-  <button class="btn btn-warning"> <a  href="" class="confirm-order"   taxi_id="{{$carttaxi->taxi_id}}">تأكيد الحجز </a> </button>
-    <a  class="card-link">إلغاء الحجز </a>
-  </div>
+
+
+<div class="option">
+
+    <div class="option-description">
+        <p class="option-text">
+
+        </p>
+
+        <table>
+            <h4 class='text-center'> تأكيد حجز غرفة  </h4>
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+
+
+            <form method="POST" onsubmit="myFunction()"
+                action="{{ route('confirmorder' ,  $carttaxi->taxi_id ) }}">
+                @csrf
+                @method('POST')
+                <tbody>
+                    <tr class='text-center border border-light'>
+                        <td>  اسم السياره  </td>
+                        <td>  {{$carttaxi->taxi_name}}  </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td> نوع السياره   </td>
+                        <td> {{$carttaxi->model}} </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td> السعر فى اليوم      </td>
+                        <td> {{$carttaxi->price}} </td>
+                    </tr>
+                    {{-- <tr class='text-center border border-light'>
+                        <td> تكلفة الاقامة لليوم  </td>
+                        <td> {{$order->oneday }} </td>
+                    </tr> --}}
+
+                    {{-- <tr class='text-center border border-light'>
+                        <td> الخصم </td>
+                        <td>{{$order->discount}} </td>
+                    </tr> --}}
+
+                    {{-- <tr class='text-center border border-light'>
+                        <td> التكلفة الاجمالية  </td>
+                        <td> {{ $order->price}} </td>
+                    </tr> --}}
+
+                    <tr class='text-center border border-light'>
+                        <td> رقم الواتساب </td>
+                        <td> {{$carttaxi->phone}} <input type="hidden" name="phone" value="{{$carttaxi->phone}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>  الجنسية   </td>
+                        <td>{{$carttaxi->nationality}} <input type="hidden" name="nationality" value="{{$carttaxi->nationality}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>  الوجهه     </td>
+                        <td> {{$carttaxi->destination}} <input type="hidden" name="destination" value="{{$carttaxi->destination}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>  تاريخ الوصول     </td>
+                        <td>{{$carttaxi->datearrive}} <input type="hidden" name="datearrive" value="{{$carttaxi->datearrive}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>   مكان التوصيل     </td>
+                        <td>{{$carttaxi->deliveryplace}} <input type="hidden" name="deliveryplace" value="{{$carttaxi->deliveryplace}}" /> </td>
+                    </tr>
+
+                    <tr class='text-center border border-light'>
+                        <td>   سيارة مع سائق     </td>
+                        <td> @if($carttaxi->chauffeur == 0) بدون سائق     @else مع سائق    @endif <input type="hidden" name="chauffeur" value="{{$carttaxi->chauffeur}}" /> </td>
+                    </tr>
+                    <input type="hidden" name="ticket" value="{{ $carttaxi->ticket}}" />
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan='2'>
+                            <button name="page" value="index" type="submit"
+                                class="btn btn-primary btn-lg btn-block">إكمال الطلب</button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </form>
+
+
+        </table>
+
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @endsection
 @section('js')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -48,7 +132,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script>
+{{-- <script>
         $(document).on('click', '.confirm-order', function (e) {
              e.preventDefault();
              var taxi_id = $(this).attr('taxi_id');
@@ -56,7 +140,7 @@
              var deliveryplace=document.getElementById("deliveryplace").getAttribute('value');
              var destination=document.getElementById("destination").getAttribute('value');
              var datearrive=document.getElementById("datearrive").getAttribute('value');
-             var phone=document.getElementById("phone").getAttribute('value'); 
+             var phone=document.getElementById("phone").getAttribute('value');
              var chauffeur=document.getElementById("chauffeur").getAttribute('value');
              var ticket ="{{$carttaxi->ticket}}";
             $.ajax({
@@ -86,9 +170,9 @@
                         })
                 }}
                 , error: function (reject) {
-                    console.log('no'); 
+                    console.log('no');
                 }
             });
         });
-    </script>
+    </script> --}}
     @endsection

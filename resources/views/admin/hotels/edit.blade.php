@@ -179,6 +179,7 @@
                                         <label>اللوكيشن </label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" v-model='location' id='location' name='location'  class="form-control form-control-lg"  >
+                                            <span @click='convert' style="color:red;  padding:20px" > معالجه </span>
                                         </div>
                                     </div>
                                 </div>
@@ -227,6 +228,7 @@
                             </div>
                 </form>
 
+                <iframe :src='link' width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
         </section>
     </div>
@@ -261,6 +263,13 @@
             'hotelId':''
             },
             methods:{
+                convert:function(){
+                    var mylocation = this.location
+                    var myArray = mylocation.split(" ");
+                    fram = myArray[1].split('"');
+                    this.location = fram[1]
+                    this.link = fram[1]
+                },
                 ///edit page
                 setData:function(){
                     this.hotelId = this.id[0].id,
@@ -269,6 +278,7 @@
                     this.status = this.id[0].status,
                     this.gouvernement = this.id[0].gouvernement,
                     this.location = this.id[0].location,
+                    this.link = this.id[0].location,
                     this.sort = this.id[0].sort,
                     this.title = this.id[0].title
                 },

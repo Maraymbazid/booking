@@ -85,7 +85,6 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th> اسم المحافظة  </th>
                                             <th>  اسم الفندق  </th>
                                             <th> اسم الغرفة </th>
                                             <th> نسبة الخصم </th>
@@ -97,10 +96,9 @@
 
                                         @foreach ($allDiscounts as $discount)
                                             <tr class="RoomRow{{$discount->id}}">
-                                            <td> {{ $discount->room->hotel->gouvernemente->name  }}</td>
                                                 <td> {{ $discount->room->hotel->name_ar  }}</td>
                                                 <td> {{ $discount->room->name_ar }}</td>
-                                                <td> % {{ $discount->rate }}</td>
+                                                <td> % {{ $discount->discount }}</td>
                                                 <td>
                                                      <button type="button" class="btn btn-warning">  <a
                                                             href="{{ route('editdiscounthotel', $discount->id) }}" class="">

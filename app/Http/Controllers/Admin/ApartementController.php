@@ -5,8 +5,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\ServiceApartement;
+<<<<<<< HEAD
 use App\Models\Admin\DiscountApartement;
 use App\Http\traits\media;
+=======
+use App\Http\Traits\media;
+
+>>>>>>> faedfdbbfd541cef4ad1db7e978b784b446dbb01
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
@@ -17,7 +22,7 @@ class ApartementController extends Controller
     use media;
     public function create()
     {
-        
+
         $allgouvernements=Gouvernement::select('id','name')->get();
         $allservices=ServiceApartement::select('id','name')->get();
         return view('admin.Apartments.create',compact('allgouvernements','allservices'));
@@ -48,7 +53,7 @@ class ApartementController extends Controller
     }
     public function index()
     {
-       
+
         $allapartements=Apartement::select('id','name_ar')->get();
         return view('admin.Apartments.index',compact('allapartements'));
     }
@@ -65,7 +70,7 @@ class ApartementController extends Controller
                 'id'=>$request->id,
             ],200);
         }
-       else 
+       else
         {
             return response()->json
             ([
@@ -80,7 +85,7 @@ class ApartementController extends Controller
         {
             $apartement = Apartement::find($id);  // search in given table id only
         if (!$apartement)
-            {                
+            {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -112,20 +117,20 @@ class ApartementController extends Controller
             }
             $update = $apartement->update($result);
             $apartement->services()->sync($data->services);
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
+
             }
-            else 
+            else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
         }
-        else 
+        else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -135,7 +140,7 @@ class ApartementController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
     public function userIndex()
     {
