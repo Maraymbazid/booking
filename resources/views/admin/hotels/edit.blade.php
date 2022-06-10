@@ -278,6 +278,7 @@
                     this.status = this.id[0].status,
                     this.gouvernement = this.id[0].gouvernement,
                     this.location = this.id[0].location,
+                    this.link = this.id[0].location,
                     this.sort = this.id[0].sort,
                     this.title = this.id[0].title
                 },
