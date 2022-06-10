@@ -28,7 +28,7 @@
         height: 25px;
         width: 25px;
         background-color: #DCDCDC;
-       
+
       }
       /* specify the background color to be shown when hovering over checkbox */
       .script:hover input ~ .w3docs {
@@ -170,42 +170,42 @@
                                         <span class="invalid-feedback" role="alert" id='price_error'> </span>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>صورة الغرفة </label>
+                                        <label>صور الغرفة </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file" name="image" id="" class="form-control form-control-lg"
+                                            <input type="file" name="images[]" multiple id="" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
                                         <span id='image_error' role="alert" id='price_error' class="invalid-feedback"> </span>
                                     </div>
                                  </div>
-                                 <div class="col-md-4 col-12"> </div> 
+                                 <div class="col-md-4 col-12"> </div>
                                  @foreach($NamesServices as $name)
                                  @if(isset($services))
                                  <label style="color:black; font-size:18px; margin-right:20px;"> {{$name->name}}  </label>
-                                 <div class="col-md-12 col-12"> </div> 
-                                                @foreach($services as $service) 
-                                                @if($service->name_id == $name->id)   
-                                            <div class="row"> 
+                                 <div class="col-md-12 col-12"> </div>
+                                                @foreach($services as $service)
+                                                @if($service->name_id == $name->id)
+                                            <div class="row">
                                                 <div class="form-group" style="">
                                                         <div class="" style="font-size:19.5px;">
-                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}}
                                                         <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple>
                                                         <span class="w3docs"></span> <br>
-                                                        </label>  
-                                                        </div>          
+                                                        </label>
+                                                        </div>
                                                </div>
                                             </div>
-                                            @endif  
-                                            @endforeach 
-                                            <div class="col-md-12 col-12"> </div> 
-                                            @endif 
+                                            @endif
                                             @endforeach
-                                            
-                          
-                             <span class="invalid-feedback" role="alert" id='services_error'> </span>       
+                                            <div class="col-md-12 col-12"> </div>
+                                            @endif
+                                            @endforeach
+
+
+                             <span class="invalid-feedback" role="alert" id='services_error'> </span>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -284,7 +284,7 @@
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
                         $("#" + key + "_error").text(val[0]);
-                    })   
+                    })
                 }
             });
         });

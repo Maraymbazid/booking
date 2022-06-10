@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Hotel;
 use App\Models\MainServicesHotel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,11 @@ class SubServicesHotel extends Model
 
     public function MainSer()
     {
-        $this->belongsTo(MainServicesHotel::class, 'main_service_id', 'id');
+        return  $this->belongsTo(MainServicesHotel::class, 'main_service_id', 'id');
+    }
+
+    public function hotels()
+    {
+        return $this->belongsToMany(Hotel::class, 'services_hotel', 'sub_id',  'hotel_id');
     }
 }

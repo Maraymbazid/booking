@@ -24,9 +24,9 @@
             </div>
             <div class="option-description">
                 <p class="option-text"> </p>
-                @if (session()->has('success'))
+                @if (session()->has('status'))
                 <div class="alert alert-success text-center" role="alert">
-                    {{ session()->get('success') }}
+                    {{ session()->get('status') }}
                 </div>
                 @elseif (session()->has('error'))
                 <div class="alert alert-danger text-center" role="alert">

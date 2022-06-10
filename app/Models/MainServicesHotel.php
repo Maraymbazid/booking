@@ -16,6 +16,6 @@ class MainServicesHotel extends Model
 
     public function SubSer()
     {
-        $this->hasMany(SubServicesHotel::class, 'main_service_id', 'id');
+        return  $this->hasMany(SubServicesHotel::class, 'main_service_id', 'id');
     }
 }

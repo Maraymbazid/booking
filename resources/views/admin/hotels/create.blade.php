@@ -139,7 +139,7 @@
                                     <div class="form-group">
                                         <label>صورة الفندق </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file"  name="image" id="image" class="form-control form-control-lg"
+                                            <input type="file"  name="image" @change="fileChange1" ref="image" id="image" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
                                     </div>
@@ -149,7 +149,7 @@
                                     <div class="form-group">
                                         <label>صورة الغلاف </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file"  name="cover" id="cover" class="form-control form-control-lg"
+                                            <input type="file" @change="fileChange2"   ref="cover" name="cover" id="cover" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@
                                     <div class="form-group">
                                         <label for='title' >  العنوان </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text"  name='title' id="title" class="form-control form-control-lg">
+                                            <input type="text"  name='title' v-model='title' id="title" class="form-control form-control-lg">
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +177,8 @@
                                     <div class="form-group">
                                         <label>اللوكيشن </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='fram' id='location' name='location'  class="form-control form-control-lg"  >
+                                            <input type="text"  v-model='fram' id='location' name='location'  class="form-control form-control-lg"  >
+                                            <span @click='convert' style="color:red;  padding:20px" > معالجه </span>
                                         </div>
                                     </div>
                                 </div>
@@ -214,7 +215,7 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <button name="page" value="index" type="submit"
+                                        <button @click='senddata'
                                             class="btn btn-primary btn-lg btn-block">إضافة</button>
                                     </div>
                                 </div>
@@ -226,7 +227,8 @@
                             </div>
                 </form>
 
-
+                <iframe :src='link' width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                {{-- <img :src="my_photo" alt=""> --}}
         </section>
     </div>
 @endsection
@@ -253,9 +255,34 @@
             'subId' : '',
             'userNamePr' : '',
             'test' : '',
-            'fram' : ''
+            'fram' : '',
+            'link' : '',
+            'error' : [],
+            'file1' : '',
+            'file2' : '',
+            'title' : ''
+
             },
             methods:{
+                fileChange1(event) {
+                      this.file1 = this.$refs.image.files.length;
+                      console.log(this.$refs.image.files.length)
+                    //   const data = URL.createObjectURL(event.target.files[0]);
+                    //    this.my_photo = data;
+                },
+                fileChange2(event) {
+                      this.file2 = this.$refs.cover.files.length;
+                      console.log(this.$refs.cover.files.length)
+                    //   const data = URL.createObjectURL(event.target.files[0]);
+                    //    this.my_photo = data;
+                },
+                convert:function(){
+                    var mylocation = this.fram
+                    var myArray = mylocation.split(" ");
+                    fram = myArray[1].split('"');
+                    this.fram = fram[1]
+                    this.link = fram[1]
+                },
                 addnewSub:function(){
                     if (this.subId == '')
                         return;
@@ -288,73 +315,82 @@
                     this.subservices = '',
                     this.sort = ''
                 },
-                validation:function(){
-                        console.log('TETS');
+                falidation: function(item, val) {
+                    if (item == '') {
+                        this.error.push({
+                            'err' : 'err'
+                        });
+                        swal({
+                            title: val,
+                            type: 'warning',
+                            confirmButtonText: 'ok',
+                        });
+                        return false
+                    }
                 },
-                json_test:function(){
-                 this.test =  JSON.parse(JSON.stringify(this.subservices))
+                resetForm:function(){
+                    this.name_ar = '',
+                    this.description_ar = '',
+                    this.status = '',
+                    this.gouvernement = '',
+                    this.file1 = '',
+                    this.file2 = '',
+                    this.sort = '',
+                    this.title = '',
+                    this.fram = '',
+                    this.subservices = []
                 },
                 senddata:function(e){
+                    e.preventDefault();
+                    this.error = [],
+                    this.falidation(this.subservices , 'لا يمكن ترك الخدمات فارغة  ')
+                    this.falidation(this.fram , 'لا يمكن ترك الخريطه فارغ  ')
+                    this.falidation(this.title , 'لا يمكن ترك العنوان فارغ  ')
+                    this.falidation(this.sort , 'لا يمكن ترك التقييم فارغ  ')
+                    this.falidation(this.file2 , 'لا يمكن ترك الغلاف فارغه ')
+                    this.falidation(this.file1 , 'لا يمكن ترك الصوره فارغه ')
+                    this.falidation(this.gouvernement , 'اختر محافظة ')
+                    this.falidation(this.status , 'لا يمكن ترك الحاله فارغا ')
+                    this.falidation(this.description_ar , 'لا يمكن ترك الوصف فارغا ')
+                    this.falidation(this.name_ar , 'لا يمكن ترك الاسم فارغا ')
+                    // this.falidation(this. , 'لا يمكن ترك الحاله فارغا ')
+                    if (this.error.length != 0) {
+                        return false
+                    }
                     $.ajaxSetup({
                             headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     }
                     });
-                    e.preventDefault();
-                    // var xhttp = new XMLHttpRequest();
-                    // xhttp.open("POST", "store", true);
-                    // xhttp.send(
-                    //     {
-                    //         'name_ar' : this.name_ar,
-                    //         'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-                    //     }
-                    // );
-
-
-                    values = {
-                            'name_ar' : this.name_ar,
-                            'description_ar' : this.description_ar,
-                            'status' : this.status,
-                            'gouvernement' : this.gouvernement,
-                            'sort' : this.sort,
-                            'subserv' : this.subservices,
-                        },
-                        $.ajaxSetup({
-                            headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
-                                });
-                        formData = new FormData(document.getElementById("addgame"));
-                        console.log(formData);
-                        return 0
-                        let va = formData.append('subserv', this.subservices );
-                        let v = formData.append('subserv', this.subservices );
+                    const formData = new FormData(document.getElementById("addgame"));
+                    formData.append('subserv', JSON.stringify(this.subservices) );
                     $.ajax({
                         type: 'POST',
                         enctype: 'multipart/form-data',
                         url: '{{ route('storeHotel') }}',
-                        data: values,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function(res) {
-                            hotels.resetForm();
+                            hotels.resetForm()
                             swal({
                                 title:  res.msg,
                                 type: 'success',
-                                confirmButtonText: 'done',
+                                confirmButtonText: 'ok',
                                 });
-                                return 0;
                         },
                         error: function(res) {
                             var response = $.parseJSON(res.responseText);
                             $.each(response.errors, function(name, msg) {
                                 swal({
-                                     title:  msg[0],
-                                     type: 'warning',
-                                     confirmButtonText: 'error',
-                                     });
-                            });
+                                        title:  msg[0],
+                                        type: 'warning',
+                                        confirmButtonText: 'ok',
+                                        });
+                                    });
                             return 0;
                         }
-                    } );
+                    })
                 },
 
 
@@ -392,39 +428,39 @@
             }
         });
         // save data
-        $('#addgame').submit(function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            // let sub = JSON.parse('test', true);//#endreg
-            console.log(JSON.stringify(hotels.subservices))
-            formData.append('subserv', JSON.stringify(hotels.subservices) );
-            formData.append('status', hotels.status );
-            console.log(formData)
-            $.ajax({
-                type: 'POST',
-                enctype: 'multipart/form-data',
-                url: `{{ route('storeHotel') }}`,
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (response) => {
-                    if (response) {
-                        this.reset();
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: response.msg,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        $('#sucess_msg').text(response.msg);
-                    }
-                },
-                error: function(reject) {
+        // $('#addgame').submit(function(e) {
+        //     e.preventDefault();
+        //     let formData = new FormData(this);
+        //     // let sub = JSON.parse('test', true);//#endreg
+        //     console.log(JSON.stringify(hotels.subservices))
+        //     formData.append('subserv', JSON.stringify(hotels.subservices) );
+        //     formData.append('status', hotels.status );
+        //     console.log(formData)
+        //     $.ajax({
+        //         type: 'POST',
+        //         enctype: 'multipart/form-data',
+        //         url: `{{ route('storeHotel') }}`,
+        //         data: formData,
+        //         contentType: false,
+        //         processData: false,
+        //         success: (response) => {
+        //             if (response) {
+        //                 this.reset();
+        //                 Swal.fire({
+        //                     position: 'top-center',
+        //                     icon: 'success',
+        //                     title: response.msg,
+        //                     showConfirmButton: false,
+        //                     timer: 1500
+        //                 })
+        //                 $('#sucess_msg').text(response.msg);
+        //             }
+        //         },
+        //         error: function(reject) {
 
-                    console.log('error');
-                }
-            });
-        });
+        //             console.log('error');
+        //         }
+        //     });
+        // });
     </script>
 @endsection
