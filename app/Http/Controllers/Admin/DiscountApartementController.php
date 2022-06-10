@@ -8,7 +8,7 @@ use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\DiscountApartement;
-use App\Http\Requests\DiscountApartement\StoreDiscountApartement; 
+use App\Http\Requests\DiscountApartement\StoreDiscountApartement;
 use App\Http\Requests\DiscountApartement\UpdateDiscountApartement;
 class DiscountApartementController extends Controller
 {
@@ -32,12 +32,12 @@ class DiscountApartementController extends Controller
     {
        $request = $request->except('_token','page');
         $stored = DB::table('discountapartement')->insert($request);
-        if ($stored) 
+        if ($stored)
         {
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
-        } 
-        else 
+        }
+        else
         {
             $status = 500;
             $msg  = 'تعذر الحفظ هناك خطأ ما';
@@ -64,7 +64,7 @@ class DiscountApartementController extends Controller
                 'id'=>$request->id,
             ],200);
         }
-       else 
+       else
         {
             return response()->json
             ([
@@ -79,7 +79,7 @@ class DiscountApartementController extends Controller
         {
             $discountapartement = DiscountApartement::find($id);  // search in given table id only
         if (!$discountapartement)
-            {                
+            {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -105,20 +105,20 @@ class DiscountApartementController extends Controller
                     'rate'     => $result['rate'],
                 ]
             );
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
+
             }
-            else 
+            else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
         }
-        else 
+        else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -128,6 +128,6 @@ class DiscountApartementController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
 }
