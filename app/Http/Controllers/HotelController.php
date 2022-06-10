@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Hotel;
-use App\Http\traits\media;
+use App\Http\Traits\media;
 use App\Models\Admin\Room;
 use App\Models\HotelOrder;
 use App\Models\RoomDiscount;

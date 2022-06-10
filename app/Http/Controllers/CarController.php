@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
-use App\Http\traits\media;
+use App\Http\Traits\media;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ReservationCar;
@@ -118,7 +119,7 @@ class CarController extends Controller
             alert()->error('Oops....','this element does not exist .. try again');
             return redirect() -> back();
         }
-       
+
     }
     public function checkordercar(Request $data)
     {
@@ -131,12 +132,12 @@ class CarController extends Controller
             {
                     $discount = DiscountCar::where('car_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
-                    if ($discount->count() > 0) 
+                    if ($discount->count() > 0)
                     {
                         $dis =  ($discount[0]->rate * $car->price) / 100;  // dis
                         $price = $car->price *  $data->numberdays;    //before dis
                         $finallPrice = $price - $dis;  // after dis
-                    } else 
+                    } else
                     {
                         $dis = 0;
                         $price = $car->price;
@@ -151,9 +152,9 @@ class CarController extends Controller
                      $cartcar->nationality=$data->nationality;
                      $cartcar->date=$data->date;
                      $cartcar->receivingplace=$data->receivingplace;
-                     $cartcar->numberdays=$data->numberdays; 
-                     $cartcar->number=$data->number; 
-                     return view('cars.detail',compact('cartcar'));   
+                     $cartcar->numberdays=$data->numberdays;
+                     $cartcar->number=$data->number;
+                     return view('cars.detail',compact('cartcar'));
             }
             else
             {
@@ -193,9 +194,9 @@ class CarController extends Controller
             $newreservation->nationality=$data->nationality;
             $newreservation->receivingplace=$data->receivingplace;
             $newreservation->date=$data->date;
-            $newreservation->numberdays=$data->numberdays; 
-            $newreservation->number=$data->number; 
-            $newreservation->status='pending';	
+            $newreservation->numberdays=$data->numberdays;
+            $newreservation->number=$data->number;
+            $newreservation->status='pending';
             $newreservation->save();
             return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
 
@@ -205,7 +206,7 @@ class CarController extends Controller
             return response()->json(['msg' => ' حدث هناك خطأ يرجى إعادة محاولة لاحقا '], 500);
         }
     }
-   
+
     public function getallorders()
     {
         $allorders=ReservationCar::get();
@@ -234,20 +235,20 @@ class CarController extends Controller
               'Note' => $data->note,
               'status'=> $data->status,
           ]);
-          if ($update) 
+          if ($update)
           {
-              
+
               $status = 200;
               $msg  = 'تم تعديل الداتا بنجاح ';
-              
+
           }
-          else 
+          else
           {
               $status = 500;
               $msg  = ' تعذر التعديل هناك خطأ ما';
           }
       }
-      else 
+      else
       {
          $status = 500;
          $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -257,7 +258,7 @@ class CarController extends Controller
             'status' => $status,
             'msg' => $msg,
         ]);
-      
+
        }
     public function show($id)
     {
@@ -284,7 +285,7 @@ class CarController extends Controller
                 'id'=>$request->id,
             ],200);
         }
-       else 
+       else
         {
             return response()->json
             ([
