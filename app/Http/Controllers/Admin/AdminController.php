@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function getlogin()
     {
-        return view('Admin.auth.login');
+        return view('admin.auth.login');
     }
    public function login(Request $request)
    {
@@ -21,4 +21,3 @@ class AdminController extends Controller
    }
 
 }
-
