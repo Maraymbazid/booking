@@ -27,7 +27,7 @@ Route::group(['middleware' => 'guest:admin'], function () {
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/', function () {
         return View('admin.layouts.lay');
-    });
+    })->name('adminHome');
     Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
     Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
     Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('updategouvernement', [GouvernementController::class, 'update'])->name('updategouvernement');
     Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
     Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
+
+
+
     Route::group(['prefix' => 'holels'], function () {
         Route::any('/', [HotelController::class, 'index'])->name('Hotels');
         Route::any('/edit/{id}', [HotelController::class, 'edit'])->name('editHotel');
