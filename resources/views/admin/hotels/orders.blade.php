@@ -114,13 +114,13 @@
                                                 </td>
                                                 <td>
                                                 <button class="btn btn-warning"> 
-                                                    <a href="{{ route('showdetailcar', $order->id) }}" class="">
+                                                    <a href="{{ route('showdetailhotel', $order->id) }}" class="">
                                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                                      </a>
                                                  </button>
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" order_id="3">
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" order_id="{{$order->id}}">
                                                    <i class="fas fa-trash"></i></button>
                                                         </a>
                                                 </td>
