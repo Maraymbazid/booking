@@ -11,31 +11,82 @@
         border-bottom: 1px solid #222;
 
     }
-
 </style>
 @endsection
 @section('content')
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top">
-  <div class="card-body">
-    <h5 class="card-title">تفاصيل حجز</h5>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"  id="name" value="{{$cartvilla->villa_name}}"> اسم الشقة: {{ $cartvilla->villa_name }} </li>
-    <li class="list-group-item"  id="price" value="{{$cartvilla->price}}">سعرها :{{ $cartvilla->price}}</li>
-    <li class="list-group-item"  id="nationality" value="{{$cartvilla->nationality}}"> جنسية الزبون : {{  $cartvilla->nationality}}</li>
-    <li class="list-group-item"  id="begindate"value="{{$cartvilla->begindate}}">  تاريخ القدوم : {{$cartvilla->begindate}}</li>
-    <li class="list-group-item"  id="enddate"value="{{$cartvilla->enddate}}">  تاريخ الخروج :{{ $cartvilla->enddate }}</li>
-    <li class="list-group-item"  id="numberdays" value="{{$cartvilla->numberdays}}">  عدد الايام : {{$cartvilla->numberdays}}</li>
-    <li class="list-group-item"  id="persones" value="{{$cartvilla->personnes}}">   عدد الاشخاص : {{$cartvilla->personnes}}</li>
-    <li class="list-group-item"  id="number" value="{{$cartvilla->number}}">   رقم التليفون : {{$cartvilla->number}}</li>
-  </ul>
-  <div class="card-body">
-  <button class="btn btn-warning"> <a  href="" class="confirm-order"   villa_id="{{ $cartvilla->villa_id}}">تأكيد الحجز </a> </button>
-  <button class="btn btn-danger"> <a  class="card-link">إلغاء الحجز </a> </button>
-  </div>
+
+
+<div class="option">
+
+    <div class="option-description">
+        <p class="option-text">
+
+        </p>
+
+        <table>
+            <h4 class='text-center'> تأكيد حجز فلل  </h4>
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <form method="POST" id="confirmordervilla">
+                @csrf
+                <tbody>
+                    <tr class='text-center border border-light'>
+                        <td>   اسم فلة   </td>
+                        <td>  {{$cartvilla->villa_name}}  </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td> السعر فى اليوم      </td>
+                        <td> {{$cartvilla->price}} </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>  اسم الشخص المعني بالحجز   </td>
+                        <td>{{$cartvilla->customrname}} <input type="hidden" name="customrname" value="{{$cartvilla->customrname}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td> رقم الواتساب </td>
+                        <td> {{$cartvilla->number}} <input type="hidden" name="number" value="{{$cartvilla->number}}" /> </td>
+                    </tr>
+                    
+                    <tr class='text-center border border-light'>
+                        <td>    تاريخ القدوم     </td>
+                        <td> {{$cartvilla->begindate}} <input type="hidden" name="begindate" value="{{$cartvilla->begindate}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>     تاريخ الخروج     </td>
+                        <td>{{$cartvilla->enddate}} <input type="hidden" name="enddate" value="{{$cartvilla->enddate}}" /> </td>
+                    </tr>
+                    <tr class='text-center border border-light'>
+                        <td>    المده      </td>
+                        <td>{{$cartvilla->numberdays}} <input type="hidden" name="numberdays" value="{{$cartvilla->numberdays}}" /> </td>
+                    </tr>
+
+                    <tr class='text-center border border-light'>
+                        <td>   عدد الأشخاص   </td>
+                        <td> {{$cartvilla->personnes}} <input type="hidden" name="personnes" value="{{$cartvilla->personnes}}" /> </td>
+                    </tr>
+                    <input type="hidden" name="id" value="{{$cartvilla->villa_id}}" />
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan='2'>
+                            <button name="page" value="index" type="submit"
+                                class="btn btn-primary btn-lg btn-block">إكمال الطلب</button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </form>
+
+
+        </table>
+
+    </div>
 </div>
+
 @endsection
+
 @section('js')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -43,28 +94,15 @@
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script>
-        $(document).on('click', '.confirm-order', function (e) {
-            e.preventDefault();
-             var villa_id = $(this).attr('villa_id');
-             var nationality=document.getElementById("nationality").getAttribute('value');
-             var begindate=document.getElementById("begindate").getAttribute('value');
-             var enddate=document.getElementById("enddate").getAttribute('value');
-             var personnes=document.getElementById("persones").getAttribute('value');
-             var numberdays=document.getElementById("numberdays").getAttribute('value');
-             var number=document.getElementById("number").getAttribute('value'); 
+        $('#confirmordervilla').submit(function(e) {
+             e.preventDefault();
+             let formData = new FormData(this);
             $.ajax({
                 type: 'post',
                 url: "{{route('confirmordervilla')}}",
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id' :villa_id,
-                    'nationality':nationality,
-                    'begindate':begindate,
-                    'enddate':enddate,
-                    'personnes':personnes,
-                    'numberdays':numberdays,
-                    'number':number,
-                },
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: (response) => {
                     if (response) {
                     Swal.fire({
@@ -74,13 +112,12 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                    window.location.href='{{ route('userIndexVilla')}}';
+                        window.location.href='{{ route('userIndexVilla')}}';
                 }}
                 , error: function (reject) {
-                    console.log('no'); 
+                    console.log('no');
                 }
             });
-           // console.log(apartement_id);
         });
     </script>
     @endsection

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\Apartement\Villa;
 use App\Models\Hotel;
+use App\Models\Admin\Destination;
 class Gouvernement extends Model
 {
     use HasFactory;
@@ -32,6 +33,10 @@ class Gouvernement extends Model
     public function hotels()
     {
         return $this->hasMany(Hotel::class,'gouvernement');
+    }
+    public function destinations()
+    {
+        return $this->hasMany(Destination::class,'gouvernement_id');
     }
     
 }

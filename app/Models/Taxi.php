@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ReservationTaxi;
+use App\Models\Company;
 class Taxi extends Model
 {
     use HasFactory;
@@ -21,6 +22,10 @@ class Taxi extends Model
         'model',
     ];
     protected $timestamp = false;
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'company_id');
+    }
     public function reservations()
     {
         return $this->hasMany(ReservationTaxi::class,'taxi_id');

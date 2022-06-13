@@ -196,7 +196,7 @@ class ApartementController extends Controller
                      $cartapart->price=$finallPrice;
                      $cartapart->begindate=$data->begindate;
                      $cartapart->enddate=$data->enddate;
-                     $cartapart->nationality=$data->nationality;
+                     $cartapart->customrname=$data->customrname;
                      $cartapart->numberdays=$data->numberdays; 
                      $cartapart->number=$data->number; 
                      $cartapart->personnes=$data->persones;
@@ -242,7 +242,7 @@ class ApartementController extends Controller
                     $newreservation->price=$finallPrice;
                     $newreservation->Num='DE0001';
                     $newreservation->numerdays=$data->numberdays;
-                    $newreservation->nationality=$data->nationality;
+                    $newreservation->customrname=$data->customrname;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
                     $newreservation->enddate=$data->enddate; 
@@ -263,4 +263,79 @@ class ApartementController extends Controller
             return redirect() ->back();
         }
     }
+    public function getallorders()
+    {
+        $allorders = ReservationApartement::get();
+        return view('admin.orderapartements.index', compact('allorders'));
+    }
+    public function editorderapart($id)
+    {
+        $order = ReservationApartement::find($id);
+        if ($order) {
+            return view('admin.orderapartements.edit', compact('order'));
+        } else {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function updateorderapart(Request $data)
+    {
+        $id = $data->id;
+        $order = $order = ReservationApartement::find($id);
+        if ($order) 
+        {
+            $update = $order->update([
+                'Note' => $data->note,
+                'status' => $data->status,
+            ]);
+            if ($update) {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+            } else {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
+        }
+         else 
+         {
+            $status = 500;
+            $msg  = ' تعذر التعديل هناك خطأ ما';
+        }
+        return response()->json([
+                'status' => $status,
+                'msg' => $msg,
+            ]);
+    }
+    public function deleteorderapart(Request $request)
+    {
+        $orderapart = ReservationApartement::find($request->id);
+        if ($orderapart)
+         {
+            $orderapart->delete();
+            return response()->json([
+                    'msg'  => 'تم حذف الداتا بنجاح ',
+                    'id' => $request->id,
+                ], 200);
+        } else
+         {
+            return response()->json([
+                    'msg'  => ' تعذر الحذف هناك خطأ ما ',
+                ], 500);
+        }
+    }
+    public function showdetailapart($id)
+    {
+        $order = ReservationApartement::find($id);
+        if ($order)
+         {
+            return view('admin.orderapartements.detail', compact('order'));
+        } 
+        else 
+        {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+   
 }

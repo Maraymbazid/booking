@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\DiscountApartement;
+use App\Models\ReservationApartement;
 class Apartement extends Model
 {
     protected $table = 'apartments'; 
@@ -42,5 +43,9 @@ class Apartement extends Model
     public function discounts()
     {
         return $this->hasMany(DiscountApartement::class,'apartement_id');
+    }
+    public function reservations()
+    {
+        return $this->hasMany(ReservationApartement::class,'apartement_id');
     }
 }

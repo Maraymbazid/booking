@@ -156,9 +156,9 @@
                                             @foreach($allgouvernements as $allgouvernement)
                                             @if($allgouvernement->id ==  $villa->gouvernement)
                                         <option 
-                                            value="{{$allgouvernement -> id }}">
+                                            value="{{$allgouvernement -> id }}" selected>
                                             {{$allgouvernement -> name}}
-                                        </option selected >
+                                        </option>
                                         @else
                                         <option 
                                             value="{{$allgouvernement -> id }}">

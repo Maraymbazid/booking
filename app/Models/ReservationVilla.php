@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Admin\Villa;
 class ReservationVilla extends Model
 {
     use HasFactory;
@@ -15,7 +15,7 @@ class ReservationVilla extends Model
         'user_id',
         'villa_id',
         'price',
-        'nationality',
+        'customrname',
         'numerdays',
         'personnes',
         'begindate',
@@ -26,4 +26,8 @@ class ReservationVilla extends Model
         'Note',
     ];
     protected $timestamp = false;
+    public function villa()
+    {
+        return $this->belongsTo(Villa::class,'villa_id');
+    }
 }

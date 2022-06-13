@@ -14,7 +14,7 @@ use App\Models\MainServicesHotel;
 use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateHotelRequest;
-
+use Illuminate\Support\Facades\Crypt;
 class HotelController extends Controller
 {
     use media;
@@ -146,11 +146,11 @@ class HotelController extends Controller
             return redirect()->route('Hotels');
         }
     }
-    public function test()
-    {
-        $hotel = Hotel::find(7);
-        $hotel->services()->attach(12);
-    }
+    // public function test()
+    // {
+    //     $hotel = Hotel::find(7);
+    //     $hotel->services()->attach(12);
+    // }
 
     public function userIndex()
     {
@@ -218,4 +218,12 @@ class HotelController extends Controller
         $main_services = MainServicesHotel::all();
         return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
     }
+    public function test()
+    {
+        $encryptedValue = '$2y$10$64mlLfYlDA13qsh.UdD.2uhxgD/XB2.9IIEdGNkH78PvtKLNgd6NG';
+ 
+        $secret = Crypter::encrypt('some text here'); 
+    }
+ 
+
 }

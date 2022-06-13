@@ -39,10 +39,6 @@
                             <dd class="col-sm-6">  {{ $order->customrname }} </dd>
                             <dt class="col-sm-4"> رقم الواتساب </dt>
                             <dd class="col-sm-6"> {{$order->phone }}</dd>
-                            <dt class="col-sm-4"> اسم الشخص المعني بالحجز </dt>
-                            <dd class="col-sm-6"> {{$order->customrname	}}</dd>
-                            <dt class="col-sm-4">  رقم الواتساب  </dd>
-                            <dd class="col-sm-6"> {{$order->number }}</dd>
                             <dt class="col-sm-4"> اسم الشقة  </dt>
                             <dd class="col-sm-6">  {{$order->apartement->name_ar}}</dd>
                             <dt class="col-sm-4"> عدد الايام  </dt> 
@@ -53,7 +49,7 @@
                             <dd class="col-sm-6">{{$order->enddate }} </dd>
                             <dt class="col-sm-4">  عدد الأشخاص  </dt>
                             <dd class="col-sm-6"> {{$order->personnes}} </dd>  
-                            @if($order->apartement->discounts)
+                            @if($order->apartement->price != $order->price)
                             <dt class="col-sm-4">سعر قبل الخصم  </dt>
                             <dd class="col-sm-6">  {{$order->apartement->price }}</dd>
                             <dt class="col-sm-4"> سعر بعد الخصم   </dt>

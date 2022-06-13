@@ -111,9 +111,9 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  جنسية الزبون  </label>
+                                <label for="place" class="col-sm-2 col-form-label">  اسم الشخص المعني بالحجز </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="nationality" name="nationality" placeholder="  من فضلك ادخل جنسيتك ">
+                                  <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Admin\Apartement;
 class ReservationApartement extends Model
 {
     use HasFactory;
@@ -15,7 +15,7 @@ class ReservationApartement extends Model
         'user_id',
         'apartement_id',
         'price',
-        'nationality',
+        'customrname',
         'numerdays',
         'personnes',
         'begindate',
@@ -26,5 +26,9 @@ class ReservationApartement extends Model
         'Note',
     ];
     protected $timestamp = false;
+    public function apartement()
+    {
+        return $this->belongsTo(Apartement::class,'apartement_id');
+    }
    
 }

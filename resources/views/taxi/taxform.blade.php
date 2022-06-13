@@ -1,5 +1,6 @@
 @extends('layout.lay')
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     input {
 
@@ -16,10 +17,9 @@
 @endsection
 @section('content')
 
-
         <div class="option pb-5">
             <div class="image-option-games">
-                <img src="{{$tax->image}}" width="100%" ;
+                <img src="{{$taxi->image}}" width="100%" ;
                     style="border-radius: 25px 25px 0px 0px;">
             </div>
             <div class="option-description">
@@ -39,7 +39,6 @@
                         <tr>
                             <th scope="col">السيارة</th>
                             <th scope="col">الموديل  </th>
-                            <th scope="col">سعر اليوم </th>
                             <th scope="col"> شركة </th>
                         </tr>
                     </thead>
@@ -49,12 +48,11 @@
                             enctype="multipart/form-data">
                             @csrf
                             <tr>
-                                <td data-label="اسم السيارة">{{$tax->name}}</td>
+                                <td data-label="اسم السيارة">{{$taxi->name}}</td>
                                 <td data-label="موديل السيارة">
-                                    {{$tax->model}}
+                                    {{$taxi->model}}
                                 </td>
-                                <td data-label="السعر"> {{$tax->price}} </td>
-                                <td>{{$tax->company}}  </td>
+                                <td>{{$taxi->company->name}}  </td>
                                 {{-- <td><a style="color: #fff;" href="#"> <button name="page" value="index"
                                             class="btn btn-primary rounded form-control"> شراء
                                         </button></a></td> --}}
@@ -65,10 +63,9 @@
                 <div class="container">
                     <div class="row mt-5">
                     <div class="col">
-                        <form method="post" action="{{route('checkorder')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('checkordertaxi')}}" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id" value="{{$tax->id}}">
-                            <input type="hidden" name="price" value="{{$tax->price}}">
+                            <input type="hidden" name="id" value="{{$taxi->id}}">
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">موقع إستلام السياره </label>
                                 <div class="col-md-10 col-12">
@@ -76,9 +73,9 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  الجنسية </label>
+                                <label for="place" class="col-sm-2 col-form-label">  اسم الشخص المعني بالحجز </label>
                                 <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="nationality"  name="nationality" placeholder="  من فضلك ادخل جنسيتك ">
+                                  <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
@@ -96,17 +93,28 @@
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  الواجهة  </label>
                                 <div class="col-lg-10 col-12">
-                                     <input type="text" class="form-control" id="destination" name="destination" placeholder=" من فضلك أدخل وجهتك  ">
+                                <select _ngcontent-c9="" class="form-control destinations" id="destination" name="destination" data-dependent="price">
+                                            <option value=""> اختار الواجهة من فضلك </option>
+                                        @if($alldestinations && $alldestinations -> count() > 0)
+                                            @foreach($alldestinations as $destination)
+                                        <option
+                                            value="{{$destination-> id }}">
+                                            {{$destination-> name}} ------------------  محافظة {{$destination->gouvernement->name}}
+                                        </option>
+                                        @endforeach
+                                    @endif
+                                    </select>
                                 </div>
                             </div>
+                            <div class="form-group row mb-2" id="price" name="price">
 
+                                </div>
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  صورة التذكرة  </label>
                                 <div class="col-lg-10 col-12">
                                      <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
                                 </div>
                             </div>
-
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
                                 <div class="col-lg-10 col-12">
@@ -136,10 +144,47 @@
 
 @endsection
 @section('js')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
 <script>
     function myFunction() {
             $(':button').prop('disabled', true);
         }
 </script>
+<script>
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+ $('.destinations').change(function() {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('getpricedestination') }}",
+                    data: {
+                        'id': value,
+                        'dependent': dependent
+                    },
+                    success: function(result) {
+                        $('#' + dependent).html(result);
+                    },
+                    error: function (reject) {
+                       console.log('error');
+                    }
 
+                });
+            }
+        });
+</script>
 @endsection

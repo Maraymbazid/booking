@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\DiscountVilla;
-
+use App\Models\ReservationVilla;
 class Villa extends Model
 {
     use HasFactory;
@@ -44,5 +44,9 @@ class Villa extends Model
     public function discounts()
     {
         return $this->hasMany(DiscountVilla::class,'villa_id');
+    }
+    public function reservations()
+    {
+        return $this->hasMany(ReservationVilla::class,'villa_id');
     }
 }

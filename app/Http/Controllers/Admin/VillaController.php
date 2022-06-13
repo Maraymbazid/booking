@@ -192,7 +192,7 @@ class VillaController extends Controller
                      $cartvilla->price=$finallPrice;
                      $cartvilla->begindate=$data->begindate;
                      $cartvilla->enddate=$data->enddate;
-                     $cartvilla->nationality=$data->nationality;
+                     $cartvilla->customrname=$data->customrname;
                      $cartvilla->numberdays=$data->numberdays; 
                      $cartvilla->number=$data->number; 
                      $cartvilla->personnes=$data->persones;
@@ -238,7 +238,7 @@ class VillaController extends Controller
                     $newreservation->price=$finallPrice;
                     $newreservation->Num='DE0001';
                     $newreservation->numerdays=$data->numberdays;
-                    $newreservation->nationality=$data->nationality;
+                    $newreservation->customrname=$data->customrname;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
                     $newreservation->enddate=$data->enddate; 
@@ -258,5 +258,92 @@ class VillaController extends Controller
             alert()->error('Oops....','this element does not exist .. try again');
             return redirect() ->back();
         }
+    }
+    public function getallorders()
+    {
+        $allorders = ReservationVilla::get();
+        return view('admin.ordervillas.index', compact('allorders'));
+    }
+    public function editordervilla($id)
+    {
+        $order = ReservationVilla::find($id);
+        if ($order)
+         {
+            return view('admin.ordervillas.edit', compact('order'));
+         } 
+        else 
+        {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function updateordervilla(Request $data)
+    {
+        $id = $data->id;
+        $order = $order = ReservationVilla::find($id);
+        if ($order) 
+        {
+            $update = $order->update([
+                'Note' => $data->note,
+                'status' => $data->status,
+            ]);
+            if ($update) {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+            } else {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
+        }
+         else 
+         {
+            $status = 500;
+            $msg  = ' تعذر التعديل هناك خطأ ما';
+        }
+        return response()->json([
+                'status' => $status,
+                'msg' => $msg,
+            ]);
+    }
+    public function deleteordervilla(Request $request)
+    {
+        $ordervilla = ReservationVilla::find($request->id);
+        if ($ordervilla)
+         {
+            $ordervilla->delete();
+            return response()->json([
+                    'msg'  => 'تم حذف الداتا بنجاح ',
+                    'id' => $request->id,
+                ], 200);
+        } else
+         {
+            return response()->json([
+                    'msg'  => ' تعذر الحذف هناك خطأ ما ',
+                ], 500);
+        }
+    }
+    public function showdetailvilla($id)
+    {
+        $order = ReservationVilla::find($id);
+        if ($order)
+         {
+            return view('admin.ordervillas.detail', compact('order'));
+        } 
+        else 
+        {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function test()
+    {
+        $villa=Villa::find(8);
+        if($villa->discounts->count() > 0)
+        {
+            return $villa->discounts;
+        }
+        else
+        return 'no';
     }
 }

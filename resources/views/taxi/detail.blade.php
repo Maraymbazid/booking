@@ -24,56 +24,39 @@
         </p>
 
         <table>
-            <h4 class='text-center'> تأكيد حجز غرفة  </h4>
+            <h4 class='text-center'> تأكيد حجز تاكسي مطار  </h4>
             <thead>
                 <tr>
                 </tr>
             </thead>
 
 
-            <form method="POST" onsubmit="myFunction()"
-                action="{{ route('confirmorder' ,  $carttaxi->taxi_id ) }}">
+            <form method="POST" id="confirmordertaxi">
                 @csrf
-                @method('POST')
                 <tbody>
                     <tr class='text-center border border-light'>
-                        <td>  اسم السياره  </td>
+                        <td>  اسم  التاكسي  </td>
                         <td>  {{$carttaxi->taxi_name}}  </td>
                     </tr>
                     <tr class='text-center border border-light'>
-                        <td> نوع السياره   </td>
+                        <td> نوع  التاكسي   </td>
                         <td> {{$carttaxi->model}} </td>
                     </tr>
                     <tr class='text-center border border-light'>
-                        <td> السعر فى اليوم      </td>
+                        <td> السعر        </td>
                         <td> {{$carttaxi->price}} </td>
                     </tr>
-                    {{-- <tr class='text-center border border-light'>
-                        <td> تكلفة الاقامة لليوم  </td>
-                        <td> {{$order->oneday }} </td>
-                    </tr> --}}
-
-                    {{-- <tr class='text-center border border-light'>
-                        <td> الخصم </td>
-                        <td>{{$order->discount}} </td>
-                    </tr> --}}
-
-                    {{-- <tr class='text-center border border-light'>
-                        <td> التكلفة الاجمالية  </td>
-                        <td> {{ $order->price}} </td>
-                    </tr> --}}
-
                     <tr class='text-center border border-light'>
                         <td> رقم الواتساب </td>
                         <td> {{$carttaxi->phone}} <input type="hidden" name="phone" value="{{$carttaxi->phone}}" /> </td>
                     </tr>
                     <tr class='text-center border border-light'>
-                        <td>  الجنسية   </td>
-                        <td>{{$carttaxi->nationality}} <input type="hidden" name="nationality" value="{{$carttaxi->nationality}}" /> </td>
+                        <td>  اسم الشخص المعني بالحجز   </td>
+                        <td>{{$carttaxi->customrname}} <input type="hidden" name="customername" value="{{$carttaxi->customrname}}" /> </td>
                     </tr>
                     <tr class='text-center border border-light'>
                         <td>  الوجهه     </td>
-                        <td> {{$carttaxi->destination}} <input type="hidden" name="destination" value="{{$carttaxi->destination}}" /> </td>
+                        <td> {{$carttaxi->destination_name}} <input type="hidden" name="destination" value="{{$carttaxi->destination_name}}" /> </td>
                     </tr>
                     <tr class='text-center border border-light'>
                         <td>  تاريخ الوصول     </td>
@@ -89,8 +72,8 @@
                         <td> @if($carttaxi->chauffeur == 0) بدون سائق     @else مع سائق    @endif <input type="hidden" name="chauffeur" value="{{$carttaxi->chauffeur}}" /> </td>
                     </tr>
                     <input type="hidden" name="ticket" value="{{ $carttaxi->ticket}}" />
-
-
+                    <input type="hidden" name="id" value="{{ $carttaxi->taxi_id}}" />
+                    <input type="hidden" name="destination_id" value="{{$carttaxi->destination_id}}" />
                 </tbody>
                 <tfoot>
                     <tr>
@@ -108,23 +91,6 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @endsection
 @section('js')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -132,33 +98,16 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-{{-- <script>
-        $(document).on('click', '.confirm-order', function (e) {
+<script>
+        $('#confirmordertaxi').submit(function(e) {
              e.preventDefault();
-             var taxi_id = $(this).attr('taxi_id');
-             var nationality=document.getElementById("nationality").getAttribute('value');
-             var deliveryplace=document.getElementById("deliveryplace").getAttribute('value');
-             var destination=document.getElementById("destination").getAttribute('value');
-             var datearrive=document.getElementById("datearrive").getAttribute('value');
-             var phone=document.getElementById("phone").getAttribute('value');
-             var chauffeur=document.getElementById("chauffeur").getAttribute('value');
-             var ticket ="{{$carttaxi->ticket}}";
+             let formData = new FormData(this);
             $.ajax({
                 type: 'post',
-                url: "{{route('confirmorder')}}",
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id' :taxi_id,
-                    'nationality':nationality,
-                    'deliveryplace':deliveryplace,
-                    'destination':destination,
-                    'datearrive':datearrive,
-                    'phone':phone,
-                    'chauffeur':chauffeur,
-                    'ticket':ticket,
-                    'phone':phone,
-
-                },
+                url: "{{route('confirmordertaxi')}}",
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: (response) => {
                     if (response) {
                     Swal.fire({
@@ -168,11 +117,12 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
+                        window.location.href='{{ route('userIndexTax')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');
                 }
             });
         });
-    </script> --}}
+    </script> 
     @endsection

@@ -17,7 +17,7 @@ class AdminController extends Controller
        if (auth()->guard('admin')->attempt(['email' => $request->input("email"), 'password' => $request->input("password")])) {
             return redirect()->route('adminHome');
        }
-       return redirect()->back()->with(['error' => 'the Credentials do not match records ']);
+       return redirect()->back()->with(['error' => 'the Credentials does not match records ']);
    }
 
 }

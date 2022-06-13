@@ -16,7 +16,7 @@ class ReservationCar extends Model
         'user_id',
         'car_id',
         'price',
-        'nationality',
+        'customrname',
         'deliveryplace',
         'receivingplace',
         'numberdays',

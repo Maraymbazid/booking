@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Http\Traits\media;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ReservationCar;
@@ -149,7 +148,7 @@ class CarController extends Controller
                      $cartcar->modal=$car->model;
                      $cartcar->price=$finallPrice;
                      $cartcar->deliveryplace=$data->deliveryplace;
-                     $cartcar->nationality=$data->nationality;
+                     $cartcar->customrname=$data->customrname;
                      $cartcar->date=$data->date;
                      $cartcar->receivingplace=$data->receivingplace;
                      $cartcar->numberdays=$data->numberdays;
@@ -191,14 +190,14 @@ class CarController extends Controller
             $newreservation->price=$finallPrice;
             $newreservation->Num='DE0001';
             $newreservation->deliveryplace=$data->deliveryplace;
-            $newreservation->nationality=$data->nationality;
+            $newreservation->customrname=$data->customrname;
             $newreservation->receivingplace=$data->receivingplace;
             $newreservation->date=$data->date;
             $newreservation->numberdays=$data->numberdays;
             $newreservation->number=$data->number;
             $newreservation->status='pending';
             $newreservation->save();
-            return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
+            return response()->json(['msg' => 'تم حفظ بيانتك بنجاح',], 200);
 
         }
         else

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TaxiController;
@@ -17,18 +16,14 @@ use App\Http\Controllers\Admin\GouvernementController;
 use App\Http\Controllers\Admin\DiscountVillaController;
 use App\Http\Controllers\Admin\MeetingSallesController;
 use App\Http\Controllers\Admin\DiscountApartementController;
-
 use App\Http\Controllers\Admin\DiscountCarController;
-
+use App\Http\Controllers\Admin\DestinationController;
 Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 });
 Route::group(['middleware' => 'auth:admin'], function () {
-    Route::get('/', function () {
-        return View('admin.layouts.lay');
-    });
-        Route::get('/home',  function()
+     Route::get('/adminHome',function()
     {
         return view('admin.layouts.lay');
     })->name('adminHome');
@@ -40,9 +35,6 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('updategouvernement', [GouvernementController::class, 'update'])->name('updategouvernement');
     Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
     Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
-
-
-
     Route::group(['prefix' => 'holels'], function () {
         Route::any('/', [HotelController::class, 'index'])->name('Hotels');
         Route::any('/edit/{id}', [HotelController::class, 'edit'])->name('editHotel');
@@ -118,8 +110,15 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/edit/{id}', [TaxiController::class, 'edit'])->name('editTaxi');
         Route::post('/store', [TaxiController::class, 'store'])->name('storeTaxi');
         Route::any('/update', [TaxiController::class, 'update'])->name('updateTax');
-
         Route::get('/', [TaxiController::class, 'index'])->name('indexTaxi');
+    }); 
+    Route::group(['prefix' => 'destination'], function () {
+        Route::get('/alldestination', [DestinationController::class, 'index'])->name('alldestination');
+        Route::get('/create', [DestinationController::class, 'create'])->name('createdestination');
+        Route::post('/store', [DestinationController::class, 'store'])->name('storedestination');
+        Route::post('delete-destination', [DestinationController::class, 'delete'])->name('delete-destination');
+        Route::get('editdestination/{id}', [DestinationController::class, 'edit'])->name('editdestination');
+        Route::post('updatedestination', [DestinationController::class, 'update'])->name('update-destination');
     });
     Route::group(['prefix' => 'discounthotel'], function () {
         Route::get('/alldiscounthotel', [DiscountHotel::class, 'index'])->name('alldiscounthotel');
@@ -172,12 +171,26 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('showdetailtaxi/{id}', [TaxiController::class, 'showdetailtaxi'])->name('showdetailtaxi');
         Route::post('deleteordertaxi', [TaxiController::class, 'deleteordertaxi'])->name('deleteordertaxi');
     });
+    Route::group(['prefix' => 'orderapartement'], function () {
+        Route::get('/allordersapartement', [ApartementController::class, 'getallorders'])->name('allordersapartement');
+        Route::get('editorderapart/{id}', [ApartementController::class, 'editorderapart'])->name('editorderapart');
+        Route::post('/updateorder', [ApartementController::class, 'updateorderapart'])->name('updateorderapart');
+        Route::get('showdetailapart/{id}', [ApartementController::class, 'showdetailapart'])->name('showdetailapart');
+        Route::post('deleteorderapart', [ApartementController::class, 'deleteorderapart'])->name('deleteorderapart');
+    });
+    Route::group(['prefix' => 'ordervilla'], function () {
+        Route::get('/allordersvilla', [VillaController::class, 'getallorders'])->name('allordersvilla');
+        Route::get('editordervilla/{id}', [VillaController::class, 'editordervilla'])->name('editordervilla');
+        Route::post('/updateorder', [VillaController::class, 'updateordervilla'])->name('updateordervilla');
+        Route::get('showdetailvilla/{id}', [VillaController::class, 'showdetailvilla'])->name('showdetailvilla');
+        Route::post('deleteordervilla', [VillaController::class, 'deleteordervilla'])->name('deleteordervilla');
+    });
 });
 
-Route::get('/test',  function()
-{
-    return view('testt');
-});
+// Route::get('/test',  function()
+// {
+//     return view('testt');
+// });
 //Route::get('/test', [CarController::class, 'test'])->name('test');
 Route::get('/home1',  function () {
     return view('layout.lay');

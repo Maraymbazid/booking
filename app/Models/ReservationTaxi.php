@@ -18,7 +18,7 @@ class ReservationTaxi extends Model
         'Num',
         'price',
         'deliveryplace',
-        'nationality',
+        'customername',
         'datearrive',
         'destination',
         'chauffeur',

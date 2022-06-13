@@ -7,7 +7,7 @@ use App\Http\Traits\media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ReservationTaxi;
-
+use App\Models\Admin\Destination;
 class TaxiController extends Controller
 {
     use media;
@@ -39,16 +39,6 @@ class TaxiController extends Controller
             ->get();
         return view('admin.taxi.index')->with('taxis', $taxis);
     }
-
-    public function userIndex()
-    {
-        $taxis = Taxi::get();
-        foreach ($taxis as $t) {
-            $t->image = url('/') . '/assets/admin/img/taxi/' . $t->image;
-        }
-        return view('taxi.taxi')->with('taxis', $taxis);
-    }
-
     public function edit($id)
     {
         $tax = DB::table('taxis')->where('id', $id)->first();
@@ -81,52 +71,73 @@ class TaxiController extends Controller
             return redirect()->route('Hotels');
         }
     }
+    public function userIndex()
+    {
+        $taxis = Taxi::get();
+        foreach ($taxis as $t) {
+            $t->image = url('/') . '/assets/admin/img/taxi/' . $t->image;
+        }
+        return view('taxi.taxi')->with('taxis', $taxis);
+    }
 
     public function oneTaxi($id)
     {
         $id = (int)$id;
-        if (is_integer($id)) {
+        if (is_integer($id))
+         {
             $taxi = Taxi::find($id);
-            if ($taxi) {
-                if (!empty($taxi->company_id)) {
-                    $taxi = DB::table('taxis')
-                        ->join('companies', 'taxis.company_id', '=', 'companies.id')
-                        ->select('taxis.*', 'companies.name as company')
-                        ->where('taxis.id', $id)->first();
-                    $taxi->image = url('/') . '/assets/admin/img/taxi/' . $taxi->image;
-                    return view('taxi.taxform')->with('tax',  $taxi);
-                } else {
-                    $taxi->image = url('/') . '/assets/admin/img/taxi/' . $taxi->image;
-                    return view('taxi.taxform')->with('tax',  $taxi);
+            $alldestinations=Destination::select()->get();
+            if ($taxi) 
+                {
+                        $taxi->image = url('/') . '/assets/admin/img/taxi/' . $taxi->image;
+                        return view('taxi.taxform',compact('taxi','alldestinations'));
                 }
-            } else {
+             else
+                {
                 alert()->error('Oops....', 'this element does not exist .. try again');
                 return redirect()->back();
-            }
-        } else {
+                }
+        } 
+        else
+            {
             alert()->error('Oops....', 'this element does not exist .. try again');
             return redirect()->back();
-        }
+            }
+    }
+    public function getpricedestination(Request $request)
+    {
+        $value = $request->get('id');
+        $dependent = $request->get('dependent');
+        $destination =Destination::find($value);
+        $output='<label for="place" class="col-sm-2 col-form-label">   سعر الواجهة  </label>
+                    <div class="col-lg-10 col-12">
+                        <input type="text" class="form-control" id="price" name="price" value="' .$destination->price . '">
+                    </div>';
+        echo $output;
+
     }
     public function checkorder(Request $data)
     {
         $id = $data->id;
         $id = (int)$id;
+        $id_destination=$data->destination;
         if (is_integer($id)) {
             $taxi = Taxi::find($id);
-            if ($taxi) {
+            $destination=Destination::find($id_destination);
+            if ($taxi && $destination) {
                 $image = $this->uploadMedia($data->ticket, 'taxi/tickets');
                 $carttaxi =  new \stdClass();
                 $carttaxi->user_id = 1;
                 $carttaxi->taxi_id = $id;
                 $carttaxi->taxi_name = $taxi->name;
-                $carttaxi->price = $taxi->price;
+                $carttaxi->price = $destination->price;
                 $carttaxi->model = $taxi->model;
                 $carttaxi->phone = $data->phone;
                 $carttaxi->deliveryplace = $data->deliveryplace;
-                $carttaxi->nationality = $data->nationality;
+                $carttaxi->customrname = $data->customrname;
                 $carttaxi->datearrive = $data->datearrive;
-                $carttaxi->destination = $data->destination;
+                $carttaxi->destination_name = $destination->name;
+                $carttaxi->destination_id= $destination->id;
                 $carttaxi->chauffeur = $data->chauffeur;
                 $carttaxi->ticket = $image;
                 return view('taxi.detail', compact('carttaxi'));
@@ -139,29 +150,39 @@ class TaxiController extends Controller
             return redirect()->back();
         }
     }
-    public function confirmorder(Request $data, $taxId)
+    public function confirmorder(Request $data)
     {
-        $id = (int)$taxId;
-        $cart = Taxi::find($id);
-        if ($cart) {
+        $id =$data->id;
+        $id = (int)$id;
+        $id_destination=$data->destination_id;
+        $taxi = Taxi::find($id);
+        $destination=Destination::find($id_destination);
+        if ($taxi && $destination) 
+        {
             $newreservation = new ReservationTaxi;
             $newreservation->user_id = 1;
             $newreservation->taxi_id = $id;
             $newreservation->Num = 'DE0001';
-            $newreservation->price = $cart->price;
+            $newreservation->price = $destination->price;
             $newreservation->number = $data->phone;
             $newreservation->deliveryplace = $data->deliveryplace;
-            $newreservation->nationality = $data->nationality;
+            $newreservation->customername = $data->customername;
             $newreservation->datearrive = $data->datearrive;
-            $newreservation->destination = $data->destination;
+            $newreservation->destination = $data->destination_id;
             $newreservation->chauffeur = $data->chauffeur;
-            $newreservation->status = 0;
+            $newreservation->status = 'pending';
             $newreservation->ticket = $data->ticket;
             $newreservation->save();
-
-            return redirect()->route('userIndexTax')->with(['status', 'تم ارسال الطلب بنجاح ']);
+            return response()->json([
+                'status' => 200,
+                'msg' => 'تم حفظ بيانتك بنجاح',
+            ]);
         } else {
-            return response()->json(['msg' => ' حدث هناك خطأ يرجى إعادة محاولة لاحقا '], 500);
+            return response()->json([
+                'status' => '500',
+                'msg' => ' حدث هناك خطأ يرجى إعادة محاولة لاحقا '
+            ]);
+    
         }
     }
     public function getallorders()
@@ -223,8 +244,10 @@ class TaxiController extends Controller
     public function showdetailtaxi($id)
     {
         $order = ReservationTaxi::find($id);
-        if ($order) {
+        $destination=Destination::find($order->destination);
+        if($order && $destination) {
             $order->ticket = url('/') . '/assets/admin/img/taxi/tickets/' . $order->ticket;
+            $order->destination=$destination->name;
             return view('admin.orderstaxiis.detail', compact('order'));
         } else {
             alert()->error('Oops....', 'this element does not exist .. try again');
