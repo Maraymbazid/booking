@@ -48,6 +48,8 @@ Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/hotelsorderd/{govId}', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');
     Route::get('/myorders', [HotelOrderController::class, 'userOrder'])->name('userOrder');
+    Route::any('/hotelorder/{hotelId}', [HotelOrderController::class, 'order'])->name('hotelorder');
+    Route::any('/storeorder/{hotelId}/{roomId}', [HotelOrderController::class, 'store'])->name('sotororderhoter');
 });
 Route::group(['prefix' => 'Apartement'], function () {
     Route::get('/userIndexApartement', [ApartementController::class, 'userIndex'])->name('userIndexApartement');
@@ -65,3 +67,12 @@ Route::group(['prefix' => 'villa'], function () {
 //Route::get('/test', [HotelController::class, 'test'])->name('test');
 Route::get('/test', [VillaController::class, 'test'])->name('test');
 
+//     Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla');
+//     Route::post('checkorderapartement', [VillaController::class, 'checkordervilla'])->name('checkordervilla');
+//     Route::post('VillaController', [VillaController::class, 'confirmordervilla'])->name('confirmordervilla');
+
+
+// });
+
+//Route::get('/test1', [HotelController::class, 'test1'])->name('test1');
+//Route::get('/test', [TaxiController::class, 'test'])->name('test');

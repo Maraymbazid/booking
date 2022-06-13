@@ -22,7 +22,7 @@ class HotelOrderController extends Controller
             ->join('users', 'hotel_orders.user_id', 'users.id')
             ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
             ->orderby('hotel_orders.id', 'DESC')->get();
-        // return $orders;
+
         return view('admin.hotels.orders', compact('orders'));
     }
     public function userOrder()
@@ -31,7 +31,7 @@ class HotelOrderController extends Controller
             ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
             ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
             ->join('users', 'hotel_orders.user_id', 'users.id')
-            ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id', 'hotels.name_ar as hotel_name', 'hotels.id', 'users.name as user_name', 'users.id')
+            ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
             ->where('hotel_orders.user_id',  '=', Auth::user()->id)
             ->orderby('hotel_orders.id', 'DESC')->get();
         return view('orders.index', compact('orders'));
@@ -104,7 +104,7 @@ class HotelOrderController extends Controller
         $order->total       = $finallPrice;
         $order->discount    = $dis;
         $order->status      = 0;
-        $order->note        = '';
+        $order->note        = 'معلق';
         $order->user_id    =  Auth::user()->id;
         $order->save();
 
@@ -144,12 +144,9 @@ class HotelOrderController extends Controller
                'note' => $data->note,
                'status'=> $data->status,
            ]);
-           if ($update)
-           {
- 
+            if ($update) {
                $status = 200;
-               $msg  = 'تم تعديل الداتا بنجاح ';
- 
+                $msg  = 'تم تعديل الداتا بنجاح ';
            }
            else
            {
@@ -190,6 +187,6 @@ class HotelOrderController extends Controller
     }
     public function showdetailhotel($id)
     {
-       
+
     }
 }

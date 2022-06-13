@@ -28,7 +28,7 @@
         height: 25px;
         width: 25px;
         background-color: #DCDCDC;
-       
+
       }
       /* specify the background color to be shown when hovering over checkbox */
       .script:hover input ~ .w3docs {
@@ -77,23 +77,34 @@
             <div class="container-fluid">
                 <h2 class="text-center display-4">تعديل غرفة
                 </h2>
+                <p> ملحوظه : عند تعديل صور الغرفه سوف يتم مسح جميع الصور الحاليه واستبدالها بالجديده برجاء الانتباه </p>
                 <hr>
                 <form method="POST" enctype="multipart/form-data" id='editroom' >
                     @csrf
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
                             <div class="row">
-
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label> اسم الغرفة</label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="name_ar" id="name_ar"
                                                 class="form-control form-control-lg" placeholder=""
-                                                areia-describedby="helper" value="{{$room->name_ar}}">  
+                                                areia-describedby="helper" value="{{$room->name_ar}}">
                                             <input type="hidden" value="{{$room->id}}"  name="id" >                                     </div>
                                        </div>
                                        <span class="invalid-feedback" role="alert" id='name_ar_error'> </span>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label>  عدد السرائر </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="number" name="beds" id=""
+                                                class="form-control form-control-lg" min="0" max="10"
+                                                areia-describedby="helper" value="{{$room->beds}}">
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='children_error'> </span>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
@@ -178,52 +189,52 @@
                                         <span class="invalid-feedback" role="alert" id='price_error'> </span>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>صورة الغرفة </label>
+                                        <label>صور الغرفة </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file" name="image" id="" class="form-control form-control-lg" title="{{$room->image}}" 
+                                            <input type="file" multiple name="images[]" id="" class="form-control form-control-lg" title="{{$room->image}}"
                                                 style="padding-bottom: 45px;" placeholder="{{$room->image}}" areia-describedby="helper">
                                         </div>
                                         <span id='image_error' role="alert" id='price_error' class="invalid-feedback"> </span>
                                     </div>
                                  </div>
-                                 <div class="col-md-4 col-12"> </div> 
+                                 <div class="col-md-4 col-12"> </div>
                                  @foreach($NamesServices as $name)
                                  @if(isset($services))
                                  <label style="color:black; font-size:18px; margin-right:20px;"> {{$name->name}}  </label>
-                                 <div class="col-md-12 col-12"> </div> 
-                                                @foreach($services as $service) 
-                                                @if($service->name_id == $name->id)   
+                                 <div class="col-md-12 col-12"> </div>
+                                                @foreach($services as $service)
+                                                @if($service->name_id == $name->id)
                                                 <?php $i=0; ?>
-                                            <div class="row"> 
+                                            <div class="row">
                                                 <div class="form-group" style="">
                                                         <div class="" style="font-size:19.5px;">
                                                         @foreach($servicesids as $servicesid)
                                                         @if(($room->id == $servicesid->room_id) &&( $service->id ==$servicesid->service_id))
                                                         <?php $i=1;?>
-                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}}
                                                         <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple checked>
                                                         <span class="w3docs"></span> <br>
-                                                        </label> 
+                                                        </label>
                                                         @endif
-                                                        @endforeach  
+                                                        @endforeach
                                                         @if($i == 0)
-                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}} 
+                                                        <label class="script" style="color:black;margin-right:109px;">{{$service->name}}
                                                         <input type="checkbox" name="services[]" value="{{ $service->id}}" multiple >
                                                         <span class="w3docs"></span> <br>
                                                         </label>
                                                         @endif
-                                                        </div>       
+                                                        </div>
                                                </div>
                                             </div>
-                                            @endif  
-                                            @endforeach 
-                                            <div class="col-md-12 col-12"> </div> 
-                                            @endif 
+                                            @endif
                                             @endforeach
-                             <span class="invalid-feedback" role="alert" id='services_error'> </span>       
+                                            <div class="col-md-12 col-12"> </div>
+                                            @endif
+                                            @endforeach
+                             <span class="invalid-feedback" role="alert" id='services_error'> </span>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <button name="page" value="index" type="submit"
@@ -302,7 +313,7 @@
                     // var response = $.parseJSON(reject.responseText);
                     // $.each(response.errors, function(key, val) {
                     //     $("#" + key + "_error").text(val[0]);
-                    // })   
+                    // })
                     console.log('erro');
                 }
             });

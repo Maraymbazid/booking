@@ -99,7 +99,7 @@
                                                 <td> {{ $order->Num }}</td>
                                                 <td>Ahmed Adwe</td>
                                                 <td>
-                                                     <button type="button" class="btn btn-warning"> 
+                                                     <button type="button" class="btn btn-warning">
                                                           <a
                                                             href="{{ route('editordercar', $order->id) }}" class="">
                                                             <i  class="far fa-edit" aria-hidden="true"></i>
@@ -108,7 +108,7 @@
 
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-warning"> 
+                                                <button class="btn btn-warning">
                                                     <a href="{{ route('showdetailcar', $order->id) }}" class="">
                                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                                      </a>
