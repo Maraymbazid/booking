@@ -3067,17 +3067,6 @@ tbody td:after {
     }
 }
 
-tbody td:hover,
-.selected {
-    color: #fff;
-    border: none;
-}
-
-tbody td:hover:after,
-.selected:after {
-    background: #2a3246;
-}
-
 tbody td:active {
     -webkit-transform: scale(0.7);
     -ms-transform: scale(0.7);
@@ -3305,11 +3294,9 @@ select option {
 }
 
 .section {
-    position: relative;
     width: 100%;
     display: block;
     overflow: hidden;
-    height: 77vh;
 }
 
 .shadow-title {
@@ -3327,14 +3314,9 @@ select option {
 }
 
 .moving-image {
-    repeat: fixed;
     background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
+    background-position: center center;
+    height: 500px;
     width: 100%;
     opacity: 0.9;
 }
@@ -3541,7 +3523,7 @@ select option {
 
 .home {
     padding: 15px 0;
-    background-color: #eee;
+    background-color: rgb(255, 255, 255);
 }
 
 .title {
@@ -3549,9 +3531,10 @@ select option {
     text-align: center;
     font-size: 21px;
     font-weight: bolder;
-    background-color: #fff;
+    background-color: rgb(1 71 96);
+    color: white;
     margin: 20px 0px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 3px 8px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .cards {

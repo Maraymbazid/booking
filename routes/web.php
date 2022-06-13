@@ -29,7 +29,7 @@ Route::get('/tes2', function () {
 });
 Auth::routes();
 Route::get('/', function () {
-    return view('home');
+    return view('home2');
 });
 // ->middleware(['auth', 'verified']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);

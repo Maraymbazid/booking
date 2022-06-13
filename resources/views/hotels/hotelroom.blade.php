@@ -51,16 +51,28 @@ body{
 
 </style>
 @endsection
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"  style="background-image: url({{$hotel->cover}});"></div>
+</div>
+
+
+
 @section('content')
-@section('pagetitle' )  {{$hotel->name_ar}} @endsection
-@section('background' ) style="background-image: url({{$hotel->cover}});" @endsection
+@include('layout.nav2')
+<div class="title">
+    {{$hotel->name_ar}}
+</div>
+
+
+
 
 
                 <div class="container" >
                     <div class="row">
                     @foreach ($main_services as $main)
-                        <div class="col-3">
-                            <ul class='ul'  style="text-align: right"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
+                        <div class="col-md-2 col-4">
+                            <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
                                 @foreach ($hotel->SubServices as $hsub)
                                     @if($hsub->MainSer->id == $main->id )
                                     <li style="text-align: right">
@@ -75,40 +87,51 @@ body{
                 </div>
 
 
-                <div class="container" id='content' >
 
-                        {{-- <form  class="parent">
+                <div id='content' >
+                    <div class="mayati">
+                        <div class="container">
+                            <h3 class="mayati-title">
+                                إملأ البيانات ثم اختر الغرفه (الخصم يطبق فى الصفحة التالية)
+                            </h3>
+                            <div class="row mb-5 form">
+                                    <div class="col-md-6 col-12 ">
+                                        <label  class="form-group text-capitalize m-1 "> الاسم</label>
+                                        <input v-model='name' type="text" class="form-control" placeholder=" تأكيد الحجز باسم" >
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label  class="form-group text-capitalize m-1 "> الواتساب </label>
+                                        <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
+                                        <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ الوصول </label>
+                                        <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
+                                    </div>
+                                    <div class="col-md-12 col-12">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة </label>
+                                        <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!--
+                         <form  class="parent">
 
                                 <input  type="text"  placeholder=" تأكيد الحجز بأسم">
                                 <input  type="number"  placeholder=" رقم واتساب للتواصل   ">
                                 <input type='number'  placeholder="عدد الأيام">
                                 <input    placeholder="تاريخ الوصول"><br>
                                 <input  placeholder="تاريخ المغادرة">
-                        </form> --}}
-                    <div class="row mb-5 form">
-                            <div class="col-md-6 col-12 ">
-                                <label  class="form-group text-capitalize m-1 "> الاسم</label>
-                                <input v-model='name' type="text" class="form-control" placeholder=" تأكيد الحجز باسم" >
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <label  class="form-group text-capitalize m-1 "> الواتساب </label>
-                                <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
-                                <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <label  class="form-group text-capitalize m-1 "> تاريخ الوصول </label>
-                                <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة </label>
-                                <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
-                            </div>
-                    </div>
+                        </form> -->
+
+                    <div class="container">
+
                     <div class="row mt-5" v-for='room in v2'>
-                            {{-- <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
+                            <!-- {{-- <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
                                 <div class="container" >
                                     <div class="carousel-inner col-lg-6">
                                         <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
@@ -124,55 +147,104 @@ body{
                                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                   <span class="sr-only">Next</span>
                                 </button>
-                              </div> --}}
+                              </div> --}} -->
 
                         <div class="col-lg-3 border ">
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
+                            <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                                            <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
+                                            <i class="far fa-images"></i> المزيد من الصور
+                                            </a>
+                                                <div class="modal fade" :id="'image'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content " style="text-align:center">
+                                                            <p style="margin-top:10px">
+                                                                <i class="far fa-images"></i>  صور الغرفه
+                                                            </p>
+                                                            <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
+                                                                    <img class="d-block w-100" :src="i.name"  alt="First slide">
+                                                                    </div>
+                                                                </div>
+                                                                <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                </a>
+                                                                <a class="carousel-control-next" :href="'#slide'+ room.id" role="button" data-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                    <span class="sr-only">Next</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                            </p>
                         </div>
+                        <!-- <div v-show='adawe' class="pop">
+                        hiiiiiiiiiiii
+                        </div> -->
                         <div class="col-lg-9 ">
 
                             <div class="row">
 
                                 <div class="col-lg-5 hight border">
-                                    <p class="title-des mt-3 "> @{{room.name_ar}} </p>
-                                    {{-- <p class="title-des">يشمل الحجز:</p> --}}
+                                    <p class="title-desS mt-2 "> @{{room.name_ar}} </p>
+                                    <p class="title-des">خصم :</p>
                                     <div class="boxes">
                                         <div class="row">
-                                            <div class="para col-lg-6 col-3 m-1" v-for='r in room.discount'>
-                                                <p class="title-des-left p-1">   خصم @{{r.discount}}%     </p>
+                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
+                                                <p class="title-des-left p-1">
+                                                    2% لـ 5أيام
+                                                </p>
+                                                <!-- خصم @{{r.discount}}%  -->
+                                            </div>
+                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
+                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
+                                                <!-- خصم @{{r.discount}}%  -->
+                                            </div>
+                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
+                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
+                                                <!-- خصم @{{r.discount}}%  -->
+                                            </div>
+                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
+                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
+                                                <!-- خصم @{{r.discount}}%  -->
                                             </div>
                                         </div>
 
                                         <ul class="ul">
-                                            <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-primary mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
+                                            <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
                                                 مميزات الغرفة
-                                          </button>
-                                                <div class="modal fade" :id="'togle'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                      <div class="modal-content">
-                                                        <div class="modal-header">
-                                                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                          </button>
+                                            </button>
+
+
+                                                    <div class="modal fade" :id="'togle'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @foreach(\App\Models\Admin\NameServices::all() as $main2)
+                                                                <ul>
+                                                                <h5> {{$main2->name}} </h5>
+                                                                    <li v-for='ser in room.services'  v-if='ser.name_id === {{$main2->id}}'>
+                                                                        @{{ser.name}}
+                                                                    </li>
+                                                                </ul>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            @foreach(\App\Models\Admin\NameServices::all() as $main2)
-                                                            <ul>
-                                                               <h5> {{$main2->name}} </h5>
-                                                                <li v-for='ser in room.services'  v-if='ser.name_id === {{$main2->id}}'>
-                                                                    @{{ser.name}}
-                                                                </li>
-                                                            </ul>
-                                                            @endforeach
                                                         </div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                      </div>
                                                     </div>
-                                                  </div>
                                                 {{-- @endforeach --}}
                                                 {{-- <li><i class="fa-solid fa-wifi"></i> واي فاي </li>
                                                 <li><i class="fa-solid fa-fan"></i> تكييف </li>
@@ -200,12 +272,13 @@ body{
                                             <i class="fa-solid fa-circle-info"></i>
                                             المبلغ الإجمالي ل 1 ليلة (شاملاً ضريبة القيمة المضافة)
                                         </span>
-                                        <p class="title-des">المجموع للإقامة:</p>  @{{daycount *  room.price}}
+                                        <hr>
+                                        <span class="title-des">المجموع للإقامة:</span>  <span>@{{daycount *  room.price}}</span>
 
                                     </div>
                                 </div>
                                 <div class="col-lg-2 hight border">
-                                   <p class="title-des">حجز:</p>
+                                <p class="title-des">حجز:</p>
                                     <form class="boxes" action="{{route('hotelorder',$hotel->id )}}" method="POST" >
                                     <div style="display: none">
                                         @csrf
@@ -216,13 +289,14 @@ body{
                                         <input type="text"  name='whtsapp' v-model="whtsapp" value="">
                                         <input type="text"  name='roomId'  :value="room.id">
                                     </div>
-                                        <button type="submit" @click='sendOrder' class="btn btn-danger mt-2">احجز الان </button>
+                                        <button type="submit" @click='sendOrder' class="btn btn-danger mt-2 ">احجز الان </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row  mx-5">
+                    </div>
+                    <!-- {{-- <div class="row  mx-5">
 
 
                         <div class="col-lg-12 ">
@@ -276,17 +350,23 @@ body{
                         </div>
 
 
-                    </div> --}}
+                    </div> --}} -->
 
+                        <div class="title">
+                            مكان الفندق
+                        </div>
+                        <div class="container">
 
+                        <iframe class='mt-5' src='{{$hotel->location}}' width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
 
-                    <iframe class='mt-5' src='{{$hotel->location}}' width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
                 </div>
             </div>
         </div>
-
+        @include('layout.footer')
 @endsection
+
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -312,6 +392,7 @@ body{
                 'checkout':'',
                 'name' : '',
                 'whtsapp' : '',
+                'adawe' : false,
                 'erorrs' : []
             },
             methods:{

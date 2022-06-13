@@ -1,7 +1,15 @@
 @extends('layout.flay')
 
-@section('pagetitle','فنادق')
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+</div>
 @section('content')
+@include('layout.nav2')
+<div class="title">
+      الرئيسية
+</div>
+
 
 
 <div class="container" id='gouvernements'>
@@ -56,7 +64,7 @@
 
     </div>
 </div>
-
+@include('layout.footer')
 @endsection
 
 @section('js')
@@ -123,3 +131,4 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
 </script>
 
 @endsection
+

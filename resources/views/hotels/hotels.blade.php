@@ -1,9 +1,13 @@
 @extends('layout.flay')
-
-@section('pagetitle','فنادق')
-@section('background' ) style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);" @endsection
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+</div>
 @section('content')
-
+@include('layout.nav2')
+<div class="title">
+    فنادق
+</div>
 
 <div class="container" id='gouvernements'>
     <div class="row mb-3">
@@ -57,9 +61,9 @@
 
     </div>
 </div>
+@include('layout.footer')
 
 @endsection
-
 @section('js')
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
