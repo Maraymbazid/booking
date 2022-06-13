@@ -82,7 +82,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center">
+                                <table id="rooms" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
                                             <th> الاسم بالعربي  </th>
@@ -107,7 +107,6 @@
                                                 </button>
                                             </a>
                                         </td>
-
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -128,7 +127,7 @@
 @section('js')
     <script>
         $(function() {
-            $("#example1").DataTable({
+            $("#rooms").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
@@ -182,7 +181,7 @@
                                 title: response.msg,
                                 showConfirmButton: false,
                                 timer: 1500,
-                                type: "danger",  
+                                type: "danger",
                                 });
                          }
                     });

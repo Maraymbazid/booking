@@ -1,4 +1,4 @@
-@extends('layout.lay')
+@extends('layout.flay')
 @section('css')
 <style>
     input {
@@ -11,20 +11,19 @@
         border-bottom: 1px solid #222;
 
     }
-
 </style>
 @endsection
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"   style="background-image: url({{$car->image}});"></div>
+</div>
 @section('content')
-
-
-        <div class="option pb-5">
-            <div class="image-option-games">
-                <img src="{{$car->image}}" width="100%" ;
-                    style="border-radius: 25px 25px 0px 0px;">
-            </div>
-            <div class="option-description">
-                <p class="option-text"> </p>
-                @if (session()->has('success'))
+@include('layout.nav2')
+<div class="title">
+    {{$car->name}}
+</div>
+      <div class="container">
+                {{-- @if (session()->has('success'))
                 <div class="alert alert-success text-center" role="alert">
                     {{ session()->get('success') }}
                 </div>
@@ -32,48 +31,52 @@
                 <div class="alert alert-danger text-center" role="alert">
                     {{ session()->get('error') }}
                 </div>
-                @endif
-                <hr>
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">السيارة</th>
-                            <th scope="col">الموديل  </th>
-                            <th scope="col">سعر اليوم </th>
-                            @if($car->company)
-                            <th scope="col"> شركة </th>
-                            @endif
-                            @if($car->discount)
-                            @foreach($car->discount as $discount)
-                            <th scope="col"> الخصم </th>
-                            @endforeach
-                            @endif
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <form method="post" onsubmit="myFunction()"
-                            {{-- action="{{ route('ordercheck', ['one' =>  encrypt(), 'tow' =>  encrypt()]) }}" --}}
-                            enctype="multipart/form-data">
-                            @csrf
-                            <tr>
-                                <td data-label="اسم السيارة">{{$car->name}}</td>
-                                <td data-label="موديل السيارة">
-                                    {{$car->model}}
-                                </td>
-                                <td data-label="السعر"> {{$car->price}} </td>
-                                @if($car->company)
-                                <td>{{$car->company->name}}  </td>
-                                @endif
-                                @if($car->discount)
-                                @foreach($car->discount as $discount)
-                                <td> %{{$discount->rate}} </td>
-                                @endforeach
-                                @endif
-                            </tr>
-                        </form>
-                    </tbody>
-                </table>
+                @endif --}}
+
                 <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12" >
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">السيارة</th>
+                                    <th scope="col">الموديل  </th>
+                                    <th scope="col">سعر اليوم </th>
+                                    @if($car->company)
+                                    <th scope="col"> شركة </th>
+                                    @endif
+                                    @if($car->discount)
+                                    <th scope="col"> الخصم </th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <td data-label="اسم السيارة">{{$car->name}}</td>
+                                        <td data-label="موديل السيارة">
+                                            {{$car->model}}
+                                        </td>
+                                        <td data-label="السعر"> {{$car->price}} </td>
+                                        @if($car->company)
+                                        <td>{{$car->company->name}}  </td>
+                                        @endif
+                                        @if($car->discount)
+
+                                        <td> <ul>
+                                            @foreach($car->discount as $discount)
+                                                    <li>  %{{$discount->rate}}</li>
+                                            @endforeach
+                                            </ul>
+                                        </td>
+
+
+                                        @endif
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+
                     <div class="row mt-5">
                     <div class="col">
                         <form method="post" action="{{route('checkordercar')}}">
@@ -129,8 +132,7 @@
                 </div>
             </div>
         </div>
-
-
+@include('layout.footer')
 @endsection
 @section('js')
 <script>

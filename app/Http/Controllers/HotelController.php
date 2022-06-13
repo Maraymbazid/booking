@@ -152,6 +152,7 @@ class HotelController extends Controller
     //     $hotel->services()->attach(12);
     // }
 
+
     public function userIndex()
     {
         return view('hotels.hotels');
@@ -218,12 +219,12 @@ class HotelController extends Controller
         $main_services = MainServicesHotel::all();
         return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
     }
-    public function test()
+  
+    public function showroom($id)
     {
-        $encryptedValue = '$2y$10$64mlLfYlDA13qsh.UdD.2uhxgD/XB2.9IIEdGNkH78PvtKLNgd6NG';
- 
-        $secret = Crypter::encrypt('some text here'); 
+        $hotel = Hotel::with(['SubServices.MainSer' => function ($q) {
+            // $q->groupBy('MainSer.main_service_id');
+        }])->find($id);
+        $rooms = $hotel->rooms;
     }
- 
-
 }

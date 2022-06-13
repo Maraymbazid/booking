@@ -254,4 +254,13 @@ class TaxiController extends Controller
             return redirect()->back();
         }
     }
+
+    public function taxApi()
+    {
+        $taxis = Taxi::get();
+        foreach ($taxis as $t) {
+            $t->image = url('/') . '/assets/admin/img/taxi/' . $t->image;
+        }
+        return response()->json(['taxis' => $taxis], 200);
+    }
 }

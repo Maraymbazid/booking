@@ -135,6 +135,18 @@ class MeetingSallesController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
+    }
 
+    public function meetingApi()
+    {
+        $MeetingRooms = MeetingSalles::get();
+        foreach ($MeetingRooms as $t) {
+            $t->image = url('/') . '/assets/admin/img/salles/' . $t->image;
+        }
+        return response()->json(['MeetingRooms' => $MeetingRooms], 200);
+    }
+    public function userindex()
+    {
+        return view('meeting.meetingroom');
     }
 }

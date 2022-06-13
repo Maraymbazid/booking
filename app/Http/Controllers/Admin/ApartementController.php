@@ -154,7 +154,7 @@ class ApartementController extends Controller
             if($apartement)
             {
                         $apartement->image =  url('/') . '/assets/admin/img/apartements/' . $apartement->image;
-                        return view('Apartements.ApartementForm')->with('apartement',$apartement);   
+                        return view('Apartements.ApartementForm')->with('apartement',$apartement);
             }
             else
             {
@@ -179,12 +179,12 @@ class ApartementController extends Controller
             {
                     $discount = DiscountApartement::where('apartement_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
-                    if ($discount->count() > 0) 
+                    if ($discount->count() > 0)
                     {
                         $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
                         $price = $apartement->price *  $data->numberdays;    //before dis
                         $finallPrice = $price - $dis;  // after dis
-                    } else 
+                    } else
                     {
                         $dis = 0;
                         $price = $apartement->price;
@@ -200,7 +200,7 @@ class ApartementController extends Controller
                      $cartapart->numberdays=$data->numberdays; 
                      $cartapart->number=$data->number; 
                      $cartapart->personnes=$data->persones;
-                     return view('Apartements.detail',compact('cartapart'));   
+                     return view('Apartements.detail',compact('cartapart'));
             }
             else
             {
@@ -225,12 +225,12 @@ class ApartementController extends Controller
             {
                     $discount = DiscountApartement::where('apartement_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
-                    if ($discount->count() > 0) 
+                    if ($discount->count() > 0)
                     {
                         $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
                         $price = $apartement->price *  $data->numberdays;    //before dis
                         $finallPrice = $price - $dis;  // after dis
-                    } else 
+                    } else
                     {
                         $dis = 0;
                         $price = $apartement->price;
@@ -245,9 +245,9 @@ class ApartementController extends Controller
                     $newreservation->customrname=$data->customrname;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
-                    $newreservation->enddate=$data->enddate; 
-                    $newreservation->phone=$data->number; 
-                    $newreservation->status='pending';	
+                    $newreservation->enddate=$data->enddate;
+                    $newreservation->phone=$data->number;
+                    $newreservation->status='pending';
                     $newreservation->save();
                     return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
             }
@@ -338,4 +338,12 @@ class ApartementController extends Controller
         }
     }
    
+    public function apartementApi()
+    {
+        $apartements = Apartement::get();
+        foreach ($apartements as $apart) {
+            $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
+        }
+        return response()->json(['apartements' => $apartements], 200);
+    }
 }

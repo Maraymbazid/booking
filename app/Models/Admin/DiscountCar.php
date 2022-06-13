@@ -8,10 +8,10 @@ use App\Models\Car;
 class DiscountCar extends Model
 {
     use HasFactory;
-    protected $table = 'discountcar'; 
+    protected $table = 'discountcar';
     protected $fillable = [
         'id',
-        'discountcar',
+        'number_days',
         'rate',
         'car_id',
         'created_at',

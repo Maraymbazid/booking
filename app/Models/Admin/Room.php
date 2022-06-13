@@ -23,7 +23,6 @@ class Room extends Model
         'children',
         'area',
         'price',
-        'image',
         'beds',
         'internet',
         'hotel_id',
@@ -48,11 +47,6 @@ class Room extends Model
     public function Discount()
     {
         return $this->hasMany(RoomDiscount::class, 'room_id');
-    }
-
-    public function discounts()
-    {
-        return $this->hasMany(HotelDiscount::class, 'room_id');
     }
 
     public function Images()

@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::group(['prefix' => 'holels'], function () {
         Route::any('/', [HotelController::class, 'index'])->name('Hotels');
         Route::any('/edit/{id}', [HotelController::class, 'edit'])->name('editHotel');
+        Route::any('/showroom/{id}', [HotelController::class, 'showroom'])->name('showroom');
         Route::any('/update', [HotelController::class, 'update'])->name('updateHotel');
         Route::any('/create', [HotelController::class, 'create'])->name('createHotel');
         Route::any('/store', [HotelController::class, 'store'])->name('storeHotel');

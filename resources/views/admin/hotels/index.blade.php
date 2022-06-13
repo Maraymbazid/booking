@@ -88,19 +88,23 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th> الاسم بالعربي  </th>
-
+                                            <th> الاسم بالعربي </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         @foreach ($hotels as $hotel)
                                             <tr>
                                                 <td> {{ $hotel->name_ar }}</td>
                                                 <td>
-                                                     <button  type="button" class="btn btn-warning"> <a
+                                                    <button  type="button" class="btn btn-success"> <a
+                                                            href="{{ route('showroom', $hotel->id) }}">
+                                                            <i  class="far fa-edit" aria-hidden="true"></i> </a>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button  type="button" class="btn btn-warning"> <a
                                                             href="{{ route('editHotel', $hotel->id) }}">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
                                                     </button>
