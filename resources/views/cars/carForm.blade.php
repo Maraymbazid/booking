@@ -16,9 +16,15 @@
 @endsection
 
 
-@section('pagetitle' )  {{$car->name}} @endsection
-@section('background' ) style="background-image: url({{$car->image}});" @endsection
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"   style="background-image: url({{$car->image}});"></div>
+</div>
 @section('content')
+@include('layout.nav2')
+<div class="title">
+    {{$car->name}}
+</div>
 
 
       <div class="container">
@@ -33,8 +39,8 @@
                 @endif --}}
 
                 <div class="container">
-                    <div class="row">
-                        <div class="col-12">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12" >
 
 
                         <table>
@@ -47,9 +53,7 @@
                                     <th scope="col"> شركة </th>
                                     @endif
                                     @if($car->discount)
-                                    @foreach($car->discount as $discount)
                                     <th scope="col"> الخصم </th>
-                                    @endforeach
                                     @endif
                                 </tr>
                             </thead>
@@ -64,9 +68,15 @@
                                         <td>{{$car->company->name}}  </td>
                                         @endif
                                         @if($car->discount)
-                                        @foreach($car->discount as $discount)
-                                        <td> %{{$discount->rate}} </td>
-                                        @endforeach
+
+                                        <td> <ul>
+                                            @foreach($car->discount as $discount)
+                                                    <li>  %{{$discount->rate}}</li>
+                                            @endforeach
+                                            </ul>
+                                        </td>
+
+
                                         @endif
                                     </tr>
                             </tbody>
@@ -110,12 +120,7 @@
                                      <input type="number" class="form-control" id="number" name="number" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                                 </div>
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  جنسية الزبون  </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="nationality" name="nationality" placeholder="  من فضلك ادخل جنسيتك ">
-                                </div>
-                            </div>
+
                             <div class="form-group row mb-2">
                                 <label for="place" class="col-sm-2 col-form-label">       </label>
                                 <div class="col-lg-10 col-12 p-2">
@@ -131,6 +136,10 @@
         </div>
 
 
+
+
+
+@include('layout.footer')
 @endsection
 @section('js')
 <script>

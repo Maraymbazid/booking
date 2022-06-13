@@ -296,62 +296,6 @@ body{
                         </div>
                     </div>
                     </div>
-                    <!-- {{-- <div class="row  mx-5">
-
-
-                        <div class="col-lg-12 ">
-                            <div class="row">
-                                <div class="col-lg-1 hight  p-1"> <h4> تفاصيل الحجز </h4></div>
-                                <div class="col-lg-6 hight ">
-
-                                    <div class="boxes">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-12 empty">
-                                                <label class="" > : عدد الاشخاص  </label>
-                                                <input type="text" class="">
-                                                <button type="button" class="btn btn-danger  "> + </button>
-                                                <button type="button" class="btn btn-danger "> - </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="boxes">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-12 empty">
-                                                <label class="ml-2" > : عدد الايام  </label>
-                                                <input type="text" class="">
-                                                <button type="button" class="btn btn-danger  "> + </button>
-                                                <button type="button" class="btn btn-danger "> - </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                                <div class="col-lg-3 hight ">
-                                    <p class="title-des">المجموع للإقامة:</p>
-                                    <div class="boxes">
-                                        <p class="how">{{$room->price}} $</p>
-                                        <span class="info">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                            المبلغ الإجمالي ل 1 ليلة (شاملاً ضريبة القيمة المضافة)
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 hight ">
-                                    <p class="title-des">حجز:</p>
-                                    <div class="boxes">
-                                        <button type="button" class="btn btn-danger">احجز الان</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div> --}} -->
-
                         <div class="title">
                             مكان الفندق
                         </div>
@@ -424,6 +368,7 @@ body{
                         return 0;
                     }
                 },
+
                 sendOrder: function(e){
                     this.erorrs  = []
                     this.validation(this.checkout , 'من فضلك تأكد من عدد الايام وتاريخ الوصول ')
@@ -431,7 +376,6 @@ body{
                     this.validation(this.daycount , ' عدد الايام مطلوب ')
                     this.validation(this.whtsapp , 'رقم الواتساب  او التليجرام مطلوب ')
                     this.validation(this.name , 'الاسم مطلوب ')
-
                     if (this.erorrs.length != 0) {
                         e.preventDefault();
                     }
