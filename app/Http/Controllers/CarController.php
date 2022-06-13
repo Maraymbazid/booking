@@ -293,4 +293,16 @@ class CarController extends Controller
             ],500);
         }
     }
+
+    public function carApi()
+    {
+        $cars = DB::table('cars')
+        ->join('companies', 'cars.company_id', '=', 'companies.id')
+        ->select('cars.*', 'companies.name as company')
+        ->get();
+        foreach ($cars as $car) {
+            $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
+        }
+        return response()->json(['cars' => $cars], 200);
+    }
 }

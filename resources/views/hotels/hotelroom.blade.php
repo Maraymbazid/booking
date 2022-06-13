@@ -1,41 +1,23 @@
-@extends('layout.lay')
+@extends('layout.flay')
 @section('css')
 <style>
 
-.parent {
-    display: flex;
-
-    margin: 20px auto;
-    /* border: 2px solid #112034; */
-    background-color: rgba(0, 16, 48, 0.80);
-    padding: 35px 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.parent * {
-    /* flex-basis: calc(98% / 4); */
-    /* margin-bottom: 13px; */
-    border-radius: 5px;
-    border: none;
-    padding: 10px 15px;
-    color: #999;
-    margin: 10px auto;
-}
 .img-back img{
     width: 100%;
 }
-    .title-des-left{
+body{
+    text-align: right;
+    font-family: "Open Sans", "Noto Naskh Arabic", Arial, Helvetica, sans-serif;
+}
+
+
+.title-des-left{
     text-align: center;
     margin: 0;
 }
 .para{
     margin: 0;
-    padding: 2px;
-    max-width:80px;
-    color:red;
-    font-size:16px;
+    padding: 1px;
     background-color: yellow;
 }
 .info{
@@ -47,7 +29,6 @@
 }
 .boxes , .photo{
     padding: 5px;
-    overflow: hidden;
 }
 
 .ul li{
@@ -58,98 +39,26 @@
 .description{
     display: inline;
 }
-.hight{
- max-height: 250px;
- overflow: hidden;
-}
 @media screen and (max-width: 1000px) {
     .ul li{
         display: inline;
+
     }
     .ul{
         margin: 10px 15%;
     }
   }
 
-@media screen and (max-width:710px){
-    .option-description{
-        margin-top:65px;
-    }
-    .ul{
-        display: inline-block;
-    }
-    .ul li{
-        display: block;
-        padding:0;
-    }
-    .ul li li{
-        display: block;
-    }
-}
-.blo{
-    display: block;
-}
-.empty input{
-    height: 40px;
-    border-radius: 10px;
-    padding-right: 5px;
-}
-.empty button{
-    height: 40px;
-    border-radius: 10px;
-    display: inline-block;
-}
-.empty label{
-    padding:5px;
-    background-color:rgb(228, 222, 222);
-}
 </style>
 @endsection
 @section('content')
+@section('pagetitle' )  {{$hotel->name_ar}} @endsection
+@section('background' ) style="background-image: url({{$hotel->cover}});" @endsection
 
 
-        <div class="option pb-5"  >
-            <div class="image-option-games">
-                <img src="{{$hotel->cover}}" width="100%" ;
-                    style="border-radius: 25px 25px 0px 0px;">
-            </div>
-            <div class="option-description"  id='content'>
-                <p class="option-text"> </p>
-                @if (session()->has('success'))
-                <div class="alert alert-success text-center" role="alert">
-                    {{ session()->get('success') }}
-                </div>
-                @elseif (session()->has('error'))
-                <div class="alert alert-danger text-center" role="alert">
-                    {{ session()->get('error') }}
-                </div>
-                @endif
-                <hr>
-
-
-                <table>
-                    <thead>
-                        <tr>
-
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr scope="row"><td colspan="4">
-                            {{$hotel->name_ar}}
-
-
-                            </td></tr>
-
-
-                    </tbody>
-                </table>
                 <div class="container" >
                     <div class="row">
-                        @foreach ($main_services as $main)
+                    @foreach ($main_services as $main)
                         <div class="col-3">
                             <ul class='ul'  style="text-align: right"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
                                 @foreach ($hotel->SubServices as $hsub)
@@ -161,27 +70,45 @@
                                     @endforeach
                             </ul>
                         </div>
-                        @endforeach
-
+                    @endforeach
                     </div>
                 </div>
 
 
-                <div class="container" >
-                    <div class="row">
-                        <form  class="parent">
-                       <input  type="text" v-model='name' placeholder=" تأكيد الحجز بأسم">
-                       <input  type="number" v-model="whtsapp" placeholder=" رقم واتساب للتواصل   ">
-                        <input type='number' @change='setDate' v-model='daycount' placeholder="عدد الأيام">
-                         <input  type='date' @change='setDate' v-model='arrival'  placeholder="تاريخ الوصول"><br>
-                         <input disabled  type='date' v-model='checkout' placeholder="تاريخ المغادرة">
-                        </form>
+                <div class="container" id='content' >
 
+                        {{-- <form  class="parent">
 
+                                <input  type="text"  placeholder=" تأكيد الحجز بأسم">
+                                <input  type="number"  placeholder=" رقم واتساب للتواصل   ">
+                                <input type='number'  placeholder="عدد الأيام">
+                                <input    placeholder="تاريخ الوصول"><br>
+                                <input  placeholder="تاريخ المغادرة">
+                        </form> --}}
+                    <div class="row mb-5 form">
+                            <div class="col-md-6 col-12 ">
+                                <label  class="form-group text-capitalize m-1 "> الاسم</label>
+                                <input v-model='name' type="text" class="form-control" placeholder=" تأكيد الحجز باسم" >
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label  class="form-group text-capitalize m-1 "> الواتساب </label>
+                                <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
+                                <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label  class="form-group text-capitalize m-1 "> تاريخ الوصول </label>
+                                <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة </label>
+                                <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
+                            </div>
                     </div>
-
-                    <div class="row  mt-5 mx-1" v-for='room in v2'>
-                            <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
+                    <div class="row mt-5" v-for='room in v2'>
+                            {{-- <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
                                 <div class="container" >
                                     <div class="carousel-inner col-lg-6">
                                         <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
@@ -197,7 +124,7 @@
                                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                   <span class="sr-only">Next</span>
                                 </button>
-                              </div>
+                              </div> --}}
 
                         <div class="col-lg-3 border ">
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
@@ -232,12 +159,12 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             @foreach(\App\Models\Admin\NameServices::all() as $main2)
-                                                            <li>
-                                                                {{$main2->name}}
+                                                            <ul>
+                                                               <h5> {{$main2->name}} </h5>
                                                                 <li v-for='ser in room.services'  v-if='ser.name_id === {{$main2->id}}'>
-                                                                        @{{ser.name}}
+                                                                    @{{ser.name}}
                                                                 </li>
-                                                                </li>
+                                                            </ul>
                                                             @endforeach
                                                         </div>
                                                         <div class="modal-footer">
@@ -260,7 +187,7 @@
                                     <div class="boxes">
                                         <p class="money"><i class="fa-solid fa-user"></i> تتسع لـ @{{room.adults}}</p>
                                         <p class="money"><i class="fas fa-child"></i></i> تتسع لـ @{{room.children}}</p>
-                                        <p class="money"><i class="fa-solid fa-bed"></i>     @{{room.beds}}</p>
+                                        <p class="money"><i class="fa-solid fa-bed"></i>    @{{room.beds}}</p>
                                     </div>
                                 </div>
 
@@ -273,8 +200,8 @@
                                             <i class="fa-solid fa-circle-info"></i>
                                             المبلغ الإجمالي ل 1 ليلة (شاملاً ضريبة القيمة المضافة)
                                         </span>
-                                        <p class="title-des">المجموع للإقامة:</p>
-                                        <p class="how"  >  @{{daycount *  room.price}} $</p>
+                                        <p class="title-des">المجموع للإقامة:</p>  @{{daycount *  room.price}}
+
                                     </div>
                                 </div>
                                 <div class="col-lg-2 hight border">

@@ -1,48 +1,87 @@
-@extends('layout.lay')
+
+
+@extends('layout.flay')
+
+@section('pagetitle',' حجز شقق')
 @section('content')
-<style>
-    .row{
-        margin-right: 20px !important;
-        margin-left: auto !important;
-    }
-    .company{
-        text-align: center;
-        /* background-color:rgb(30, 228, 218); */
-        color:rgb(5, 69, 88);
-        font-size: 20px;
-    }
-</style>
-<form class="form-inline my-2 my-lg-0 mr-lg-2">
-    <div class="input-group">
-        <input class="form-control" type="text" placeholder="Search for..." >
-        <span class="input-group-append">
-            <button class="btn btn-primary" type="button">
-                <i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div>
-</form>
-<br>
+
+
+
+<div class="container" id='apartements'>
 <div class="row">
-        @if (session('status'))
-            <div class="alert alert-success text-center">
-                {{ session('status') }}
+    <div class="col-lg-4 col-md-6 col-12" v-for='apartement in apartements'>
+        <div class="cards" @click='gotoOnehotel(apartement)'>
+            <div class="card-image" style="background-image: url('images/22443294.jpg');" v-bind:style="{ backgroundImage: 'url(' + apartement.image + ')' }">
             </div>
-            @elseif(session()->has('error'))
-            <div class="alert alert-danger text-center">
-                {{ session('error') }}
-            </div>
-        @endif
-            @foreach ($apartements as $apart)
-            <div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2">
-                <a href="{{route('userOneApartement', $apart->id )}}" style="text-decoration: none; ">
-                    <div class="card-image" style="background-image: url({{$apart->image}});">
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+                           @{{apartement.name_ar}}
+                        </p>
+                        <p class="loly"></p>
+                        <i class="fa-solid fa-location-dot"></i><span>  شركة</span>
+
+
                     </div>
-                    <p class="card-title">{{$apart->name_ar}}</p>
-                </a>
+                    <div class="col-4 border-me">
+
+                        <p class="no-1">حجزك</p>
+                        <p class="no-2">100$</p>
+                        <p class="no-3">لكل ليلة</p>
+                    </div>
+                </div>
             </div>
-            @endforeach
         </div>
+    </div>
+</div>
+</div>
 
 
+
+
+
+
+
+
+@endsection
+
+@section('js')
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
+
+<script>
+ apartements = new Vue({
+        'el' : '#apartements',
+        data:{
+            'loading' : false,
+            'apartements' : null
+        },
+        methods:{
+            apartementAp: function(){
+                this.loading = true;
+                url = '{{ route('apartementApi')}}',
+                    this.$http.get(url).then(response => {
+                        this.loading = false;
+                        this.apartements = response.data.apartements
+                    }, response => {
+                        // error callback
+                    })
+            },
+            gotoOnehotel: function(car){
+                url = '{{ route('userOneApartement' , ':id')}}',
+                url = url.replace(':id' , car.id)
+                window.location.href = url;
+            },
+        },
+        created(){
+            this.apartementAp();
+        }
+    });
+
+
+</script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layout.lay')
+@extends('layout.flay')
 @section('css')
     <link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
 <style>

@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HotelOrderController;
 use App\Http\Controllers\Admin\VillaController;
 use App\Http\Controllers\Admin\ApartementController;
+use App\Http\Controllers\Admin\MeetingSallesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,12 @@ use App\Http\Controllers\Admin\ApartementController;
 |
 */
 
+Route::get('/tes', function () {
+    return view('layout.flay');
+});
+Route::get('/tes2', function () {
+    return view('home2');
+});
 Auth::routes();
 Route::get('/', function () {
     return view('home');
@@ -29,15 +36,19 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'cars', 'middleware' => 'auth'], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
+    Route::get('/getcars', [CarController::class, 'carApi'])->name('getallcarsapi');
     Route::get('carDetails/{id}', [CarController::class, 'oneCar'])->name('userOneCar');
     Route::post('checkordercar', [CarController::class, 'checkordercar'])->name('checkordercar');
     Route::post('confirmordercar', [CarController::class, 'confirmordercar'])->name('confirmordercar');
+
 });
 Route::group(['prefix' => 'taxis', 'middleware' => 'auth'], function () {
     Route::get('/', [TaxiController::class, 'userIndex'])->name('userIndexTax');
     Route::get('detailsTaxi/{id}', [TaxiController::class, 'oneTaxi'])->name('userOneTax');
     Route::post('checkorder', [TaxiController::class, 'checkorder'])->name('checkorder');
     Route::post('confirmorder/{taxId}', [TaxiController::class, 'confirmorder'])->name('confirmorder');
+    Route::get('/taxApi', [TaxiController::class, 'taxApi'])->name('taxApi');
+
 });
 Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/', [HotelController::class, 'userIndex'])->name('userIndexhotel');
@@ -48,21 +59,29 @@ Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/myorders', [HotelOrderController::class, 'userOrder'])->name('userOrder');
     Route::any('/hotelorder/{hotelId}', [HotelOrderController::class, 'order'])->name('hotelorder');
     Route::any('/storeorder/{hotelId}/{roomId}', [HotelOrderController::class, 'store'])->name('sotororderhoter');
+    Route::any('/singleorderhotel/{orderId}', [HotelOrderController::class, 'showOneOrderFoUser'])->name('H_O');
 });
 Route::group(['prefix' => 'Apartement'], function () {
-    Route::get('/userIndexApartement', [ApartementController::class, 'userIndex'])->name('userIndexApartement');
+    Route::get('/', [ApartementController::class, 'userIndex'])->name('userIndexApartement');
     Route::get('userOneApartement/{id}', [ApartementController::class, 'oneApartement'])->name('userOneApartement');
     Route::post('checkorderapartement', [ApartementController::class, 'checkorderapartement'])->name('checkorderapartement');
     Route::post('confirmorder', [ApartementController::class, 'confirmorderapart'])->name('confirmorderapart');
+    Route::get('/apartementApi', [ApartementController::class, 'apartementApi'])->name('apartementApi');
+
 });
 Route::group(['prefix' => 'villa'], function () {
-    Route::get('/userIndexVilla', [VillaController::class, 'userIndex'])->name('userIndexVilla');
+    Route::get('/', [VillaController::class, 'userIndex'])->name('userIndexVilla');
     Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla');
     Route::post('checkorderapartement', [VillaController::class, 'checkordervilla'])->name('checkordervilla');
     Route::post('VillaController', [VillaController::class, 'confirmordervilla'])->name('confirmordervilla');
+    Route::get('villaApi', [VillaController::class, 'villaApi'])->name('villaApi');
 
 
 });
 
+Route::group(['prefix' => 'meeting'], function () {
+    Route::get('/', [MeetingSallesController::class, 'userindex'])->name('meetinguserindex');
+    Route::get('meeting', [MeetingSallesController::class, 'meetingApi'])->name('meetingaApi');
+});
 //Route::get('/test1', [HotelController::class, 'test1'])->name('test1');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');

@@ -150,7 +150,7 @@ class VillaController extends Controller
             if($villa)
             {
                         $villa->image = url('/') . '/assets/admin/img/villas/' . $villa->image;
-                        return view('villas.villaForm')->with('villa',$villa);   
+                        return view('villas.villaForm')->with('villa',$villa);
             }
             else
             {
@@ -175,12 +175,12 @@ class VillaController extends Controller
             {
                     $discount = DiscountVilla::where('villa_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
-                    if ($discount->count() > 0) 
+                    if ($discount->count() > 0)
                     {
                         $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
                         $price = $villa->price *  $data->numberdays;    //before dis
                         $finallPrice = $price - $dis;  // after dis
-                    } else 
+                    } else
                     {
                         $dis = 0;
                         $price = $villa->price;
@@ -193,10 +193,10 @@ class VillaController extends Controller
                      $cartvilla->begindate=$data->begindate;
                      $cartvilla->enddate=$data->enddate;
                      $cartvilla->nationality=$data->nationality;
-                     $cartvilla->numberdays=$data->numberdays; 
-                     $cartvilla->number=$data->number; 
+                     $cartvilla->numberdays=$data->numberdays;
+                     $cartvilla->number=$data->number;
                      $cartvilla->personnes=$data->persones;
-                     return view('villas.detail',compact('cartvilla'));   
+                     return view('villas.detail',compact('cartvilla'));
             }
             else
             {
@@ -221,12 +221,12 @@ class VillaController extends Controller
             {
                     $discount = DiscountVilla::where('villa_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
-                    if ($discount->count() > 0) 
+                    if ($discount->count() > 0)
                     {
                         $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
                         $price = $villa->price *  $data->numberdays;    //before dis
                         $finallPrice = $price - $dis;  // after dis
-                    } else 
+                    } else
                     {
                         $dis = 0;
                         $price = $villa->price;
@@ -241,9 +241,9 @@ class VillaController extends Controller
                     $newreservation->nationality=$data->nationality;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
-                    $newreservation->enddate=$data->enddate; 
-                    $newreservation->phone=$data->number; 
-                    $newreservation->status='pending';	
+                    $newreservation->enddate=$data->enddate;
+                    $newreservation->phone=$data->number;
+                    $newreservation->status='pending';
                     $newreservation->save();
                     return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
             }
@@ -258,5 +258,14 @@ class VillaController extends Controller
             alert()->error('Oops....','this element does not exist .. try again');
             return redirect() ->back();
         }
+    }
+
+    public function villaApi()
+    {
+        $villas = Villa::select()->get();
+        foreach ($villas as $t) {
+            $t->image = url('/') . '/assets/admin/img/villas/' . $t->image;
+        }
+        return response()->json(['villas' => $villas], 200);
     }
 }

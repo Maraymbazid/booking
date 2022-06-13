@@ -146,11 +146,7 @@ class HotelController extends Controller
             return redirect()->route('Hotels');
         }
     }
-    public function test()
-    {
-        $hotel = Hotel::find(7);
-        $hotel->services()->attach(12);
-    }
+
 
     public function userIndex()
     {
@@ -217,5 +213,13 @@ class HotelController extends Controller
         }
         $main_services = MainServicesHotel::all();
         return view('hotels.hotelroom', compact('hotel', 'rooms', 'main_services'));
+    }
+
+    public function showroom($id)
+    {
+        $hotel = Hotel::with(['SubServices.MainSer' => function ($q) {
+            // $q->groupBy('MainSer.main_service_id');
+        }])->find($id);
+        $rooms = $hotel->rooms;
     }
 }

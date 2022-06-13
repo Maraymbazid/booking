@@ -196,4 +196,16 @@ class HotelOrderController extends Controller
             ->first();
         return view('admin.hotels.singleorder', compact('order'));
     }
+    public function showOneOrderFoUser($id)
+    {
+        $order = DB::table('hotel_orders')
+        ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
+        ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
+        ->join('users', 'hotel_orders.user_id', 'users.id')
+        ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
+        ->where('hotel_orders.id', $id)
+            ->where('hotel_orders.user_id',  Auth::user()->id)
+            ->first();
+        return view('orders.singlehotelorder', compact('order'));
+    }
 }

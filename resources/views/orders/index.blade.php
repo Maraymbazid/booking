@@ -15,8 +15,7 @@
                     <thead>
                         <tr>
                             <th>  الاسم   </th>
-                            <th>   الفندق   </th>
-                            <th>   الغرفة   </th>
+
                             <th>   رقم الواتساب   </th>
                             <th>   عدد الايام    </th>
                             <th>   تاريخ الوصول     </th>
@@ -31,31 +30,17 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td> {{ $order->user_name }}</td>
-                                <td> {{ $order->hotel_name }}</td>
-                                <td> {{ $order->room_name }}</td>
+
                                 <td> {{ $order->whatsapp }}</td>
                                 <td> {{ $order->daycount }}</td>
                                 <td> {{ $order->arrival }}</td>
                                 <td> {{ $order->checkout }}</td>
                                 <td> {{ $order->total }} $</td>
-                                <td> {{ $order->discount }}$</td>
-
-
-                                {{-- <td>
-                                     <button  type="button" class="btn btn-warning"> <a
-                                            href="{{ route('editHotel', $hotel->id) }}">
-                                            <i  class="far fa-edit" aria-hidden="true"></i> </a>
-                                    </button>
-                                </td>
-                                <td>
-                                    <form action="{{ route('deleteHotel', $hotel->id) }}" method="post"
-                                        class="d-inline">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button class="btn btn-danger rounded"> <i class="fas fa-trash"></i></button>
-                                    </form>
-                                </td> --}}
-
+                                <td>   <button class="btn btn-warning">
+                                    <a href="{{ route('H_O', $order->id) }}" class="">
+                                       <i class="fa fa-eye" aria-hidden="true"></i>
+                                     </a>
+                                 </button></td>
                             </tr>
                         @endforeach
                     </tbody>
