@@ -1,34 +1,38 @@
-@extends('layout.lay')
+@extends('layout.flay')
 @section('css')
+    <link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
 <style>
-    input {
+.option-description{
+    max-width: 90%;
+    background-color:royalblue;
+    margin: 50px;
+}
 
-        outline: none !important;
-        text-align: center;
-        border-top: none;
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid #222;
 
-    }
 </style>
 @endsection
+@include('layout.nav')
+
 @section('content')
+<div class="title">
+     مراجعة الطلب
+</div>
 
 
-<div class="option">
 
-    <div class="option-description">
-        <p class="option-text">
 
+      <div class="container">
+          <div class="row">
+          <p class="option-text" style="text-align:center" >
+             <h4 > تأكيد حجز سياره  </h4>
         </p>
 
-        <table>
-            <h4 class='text-center'> تأكيد حجز السيارت  </h4>
-            <thead>
-                <tr>
-                </tr>
-            </thead>
+<table style="text-align:center">
+
+    <thead>
+        <tr>
+        </tr>
+    </thead>
 
 
             <form method="POST" id="confirmordercar">
@@ -54,7 +58,7 @@
                         <td> رقم الواتساب </td>
                         <td> {{$cartcar->number}} <input type="hidden" name="number" value="{{$cartcar->number}}" /> </td>
                     </tr>
-                    
+
                     <tr class='text-center border border-light'>
                         <td>  موقع إستلام السياره     </td>
                         <td> {{ $cartcar->receivingplace}} <input type="hidden" name="receivingplace" value="{{ $cartcar->receivingplace}}" /> </td>

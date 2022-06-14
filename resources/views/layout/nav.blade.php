@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger mg-b ">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{url('/')}}">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,8 +55,8 @@
 
                 <li class="nav-item lattel">
                     <a class="nav-link" style="
-                    font-weight: 100;" href="#">اتصل بنا</a>
-                    </li>
+                    font-weight: 100;" href="https://wa.me/212680695296?text=أهلاً،  السلام عليكم أبغى استفسر عن شئ فى موقعكم  "><i class="fab fa-whatsapp"> &nbsp &nbsp &nbsp</i> تواصل معنا</a>
+                </li>
             </ul>
 
         </div>
