@@ -40,7 +40,7 @@
 @section('content')
 @include('layout.nav2')
 <div class="title">
-     تاجير تاكسي 
+     تاجير تاكسي
 </div>
 
 
@@ -63,9 +63,9 @@
                     </div>
                     <div class="col-4 border-me">
 
-                        <p class="no-1">حجزك</p>
+                        <p class="no-1">متوسط </p>
                         <p class="no-2">100$</p>
-                        <p class="no-3">لكل ليلة</p>
+                        <p class="no-3"> لاسعارالرحلات</p>
                     </div>
                 </div>
             </div>

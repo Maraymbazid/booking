@@ -1,6 +1,6 @@
-@extends('layout.lay')
+
+@extends('layout.flay')
 @section('css')
-<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     input {
 
@@ -12,28 +12,24 @@
         border-bottom: 1px solid #222;
 
     }
-
 </style>
 @endsection
+@include('layout.nav')
+<div class="section">
+    <div class="moving-image"   style="background-image: url({{$taxi->image}});"></div>
+</div>
 @section('content')
+@include('layout.nav2')
+<div class="title">
+    {{$taxi->name}}
+</div>
+      <div class="container">
 
-        <div class="option pb-5">
-            <div class="image-option-games">
-                <img src="{{$taxi->image}}" width="100%" ;
-                    style="border-radius: 25px 25px 0px 0px;">
-            </div>
-            <div class="option-description">
-                <p class="option-text"> </p>
-                @if (session()->has('status'))
-                <div class="alert alert-success text-center" role="alert">
-                    {{ session()->get('status') }}
-                </div>
-                @elseif (session()->has('error'))
-                <div class="alert alert-danger text-center" role="alert">
-                    {{ session()->get('error') }}
-                </div>
-                @endif
-                <hr>
+
+
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12" >
                 <table>
                     <thead>
                         <tr>
@@ -53,9 +49,7 @@
                                     {{$taxi->model}}
                                 </td>
                                 <td>{{$taxi->company->name}}  </td>
-                                {{-- <td><a style="color: #fff;" href="#"> <button name="page" value="index"
-                                            class="btn btn-primary rounded form-control"> شراء
-                                        </button></a></td> --}}
+
                             </tr>
                         </form>
                     </tbody>

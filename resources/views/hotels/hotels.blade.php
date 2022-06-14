@@ -1,4 +1,7 @@
 @extends('layout.flay')
+
+
+
 @include('layout.nav')
 <div class="section">
     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>

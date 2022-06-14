@@ -165,7 +165,7 @@ body{
                                                             <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
                                                                 <div class="carousel-inner">
                                                                     <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
-                                                                    <img class="d-block w-100" :src="i.name"  alt="First slide">
+                                                                    <img class="d-block w-100 img-fluid " style="max-hight:50%" :src="i.name"  alt="First slide">
                                                                     </div>
                                                                 </div>
                                                                 <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
@@ -196,22 +196,12 @@ body{
                                         <div class="row">
                                             <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
                                                 <p class="title-des-left p-1">
-                                                    2% لـ 5أيام
+                                                    @{{r.discount}}% لـ 5أيام
                                                 </p>
-                                                <!-- خصم @{{r.discount}}%  -->
                                             </div>
-                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
-                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
-                                                <!-- خصم @{{r.discount}}%  -->
-                                            </div>
-                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
-                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
-                                                <!-- خصم @{{r.discount}}%  -->
-                                            </div>
-                                            <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
-                                                <p class="title-des-left p-1">     2% لـ 5أيام   </p>
-                                                <!-- خصم @{{r.discount}}%  -->
-                                            </div>
+
+
+
                                         </div>
 
                                         <ul class="ul">
@@ -224,7 +214,7 @@ body{
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                            <h5 class="modal-title" id="exampleModalLongTitle"> @{{ room.name_ar }} </h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>

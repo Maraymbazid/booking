@@ -46,8 +46,8 @@ Route::group(['prefix' => 'taxis'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/', [TaxiController::class, 'userIndex'])->name('userIndexTax');
     Route::get('detailsTaxi/{id}', [TaxiController::class, 'oneTaxi'])->name('userOneTax');
     Route::post('checkordertaxi', [TaxiController::class, 'checkorder'])->name('checkordertaxi');
-    Route::post('confirmorder', [TaxiController::class, 'confirmorder'])->name('confirmordertaxi'); 
-    Route::post('getpricedestination', [TaxiController::class, 'getpricedestination'])->name('getpricedestination'); 
+    Route::post('confirmorder', [TaxiController::class, 'confirmorder'])->name('confirmordertaxi');
+    Route::post('getpricedestination', [TaxiController::class, 'getpricedestination'])->name('getpricedestination');
     // Route::post('checkorder', [TaxiController::class, 'checkorder'])->name('checkorder');
     // Route::post('confirmorder/{taxId}', [TaxiController::class, 'confirmorder'])->name('confirmorder');
     Route::get('/taxApi', [TaxiController::class, 'taxApi'])->name('taxApi');
@@ -74,8 +74,8 @@ Route::group(['prefix' => 'Apartement'], function () {
 });
 Route::group(['prefix' => 'villa'], function () {
     Route::get('/', [VillaController::class, 'userIndex'])->name('userIndexVilla');
-    Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla'); 
-    Route::post('checkordervilla', [VillaController::class, 'checkordervilla'])->name('checkordervilla'); 
+    Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla');
+    Route::post('checkordervilla', [VillaController::class, 'checkordervilla'])->name('checkordervilla');
     Route::post('confirmordervilla', [VillaController::class, 'confirmordervilla'])->name('confirmordervilla');
     Route::get('villaApi', [VillaController::class, 'villaApi'])->name('villaApi');
 });
