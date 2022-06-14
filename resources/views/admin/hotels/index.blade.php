@@ -88,7 +88,9 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th> الاسم بالعربي </th>
+                                            <th> الاسم الفندق </th>
+                                            <th>  المحافظة </th>
+                                            <th>   إظهار الغرف   </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
@@ -97,11 +99,13 @@
                                         @foreach ($hotels as $hotel)
                                             <tr>
                                                 <td> {{ $hotel->name_ar }}</td>
+                                                <td> {{ $hotel->gouvernemente->name }}</td>
                                                 <td>
-                                                    <button  type="button" class="btn btn-success"> <a
-                                                            href="{{ route('showroom', $hotel->id) }}">
-                                                            <i  class="far fa-edit" aria-hidden="true"></i> </a>
-                                                    </button>
+                                                <button class="btn btn-warning"> 
+                                                    <a href="{{ route('afficherrooms', $hotel->id) }}" class="">
+                                                       <i class="fa fa-eye" aria-hidden="true"></i>
+                                                     </a>
+                                                 </button>
                                                 </td>
                                                 <td>
                                                     <button  type="button" class="btn btn-warning"> <a

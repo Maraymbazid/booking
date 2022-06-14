@@ -32,8 +32,9 @@ class GouvernementRequest extends FormRequest
     public function messages()
     {
         return  [
-            'name.required' => 'name is required',
-            'name.max'      => 'do not pass 60 caracters',
+            'name.required' => 'لا يمكن ترك اسم المحافظة فارغا',
+            'name.unique' => 'اسم هذه المحافظة يوجد سابقا',
+            'name.max'      => 'عدد الأحرف يتجاوز الحد المطلوب',
 
         ];
     }

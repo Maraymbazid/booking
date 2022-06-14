@@ -1,5 +1,4 @@
 @extends('admin.layouts.lay')
-@section('title', ' إضافة فندق ')
 @section('css')
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <link rel="stylesheet" href="{{ url('assest/admin/plugins/select2/css/select2.min.css') }}">
@@ -107,7 +106,12 @@
                 error: function (reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(name, msg) {
-                       $('#' + name + '_ar_error').text(msg[0]);
+                      // $('#' + name + '_ar_error').text(msg[0]);
+                      swal({
+                                title: msg[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                        //console.log('#' + name);
                     });
                 }

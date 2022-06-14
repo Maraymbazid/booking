@@ -78,47 +78,44 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"> الفنادق   </h3>
+                                <h3 class="card-title">  الغرف   </h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center">
+                                <table id="rooms" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                           <th>  اسم المحافظة  </th>
-                                            <th>  اسم الشقة  </th>
+                                            <th> الاسم بالعربي  </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($allapartements as $allapartement)
-                                            <tr class="apartementRow{{$allapartement->id}}">
-                                            <td> {{ $allapartement->gouvernemente->name }}</td>
-                                                <td> {{ $allapartement->name_ar }}</td>
-                                                <td>
-                                                     <button  type="button" class="btn btn-warning"> <a
-                                                            href="{{route('editapartement',$allapartement->id)}}">
-                                                            <i  class="far fa-edit" aria-hidden="true"></i> </a>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" apartement_id="{{ $allapartement->id}}">
-                                                   <i class="fas fa-trash"></i></button>
-                                                        </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-
+                                    @if($hotel->rooms->count() > 0)
+                                    @foreach ($hotel->rooms as $room)
+                                    <tr class="roomRow{{$room->id}}">
+                                        <td> {{ $room->name_ar }}</td>
+                                        <td>
+                                            <button  type="button" class="btn btn-warning"> <a
+                                                    href="{{ route('editroom', $room->id) }}" class="">
+                                                    <i  class="far fa-edit" aria-hidden="true"></i> </a>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="" class="button-delete" room_id="{{$room->id}}">
+                                                <button class="btn btn-danger rounded">
+                                                <i class="fas fa-trash"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @endif
+                                </tbody>
                                 </table>
-
-
-
                             </div>
                             <!-- /.card-body -->
                         </div>
-
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
@@ -127,54 +124,12 @@
             </div>
             <!-- /.container-fluid -->
         </section>
-
-
-
-
-
     </div>
-
-
-
 @endsection
 @section('js')
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script>
-        $(document).on('click', '.button-delete', function (e) {
-            e.preventDefault();
-             var apartement_id = $(this).attr('apartement_id');
-            $.ajax({
-                type: 'post',
-                url: "{{route('delete-apartement')}}",
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id' :apartement_id
-                },
-                success: (response) => {
-                    if (response) {
-                    $('.apartementRow'+response.id).remove();
-                    Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: response.msg,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                }}
-                , error: function (reject) {
-                    console.log('no'); 
-                }
-            });
-           // console.log(apartement_id);
-        });
-    </script>
     <script>
         $(function() {
-            $("#example1").DataTable({
+            $("#rooms").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
@@ -183,12 +138,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-
-
-
         Swal.bindClickHandler()
-
-
         Swal.mixin({
             title: 'هل تريد الاستمرار؟',
             icon: 'question',
@@ -199,6 +149,44 @@
             showCloseButton: true
         }).bindClickHandler('data-swal-toast-template')
     </script>
-
-
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script>
+                $(document).on('click', '.button-delete', function (e) {
+                    e.preventDefault();
+                    var room_id = $(this).attr('room_id');
+                    $.ajax({
+                        type: 'post',
+                        url: "{{route('delete-room')}}",
+                        data: {
+                            '_token': "{{csrf_token()}}",
+                            'id' :room_id
+                        },
+                        success: (response) => {
+                            if (response) {
+                            $('.roomRow'+response.id).remove();
+                            Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: response.msg,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                        }}
+                        , error: function (reject)
+                         {
+                            var response = $.parseJSON(reject.responseText);
+                            swal({
+                                title: response.msg,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                type: "danger",
+                                });
+                         }
+                    });
+                });
+            </script>
     @endsection

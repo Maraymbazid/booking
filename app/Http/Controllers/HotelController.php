@@ -25,7 +25,7 @@ class HotelController extends Controller
      */
     public function index()
     {
-        $hotels = DB::table('hotels')->get();
+        $hotels = Hotel::get();
         return view('admin.hotels.index', compact('hotels'));
     }
 
@@ -226,5 +226,18 @@ class HotelController extends Controller
             // $q->groupBy('MainSer.main_service_id');
         }])->find($id);
         $rooms = $hotel->rooms;
+    }
+    public function afficherrooms($id)
+    {
+        $hotel=Hotel::find($id);
+        if($hotel)
+        {
+            return view('admin.hotels.detailroom',compact('hotel'));
+        }
+        else
+        {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
     }
 }

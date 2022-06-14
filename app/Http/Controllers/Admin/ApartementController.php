@@ -49,7 +49,7 @@ class ApartementController extends Controller
     public function index()
     {
 
-        $allapartements=Apartement::select('id','name_ar')->get();
+        $allapartements=Apartement::select()->get();
         return view('admin.Apartments.index',compact('allapartements'));
     }
     public function delete(Request $request)

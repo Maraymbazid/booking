@@ -88,5 +88,5 @@ Route::group(['prefix' => 'meeting'], function () {
     Route::get('/', [MeetingSallesController::class, 'userindex'])->name('meetinguserindex');
     Route::get('meeting', [MeetingSallesController::class, 'meetingApi'])->name('meetingaApi');
 });
-//Route::get('/test1', [HotelController::class, 'test1'])->name('test1');
+Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
