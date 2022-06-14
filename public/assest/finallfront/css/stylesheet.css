@@ -3067,11 +3067,7 @@ tbody td:after {
     }
 }
 
-tbody td:active {
-    -webkit-transform: scale(0.7);
-    -ms-transform: scale(0.7);
-    transform: scale(0.7);
-}
+
 
 #today {
     color: #fff;
@@ -3136,11 +3132,14 @@ body {
 }
 
 .bg-danger {
-    background-color: #9d7e58 !important;
+    background-color: #014760 !important;
+    box-shadow: inset 0px 0px 2px #ffffff;
+
 }
 
 .mg-b {
-    padding-bottom: 0px;
+    padding: 10px;
+
 }
 
 .mg-l .nav-item {
@@ -3575,7 +3574,6 @@ select option {
 footer {
     padding: 20px;
     background-color: #999;
-    height: 70px;
     text-align: center;
     color: #fff;
     font-size: 22px;

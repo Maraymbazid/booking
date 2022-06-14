@@ -36,11 +36,32 @@
                 <!-- Link to page
                 	================================================== -->
                     <div class="home">
-
-
                         @yield('content')
-
                     </div>
+
+    <footer class="footer">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-12">
+                <h3>dsds</h3>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-12">
+                ssss
+            </div>
+            <div class="col-lg-4 col-12">
+                ssss
+            </div>
+        </div>
+    </div>
+      <!-- <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a> -->
+  </footer>
 
 
 
@@ -50,5 +71,6 @@
         <script src="{{ url('assest/finallfront/js/bootstrap.js')  }}"></script>
         <script src="{{ url('assest/finallfront/js/main2.js')  }}"></script>
         @yield('js')
+        
     </body>
 </html>

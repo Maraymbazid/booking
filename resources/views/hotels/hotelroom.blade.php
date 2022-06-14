@@ -101,6 +101,7 @@ body{
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <label  class="form-group text-capitalize m-1 "> الواتساب </label>
+                                        
                                         <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
                                     </div>
                                     <div class="col-md-6 col-12">
@@ -152,7 +153,7 @@ body{
                         <div class="col-lg-3 border ">
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
-                            <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                            <p style="text-align:center;cursor: pointer; font-size:16px ;color: #888;">
                                             <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
                                             <i class="far fa-images"></i> المزيد من الصور
                                             </a>
@@ -164,8 +165,8 @@ body{
                                                             </p>
                                                             <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
                                                                 <div class="carousel-inner">
-                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
-                                                                    <img class="d-block w-100 img-fluid " style="max-hight:50%" :src="i.name"  alt="First slide">
+                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
+                                                                    
                                                                     </div>
                                                                 </div>
                                                                 <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
@@ -189,7 +190,7 @@ body{
 
                             <div class="row">
 
-                                <div class="col-lg-5 hight border">
+                                <div class="col-lg-5 hight borderr border">
                                     <p class="title-desS mt-2 "> @{{room.name_ar}} </p>
                                     <p class="title-des">خصم :</p>
                                     <div class="boxes">
@@ -244,7 +245,7 @@ body{
                                 </div>
 
 
-                                <div class="col-lg-2 hight border">
+                                <div class="col-lg-2 hight border borderr">
                                     <p class="title-des">النزلاء:</p>
                                     <div class="boxes">
                                         <p class="money"><i class="fa-solid fa-user"></i> تتسع لـ @{{room.adults}}</p>
@@ -254,7 +255,7 @@ body{
                                 </div>
 
 
-                                <div class="col-lg-3 hight border">
+                                <div class="col-lg-3 hight border borderr">
                                     <p class="title-des">تكلفة اليوم :</p>
                                     <div class="boxes">
                                         <p class="how"  >  @{{room.price}} $</p>
@@ -267,7 +268,7 @@ body{
 
                                     </div>
                                 </div>
-                                <div class="col-lg-2 hight border">
+                                <div class="col-lg-2 hight border borderr">
                                 <p class="title-des">حجز:</p>
                                     <form class="boxes" action="{{route('hotelorder',$hotel->id )}}" method="POST" >
                                     <div style="display: none">

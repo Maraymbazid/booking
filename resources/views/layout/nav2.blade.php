@@ -29,7 +29,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center">
             <a href="{{ route('meetinguserindex')}}">
-                <img src="{{ url('assest/finallfront/images/toblanti.png') }}" alt="" width="50" height="50"">
+                <img src="{{ url('assest/finallfront/images/toblanti.png') }}" alt="" width="50" height="50">
                 <p class="jo-title">
                     حجز قاعات اجتماع
                 </p>

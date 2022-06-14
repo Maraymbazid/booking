@@ -132,7 +132,7 @@
                 </div>
             </div>
         </div>
-@include('layout.footer')
+
 @endsection
 @section('js')
 <script>
