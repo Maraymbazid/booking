@@ -2,10 +2,11 @@
 
 
 
-@include('layout.nav')
+@section('moving-image')
 <div class="section">
     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
 </div>
+@endsection
 @section('content')
 @include('layout.nav2')
 <div class="title">
@@ -64,7 +65,7 @@
 
     </div>
 </div>
-@include('layout.footer')
+
 
 @endsection
 @section('js')

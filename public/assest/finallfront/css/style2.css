@@ -1,36 +1,44 @@
-.mayati{
-    background-color: #e5e5e5;
-    padding: 10px;
+.mayati {
+    background-color: #fff;
+    padding: 35px 0px;
 }
-.mayati-title{
+
+.mayati-title {
     text-align: center;
     font-weight: bold;
-    background-color: #ededed;
+    background-color: #014760;
     padding: 14px;
     border-radius: 7px;
     border: 1px solid #888;
-    color: #787878;
+    color: #ffffff;
 }
-.title-desS{
+
+.title-desS {
     font-weight: 700;
     text-align: center;
 }
-.title-des{
+
+.title-des {
     margin-bottom: 0px;
 }
-#ma-top{
+
+#ma-top {
     margin-top: 3px;
     margin-bottom: 1px;
     border: none;
     cursor: pointer;
-    
 }
-#ma-top:hover{
+
+#ma-top:hover {
     font-size: 17px;
 }
 
 @media screen and (max-width: 780px) {
-    #content{
-       text-align: center;
+    #content {
+        text-align: center;
     }
-  }
+}
+
+.borderr {
+    padding-top: 5px;
+}

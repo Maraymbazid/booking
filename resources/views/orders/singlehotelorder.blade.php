@@ -7,9 +7,7 @@
 @include('layout.nav')
 
 @section('content')
-<div class="title">
-      طلباتي
-</div>
+
 
  <div class="container">
     <div class="cards ">
@@ -84,7 +82,7 @@
     @endsection
 
     @section('js')
-    @include('layout.footer')
+
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 

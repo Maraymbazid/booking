@@ -8,7 +8,6 @@
         .col-12 {
             text-align: right;
         }
-
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -60,7 +59,7 @@
                                     </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                    <label> اسم شقة</label>
+                                    <label>  اسم السيارة </label>
                                     <div class="input-group input-group-lg">
                                         <select   class="form-control " style="width: 100%;" name="car_id" disabled="true">
                                             <option value="{{$discountcar->car->id}}">{{$discountcar->car->name}} </option>
@@ -136,11 +135,16 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
+                        //$("#" + key + "_error").text(val[0]);
+                        swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     })
                 }
             });
         });
-       
+
     </script>
 @endsection

@@ -1,54 +1,38 @@
-{{--
-<form class="form-inline my-2 my-lg-0 mr-lg-2">
-    <div class="input-group">
-        <input class="form-control" type="text" placeholder="Search for..." >
-        <span class="input-group-append">
-            <button class="btn btn-primary" type="button">
-                <i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div>
-</form>
-<br>
-<div class="row">
+
+
+ @extends('layout.flay')
 
 
 
-        @if (session('status'))
-            <div class="alert alert-success text-center">
-                {{ session('status') }}
-            </div>
-            @elseif(session()->has('error'))
-            <div class="alert alert-danger text-center">
-                {{ session('error') }}
-            </div>
-        @endif
-            @foreach ($villas as $villa)
-            <div class="col-lg-2  col-md-4 card my-2 my-lg-0 mr-lg-2">
-                <a href="{{route('userOneVilla', $villa->id )}}" style="text-decoration: none; ">
-                    <div class="card-image" style="background-image: url({{$villa->image}});">
-                    </div>
-                    <p class="card-title">{{$villa->name_ar}}</p>
-
-                </a>
-            </div>
-            @endforeach
-        </div>
-
-
-@endsection
-
- --}}
-
-
-@extends('layout.flay')
-
-@section('pagetitle',' تأجير فلا  ')
-@section('content')
-
-
+ @section('moving-image')
+ <div class="section">
+     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+ </div>
+ @endsection
+ @section('content')
+ @include('layout.nav2')
+ <div class="title">
+     تأجير الفلل
+ </div>
 
 <div class="container" id='villas'>
+    <div class="row mb-3">
+        <div class="input-group">
+            <div class="input-group input-group-lg">
+            <select _ngcontent-c9="" class="form-control gouvernements"  name="gouvernement_id" v-model='govId' @change='getVillaByGov'>
+                <option value="">  اختر محافظة </option>
+                @if(\App\Models\Admin\Gouvernement::All() && \App\Models\Admin\Gouvernement::All() -> count() > 0)
+                @foreach(\App\Models\Admin\Gouvernement::All() as $gouvernement)
+                <option
+                value="{{$gouvernement-> id }}">
+                {{$gouvernement->name}}
+                </option>
+                @endforeach
+                @endif
+            </select>
+            </div>
+            </div>
+    </div>
 <div class="row">
     <div class="col-lg-4 col-md-6 col-12" v-for='villa in villas'>
         <div class="cards" @click='gotoOnehotel(villa)'>
@@ -114,11 +98,21 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                         // error callback
                     })
             },
-            gotoOnehotel: function(car){
-                url = '{{ route('userOneCar' , ':id')}}',
-                url = url.replace(':id' , tax.id)
+            gotoOnehotel: function(villa){
+                url = '{{ route('userOneVilla' , ':id')}}',
+                url = url.replace(':id' , villa.id)
                 window.location.href = url;
             },
+            getVillaByGov:function(){
+                url = '{{ route('Villaordered' , ':id')}}',
+                url = url.replace(':id' , this.govId)
+                this.$http.get(url).then(response => {
+                        // get body data
+                        this.villas = response.data[1]
+                    }, response => {
+                        // error callback
+                    })
+            }
         },
         created(){
             this.getallvillas();

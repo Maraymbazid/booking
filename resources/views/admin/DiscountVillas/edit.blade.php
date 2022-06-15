@@ -8,7 +8,6 @@
         .col-12 {
             text-align: right;
         }
-
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -145,11 +144,16 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
+                       // $("#" + key + "_error").text(val[0]);
+                       swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     })
                 }
             });
         });
-       
+
     </script>
 @endsection

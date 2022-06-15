@@ -149,4 +149,22 @@ class MeetingSallesController extends Controller
     {
         return view('meeting.meetingroom');
     }
+    public function oneMeetingRoom($id)
+    {
+        try {
+            $salle = MeetingSalles::find($id);  // search in given table id only
+            if (!$salle) {
+                alert()->error('Oops....', 'this element does not exist .. try again');
+                return redirect()->route('meetinguserindex');
+            }
+            $salle = MeetingSalles::select()->find($id);
+            $salle->image = url('/') . '/assets/admin/img/salles/' . $salle->image;
+            // return  $salle->services;
+            return view('meeting.onemeetingroom', compact('salle'));
+        } catch (Exception $ex) {
+            alert()->error('Oops....', 'Something went wrong .. try again');
+            return redirect()->route('meetinguserindex');
+        }
+    }
+
 }

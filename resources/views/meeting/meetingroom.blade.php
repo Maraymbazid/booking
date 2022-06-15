@@ -1,10 +1,18 @@
 
+ @extends('layout.flay')
 
-@extends('layout.flay')
 
-@section('pagetitle','قاعات الاجتماعات ')
-@section('content')
 
+ @section('moving-image')
+ <div class="section">
+     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+ </div>
+ @endsection
+ @section('content')
+ @include('layout.nav2')
+ <div class="title">
+      قاعات الاجتماعات
+ </div>
 
 
 <div class="container" id='meeting'>
@@ -73,9 +81,9 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                         // error callback
                     })
             },
-            gotoOnehotel: function(car){
-                url = '{{ route('userOneCar' , ':id')}}',
-                url = url.replace(':id' , car.id)
+            gotoOnehotel: function(meeting){
+                url = '{{ route('oneMeetingRoom' , ':id')}}',
+                url = url.replace(':id' , meeting.id)
                 window.location.href = url;
             },
         },

@@ -32,16 +32,23 @@
 
 
 
+
 @extends('layout.flay')
-@include('layout.nav')
+
+
+
+@section('moving-image')
 <div class="section">
     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
 </div>
+@endsection
 @section('content')
 @include('layout.nav2')
 <div class="title">
-     تاجير تاكسي
+      تأجير تاكسي
 </div>
+
+
 
 
 <div class="container" id='cars'>

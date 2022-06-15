@@ -78,36 +78,68 @@
             </thead>
             <tbody>
 
-         @foreach ($orders as $order)
-            <tr>
-                <td> {{ $order->user_name }}</td>
-                <td> {{ $order->whatsapp }}</td>
-                <td> {{ $order->daycount }}</td>
-                <td> {{ $order->arrival }}</td>
-                <td> {{ $order->checkout }}</td>
-                <td> @if($order->status == '0' )
-                    جارى المراجعة
-                    @elseif ($order->status == 1)
-                    تم  قبول الطلب
-                    @elseif ($order->status == 2)
-                        تم إالغاء الطلب
-                    @else
-                    هناك خطأ ما ونحاول التواصل معك
-                    @endif
-                    </td>
-                <td>   <button class="btn btn-primary">
-                    <a href="{{ route('H_O', $order->id) }}" >
-                        <span style="color: #fff;">
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                        </span>
+                @foreach ($taxis as $taxi)
+                    <tr>
+                        <td> {{ $taxi->user->name }}</td>
 
-                    </a>
-                </button></td>
-            </tr>
-        @endforeach
-        </tbody>
-   </table>
-                </div>
+                        <td> {{ $taxi->Num }}    </td>
+                        <td> {{$taxi->number }} </td>
+                        {{-- <td> {{ $taxi->taxi->model }}</td> --}}
+                        <td> {{ $taxi->customername }}</td>
+                        <td> @if($taxi->status == '0' )
+                            جارى المراجعة
+                            @elseif ($taxi->status == 1)
+                            تم  قبول الطلب
+                            @elseif ($taxi->status == 2)
+                                تم إالغاء الطلب
+                            @else
+                            هناك خطأ ما ونحاول التواصل معك
+                            @endif
+                            </td>
+                        <td>   <button class="btn btn-primary">
+                            <a href="{{ route('H_O', $taxi->id) }}" >
+                                <span style="color: #fff;">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </button></td>
+                    </tr>
+                @endforeach
+            </tbody>
+            </table>
+                    @if ($taxis->hasPages())
+
+                    <nav>
+                        <ul class="pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($taxis->onFirstPage())
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                            @else
+                                <li class="page-item ">
+                                    <a class="page-link" href=" {{ $taxis->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+                            @endif
+
+
+                            {{-- Next Page Link --}}
+                            @if ($taxis->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ $taxis->nextPageUrl() }}">Next</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled" aria-disabled="true"
+                                    aria-label="@lang('pagination.next')">
+                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                    @endif
+            </div>
             </div>
 
     </div>
@@ -200,3 +232,12 @@ window.onresize = function(event) {
 <body onload="load()">
 
     @endsection
+
+
+    {{-- @if ($order->status == 0)
+    <span style="color: orange;"><i class="fas fa-clock"></i></span>
+@elseif ($order->status == 1)
+    <span style="color: green;"><i class="fas fa-check-circle "></i></span>
+@elseif ($order->status == 2)
+    <span style="color: red;"><i class="far fa-times-circle"></i></span>
+@endif --}}

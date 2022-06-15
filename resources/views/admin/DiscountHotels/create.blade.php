@@ -8,7 +8,6 @@
         .col-12 {
             text-align: right;
         }
-
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -72,7 +71,7 @@
                                     <div class="form-group">
                                         <label>  عدد الايام</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="day_count" id="number_days"
+                                            <input type="text" name="day_count" id="day_count"
                                                 class="form-control form-control-lg" placeholder="day_count"
                                                 areia-describedby="helper" value="{{ old('day_count') }}">
                                         </div>
@@ -85,7 +84,7 @@
                                     <div class="form-group">
                                         <label>  نسبة الخصم</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="discount" id="rate"
+                                            <input type="text" name="discount" id="discount"
                                                 class="form-control form-control-lg" placeholder="discount"
                                                 areia-describedby="helper" value="{{ old('discount') }}">
                                         </div>
@@ -142,10 +141,6 @@
         $('#adddiscount').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
-            $('#number_days_error').text('');
-            $('#rate_error').text('');
-            $('#hotel_id_error').text('');
-            $('#room_id_error').text('');
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
@@ -170,7 +165,12 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
+                       // $("#" + key + "_error").text(val[0]);
+                       swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     })
                 }
             });
@@ -193,7 +193,6 @@
                     error: function (reject) {
                        console.log('error');
                     }
-
                 });
             }
         });
@@ -215,10 +214,8 @@
                     error: function (reject) {
                        console.log('error');
                     }
-
                 });
             }
         });
-
     </script>
 @endsection
