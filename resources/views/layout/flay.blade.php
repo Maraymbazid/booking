@@ -41,26 +41,10 @@
 
     <footer class="footer">
     
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-12">
-                <h3>dsds</h3>
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-            <div class="col-lg-4 col-12">
-                ssss
-            </div>
-            <div class="col-lg-4 col-12">
-                ssss
-            </div>
+        <div class="container">
+            COPY RIGHY BY ADAWI
         </div>
-    </div>
-      <!-- <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a> -->
+     
   </footer>
 
 

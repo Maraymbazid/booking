@@ -50,13 +50,13 @@
 @include('layout.nav')
 
 @section('content')
-<div class="title">
-      طلباتي
-</div>
+
 
 
     <div class="container">
-    
+    <h3 class="mayati-title">
+           طلباتي
+        </h3>    
    
             <div class="cards ">
                 <div class="card-header" style="text-align: center;">
@@ -96,7 +96,7 @@
                     هناك خطأ ما ونحاول التواصل معك
                     @endif
                     </td>
-                <td>   <button class="btn btn-primary">
+                <td>   <button class="btn " style="background-color: #0742ff8f;">
                     <a href="{{ route('H_O', $order->id) }}" >
                         <span style="color: #fff;">
                         <i class="fa fa-eye" aria-hidden="true"></i>

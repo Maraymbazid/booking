@@ -1,56 +1,4 @@
 @extends('layout.flay')
-@section('css')
-<style>
-
-.img-back img{
-    width: 100%;
-}
-body{
-    text-align: right;
-    font-family: "Open Sans", "Noto Naskh Arabic", Arial, Helvetica, sans-serif;
-}
-
-
-.title-des-left{
-    text-align: center;
-    margin: 0;
-}
-.para{
-    margin: 0;
-    padding: 1px;
-    background-color: yellow;
-}
-.info{
-    font-size: 12px;
-    color: #888;
-}
-.border{
-    border: 1px solid #888;
-}
-.boxes , .photo{
-    padding: 5px;
-}
-
-.ul li{
-    list-style: none;
-    margin-top: 10px;
-    color: #888;
-}
-.description{
-    display: inline;
-}
-@media screen and (max-width: 1000px) {
-    .ul li{
-        display: inline;
-
-    }
-    .ul{
-        margin: 10px 15%;
-    }
-  }
-
-</style>
-@endsection
 @include('layout.nav')
 <div class="section">
     <div class="moving-image"  style="background-image: url({{$hotel->cover}});"></div>
@@ -60,34 +8,10 @@ body{
 
 @section('content')
 @include('layout.nav2')
-<div class="title">
-    {{$hotel->name_ar}}
-</div>
-
-
-
-
-
-                <div class="container" >
-                    <div class="row">
-                    @foreach ($main_services as $main)
-                        <div class="col-md-2 col-4">
-                            <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
-                                @foreach ($hotel->SubServices as $hsub)
-                                    @if($hsub->MainSer->id == $main->id )
-                                    <li style="text-align: right">
-                                        {{  $hsub->name}}
-                                    </li>
-                                    @endif
-                                    @endforeach
-                            </ul>
-                        </div>
-                    @endforeach
-                    </div>
+                <div class="title">
+                    {{$hotel->name_ar}}
                 </div>
-
-
-
+                
                 <div id='content' >
                     <div class="mayati">
                         <div class="container">
@@ -95,97 +19,80 @@ body{
                                 إملأ البيانات ثم اختر الغرفه (الخصم يطبق فى الصفحة التالية)
                             </h3>
                             <div class="row mb-5 form">
-                                    <div class="col-md-6 col-12 ">
-                                        <label  class="form-group text-capitalize m-1 "> الاسم</label>
+                                    <div class="col-md-6 col-12 yas">
                                         <input v-model='name' type="text" class="form-control" placeholder=" تأكيد الحجز باسم" >
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> الواتساب </label>
+                                    <div class="col-md-6 col-12 yas">
                                         
                                         <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
+                                    <div class="col-md-12 col-12 yas">
                                         <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> تاريخ الوصول </label>
+                                    <div class="col-md-6 col-12 yas">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ الوصول :</label>
                                         <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
                                     </div>
-                                    <div class="col-md-12 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة </label>
+                                    <div class="col-md-6 col-12 yas">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة :</label><br>    
                                         <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
                                     </div>
                             </div>
+                            <hr>
                         </div>
                     </div>
-                        <!--
-                         <form  class="parent">
-
-                                <input  type="text"  placeholder=" تأكيد الحجز بأسم">
-                                <input  type="number"  placeholder=" رقم واتساب للتواصل   ">
-                                <input type='number'  placeholder="عدد الأيام">
-                                <input    placeholder="تاريخ الوصول"><br>
-                                <input  placeholder="تاريخ المغادرة">
-                        </form> -->
-
+                       
                     <div class="container">
-
-                    <div class="row mt-5" v-for='room in v2'>
-                            <!-- {{-- <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
-                                <div class="container" >
-                                    <div class="carousel-inner col-lg-6">
-                                        <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
-                                          <img :src="i.name" class="d-block w-100 " alt="..." style='max-height:250px' >
-                                        </div>
-                                      </div>
+                        <div class="row mar-top">
+                            @foreach ($main_services as $main)
+                                <div class="col-md-2 col-4">
+                                    <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
+                                        @foreach ($hotel->SubServices as $hsub)
+                                            @if($hsub->MainSer->id == $main->id )
+                                            <li style="text-align: right">
+                                                {{  $hsub->name}}
+                                            </li>
+                                            @endif
+                                            @endforeach
+                                    </ul>
                                 </div>
-                                <button class="carousel-control-prev" type="button" :data-target="'#slide'+ room.id" data-slide="prev">
-                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" :data-target="'#slide'+ room.id" data-slide="next">
-                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Next</span>
-                                </button>
-                              </div> --}} -->
-
+                            @endforeach
+                        </div>
+                    <div class="row mt-5" v-for='room in v2'>
+                           
                         <div class="col-lg-3 border ">
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
                             <p style="text-align:center;cursor: pointer; font-size:16px ;color: #888;">
-                                            <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
-                                            <i class="far fa-images"></i> المزيد من الصور
-                                            </a>
-                                                <div class="modal fade" :id="'image'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content " style="text-align:center">
-                                                            <p style="margin-top:10px">
-                                                                <i class="far fa-images"></i>  صور الغرفه
-                                                            </p>
-                                                            <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
-                                                                <div class="carousel-inner">
-                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
-                                                                    
-                                                                    </div>
-                                                                </div>
-                                                                <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
-                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                    <span class="sr-only">Previous</span>
-                                                                </a>
-                                                                <a class="carousel-control-next" :href="'#slide'+ room.id" role="button" data-slide="next">
-                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                    <span class="sr-only">Next</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
+                                    <i class="far fa-images"></i> المزيد من الصور
+                                </a>
+                                <div class="modal fade" :id="'image'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content " style="text-align:center">
+                                            <p style="margin-top:10px">
+                                                <i class="far fa-images"></i>  صور الغرفه
+                                            </p>
+                                            <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
+                                                    
                                                     </div>
                                                 </div>
+                                                <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" :href="'#slide'+ room.id" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                         </div>
-                        <!-- <div v-show='adawe' class="pop">
-                        hiiiiiiiiiiii
-                        </div> -->
                         <div class="col-lg-9 ">
 
                             <div class="row">
