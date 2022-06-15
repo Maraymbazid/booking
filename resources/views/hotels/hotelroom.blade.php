@@ -20,7 +20,7 @@
                             <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
                                 @foreach ($hotel->SubServices as $hsub)
                                     @if($hsub->MainSer->id == $main->id )
-                                    <li style="text-align: right">
+                                    <li >
                                         {{  $hsub->name}}
                                     </li>
                                     @endif
