@@ -16,7 +16,7 @@
                 <div class="container" >
                     <div class="row">
                         @foreach ($main_services as $main)
-                        <div class="col-md-2 col-4">
+                        <div class="col-md-3 col-4 mt-3">
                             <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
                                 @foreach ($hotel->SubServices as $hsub)
                                     @if($hsub->MainSer->id == $main->id )
@@ -110,9 +110,8 @@
                                         <div class="row">
                                             <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
                                                 <p class="title-des-left p-1">
-                                                    2% لـ 5أيام
+                                                    @{{r.discount}}% لـ 5أيام
                                                 </p>
-                                                <!-- خصم @{{r.discount}}%  -->
                                             </div>
                                         </div>
 
@@ -198,7 +197,7 @@
                         </div>
                     </div>
                     </div>
-                        <div class="title">
+                        <div class="title mt-3">
                             مكان الفندق
                         </div>
                         <div class="container">

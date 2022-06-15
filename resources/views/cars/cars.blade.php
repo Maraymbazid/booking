@@ -17,7 +17,7 @@
 
 <div class="container" id='cars'>
 <div class="row">
-    <div class="col-lg-4 col-md-6 col-12" v-for='car in cars'>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-for='car in cars'>
         <div class="cards" @click='gotoOnehotel(car)'>
             <div class="card-image" style="background-image: url('images/22443294.jpg');" v-bind:style="{ backgroundImage: 'url(' + car.image + ')' }">
             </div>

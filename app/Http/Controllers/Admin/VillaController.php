@@ -150,7 +150,7 @@ class VillaController extends Controller
             if($villa)
             {
                         $villa->image = url('/') . '/assets/admin/img/villas/' . $villa->image;
-                        return view('villas.villaForm')->with('villa',$villa);
+                return view('Villas.villaForm')->with('villa', $villa);
             }
             else
             {
