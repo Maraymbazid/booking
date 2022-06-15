@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
-use App\Http\traits\media;
+use App\Http\Traits\media;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;

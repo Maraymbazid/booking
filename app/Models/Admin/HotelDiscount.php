@@ -13,8 +13,8 @@ class  HotelDiscount extends Model
         'id',
         'room_id',
         'hotel_id',
-        'number_days',
-        'rate',
+        'day_count',
+        'discount',
         'created_at',
         'updated_at',
     ];

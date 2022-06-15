@@ -89,12 +89,12 @@ class DiscountHotel extends Controller
     {
         try
         {
-            $discounthotel = HotelDiscount::find($id);  // search in given table id only
+            $discounthotel = RoomDiscount::find($id);  // search in given table id only
             if (!$discounthotel) {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
-            $discounthotel = HotelDiscount::select()->find($id);
+            $discounthotel = RoomDiscount::select()->find($id);
             return view('admin.DiscountHotels.edit', compact('discounthotel'));
         }
         catch(Exception $ex)
@@ -106,14 +106,14 @@ class DiscountHotel extends Controller
     }
     public function update(UpdateDiscountHotel $data)
     {
-        $discount=HotelDiscount::find($data->id);
+        $discount=RoomDiscount::find($data->id);
         if ($discount)
          {
             $result = $data->except('page','_token','id');
             $update = $discount->update(
                 [
-                    'number_days' => $result['number_days'],
-                    'rate'     => $result['rate'],
+                    'day_count' => $result['day_count'],
+                    'discount'     => $result['discount'],
                 ]
             );
             if ($update)

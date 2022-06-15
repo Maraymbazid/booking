@@ -14,9 +14,15 @@ class RoomDiscount extends Model
 
     protected $fillable =
     [
+        'id',
         'room_id',
+        'hotel_id',
         'day_count',
         'discount'
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     public function room()

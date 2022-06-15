@@ -65,7 +65,8 @@
                                                         @foreach($allcars as $car)
                                                         <option
                                                             value="{{$car->id}}">
-                                                            {{$car->name}}
+                                                            {{$car->name}} @if($car->company_id != '')
+                                                             ------------------- شركة  {{$car->company->name}} @endif
                                                         </option>
                                                         @endforeach
                                                     @endif
@@ -148,7 +149,12 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
+                       // $("#" + key + "_error").text(val[0]);
+                       swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     })
                 }
             });

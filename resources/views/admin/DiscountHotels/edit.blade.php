@@ -35,7 +35,7 @@
                                     <div class="form-group">
                                         <label>  عدد الايام</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="number_days" id="number_days"
+                                            <input type="text" name="day_count" id="day_count"
                                                 class="form-control form-control-lg" placeholder="days"
                                                 areia-describedby="helper" value="{{ $discounthotel->number_days}}">
                                             <input type="hidden" value="{{ $discounthotel->id}}" name="id">
@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                         <label>  نسبة الخصم</label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" name="rate" id="rate"
+                                            <input type="text" name="discount" id="discount"
                                                 class="form-control form-control-lg" placeholder="discount"
                                                 areia-describedby="helper"  value="{{ $discounthotel->rate}}">
                                         </div>
@@ -145,7 +145,12 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
+                        //$("#" + key + "_error").text(val[0]);
+                        swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     })
                 }
             });

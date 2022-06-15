@@ -22,7 +22,7 @@ class DiscountVillaController extends Controller
         $value = $request->get('id');
         $dependent = $request->get('dependent');
         $villas = DB::table('villas')->where('gouvernement', $value)->get();
-        $output = '<option data-kt-flag="flags/united-states.svg" value="">' . ' اختر شقة' . ' </option>';
+        $output = '<option data-kt-flag="flags/united-states.svg" value="">' . ' اختر فلة' . ' </option>';
         foreach (  $villas as $villa) {
             $output .= '<option data-kt-flag="flags/united-states.svg" value="' . $villa->id . '">' . $villa->name_ar . ' </option>';
         }

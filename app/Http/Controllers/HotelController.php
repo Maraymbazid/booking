@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\Models\Hotel;
 use App\Http\Traits\media;
 use App\Models\Admin\Room;
