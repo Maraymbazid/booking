@@ -1,6 +1,6 @@
-@extends('layout.lay')
+@extends('layout.flay')
 @section('css')
-@section('css')
+
 <style>
     input {
 
@@ -16,56 +16,51 @@
 @endsection
 @section('content')
 
+<h2 style="text-align:center;
+text-align: center;
+margin: 27px 0;
+background-color: #dae8ed;
+padding: 25px;"> تأكيد حجز شقة
+</h2>
+<div class="container">
+<div class="row">
 
-<div class="option">
-
-    <div class="option-description">
-        <p class="option-text">
-
-        </p>
-
-        <table>
-            <h4 class='text-center'> تأكيد حجز الشقق  </h4>
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-
+        <table class="table" style=" text-align:center;font-weight: bolder;">
 
             <form method="POST" id="confirmorderapart">
                 @csrf
-                <tbody>
-                    <tr class='text-center border border-light'>
+                <tbody style="text-align:center;font-white" >
+                    <tr >
                         <td>  اسم الشقة   </td>
                         <td>  {{$cartapart->apart_name}}  </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td> السعر فى اليوم      </td>
                         <td> {{$cartapart->price}} </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td>  اسم الشخص المعني بالحجز   </td>
                         <td>{{$cartapart->customrname}} <input type="hidden" name="customrname" value="{{$cartapart->customrname}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td> رقم الواتساب </td>
                         <td> {{$cartapart->number}} <input type="hidden" name="number" value="{{$cartapart->number}}" /> </td>
                     </tr>
-                    
-                    <tr class='text-center border border-light'>
+
+                    <tr >
                         <td>    تاريخ القدوم     </td>
                         <td> {{$cartapart->begindate}} <input type="hidden" name="begindate" value="{{$cartapart->begindate}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                     <tr >
                         <td>     تاريخ الخروج     </td>
                         <td>{{$cartapart->enddate}} <input type="hidden" name="enddate" value="{{$cartapart->enddate}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                     <tr >
                         <td>    المده      </td>
                         <td>{{$cartapart->numberdays}} <input type="hidden" name="numberdays" value="{{$cartapart->numberdays}}" /> </td>
                     </tr>
 
-                    <tr class='text-center border border-light'>
+                     <tr >
                         <td>   عدد الأشخاص   </td>
                         <td> {{$cartapart->personnes}} <input type="hidden" name="personnes" value="{{$cartapart->personnes}}" /> </td>
                     </tr>
@@ -85,7 +80,7 @@
 
         </table>
 
-    </div>
+</div>
 </div>
 
 @endsection

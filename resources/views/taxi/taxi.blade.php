@@ -32,21 +32,28 @@
 
 
 
+
 @extends('layout.flay')
-@include('layout.nav')
+
+
+
+@section('moving-image')
 <div class="section">
     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
 </div>
+@endsection
 @section('content')
 @include('layout.nav2')
 <div class="title">
-     تاجير تاكسي
+      تأجير تاكسي
 </div>
+
+
 
 
 <div class="container" id='cars'>
 <div class="row">
-    <div class="col-lg-4 col-md-6 col-12" v-for='taxi in taxis'>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-for='taxi in taxis'>
         <div class="cards" @click='gottoOnetaxi(taxi)'>
             <div class="card-image" style="background-image: url('images/22443294.jpg');" v-bind:style="{ backgroundImage: 'url(' + taxi.image + ')' }">
             </div>

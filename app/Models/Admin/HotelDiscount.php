@@ -8,7 +8,7 @@ use App\Models\Admin\Room;
 class  HotelDiscount extends Model
 {
     use HasFactory;
-    protected $table = 'discounthotels'; 
+    protected $table = 'discounthotels';
     protected $fillable = [
         'id',
         'room_id',

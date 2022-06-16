@@ -8,7 +8,7 @@ use App\Models\Admin\Villa;
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\DiscountVilla;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\DiscountVilla\StoreDiscountVilla; 
+use App\Http\Requests\DiscountVilla\StoreDiscountVilla;
 use App\Http\Requests\DiscountVilla\UpdateDiscountVilaa;
 class DiscountVillaController extends Controller
 {
@@ -30,15 +30,14 @@ class DiscountVillaController extends Controller
     }
     public function store(StoreDiscountVilla $request)
     {
-        
+
         $request = $request->except('_token','page');
         $stored = DB::table('discountvillas')->insert($request);
-        if ($stored) 
+        if ($stored)
         {
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
-        } 
-        else 
+        } else
         {
             $status = 500;
             $msg  = 'تعذر الحفظ هناك خطأ ما';
@@ -64,8 +63,7 @@ class DiscountVillaController extends Controller
                 'msg'  => 'تم حذف الداتا بنجاح ',
                 'id'=>$request->id,
             ],200);
-        }
-       else 
+        } else
         {
             return response()->json
             ([
@@ -79,8 +77,7 @@ class DiscountVillaController extends Controller
         try
         {
             $discountvilla = DiscountVilla::find($id);  // search in given table id only
-        if (!$discountvilla)
-            {                
+        if (!$discountvilla) {
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('home');
             }
@@ -106,20 +103,18 @@ class DiscountVillaController extends Controller
                     'rate'     => $result['rate'],
                 ]
             );
-            if ($update) 
+            if ($update)
             {
-                
+
                 $status = 200;
                 $msg  = 'تم تعديل الداتا بنجاح ';
-                
-            }
-            else 
+
+            } else
             {
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
-        }
-        else 
+        } else
         {
            $status = 500;
            $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -129,6 +124,6 @@ class DiscountVillaController extends Controller
            'status' => $status,
            'msg' => $msg,
        ]);
-        
+
     }
 }

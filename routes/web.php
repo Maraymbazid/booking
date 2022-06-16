@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaxiController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\HotelOrderController;
 use App\Http\Controllers\Admin\VillaController;
 use App\Http\Controllers\Admin\ApartementController;
@@ -21,18 +23,12 @@ use App\Http\Controllers\Admin\MeetingSallesController;
 |
 */
 
-Route::get('/tes', function () {
-    return view('layout.flay');
-});
-Route::get('/tes2', function () {
-    return view('home2');
-});
+
+
 Auth::routes();
-Route::get('/', function () {
-    return view('home2');
-});
+
 // ->middleware(['auth', 'verified']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'cars'/*, 'middleware' => 'auth' */], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
@@ -59,12 +55,12 @@ Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/rooms/{id}', [HotelController::class, 'getRoomsByHotelId'])->name('getRoomsByHotelId');
     Route::get('/hotelsorderd/{govId}', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');
-    Route::get('/myorders', [HotelOrderController::class, 'userOrder'])->name('userOrder');
     Route::any('/hotelorder/{hotelId}', [HotelOrderController::class, 'order'])->name('hotelorder');
     Route::any('/storeorder/{hotelId}/{roomId}', [HotelOrderController::class, 'store'])->name('sotororderhoter');
     Route::any('/singleorderhotel/{orderId}', [HotelOrderController::class, 'showOneOrderFoUser'])->name('H_O');
 });
 Route::group(['prefix' => 'Apartement'], function () {
+    Route::get('/apartorderd/{govId}', [ApartementController::class, 'Apartordered'])->name('Apartordered');
     Route::get('/', [ApartementController::class, 'userIndex'])->name('userIndexApartement');
     Route::get('userOneApartement/{id}', [ApartementController::class, 'oneApartement'])->name('userOneApartement');
     Route::post('checkorderapartement', [ApartementController::class, 'checkorderapartement'])->name('checkorderapartement');
@@ -73,6 +69,7 @@ Route::group(['prefix' => 'Apartement'], function () {
 
 });
 Route::group(['prefix' => 'villa'], function () {
+    Route::get('/villaorderd/{govId}', [VillaController::class, 'Villaordered'])->name('Villaordered');
     Route::get('/', [VillaController::class, 'userIndex'])->name('userIndexVilla');
     Route::get('userOneVilla/{id}', [VillaController::class, 'oneVilla'])->name('userOneVilla');
     Route::post('checkordervilla', [VillaController::class, 'checkordervilla'])->name('checkordervilla');
@@ -87,6 +84,12 @@ Route::group(['prefix' => 'villa'], function () {
 Route::group(['prefix' => 'meeting'], function () {
     Route::get('/', [MeetingSallesController::class, 'userindex'])->name('meetinguserindex');
     Route::get('meeting', [MeetingSallesController::class, 'meetingApi'])->name('meetingaApi');
+    Route::get('userOneRoomMeet/{id}', [MeetingSallesController::class, 'oneMeetingRoom'])->name('oneMeetingRoom');
+
 });
 Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
+Route::group(['prefix' => 'orders', 'middleware' => 'auth'], function () {
+    Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');
+    Route::get('/hotelOrders', [OrdersController::class, 'userHotelOrder'])->name('userHotelOrder');
+});

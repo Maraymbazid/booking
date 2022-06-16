@@ -1,17 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
+
+use Exception;
+use App\Http\Traits\media;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
+use App\Models\Admin\Gouvernement;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\ReservationApartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
 use App\Http\Traits\media;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
-use App\Models\Admin\Gouvernement;
-use App\Models\ReservationApartement;
+use App\Http\Requests\Apartement\StoreApartementRequest;
+
 class ApartementController extends Controller
 {
     use media;
@@ -88,7 +94,7 @@ class ApartementController extends Controller
             $allservices=ServiceApartement::select('id','name')->get();
             $ownservices=$apartement->services;
             $allgouvernements=Gouvernement::select('id','name')->get();
-           return view('admin.Apartments.edit', compact('apartement','allgouvernements','allservices','ownservices'));
+            return view('admin.Apartments.edit', compact('apartement', 'allgouvernements', 'allservices', 'ownservices'));
         }
         catch(Exception $ex)
         {
@@ -197,8 +203,8 @@ class ApartementController extends Controller
                      $cartapart->begindate=$data->begindate;
                      $cartapart->enddate=$data->enddate;
                      $cartapart->customrname=$data->customrname;
-                     $cartapart->numberdays=$data->numberdays; 
-                     $cartapart->number=$data->number; 
+                $cartapart->numberdays = $data->numberdays;
+                $cartapart->number = $data->number;
                      $cartapart->personnes=$data->persones;
                      return view('Apartements.detail',compact('cartapart'));
             }
@@ -282,7 +288,7 @@ class ApartementController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationApartement::find($id);
-        if ($order) 
+        if ($order)
         {
             $update = $order->update([
                 'Note' => $data->note,
@@ -296,8 +302,7 @@ class ApartementController extends Controller
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
-        }
-         else 
+        } else
          {
             $status = 500;
             $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -330,14 +335,13 @@ class ApartementController extends Controller
         if ($order)
          {
             return view('admin.orderapartements.detail', compact('order'));
-        } 
-        else 
+        } else
         {
             alert()->error('Oops....', 'this element does not exist .. try again');
             return redirect()->back();
         }
     }
-   
+
     public function apartementApi()
     {
         $apartements = Apartement::get();
@@ -345,5 +349,17 @@ class ApartementController extends Controller
             $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
         }
         return response()->json(['apartements' => $apartements], 200);
+    }
+
+    public function Apartordered($govId)
+    {
+        // $hotels = DB::table('hotels')->where('gouvernement', $govId)->orderBy('sort', 'DESC')->get();
+
+        $apartements = Apartement::where('gouvernement', $govId)->get();
+        foreach ($apartements as $apart) {
+            $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
+        }
+
+        return response()->json(['apartements', $apartements], 200);
     }
 }

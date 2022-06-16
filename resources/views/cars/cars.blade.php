@@ -1,17 +1,23 @@
-@extends('layout.flay')
-@include('layout.nav')
-<div class="section">
-    <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
-</div>
-@section('content')
-@include('layout.nav2')
-<div class="title">
-     تأجير سيارات
-</div>
+
+ @extends('layout.flay')
+
+
+
+ @section('moving-image')
+ <div class="section">
+     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+ </div>
+ @endsection
+ @section('content')
+ @include('layout.nav2')
+ <div class="title">
+      تأجير سيارات
+ </div>
+
 
 <div class="container" id='cars'>
 <div class="row">
-    <div class="col-lg-4 col-md-6 col-12" v-for='car in cars'>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-for='car in cars'>
         <div class="cards" @click='gotoOnehotel(car)'>
             <div class="card-image" style="background-image: url('images/22443294.jpg');" v-bind:style="{ backgroundImage: 'url(' + car.image + ')' }">
             </div>
@@ -45,7 +51,7 @@
 
 
 
-@include('layout.footer')
+
 @endsection
 
 @section('js')

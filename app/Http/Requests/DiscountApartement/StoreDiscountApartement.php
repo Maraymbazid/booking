@@ -36,7 +36,7 @@ class StoreDiscountApartement extends FormRequest
             'number_days.required' => 'لا يمكن ترك حقل الايام فارغا',
             'rate.required' => 'لا يمكن ترك حقل نسبة الخصم فارغا',
             'apartement_id.required' => 'اختيار الشقة ضروري',
-            'gouvernement_id.required' =>'اختيار المحافظة ضروري',
+            'gouvernement_id.required' => 'اختيار المحافظة ضروري',
             'numeric' => 'من فضلك أدخل صيغة صحيحة',
             'integer'  => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',

@@ -27,7 +27,6 @@ class UpdateDiscountHotel extends FormRequest
             'day_count' => 'required|integer|min:1',
             'discount' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
         ];
-        
     }
     public function messages()
     {

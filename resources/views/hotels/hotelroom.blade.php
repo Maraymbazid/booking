@@ -1,60 +1,10 @@
 @extends('layout.flay')
-@section('css')
-<style>
 
-.img-back img{
-    width: 100%;
-}
-body{
-    text-align: right;
-    font-family: "Open Sans", "Noto Naskh Arabic", Arial, Helvetica, sans-serif;
-}
-
-
-.title-des-left{
-    text-align: center;
-    margin: 0;
-}
-.para{
-    margin: 0;
-    padding: 1px;
-    background-color: yellow;
-}
-.info{
-    font-size: 12px;
-    color: #888;
-}
-.border{
-    border: 1px solid #888;
-}
-.boxes , .photo{
-    padding: 5px;
-}
-
-.ul li{
-    list-style: none;
-    margin-top: 10px;
-    color: #888;
-}
-.description{
-    display: inline;
-}
-@media screen and (max-width: 1000px) {
-    .ul li{
-        display: inline;
-
-    }
-    .ul{
-        margin: 10px 15%;
-    }
-  }
-
-</style>
-@endsection
-@include('layout.nav')
+@section('moving-image')
 <div class="section">
     <div class="moving-image"  style="background-image: url({{$hotel->cover}});"></div>
 </div>
+@endsection
 
 
 
@@ -63,19 +13,14 @@ body{
 <div class="title">
     {{$hotel->name_ar}}
 </div>
-
-
-
-
-
                 <div class="container" >
                     <div class="row">
-                    @foreach ($main_services as $main)
-                        <div class="col-md-2 col-4">
+                        @foreach ($main_services as $main)
+                        <div class="col-md-3 col-4 mt-3">
                             <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
                                 @foreach ($hotel->SubServices as $hsub)
                                     @if($hsub->MainSer->id == $main->id )
-                                    <li style="text-align: right">
+                                    <li >
                                         {{  $hsub->name}}
                                     </li>
                                     @endif
@@ -85,9 +30,6 @@ body{
                     @endforeach
                     </div>
                 </div>
-
-
-
                 <div id='content' >
                     <div class="mayati">
                         <div class="container">
@@ -103,52 +45,24 @@ body{
                                         <label  class="form-group text-capitalize m-1 "> الواتساب </label>
                                         <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-12 col-12 yas">
                                         <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
                                         <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> تاريخ الوصول </label>
+                                    <div class="col-md-6 col-12 yas">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ الوصول :</label>
                                         <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
                                     </div>
-                                    <div class="col-md-12 col-12">
-                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة </label>
+                                    <div class="col-md-6 col-12 yas">
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة :</label><br>
                                         <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
                                     </div>
                             </div>
                         </div>
                     </div>
-                        <!--
-                         <form  class="parent">
-
-                                <input  type="text"  placeholder=" تأكيد الحجز بأسم">
-                                <input  type="number"  placeholder=" رقم واتساب للتواصل   ">
-                                <input type='number'  placeholder="عدد الأيام">
-                                <input    placeholder="تاريخ الوصول"><br>
-                                <input  placeholder="تاريخ المغادرة">
-                        </form> -->
 
                     <div class="container">
-
                     <div class="row mt-5" v-for='room in v2'>
-                            <!-- {{-- <div :id="'slide'+room.id" class="carousel slide mb-2" data-ride="carousel" >
-                                <div class="container" >
-                                    <div class="carousel-inner col-lg-6">
-                                        <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
-                                          <img :src="i.name" class="d-block w-100 " alt="..." style='max-height:250px' >
-                                        </div>
-                                      </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" :data-target="'#slide'+ room.id" data-slide="prev">
-                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" :data-target="'#slide'+ room.id" data-slide="next">
-                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Next</span>
-                                </button>
-                              </div> --}} -->
-
                         <div class="col-lg-3 border ">
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
@@ -164,8 +78,8 @@ body{
                                                             </p>
                                                             <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
                                                                 <div class="carousel-inner">
-                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images'>
-                                                                    <img class="d-block w-100 img-fluid " style="max-hight:50%" :src="i.name"  alt="First slide">
+                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
+
                                                                     </div>
                                                                 </div>
                                                                 <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
@@ -199,9 +113,6 @@ body{
                                                     @{{r.discount}}% لـ 5أيام
                                                 </p>
                                             </div>
-
-
-
                                         </div>
 
                                         <ul class="ul">
@@ -214,7 +125,7 @@ body{
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle"> @{{ room.name_ar }} </h5>
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -286,7 +197,7 @@ body{
                         </div>
                     </div>
                     </div>
-                        <div class="title">
+                        <div class="title mt-3">
                             مكان الفندق
                         </div>
                         <div class="container">
@@ -298,7 +209,7 @@ body{
                 </div>
             </div>
         </div>
-        @include('layout.footer')
+
 @endsection
 
 @section('js')
@@ -309,13 +220,9 @@ body{
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
-
             $(document).ready(function(){
                 $('.carousel').carousel()
-
             })
-
-
         hotels = new Vue({
             'el' : '#content',
             'data' : {
@@ -330,7 +237,6 @@ body{
                 'erorrs' : []
             },
             methods:{
-
                 getSer: function(e){
                 console.log(e);
                 },
@@ -358,7 +264,6 @@ body{
                         return 0;
                     }
                 },
-
                 sendOrder: function(e){
                     this.erorrs  = []
                     this.validation(this.checkout , 'من فضلك تأكد من عدد الايام وتاريخ الوصول ')
@@ -372,11 +277,9 @@ body{
                 }
             }
         });
-
     function myFunction() {
             $(':button').prop('disabled', true);
         }
-
 </script>
 
 @endsection

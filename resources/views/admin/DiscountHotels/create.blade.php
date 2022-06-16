@@ -8,7 +8,6 @@
         .col-12 {
             text-align: right;
         }
-
     </style>
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
@@ -194,7 +193,6 @@
                     error: function (reject) {
                        console.log('error');
                     }
-
                 });
             }
         });
@@ -216,10 +214,8 @@
                     error: function (reject) {
                        console.log('error');
                     }
-
                 });
             }
         });
-
     </script>
 @endsection

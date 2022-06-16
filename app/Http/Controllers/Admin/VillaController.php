@@ -150,7 +150,7 @@ class VillaController extends Controller
             if($villa)
             {
                         $villa->image = url('/') . '/assets/admin/img/villas/' . $villa->image;
-                        return view('villas.villaForm')->with('villa',$villa);
+                return view('villas.VillaForm')->with('villa', $villa);
             }
             else
             {
@@ -193,8 +193,8 @@ class VillaController extends Controller
                      $cartvilla->begindate=$data->begindate;
                      $cartvilla->enddate=$data->enddate;
                      $cartvilla->customrname=$data->customrname;
-                     $cartvilla->numberdays=$data->numberdays; 
-                     $cartvilla->number=$data->number; 
+                $cartvilla->numberdays = $data->numberdays;
+                $cartvilla->number = $data->number;
                      $cartvilla->personnes=$data->persones;
                      return view('villas.detail',compact('cartvilla'));
             }
@@ -270,8 +270,7 @@ class VillaController extends Controller
         if ($order)
          {
             return view('admin.ordervillas.edit', compact('order'));
-         } 
-        else 
+        } else
         {
             alert()->error('Oops....', 'this element does not exist .. try again');
             return redirect()->back();
@@ -281,7 +280,7 @@ class VillaController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationVilla::find($id);
-        if ($order) 
+        if ($order)
         {
             $update = $order->update([
                 'Note' => $data->note,
@@ -295,8 +294,7 @@ class VillaController extends Controller
                 $status = 500;
                 $msg  = ' تعذر التعديل هناك خطأ ما';
             }
-        }
-         else 
+        } else
          {
             $status = 500;
             $msg  = ' تعذر التعديل هناك خطأ ما';
@@ -329,8 +327,7 @@ class VillaController extends Controller
         if ($order)
          {
             return view('admin.ordervillas.detail', compact('order'));
-        } 
-        else 
+        } else
         {
             alert()->error('Oops....', 'this element does not exist .. try again');
             return redirect()->back();
@@ -343,5 +340,17 @@ class VillaController extends Controller
             $t->image = url('/') . '/assets/admin/img/villas/' . $t->image;
         }
         return response()->json(['villas' => $villas], 200);
+    }
+
+    public function Villaordered($govId)
+    {
+        // $hotels = DB::table('hotels')->where('gouvernement', $govId)->orderBy('sort', 'DESC')->get();
+        $villas = Villa::where('gouvernement', $govId)->get();
+        foreach ($villas as $t) {
+            $t->image = url('/') . '/assets/admin/img/villas/' . $t->image;
+        }
+
+
+        return response()->json(['villas', $villas], 200);
     }
 }

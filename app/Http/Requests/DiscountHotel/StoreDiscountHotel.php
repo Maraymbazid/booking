@@ -30,7 +30,6 @@ class StoreDiscountHotel extends FormRequest
             'room_id' => 'required|integer',
             'gouvernement_id' => 'required|integer',
         ];
-
     }
     public function messages()
     {

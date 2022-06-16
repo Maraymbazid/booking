@@ -174,7 +174,6 @@
                         })
                 }}
                 , error: function (reject) {
-
                 }
             });
            // console.log(gouvernement_id);
@@ -191,12 +190,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-
-
-
         Swal.bindClickHandler()
-
-
         Swal.mixin({
             title: 'هل تريد الاستمرار؟',
             icon: 'question',
