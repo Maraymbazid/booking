@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Admin\Gouvernement;
-use App\Models\Admin\MeetingSalles;
-use Illuminate\Support\Facades\DB;
-use App\Models\Admin\MeetingServices;
 use App\Http\Traits\media;
+use App\Models\MeetingOrder;
+use Illuminate\Http\Request;
+use App\Models\MeetingDiscount;
+use App\Models\Admin\Gouvernement;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\MeetingSalles;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Models\Admin\MeetingServices;
 use App\Http\Requests\Meeting\StoreSalle;
 use App\Http\Requests\Meeting\UpdateSalle;
+
 class MeetingSallesController extends Controller
 {
     use media;
@@ -167,4 +172,125 @@ class MeetingSallesController extends Controller
         }
     }
 
+    public function checkOrder(Request $request)
+    {
+        // dd($request);
+        $id = $request->id;
+        $id = (int)$id;
+        if (is_integer($id)) {
+            $room = MeetingSalles::find($id);
+            if ($room) {
+                if ($request->numberdays !== null) {
+                    $discount = MeetingDiscount::where('salle_id', $id)
+                        ->where('day_count', '<=', $request->numberdays)->orderby('day_count', 'DESC')->get();
+                    if ($discount->count() > 0) {
+                        $mainPrice = $room->price;
+                        $price = $room->price *  $request->hours;    //before dis
+                        $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                        $finallPrice = $price - $dis;  // after dis
+                    } else {
+                        $dis = 0;
+                        $mainPrice = $room->price;
+                        $price = $room->price *  $request->hours;
+                        $finallPrice = $room->price *  $request->hours;
+                    }
+                } else {
+                    $dis = 0;
+                    $mainPrice = $room->price;
+                    $price = $room->price *  $request->hours;
+                    $finallPrice = $room->price *  $request->hours;
+                }
+                $cart = new \stdClass();
+                $cart->mainPrice = $mainPrice;     //main price in day
+                $cart->beforeDis = $price;          // price before dis
+                $cart->discount  = $dis;          //  dis
+                $cart->price = $finallPrice;          // price after dis
+                $cart->room_id = $room->id;           //car_id
+                $cart->meetingName = $room->name_ar;
+                $cart->date = $request->date;
+                $cart->start_time = $request->start_time;
+                $cart->hours = $request->hours;
+                $cart->end_time = $request->end_time;
+                $cart->numberDays = $request->numberdays;
+                $cart->number = $request->number;
+                $cart->persones = $request->persones;
+                $cart->customerName = $request->customername;
+                return view('meeting.detail', compact('cart'));
+            } else {
+                alert()->error('Oops....', 'this element does not exist .. try again');
+                return redirect()->back();
+            }
+        } else {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function saveOrder(Request $request)
+    {
+
+        $id = $request->id;
+        $id = (int)$id;
+        if (is_integer($id)) {
+            $room = MeetingSalles::find($id);
+
+            if ($room) {
+                if ($request->numberdays !== null) {
+                    $discount = MeetingDiscount::where('salle_id', $id)
+                        ->where('day_count', '<=', $request->numberdays)->orderby('day_count', 'DESC')->get();
+                    if ($discount->count() > 0) {
+                        $mainPrice = $room->price;
+                        $price = $room->price *  $request->hours;    //before dis
+                        $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                        $finallPrice = $price - $dis;  // after dis
+                    } else {
+                        $dis = 0;
+                        $mainPrice = $room->price;
+                        $price = $room->price *  $request->hours;
+                        $finallPrice = $room->price *  $request->hours;
+                    }
+                } else {
+                    $dis = 0;
+                    $mainPrice = $room->price;
+                    $price = $room->price *  $request->hours;
+                    $finallPrice = $room->price *  $request->hours;
+                }
+                $cart = new MeetingOrder();
+                $cart->order_number = 'M' . Auth::user()->id . time();
+                $cart->meeting_id   = $room->id;           //meet_id
+                $cart->user_id      =  Auth::user()->id;
+                $cart->date = $request->date;
+                $cart->start_time = $request->start_time;
+                $cart->hours = $request->hours;
+                $cart->end_time = $request->end_time;
+                $cart->numberdays = $request->numberdays;
+                $cart->number = $request->number;
+                $cart->persones = $request->persones;
+                $cart->customername = $request->customername;
+                $cart->main_price = $mainPrice;     //main price in day
+                $cart->pricebefore = $price;          // price before dis
+                $cart->discount  = $dis;          //  dis
+                $cart->finallPrice = $finallPrice;          // price after dis
+                $cart->status = 0;
+                $cart->note      = '';
+                $cart->save();
+                $msg =  "لقد قام " . '  ' .  $request->customrname  . '  ' . " بطلب حجز قاعة اجتماعات     " . '  ' . $room->name  . " ";
+                $msg .= " ورقم الواتساب الخاص به " . '  ' . $request->number . '  ';
+                if ($request->numberdays !== null) {
+                    $msg .= " وحجز  " . '  ' . $request->numberdays . "  يوم ";
+                }
+                $msg .= " وتاريخ الحجز " . '  ' . $request->date . '  ' . " من الساعه   " . '  ' . $request->start_time . "  الي الساعة  "  . '  ' . $request->end_time;
+                $msg .= " وعدد الافراد " .  $request->persones;
+                $msg .= "   والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+                $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $cart->order_number;
+                $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
+                return redirect()->route('meetinguserindex');
+            } else {
+                alert()->error('Oops....', 'this element does not exist .. try again');
+                return redirect()->back();
+            }
+        } else {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
 }

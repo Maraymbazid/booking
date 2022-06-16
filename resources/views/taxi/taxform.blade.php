@@ -96,6 +96,11 @@
                                         <option value="0"> لا  </option>
                                     </select>
                             </div>
+                            <div class="col-md-12 col-12 ">
+                                <label  class="form-group text-capitalize m-1 ">   كود خصم  </label>
+                                <input type="text" class="form-control"  name="promo" placeholder="كود خصم إن وجد ">
+
+                            </div>
 
                             <div class="col-md-12 col-12 yas">
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">احجز الان</button>

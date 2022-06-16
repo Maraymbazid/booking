@@ -51,12 +51,7 @@
 
 
                         </div>
-                        <div class="col-4 border-me">
-
-                            <p class="no-1">حجزك</p>
-                            <p class="no-2">100$</p>
-                            <p class="no-3">لكل ليلة</p>
-                        </div>
+                      
                     </div>
                 </div>
             </div>

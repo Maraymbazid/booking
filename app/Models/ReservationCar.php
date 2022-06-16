@@ -15,8 +15,11 @@ class ReservationCar extends Model
         'id',
         'user_id',
         'car_id',
-        'price',
         'customrname',
+        'price',
+        'mainPrice',
+        'beforeDis',
+        'discount',
         'deliveryplace',
         'receivingplace',
         'numberdays',
@@ -24,11 +27,16 @@ class ReservationCar extends Model
         'date',
         'Num',
         'status',
-        'Note',
+        'note',
     ];
     protected $timestamp = false;
     public function car()
     {
         return $this->belongsTo(Car::class,'car_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

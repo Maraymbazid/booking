@@ -42,14 +42,14 @@
                            @{{apartement.name_ar}}
                         </p>
                         <p class="loly"></p>
-                        <i class="fa-solid fa-location-dot"></i><span>  شركة</span>
+                        <i class="fa-solid fa-location-dot"></i><span>  @{{apartement.address_ar}}</span>
 
 
                     </div>
                     <div class="col-4 border-me">
 
                         <p class="no-1">حجزك</p>
-                        <p class="no-2">100$</p>
+                        <p class="no-2">   @{{apartement.price}}</p>
                         <p class="no-3">لكل ليلة</p>
                     </div>
                 </div>

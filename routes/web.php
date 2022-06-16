@@ -29,6 +29,7 @@ Auth::routes();
 
 // ->middleware(['auth', 'verified']);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::group(['prefix' => 'cars'/*, 'middleware' => 'auth' */], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
@@ -85,11 +86,16 @@ Route::group(['prefix' => 'meeting'], function () {
     Route::get('/', [MeetingSallesController::class, 'userindex'])->name('meetinguserindex');
     Route::get('meeting', [MeetingSallesController::class, 'meetingApi'])->name('meetingaApi');
     Route::get('userOneRoomMeet/{id}', [MeetingSallesController::class, 'oneMeetingRoom'])->name('oneMeetingRoom');
+    Route::post('orderCheck', [MeetingSallesController::class, 'checkOrder'])->name('meetCheckOrder');
+    Route::post('saveOrder', [MeetingSallesController::class, 'saveOrder'])->name('meetsaveOrder');
+
 
 });
 Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
 Route::group(['prefix' => 'orders', 'middleware' => 'auth'], function () {
     Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');
+    Route::get('/carOrders', [OrdersController::class, 'userCarOrder'])->name('userCarOrder');
+    Route::get('/singlecarOrder/{id}', [OrdersController::class, 'singleCarOrder'])->name('singlecarOrder');
     Route::get('/hotelOrders', [OrdersController::class, 'userHotelOrder'])->name('userHotelOrder');
 });

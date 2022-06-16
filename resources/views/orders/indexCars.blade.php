@@ -67,37 +67,43 @@
             <table class="table table-bordered table-striped table-responsive-stack" id="tableOne" style="text-align:center">
             <thead class="thead-dark">
                 <tr>
+                    <th>  رقم الطلب   </th>
                     <th>  الاسم   </th>
-                    <th>   رقم الواتساب   </th>
-                    <th>   عدد الايام    </th>
-                    <th>   تاريخ الوصول     </th>
-                    <th>   تاريخ المغادرة     </th>
-                    <th>     حالة الطلب     </th>
+                    <th>  رقم التواصل    </th>
+                    <th>    السعر الاجمالي</th>
+                    <th>     حالة الطلب   </th>
                     <th>     تفاصيل </th>
+                    {{-- <th>   رقم الواتساب   </th>
+                    <th>   عدد الايام    </th>
+                    <th>   تاريخ الاستلام      </th>
+                    <th>   مكان الاستلام      </th>
+                    <th>   مكان التسليم      </th>
+                    <th>   سعر اليوم        </th>
+                    <th>     الخصم ان وجد        </th> --}}
+
                 </tr>
             </thead>
             <tbody>
 
-                @foreach ($taxis as $taxi)
+                @foreach ($cars as $car )
                     <tr>
-                        <td> {{ $taxi->user->name }}</td>
+                        <td> {{ $car->Num}}</td>
+                        <td> {{ $car->customrname }}    </td>
+                        <td> {{ $car->number }} </td>
+                        <td> {{ $car->price }}</td>
 
-                        <td> {{ $taxi->Num }}    </td>
-                        <td> {{$taxi->number }} </td>
-                        {{-- <td> {{ $taxi->taxi->model }}</td> --}}
-                        <td> {{ $taxi->customername }}</td>
-                        <td> @if($taxi->status == '0' )
+                        <td> @if($car->status == '0' )
                             جارى المراجعة
-                            @elseif ($taxi->status == 1)
+                            @elseif ($car->status == 1)
                             تم  قبول الطلب
-                            @elseif ($taxi->status == 2)
+                            @elseif ($car->status == 2)
                                 تم إالغاء الطلب
                             @else
                             هناك خطأ ما ونحاول التواصل معك
                             @endif
                             </td>
                         <td>   <button class="btn btn-primary">
-                            <a href="{{ route('H_O', $taxi->id) }}" >
+                            <a href="{{ route('singlecarOrder', $car->id) }}" >
                                 <span style="color: #fff;">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                 </span>
@@ -107,28 +113,28 @@
                 @endforeach
             </tbody>
             </table>
-                    @if ($taxis->hasPages())
+                    @if ($cars->hasPages())
 
                     <nav>
                         <ul class="pagination">
                             {{-- Previous Page Link --}}
-                            @if ($taxis->onFirstPage())
+                            @if ($cars->onFirstPage())
                                 <li class="page-item disabled">
                                     <a class="page-link" href="#" tabindex="-1">Previous</a>
                                 </li>
                             @else
                                 <li class="page-item ">
-                                    <a class="page-link" href=" {{ $taxis->previousPageUrl() }}"
+                                    <a class="page-link" href=" {{ $cars->previousPageUrl() }}"
                                         tabindex="-1">Previous</a>
                                 </li>
                             @endif
 
 
                             {{-- Next Page Link --}}
-                            @if ($taxis->hasMorePages())
+                            @if ($cars->hasMorePages())
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="{{ $taxis->nextPageUrl() }}">Next</a>
+                                        href="{{ $cars->nextPageUrl() }}">Next</a>
                                 </li>
                             @else
                                 <li class="page-item disabled" aria-disabled="true"
