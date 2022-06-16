@@ -65,6 +65,8 @@
                             <span class="nav-link-text">  طلبات الفنادق  </span>  </a>
                             <a class="dropdown-item" href="{{ route('userTaxiOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
                                 <span class="nav-link-text">  طلبات تاكسي المطار </span>  </a>
+                                <a class="dropdown-item" href="{{ route('userCarOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
+                                    <span class="nav-link-text">    حجز السيارات </span>  </a>
                         @endif
                         <div class="dropdown-divider"></div>
                         @if (Route::has('register'))
@@ -111,7 +113,7 @@
         <div class="container">
             COPY RIGHY BY kkkkkkkkkkkkkk
         </div>
-   
+
   </footer>
 
 

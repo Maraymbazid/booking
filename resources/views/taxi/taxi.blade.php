@@ -63,16 +63,14 @@
                         <p class="card-title-me">
                           @{{taxi.name}}
                         </p>
-                        <p class="loly"></p>
-                        <i class="fa-solid fa-location-dot"></i><span>  شركة</span>
-
-
+                        <i class="fa-solid fa-location-dot"></i><span>  @{{ taxi.company }}</span>
+                        <p class="loly" v-if='taxi.company_id' >  </p>
                     </div>
                     <div class="col-4 border-me">
 
                         <p class="no-1">متوسط </p>
-                        <p class="no-2">100$</p>
-                        <p class="no-3"> لاسعارالرحلات</p>
+                        <p class="no-2"> @{{taxi.price}} </p>
+                        <p class="no-3"> </p>
                     </div>
                 </div>
             </div>

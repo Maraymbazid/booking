@@ -34,11 +34,23 @@ class OrdersController extends Controller
         $cars = ReservationCar::where('user_id',  '=', Auth::user()->id)->paginate(6);
         return view('orders.indexCars', compact('cars'));
     }
+    public function singleCarOrder($id)
+    {
+        $order = ReservationCar::where('id', $id)->first();
+        // return $order;
+        return view('orders.single.singlecar', compact('order'));
+    }
+
+
     public function userVillaOrder()
     {
         $villas = ReservationVilla::where('user_id',  '=', Auth::user()->id)->paginate(6);
         return view('orders.indexVillas', compact('villas'));
     }
+
+
+
+
     public function userAppartOrder()
     {
         $apparts = ReservationApartement::where('user_id',  '=', Auth::user()->id)->paginate(6);

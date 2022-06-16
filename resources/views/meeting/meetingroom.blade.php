@@ -27,16 +27,14 @@
                         <p class="card-title-me">
                           @{{meeting.name_ar}}
                         </p>
-                        <p class="loly"></p>
-                        <i class="fa-solid fa-location-dot"></i><span>  شركة</span>
-
-
+                        <p class="loly">   <i class="fa-solid fa-location-dot"></i><span>      @{{meeting.address_ar}} </span>
+                        </p>
                     </div>
                     <div class="col-4 border-me">
 
                         <p class="no-1">حجزك</p>
-                        <p class="no-2">100$</p>
-                        <p class="no-3">لكل ليلة</p>
+                        <p class="no-2">  @{{meeting.price}} </p>
+                        <p class="no-3">لكل ساعه</p>
                     </div>
                 </div>
             </div>

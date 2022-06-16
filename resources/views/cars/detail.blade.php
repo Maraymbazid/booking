@@ -36,7 +36,20 @@
                             </tr>
                             <tr>
                                 <td> السعر فى اليوم      </td>
-                                <td> {{$cartcar->price}} </td>
+                                <td> {{$cartcar->mainPrice}} $</td>
+                            </tr>
+
+                            @if($cartcar->discount > 0 )
+                            <tr>
+                                <td> السعر قبل الخصم       </td>
+                                <td> {{$cartcar->beforedis}} $</td>
+                            </tr>
+                            <td>  الخصم        </td>
+                            <td> {{$cartcar->discount}} $</td>
+                            @endif
+                            <tr>
+                                <td>  السعر الاجمالي       </td>
+                                <td> {{$cartcar->price}} $</td>
                             </tr>
                             <tr>
                                 <td>  اسم الشخص المعني بالحجز   </td>
@@ -60,7 +73,7 @@
                                 <td>{{$cartcar->date}} <input type="hidden" name="date" value="{{$cartcar->date}}" /> </td>
                             </tr>
                             <tr>
-                                <td>   المده   </td>
+                                <td>   عدد الايام   </td>
                                 <td> {{$cartcar->numberdays}} <input type="hidden" name="numberdays" value="{{$cartcar->numberdays}}" /> </td>
                             </tr>
                             <input type="hidden" name="id" value="{{$cartcar->car_id}}" />

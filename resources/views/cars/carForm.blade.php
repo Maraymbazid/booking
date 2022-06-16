@@ -149,7 +149,7 @@
                                         @foreach($car->discount as $discount)
                                         <div class="para col-lg-3 col-3 m-1" >
                                         <p class="title-des-left p-1">
-                                        %{{$discount->rate}} => لـ 5أيام
+                                        %{{$discount->rate}} => لـ   {{$discount->number_days}}أيام
                                             </p>
                                         </div>
 

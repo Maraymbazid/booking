@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use \stdClass;
 use App\Models\Car;
 use App\Http\Traits\media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\ReservationCar;
 use App\Models\Admin\DiscountCar;
-use \stdClass;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
 class CarController extends Controller
 {
     use media;
@@ -35,9 +38,9 @@ class CarController extends Controller
     public function index()
     {
         $cars = DB::table('cars')
-            ->join('companies', 'cars.company_id', '=', 'companies.id')
-            ->select('cars.*', 'companies.name as company')
-            ->get();
+        ->join('companies', 'cars.company_id', '=', 'companies.id')
+        ->select('cars.*', 'companies.name as company')
+        ->get();
 
         return view('admin.cars.index')->with('cars', $cars);
     }
@@ -78,6 +81,7 @@ class CarController extends Controller
     public function userIndex()
     {
         $cars =Car::get();
+
         foreach ($cars as $car) {
             $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
         }
@@ -133,27 +137,32 @@ class CarController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $car->price) / 100;  // dis
-                        $price = $car->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+                    $mainPrice = $car->price;
+                    $price = $car->price *  $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->rate * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
+                    $mainPrice = $car->price;
                         $price = $car->price;
                         $finallPrice = $car->price;
                     }
-                     $cartcar = new \stdClass();
-                     $cartcar->car_id=$car->id;
-                     $cartcar->car_name=$car->name;
-                     $cartcar->modal=$car->model;
-                     $cartcar->price=$finallPrice;
-                     $cartcar->deliveryplace=$data->deliveryplace;
-                     $cartcar->customrname=$data->customrname;
-                     $cartcar->date=$data->date;
-                     $cartcar->receivingplace=$data->receivingplace;
-                     $cartcar->numberdays=$data->numberdays;
-                     $cartcar->number=$data->number;
-                     return view('cars.detail',compact('cartcar'));
+                $cartcar = new \stdClass();
+                $cartcar->mainPrice = $mainPrice;     //main price in day
+                $cartcar->beforedis = $price;          // price before dis
+                $cartcar->discount  = $dis;          //  dis
+                $cartcar->price = $finallPrice;          // price after dis
+                $cartcar->car_id = $car->id;           //car_id
+                $cartcar->car_name = $car->name;
+                $cartcar->modal = $car->model;
+                $cartcar->deliveryplace = $data->deliveryplace;
+                $cartcar->customrname = $data->customrname;
+                $cartcar->date = $data->date;
+                $cartcar->receivingplace = $data->receivingplace;
+                $cartcar->numberdays = $data->numberdays;
+                $cartcar->number = $data->number;
+                return view('cars.detail', compact('cartcar'));
             }
             else
             {
@@ -176,27 +185,39 @@ class CarController extends Controller
             $discount = DiscountCar::where('car_id',$id)
             ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
             if ($discount->count() > 0) {
-                $dis =  ($discount[0]->rate * $car->price) / 100;  // dis
+                $mainPrice = $car->price;
                 $price = $car->price *  $data->numberdays;    //before dis
+                $dis =  ($discount[0]->rate * $price) / 100;  // dis    %
                 $finallPrice = $price - $dis;  // after dis
             } else {
+                $mainPrice = $car->price;
                 $dis = 0;
                 $price = $car->price;
                 $finallPrice = $car->price;
             }
             $newreservation=new ReservationCar;
-            $newreservation->user_id=1;
-            $newreservation->car_id=$id;
-            $newreservation->price=$finallPrice;
-            $newreservation->Num='DE0001';
+            $newreservation->user_id   = Auth::user()->id;
+            $newreservation->car_id    = $id;
+            $newreservation->mainPrice = $mainPrice;     //main price in day
+            $newreservation->beforeDis = $price;          // price before dis
+            $newreservation->discount  = $dis;          //  dis
+            $newreservation->price     = $finallPrice;
+            $newreservation->Num = 'C' . Auth::user()->id . time();
             $newreservation->deliveryplace=$data->deliveryplace;
-            $newreservation->customrname=$data->customrname;
+            $newreservation->customrname = $data->customrname;
             $newreservation->receivingplace=$data->receivingplace;
             $newreservation->date=$data->date;
             $newreservation->numberdays=$data->numberdays;
             $newreservation->number=$data->number;
-            $newreservation->status='pending';
+            $newreservation->status = 0;
             $newreservation->save();
+
+            $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير سياره    " . '  ' . $car->name  . " " . " والموديل" . $car->model;
+            $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays . "  يوم ";
+            $msg .= " وتاريخ الاستلام " . $data->date . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+            $msg .= "   ومكان استلام السياره   " . "  " .  $data->receivingplace . "ومكان تسليم السياره " . " " . $data->deliveryplace . " ";
+            $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+            $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
             return response()->json(['msg' => 'تم حفظ بيانتك بنجاح',], 200);
 
         }
@@ -302,6 +323,7 @@ class CarController extends Controller
         foreach ($cars as $car) {
             $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
         }
+
         return response()->json(['cars' => $cars], 200);
     }
 }

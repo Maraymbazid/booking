@@ -44,15 +44,13 @@
                         <p class="card-title-me">
                           @{{villa.name_ar}}
                         </p>
-                        <p class="loly"></p>
-                        <i class="fa-solid fa-location-dot"></i><span>  شركة</span>
-
-
+                        <i class="fa-solid fa-location-dot"></i><span> @{{ villa.address_ar }} </span>
+                        <p class="loly" >  </p>
                     </div>
                     <div class="col-4 border-me">
 
                         <p class="no-1">حجزك</p>
-                        <p class="no-2">100$</p>
+                        <p class="no-2">  @{{villa.price}}  </p>
                         <p class="no-3">لكل ليلة</p>
                     </div>
                 </div>
