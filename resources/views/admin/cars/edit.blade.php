@@ -143,7 +143,7 @@
                                 <div class="col-6 mt-5">
                                     <div class="form-group">
                                         <button name="page" value="index" @click='saveData' type="submit"
-                                            class="btn btn-primary btn-lg btn-block">إضافة</button>
+                                            class="btn btn-primary btn-lg btn-block">تعديل</button>
                                     </div>
                                 </div>
                                 <div class="col-6 mt-5">
@@ -234,7 +234,7 @@
                                 type: 'success',
                                 confirmButtonText: 'ok',
                                 });
-                               return;
+                                window.location.href='{{ route('carindex')}}';
                         },
                         error: function(res) {
                             var response = $.parseJSON(res.responseText);

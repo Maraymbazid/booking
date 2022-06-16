@@ -28,15 +28,12 @@ class TaxiController extends Controller
         $taxi->price  = $request->price;
         $taxi->model  = $request->model;
         $taxi->save();
-        return response()->json(['msg' => ' taxi created'], 200);
+        return response()->json(['msg' => 'تم حفظ الداتا بنجاح '], 200);
     }
 
     public function index()
     {
-        $taxis = DB::table('taxis')
-            ->join('companies', 'taxis.company_id', '=', 'companies.id')
-            ->select('taxis.*', 'companies.name as company')
-            ->get();
+        $taxis =Taxi::get();
         return view('admin.taxi.index')->with('taxis', $taxis);
     }
     public function edit($id)
@@ -64,11 +61,32 @@ class TaxiController extends Controller
         if ($update) {
             return response()->json([
                 'status' => 'done',
-                'msg' => 'done',
+                'msg' => 'تم تعديل الداتا بنجاح ',
             ]);
         } else {
             alert()->error('Oops....', 'Something went wrong .. try again');
             return redirect()->route('Hotels');
+        }
+    }
+    public function delete(Request $request)
+    {
+        $taxi=Taxi::find($request->id);
+        if($taxi)
+        {
+            $taxi->delete();
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
+        }
+       else
+        {
+            return response()->json
+            ([
+                //'status' => false,
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
         }
     }
     public function userIndex()

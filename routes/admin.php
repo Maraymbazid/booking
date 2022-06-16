@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\MeetingSallesController;
 use App\Http\Controllers\Admin\DiscountApartementController;
 use App\Http\Controllers\Admin\DiscountCarController;
 use App\Http\Controllers\Admin\DestinationController;
+use App\Http\Controllers\Admin\PromoCodeController;
 Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -99,6 +100,10 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::group(['prefix' => 'company'], function () {
         Route::get('/create', [CompanyController::class, 'create'])->name('createCompany');
         Route::post('/store', [CompanyController::class, 'store'])->name('companyStore');
+        Route::get('/', [CompanyController::class, 'index'])->name('indexcompany');
+        Route::post('delete-company', [CompanyController::class, 'delete'])->name('delete-company');
+        Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('editcompany');
+        Route::any('/update', [CompanyController::class, 'update'])->name('updatecompany');
     });
     Route::group(['prefix' => 'cars'], function () {
         Route::get('/create', [CarController::class, 'create'])->name('createCar');
@@ -106,6 +111,15 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::any('/update', [CarController::class, 'update'])->name('updateCar');
         Route::get('/', [CarController::class, 'index'])->name('carindex');
         Route::post('/store', [CarController::class, 'store'])->name('CarStore');
+        Route::post('delete-car', [CarController::class, 'delete'])->name('delete-car');
+    });
+    Route::group(['prefix' => 'promocode'], function () {
+        Route::get('/create', [PromoCodeController::class, 'create'])->name('createpromo');
+        Route::get('/edit/{id}', [PromoCodeController::class, 'edit'])->name('editpromo');
+        Route::post('/update', [PromoCodeController::class, 'update'])->name('updatepromo');
+        Route::get('/', [PromoCodeController::class, 'index'])->name('promoindex');
+        Route::post('/store', [PromoCodeController::class, 'store'])->name('promostore');
+        Route::post('delete-promo', [PromoCodeController::class, 'delete'])->name('delete-promo');
     });
     Route::group(['prefix' => 'taxis'], function () {
         Route::get('/create', [TaxiController::class, 'create'])->name('createTaxi');
@@ -113,6 +127,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('/store', [TaxiController::class, 'store'])->name('storeTaxi');
         Route::any('/update', [TaxiController::class, 'update'])->name('updateTax');
         Route::get('/', [TaxiController::class, 'index'])->name('indexTaxi');
+        Route::post('delete-taxi', [TaxiController::class, 'delete'])->name('delete-taxi');
     }); 
     Route::group(['prefix' => 'destination'], function () {
         Route::get('/alldestination', [DestinationController::class, 'index'])->name('alldestination');

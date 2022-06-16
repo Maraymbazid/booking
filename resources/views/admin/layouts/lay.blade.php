@@ -247,6 +247,29 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
+                                  الشركات 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createCompany')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> إضافة شركة </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('indexcompany')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p> الشركات  </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
                                      السيارات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
@@ -288,6 +311,29 @@
 
                         </a>
                         </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                برومو كود 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('createpromo')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>  اضافة برمو </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('promoindex')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p> جميع البرمو  </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item ">
                             <a href="" class="nav-link">

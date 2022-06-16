@@ -84,26 +84,28 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th> الاسم بالعربي  </th>
+                                            <th>  تاكسي المطار  </th>
+                                            <th>   البرمو  </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        @foreach ($companies as $company)
-                                            <tr class="companyRow{{$company->id}}">
-                                                <td> {{ $company->name }}</td>
+                                        @foreach ($allpromo as $promo)
+                                            <tr class="promoRow{{$promo->id}}">
+                                                <td> {{ $promo->taxi->name }}</td>
+                                                <td> {{ $promo->name }}</td>
                                                 <td>
                                                      <button type="button" class="btn btn-warning">  <a
-                                                            href="{{ route('editcompany', $company->id) }}" class="">
+                                                            href="{{ route('editpromo', $promo->id) }}" class="">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
 
                                                     </button>
 
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" company_id="{{$company->id}}">
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" promo_id="{{$promo->id}}">
                                                    <i class="fas fa-trash"></i> </a> </button>
                                                         
                                                 </td>
@@ -147,17 +149,17 @@
 <script>
         $(document).on('click', '.button-delete', function (e) {
             e.preventDefault();
-            var company_id = $(this).attr('company_id');
+            var promo_id = $(this).attr('promo_id');
             $.ajax({
                 type: 'post',
-                url: "{{route('delete-company')}}",
+                url: "{{route('delete-promo')}}",
                 data: {
                     '_token': "{{csrf_token()}}",
-                    'id' :company_id
+                    'id' :promo_id
                 },
                 success: (response) => {
                     if (response) {
-                    $('.companyRow'+response.id).remove();
+                    $('.promoRow'+response.id).remove();
                     Swal.fire({
                             position: 'top-center',
                             icon: 'success',

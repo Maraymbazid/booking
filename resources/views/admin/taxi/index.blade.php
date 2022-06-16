@@ -97,9 +97,13 @@
                                     <tbody>
 
                                         @foreach ($taxis as $taxi)
-                                            <tr>
+                                            <tr class="taxiRow{{$taxi->id}}">
                                                 <td> {{ $taxi->name }}</td>
-                                                <td> {{ $taxi->company }}</td>
+                                                @if($taxi->company_id != '')
+                                                <td> {{ $taxi->company->name }}</td>
+                                                @else
+                                                <td>  __________</td>
+                                                @endif
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a
                                                             href="{{ route('editTaxi', $taxi->id) }}">
@@ -107,12 +111,11 @@
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('deleteHotel', $taxi->id) }}" method="post"
-                                                        class="d-inline">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button class="btn btn-danger rounded"> <i class="fas fa-trash"></i></button>
-                                                    </form>
+                                                <a href="" class="button-delete" taxi_id="{{$taxi->id}}">
+                                                <button class="btn btn-danger rounded">
+                                                <i class="fas fa-trash"></i>
+                                                </button>
+                                            </a>
                                                 </td>
 
                                             </tr>
@@ -175,6 +178,45 @@
             showCloseButton: true
         }).bindClickHandler('data-swal-toast-template')
     </script>
-
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script>
+                $(document).on('click', '.button-delete', function (e) {
+                    e.preventDefault();
+                    var taxi_id = $(this).attr('taxi_id');
+                    $.ajax({
+                        type: 'post',
+                        url: "{{route('delete-taxi')}}",
+                        data: {
+                            '_token': "{{csrf_token()}}",
+                            'id' :taxi_id
+                        },
+                        success: (response) => {
+                            if (response) {
+                            $('.taxiRow'+response.id).remove();
+                            Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: response.msg,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                        }}
+                        , error: function (reject)
+                         {
+                            var response = $.parseJSON(reject.responseText);
+                            swal({
+                                title: response.msg,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                type: "danger",
+                                });
+                         }
+                    });
+                });
+            </script>
 
     @endsection

@@ -29,16 +29,12 @@ class CarController extends Controller
         $car->model  = $request->model;
         $car->save();
 
-        return response()->json(['msg' => ' car created'], 200);
+        return response()->json(['msg' => 'تم حفظ الداتا بنجاح '], 200);
     }
 
     public function index()
     {
-        $cars = DB::table('cars')
-            ->join('companies', 'cars.company_id', '=', 'companies.id')
-            ->select('cars.*', 'companies.name as company')
-            ->get();
-
+        $cars =Car::get();
         return view('admin.cars.index')->with('cars', $cars);
     }
 
@@ -68,11 +64,32 @@ class CarController extends Controller
         if ($update) {
             return response()->json([
                 'status' => 'done',
-                'msg' => 'done',
+                'msg' => 'تم تعديل الداتا بنجاح ',
             ]);
         } else {
             alert()->error('Oops....', 'Something went wrong .. try again');
             return redirect()->route('Hotels');
+        }
+    }
+    public function delete(Request $request)
+    {
+        $car=Car::find($request->id);
+        if($car)
+        {
+            $car->delete();
+            return response()->json
+            ([
+                'msg'  => 'تم حذف الداتا بنجاح ',
+                'id'=>$request->id,
+            ],200);
+        }
+       else
+        {
+            return response()->json
+            ([
+                //'status' => false,
+                 'msg'  => ' تعذر الحذف هناك خطأ ما ',
+            ],500);
         }
     }
     public function userIndex()
