@@ -85,6 +85,7 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
+                                            <th>  اسم المحافظة </th>
                                             <th>  اسم الفندق  </th>
                                             <th> اسم الغرفة </th>
                                             <th> نسبة الخصم </th>
@@ -96,6 +97,7 @@
 
                                         @foreach ($allDiscounts as $discount)
                                             <tr class="RoomRow{{$discount->id}}">
+                                                <td> {{ $discount->room->hotel->gouvernemente->name }}</td>
                                                 <td> {{ $discount->room->hotel->name_ar  }}</td>
                                                 <td> {{ $discount->room->name_ar }}</td>
                                                 <td> % {{ $discount->discount }}</td>
@@ -172,7 +174,6 @@
                         })
                 }}
                 , error: function (reject) {
-
                 }
             });
            // console.log(gouvernement_id);
@@ -189,12 +190,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-
-
-
         Swal.bindClickHandler()
-
-
         Swal.mixin({
             title: 'هل تريد الاستمرار؟',
             icon: 'question',

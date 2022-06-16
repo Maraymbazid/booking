@@ -1,92 +1,74 @@
-
 @extends('layout.flay')
 @section('css')
 <style>
-    input {
 
+    input {
         outline: none !important;
         text-align: center;
         border-top: none;
         border-right: none;
         border-left: none;
         border-bottom: 1px solid #222;
-
     }
+
 </style>
 @endsection
-@include('layout.nav')
+@section('moving-image')
 <div class="section">
     <div class="moving-image"   style="background-image: url({{$taxi->image}});"></div>
 </div>
+@endsection
+
+
+
 @section('content')
 @include('layout.nav2')
 <div class="title">
     {{$taxi->name}}
 </div>
       <div class="container">
-
-
-
         <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12" >
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">السيارة</th>
-                            <th scope="col">الموديل  </th>
-                            <th scope="col"> شركة </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <form method="post" onsubmit="myFunction()"
-                            {{-- action="{{ route('ordercheck', ['one' =>  encrypt(), 'tow' =>  encrypt()]) }}" --}}
-                            enctype="multipart/form-data">
-                            @csrf
-                            <tr>
-                                <td data-label="اسم السيارة">{{$taxi->name}}</td>
-                                <td data-label="موديل السيارة">
-                                    {{$taxi->model}}
-                                </td>
-                                <td>{{$taxi->company->name}}  </td>
-
-                            </tr>
-                        </form>
-                    </tbody>
-                </table>
-                <div class="container">
-                    <div class="row mt-5">
-                    <div class="col">
+            <div class="row mt-5" >
+                <div class="col-lg-12 ">
+                    <div class="row">
+                        <div class="col-lg-4 hight borderr border">
+                            <p class="title-desS mt-2 ">  </p>
+                            <p class="title-des">السيارة : {{$taxi->name}} </p>
+                            <hr>
+                            <p class="title-des">الموديل :  {{$taxi->model}}</p>
+                            <hr>
+                            <p class="title-des">سعر اليوم :  {{$taxi->company->name}}$</p>
+                        </div>
+                        <div class="col-lg-8 hight border borderr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="mayati-title mt-2">
+                الحجز
+            </h3>
                         <form method="post" action="{{route('checkordertaxi')}}" enctype="multipart/form-data">
+                            <div class="row mb-5 form">
                             @csrf
                             <input type="hidden" name="id" value="{{$taxi->id}}">
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">موقع إستلام السياره </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace" placeholder="موقع استلام السياره ">
-                                </div>
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 "> موقع  الاستلام :</label>
+                                <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace" placeholder="موقع استلام السياره " >
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  اسم الشخص المعني بالحجز </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
-                                </div>
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 "> اسم الشخص المعني بالحجز   :</label>
+                                <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه" >
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  تاريخ الوصول </label>
-                                <div class="col-lg-10 col-12">
-                                  <input type="date" class="form-control" id="datearrive" name="datearrive" placeholder="  من فضلك حدد ميعاد الوصول">
-                                </div>
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 ">  تاريخ الوصول </label>
+                                <input type="date" class="form-control" id="datearrive" name="datearrive" placeholder="  من فضلك حدد ميعاد الوصول">
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  رقم التليفون </label>
-                                <div class="col-lg-10 col-12">
-                                     <input type="number" class="form-control" id="phone" name="phone" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
-                                </div>
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 ">   رقم التليفون </label>
+                                <input type="number" class="form-control" id="phone" name="phone" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  الواجهة  </label>
-                                <div class="col-lg-10 col-12">
+                            <div class="col-md-12 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 ">  الواجهة  </label>
                                 <select _ngcontent-c9="" class="form-control destinations" id="destination" name="destination" data-dependent="price">
                                             <option value=""> اختار الواجهة من فضلك </option>
                                         @if($alldestinations && $alldestinations -> count() > 0)
@@ -98,42 +80,32 @@
                                         @endforeach
                                     @endif
                                     </select>
-                                </div>
                             </div>
-                            <div class="form-group row mb-2" id="price" name="price">
 
-                                </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  صورة التذكرة  </label>
-                                <div class="col-lg-10 col-12">
-                                     <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
-                                </div>
+                            <div class="col-md-12 col-12 " id="price" name="price">
                             </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  معها سائق    </label>
-                                <div class="col-lg-10 col-12">
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 ">   صورة التذكرة  </label>
+                                <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
+                            </div>
+                            <div class="col-md-6 col-12 yas">
+                                <label  class="form-group text-capitalize m-1 ">  معها سائق    </label>
                                     <select id="chauffeur" name="chauffeur" class="form-control">
                                         <option selected>هل تريد سائق مع السياره أم لا </option>
                                         <option value="1"> نعم </option>
                                         <option value="0"> لا  </option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">       </label>
-                                <div class="col-lg-10 col-12 p-2">
-                                       <button type="sumbit" class="btn btn-primary p-1 form-control" > أطلب الان  </button>
-                                </div>
                             </div>
 
+                            <div class="col-md-12 col-12 yas">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">احجز الان</button>
+                            </div>
 
-                          </form>
-                    </div>
-                </div>
-
-                </div>
-            </div>
+                        </div>
+                        </form>
         </div>
+        </div>
+
 
 
 @endsection
@@ -153,22 +125,24 @@
         }
 </script>
 <script>
-$.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+
  $('.destinations').change(function() {
             if ($(this).val() != '') {
                 var select = $(this).attr("id");
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
+                $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+                    });
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('getpricedestination') }}",
                     data: {
                         'id': value,
-                        'dependent': dependent
+                        'dependent': dependent,
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(result) {
                         $('#' + dependent).html(result);

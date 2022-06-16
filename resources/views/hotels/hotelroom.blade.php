@@ -1,17 +1,46 @@
 @extends('layout.flay')
+<<<<<<< HEAD
 @include('layout.nav')
+=======
+
+@section('moving-image')
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 <div class="section">
     <div class="moving-image"  style="background-image: url({{$hotel->cover}});"></div>
 </div>
+@endsection
 
 
 
 @section('content')
 @include('layout.nav2')
+<<<<<<< HEAD
                 <div class="title">
                     {{$hotel->name_ar}}
                 </div>
                 
+=======
+<div class="title">
+    {{$hotel->name_ar}}
+</div>
+                <div class="container" >
+                    <div class="row">
+                        @foreach ($main_services as $main)
+                        <div class="col-md-3 col-4 mt-3">
+                            <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}
+                                @foreach ($hotel->SubServices as $hsub)
+                                    @if($hsub->MainSer->id == $main->id )
+                                    <li >
+                                        {{  $hsub->name}}
+                                    </li>
+                                    @endif
+                                    @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                    </div>
+                </div>
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
                 <div id='content' >
                     <div class="mayati">
                         <div class="container">
@@ -27,6 +56,10 @@
                                         <input v-model="whtsapp" type="text" class="form-control" placeholder=" الواتساب" >
                                     </div>
                                     <div class="col-md-12 col-12 yas">
+<<<<<<< HEAD
+=======
+                                        <label  class="form-group text-capitalize m-1 "> عدد الايام </label>
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
                                         <input @change='setDate' v-model='daycount' type="number" class="form-control" placeholder="عدد الايام " >
                                     </div>
                                     <div class="col-md-6 col-12 yas">
@@ -34,13 +67,18 @@
                                         <input type='date' @change='setDate' v-model='arrival' type="date" class="form-control" placeholder="Last name" >
                                     </div>
                                     <div class="col-md-6 col-12 yas">
+<<<<<<< HEAD
                                         <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة :</label><br>    
+=======
+                                        <label  class="form-group text-capitalize m-1 "> تاريخ المغادرة :</label><br>
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
                                         <input disabled  type='date' v-model='checkout' type="number" class="form-control" placeholder="Last name" >
                                     </div>
                             </div>
                             <hr>
                         </div>
                     </div>
+<<<<<<< HEAD
                        
                     <div class="container">
                         <div class="row mar-top">
@@ -77,6 +115,40 @@
                                                 <div class="carousel-inner">
                                                     <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
                                                     
+=======
+
+                    <div class="container">
+                    <div class="row mt-5" v-for='room in v2'>
+                        <div class="col-lg-3 border ">
+                            <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
+                            </div>
+                            <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                                            <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
+                                            <i class="far fa-images"></i> المزيد من الصور
+                                            </a>
+                                                <div class="modal fade" :id="'image'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content " style="text-align:center">
+                                                            <p style="margin-top:10px">
+                                                                <i class="far fa-images"></i>  صور الغرفه
+                                                            </p>
+                                                            <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
+
+                                                                    </div>
+                                                                </div>
+                                                                <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                </a>
+                                                                <a class="carousel-control-next" :href="'#slide'+ room.id" role="button" data-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                    <span class="sr-only">Next</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
                                                     </div>
                                                 </div>
                                                 <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
@@ -107,9 +179,6 @@
                                                     @{{r.discount}}% لـ 5أيام
                                                 </p>
                                             </div>
-
-
-
                                         </div>
 
                                         <ul class="ul">
@@ -122,7 +191,7 @@
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle"> @{{ room.name_ar }} </h5>
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -194,7 +263,7 @@
                         </div>
                     </div>
                     </div>
-                        <div class="title">
+                        <div class="title mt-3">
                             مكان الفندق
                         </div>
                         <div class="container">
@@ -206,7 +275,7 @@
                 </div>
             </div>
         </div>
-        @include('layout.footer')
+
 @endsection
 
 @section('js')
@@ -217,13 +286,9 @@
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
-
             $(document).ready(function(){
                 $('.carousel').carousel()
-
             })
-
-
         hotels = new Vue({
             'el' : '#content',
             'data' : {
@@ -238,7 +303,6 @@
                 'erorrs' : []
             },
             methods:{
-
                 getSer: function(e){
                 console.log(e);
                 },
@@ -266,7 +330,6 @@
                         return 0;
                     }
                 },
-
                 sendOrder: function(e){
                     this.erorrs  = []
                     this.validation(this.checkout , 'من فضلك تأكد من عدد الايام وتاريخ الوصول ')
@@ -280,11 +343,9 @@
                 }
             }
         });
-
     function myFunction() {
             $(':button').prop('disabled', true);
         }
-
 </script>
 
 @endsection

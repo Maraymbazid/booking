@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 .mayati{
+=======
+.mayati {
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
     background-color: #fff;
     padding: 35px 0px;
 }
-.mayati-title{
+
+.mayati-title {
     text-align: center;
     font-weight: bold;
     background-color: #014760;
@@ -12,30 +17,44 @@
     color: #ffffff;
 }
 
+<<<<<<< HEAD
 .title-desS{
+=======
+.title-desS {
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
     font-weight: 700;
     text-align: center;
 }
-.title-des{
+
+.title-des {
     margin-bottom: 0px;
 }
-#ma-top{
+
+#ma-top {
     margin-top: 3px;
     margin-bottom: 1px;
     border: none;
     cursor: pointer;
-    
 }
-#ma-top:hover{
+
+#ma-top:hover {
     font-size: 17px;
 }
 
 @media screen and (max-width: 780px) {
-    #content{
-       text-align: center;
+    #content {
+        text-align: center;
     }
+<<<<<<< HEAD
   }
 .borderr{
     padding-top: 5px;
 }
 
+=======
+}
+
+.borderr {
+    padding-top: 5px;
+}
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e

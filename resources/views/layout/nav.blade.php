@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger mg-b ">
     <div class="container">
     
@@ -64,4 +65,6 @@
         </div>
     </div>
 </nav>
+=======
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 

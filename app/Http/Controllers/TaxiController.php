@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Taxi;
 use App\Http\Traits\media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\ReservationTaxi;
 use App\Models\Admin\Destination;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 class TaxiController extends Controller
 {
     use media;
@@ -87,7 +89,7 @@ class TaxiController extends Controller
          {
             $taxi = Taxi::find($id);
             $alldestinations=Destination::select()->get();
-            if ($taxi) 
+            if ($taxi)
                 {
                         $taxi->image = url('/') . '/assets/admin/img/taxi/' . $taxi->image;
                         return view('taxi.taxform',compact('taxi','alldestinations'));
@@ -97,7 +99,7 @@ class TaxiController extends Controller
                 alert()->error('Oops....', 'this element does not exist .. try again');
                 return redirect()->back();
                 }
-        } 
+        }
         else
             {
             alert()->error('Oops....', 'this element does not exist .. try again');
@@ -157,14 +159,14 @@ class TaxiController extends Controller
         $id_destination=$data->destination_id;
         $taxi = Taxi::find($id);
         $destination=Destination::find($id_destination);
-        if ($taxi && $destination) 
+        if ($taxi && $destination)
         {
             $newreservation = new ReservationTaxi;
-            $newreservation->user_id = 1;
+            $newreservation->user_id =  Auth::user()->id;
             $newreservation->taxi_id = $id;
             $newreservation->Num = 'DE0001';
             $newreservation->price = $destination->price;
-            $newreservation->number = $data->phone;
+            $newreservation->number = 4544545;
             $newreservation->deliveryplace = $data->deliveryplace;
             $newreservation->customername = $data->customername;
             $newreservation->datearrive = $data->datearrive;
@@ -182,7 +184,7 @@ class TaxiController extends Controller
                 'status' => '500',
                 'msg' => ' حدث هناك خطأ يرجى إعادة محاولة لاحقا '
             ]);
-    
+
         }
     }
     public function getallorders()

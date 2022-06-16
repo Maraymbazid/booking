@@ -16,11 +16,7 @@
 .table-responsive-stack td,
 .table-responsive-stack th {
    display:block;
-<<<<<<< HEAD
-/*      
-=======
 /*
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
    flex-grow | flex-shrink | flex-basis   */
    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -38,11 +34,7 @@
               flex-direction: column;
       border-bottom: 3px solid #ccc;
       display:block;
-<<<<<<< HEAD
-      
-=======
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
    }
    /*  IE9 FIX   */
    .table-responsive-stack td {
@@ -64,39 +56,13 @@
     <div class="container">
     <h3 class="mayati-title">
            طلباتي
-<<<<<<< HEAD
-        </h3>    
-   
-=======
         </h3>
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
             <div class="cards ">
                 <div class="card-header" style="text-align: center;">
                     <i class="fa fa-table"></i> المعلومات
                 </div>
                 <div class="card-body">
-<<<<<<< HEAD
-                
-            <table class="table table-bordered table-striped table-responsive-stack" id="tableOne" style="text-align:center">
-            <thead class="thead-dark">
-                <tr>
-                    <th>  الاسم   </th>
-                    <th>   رقم الواتساب   </th>
-                    <th>   عدد الايام    </th>
-                    <th>   تاريخ الوصول     </th>
-                    <th>   تاريخ المغادرة     </th>
-                    <th>     حالة الطلب     </th>
-                    <th>     تفاصيل </th>
-                </tr>
-            </thead>
-            <tbody>
-
-         @foreach ($orders as $order)
-            <tr>
-                <td> {{ $order->user_name }}</td>
-
-=======
 
             <table class="table table-bordered table-striped table-responsive-stack" id="tableOne" style="text-align:center">
             <thead class="thead-dark">
@@ -112,45 +78,68 @@
             </thead>
             <tbody>
 
-         @foreach ($orders as $order)
-            <tr>
-                <td> {{ $order->user_name }}</td>
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
-                <td> {{ $order->whatsapp }}</td>
-                <td> {{ $order->daycount }}</td>
-                <td> {{ $order->arrival }}</td>
-                <td> {{ $order->checkout }}</td>
-                <td> @if($order->status == '0' )
-                    جارى المراجعة
-                    @elseif ($order->status == 1)
-                    تم  قبول الطلب
-                    @elseif ($order->status == 2)
-                        تم إالغاء الطلب
-                    @else
-                    هناك خطأ ما ونحاول التواصل معك
+                @foreach ($taxis as $taxi)
+                    <tr>
+                        <td> {{ $taxi->user->name }}</td>
+
+                        <td> {{ $taxi->Num }}    </td>
+                        <td> {{$taxi->number }} </td>
+                        {{-- <td> {{ $taxi->taxi->model }}</td> --}}
+                        <td> {{ $taxi->customername }}</td>
+                        <td> @if($taxi->status == '0' )
+                            جارى المراجعة
+                            @elseif ($taxi->status == 1)
+                            تم  قبول الطلب
+                            @elseif ($taxi->status == 2)
+                                تم إالغاء الطلب
+                            @else
+                            هناك خطأ ما ونحاول التواصل معك
+                            @endif
+                            </td>
+                        <td>   <button class="btn btn-primary">
+                            <a href="{{ route('H_O', $taxi->id) }}" >
+                                <span style="color: #fff;">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </button></td>
+                    </tr>
+                @endforeach
+            </tbody>
+            </table>
+                    @if ($taxis->hasPages())
+
+                    <nav>
+                        <ul class="pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($taxis->onFirstPage())
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                            @else
+                                <li class="page-item ">
+                                    <a class="page-link" href=" {{ $taxis->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+                            @endif
+
+
+                            {{-- Next Page Link --}}
+                            @if ($taxis->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ $taxis->nextPageUrl() }}">Next</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled" aria-disabled="true"
+                                    aria-label="@lang('pagination.next')">
+                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
                     @endif
-                    </td>
-<<<<<<< HEAD
-                <td>   <button class="btn " style="background-color: #0742ff8f;">
-=======
-                <td>   <button class="btn btn-primary">
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
-                    <a href="{{ route('H_O', $order->id) }}" >
-                        <span style="color: #fff;">
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                        </span>
-<<<<<<< HEAD
-                        
-=======
-
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
-                    </a>
-                </button></td>
-            </tr>
-        @endforeach
-        </tbody>
-   </table>
-                </div>
+            </div>
             </div>
 
     </div>
@@ -169,11 +158,7 @@ setTimeout("window.open(self.location, '_self');", 580000);
 }
 $(document).ready(function() {
 
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 // inspired by http://jsfiddle.net/arunpjohny/564Lxosz/1/
 $('.table-responsive-stack').each(function (i) {
    var id = $(this).attr('id');
@@ -181,19 +166,11 @@ $('.table-responsive-stack').each(function (i) {
    $(this).find("th").each(function(i) {
       $('#'+id + ' td:nth-child(' + (i + 1) + ')').prepend('<span class="table-responsive-stack-thead">'+             $(this).text() + ':</span> ');
       $('.table-responsive-stack-thead').hide();
-<<<<<<< HEAD
-      
-   });
-   
-
-   
-=======
 
    });
 
 
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 });
 
 
@@ -201,17 +178,10 @@ $('.table-responsive-stack').each(function (i) {
 
 
 $( '.table-responsive-stack' ).each(function() {
-<<<<<<< HEAD
-var thCount = $(this).find("th").length; 
-var rowGrow = 100 / thCount + '%';
-//console.log(rowGrow);
-$(this).find("th, td").css('flex-basis', rowGrow);   
-=======
 var thCount = $(this).find("th").length;
 var rowGrow = 100 / thCount + '%';
 //console.log(rowGrow);
 $(this).find("th, td").css('flex-basis', rowGrow);
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 });
 
 
@@ -219,49 +189,27 @@ $(this).find("th, td").css('flex-basis', rowGrow);
 
 function flexTable(){
 if ($(window).width() < 768) {
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 $(".table-responsive-stack").each(function (i) {
    $(this).find(".table-responsive-stack-thead").show();
    $(this).find('thead').hide();
 });
-<<<<<<< HEAD
-   
- 
-// window is less than 768px   
-} else {
-   
-   
-=======
 
 
 // window is less than 768px
 } else {
 
 
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 $(".table-responsive-stack").each(function (i) {
    $(this).find(".table-responsive-stack-thead").hide();
    $(this).find('thead').show();
 });
-<<<<<<< HEAD
-   
-   
-
-}
-// flextable   
-}      
-=======
 
 
 
 }
 // flextable
 }
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 
 flexTable();
 
@@ -274,11 +222,7 @@ window.onresize = function(event) {
 
 
 
-<<<<<<< HEAD
-// document ready  
-=======
 // document ready
->>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
 });
 
 
@@ -288,3 +232,12 @@ window.onresize = function(event) {
 <body onload="load()">
 
     @endsection
+
+
+    {{-- @if ($order->status == 0)
+    <span style="color: orange;"><i class="fas fa-clock"></i></span>
+@elseif ($order->status == 1)
+    <span style="color: green;"><i class="fas fa-check-circle "></i></span>
+@elseif ($order->status == 2)
+    <span style="color: red;"><i class="far fa-times-circle"></i></span>
+@endif --}}

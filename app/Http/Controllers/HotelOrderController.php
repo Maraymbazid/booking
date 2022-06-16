@@ -7,8 +7,9 @@ use App\Models\Admin\Room;
 use App\Models\HotelOrder;
 use App\Models\RoomDiscount;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\ReservationTaxi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class HotelOrderController extends Controller
@@ -25,17 +26,7 @@ class HotelOrderController extends Controller
 
         return view('admin.hotels.orders', compact('orders'));
     }
-    public function userOrder()
-    {
-        $orders = DB::table('hotel_orders')
-            ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
-            ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
-            ->join('users', 'hotel_orders.user_id', 'users.id')
-            ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
-            ->where('hotel_orders.user_id',  '=', Auth::user()->id)
-            ->orderby('hotel_orders.id', 'DESC')->get();
-        return view('orders.index', compact('orders'));
-    }
+
     public function order(Request $request, $hotelId)
     {
         $room =   Room::find($request->roomId);
@@ -194,6 +185,7 @@ class HotelOrderController extends Controller
         ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
         ->where('hotel_orders.id', $id)
             ->first();
+
         return view('admin.hotels.singleorder', compact('order'));
     }
     public function showOneOrderFoUser($id)
@@ -206,6 +198,7 @@ class HotelOrderController extends Controller
         ->where('hotel_orders.id', $id)
             ->where('hotel_orders.user_id',  Auth::user()->id)
             ->first();
+
         return view('orders.singlehotelorder', compact('order'));
     }
 }

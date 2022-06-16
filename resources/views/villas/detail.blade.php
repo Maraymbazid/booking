@@ -1,68 +1,62 @@
-@extends('layout.lay')
+
+@extends('layout.flay')
 @section('css')
+    <link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
 <style>
-    input {
-
-        outline: none !important;
-        text-align: center;
-        border-top: none;
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid #222;
-
-    }
+.option-description{
+    max-width: 90%;
+    background-color:royalblue;
+    margin: 50px;
+}
 </style>
 @endsection
+@include('layout.nav')
+
 @section('content')
+            <h2 style="text-align:center;
+                        text-align: center;
+                        margin: 27px 0;
+                        background-color: #dae8ed;
+                        padding: 25px;"> تأكيد حجز فيلا
+            </h2>
+    <div class="container">
+        <div class="row">
 
-
-<div class="option">
-
-    <div class="option-description">
-        <p class="option-text">
-
-        </p>
-
-        <table>
-            <h4 class='text-center'> تأكيد حجز فلل  </h4>
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-            <form method="POST" id="confirmordervilla">
+            <table class="table" style=" text-align:center;font-weight: bolder;">
+             <form method="POST" id="confirmordervilla">
                 @csrf
                 <tbody>
-                    <tr class='text-center border border-light'>
+                    <tr>
                         <td>   اسم فلة   </td>
                         <td>  {{$cartvilla->villa_name}}  </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr>
                         <td> السعر فى اليوم      </td>
                         <td> {{$cartvilla->price}} </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td>  اسم الشخص المعني بالحجز   </td>
                         <td>{{$cartvilla->customrname}} <input type="hidden" name="customrname" value="{{$cartvilla->customrname}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr>
                         <td> رقم الواتساب </td>
                         <td> {{$cartvilla->number}} <input type="hidden" name="number" value="{{$cartvilla->number}}" /> </td>
                     </tr>
-                    
-                    <tr class='text-center border border-light'>
+
+                    <tr >
                         <td>    تاريخ القدوم     </td>
                         <td> {{$cartvilla->begindate}} <input type="hidden" name="begindate" value="{{$cartvilla->begindate}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td>     تاريخ الخروج     </td>
                         <td>{{$cartvilla->enddate}} <input type="hidden" name="enddate" value="{{$cartvilla->enddate}}" /> </td>
                     </tr>
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td>    المده      </td>
                         <td>{{$cartvilla->numberdays}} <input type="hidden" name="numberdays" value="{{$cartvilla->numberdays}}" /> </td>
                     </tr>
 
-                    <tr class='text-center border border-light'>
+                    <tr >
                         <td>   عدد الأشخاص   </td>
                         <td> {{$cartvilla->personnes}} <input type="hidden" name="personnes" value="{{$cartvilla->personnes}}" /> </td>
                     </tr>
@@ -78,12 +72,10 @@
                 </tfoot>
 
             </form>
+           </table>
 
-
-        </table>
-
+        </div>
     </div>
-</div>
 
 @endsection
 

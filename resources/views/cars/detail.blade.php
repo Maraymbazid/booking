@@ -1,3 +1,4 @@
+
 @extends('layout.flay')
 @section('css')
     <link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
@@ -7,95 +8,82 @@
     background-color:royalblue;
     margin: 50px;
 }
-
-
 </style>
 @endsection
 @include('layout.nav')
 
 @section('content')
-<div class="title">
-     مراجعة الطلب
-</div>
-
-
-
-
-      <div class="container">
-          <div class="row">
-          <p class="option-text" style="text-align:center" >
-             <h4 > تأكيد حجز سياره  </h4>
-        </p>
-
-<table style="text-align:center">
-
-    <thead>
-        <tr>
-        </tr>
-    </thead>
-
-
-            <form method="POST" id="confirmordercar">
-                @csrf
-                <tbody>
-                    <tr class='text-center border border-light'>
-                        <td>  اسم السياره  </td>
-                        <td>  {{$cartcar->car_name}}  </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td> نوع السياره   </td>
-                        <td> {{$cartcar->modal}} </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td> السعر فى اليوم      </td>
-                        <td> {{$cartcar->price}} </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td>  اسم الشخص المعني بالحجز   </td>
-                        <td>{{$cartcar->customrname}} <input type="hidden" name="customrname" value="{{$cartcar->customrname}}" /> </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td> رقم الواتساب </td>
-                        <td> {{$cartcar->number}} <input type="hidden" name="number" value="{{$cartcar->number}}" /> </td>
-                    </tr>
-
-                    <tr class='text-center border border-light'>
-                        <td>  موقع إستلام السياره     </td>
-                        <td> {{ $cartcar->receivingplace}} <input type="hidden" name="receivingplace" value="{{ $cartcar->receivingplace}}" /> </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td>   موقع تسليم السياره     </td>
+            <h2 style="text-align:center;
+                        text-align: center;
+                        margin: 27px 0;
+                        background-color: #dae8ed;
+                        padding: 25px;"> تأكيد حجز السياره
+            </h2>
+    <div class="container">
+        <div class="row">
+            <table class="table" style=" text-align:center;font-weight: bolder;">
+                <form method="POST" onsubmit="myFunction()" id='confirmordercar'>
+                    @csrf
+                    @method('POST')
+                        <tbody style="text-align:center;font-white" >
+                            <tr>
+                                <td>  اسم السياره  </td>
+                                <td>  {{$cartcar->car_name}}  </td>
+                            </tr>
+                            <tr>
+                                <td> نوع السياره   </td>
+                                <td> {{$cartcar->modal}} </td>
+                            </tr>
+                            <tr>
+                                <td> السعر فى اليوم      </td>
+                                <td> {{$cartcar->price}} </td>
+                            </tr>
+                            <tr>
+                                <td>  اسم الشخص المعني بالحجز   </td>
+                                <td>{{$cartcar->customrname}} <input type="hidden" name="customrname" value="{{$cartcar->customrname}}" /> </td>
+                            </tr>
+                            <tr>
+                                <td> رقم الواتساب </td>
+                                <td> {{$cartcar->number}} <input type="hidden" name="number" value="{{$cartcar->number}}" /> </td>
+                            </tr>
+                            <tr>
+                                <td>  موقع إستلام السياره     </td>
+                                <td> {{ $cartcar->receivingplace}} <input type="hidden" name="receivingplace" value="{{ $cartcar->receivingplace}}" /> </td>
+                            </tr>
+                            <tr>
+                                <td>   موقع تسليم السياره     </td>
                         <td>{{$cartcar->deliveryplace}} <input type="hidden" name="deliveryplace" value="{{$cartcar->deliveryplace}}" /> </td>
-                    </tr>
-                    <tr class='text-center border border-light'>
-                        <td>    تاريخ الاستلام     </td>
-                        <td>{{$cartcar->date}} <input type="hidden" name="date" value="{{$cartcar->date}}" /> </td>
-                    </tr>
+                            </tr>
 
-                    <tr class='text-center border border-light'>
-                        <td>   المده   </td>
-                        <td> {{$cartcar->numberdays}} <input type="hidden" name="numberdays" value="{{$cartcar->numberdays}}" /> </td>
-                    </tr>
-                    <input type="hidden" name="id" value="{{$cartcar->car_id}}" />
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan='2'>
-                            <button name="page" value="index" type="submit"
+                            <tr>
+                                <td>    تاريخ الاستلام     </td>
+                                <td>{{$cartcar->date}} <input type="hidden" name="date" value="{{$cartcar->date}}" /> </td>
+                            </tr>
+                            <tr>
+                                <td>   المده   </td>
+                                <td> {{$cartcar->numberdays}} <input type="hidden" name="numberdays" value="{{$cartcar->numberdays}}" /> </td>
+                            </tr>
+                            <input type="hidden" name="id" value="{{$cartcar->car_id}}" />
+
+                        </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan='2'>
+                                <button name="page" value="index" type="submit"
                                 class="btn btn-primary btn-lg btn-block">إكمال الطلب</button>
-                        </td>
-                    </tr>
-                </tfoot>
-
-            </form>
-
-
-        </table>
-
+                            </td>
+                        </tr>
+                    </tfoot>
+                </form>
+            </table>
     </div>
 </div>
 
+
+
+
 @endsection
+
 @section('js')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -130,3 +118,4 @@
         });
     </script>
     @endsection
+

@@ -9,7 +9,7 @@ use App\Models\Admin\MeetingSalles;
 class MeetingServices extends Model
 {
     use HasFactory;
-    protected $table = 'services_meeting'; 
+    protected $table = 'services_meeting';
     protected $fillable = [
         'id',
         'name',
@@ -19,9 +19,13 @@ class MeetingServices extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-    ]; 
+    ];
     public function meetings()
     {
         return $this->belongsToMany(MeetingSalles::class,'pivot_four','service_id','salle_id');
-    }  
+    }
+
+
+
+
 }

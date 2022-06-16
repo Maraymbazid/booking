@@ -7,8 +7,6 @@
     background-color:royalblue;
     margin: 50px;
 }
-
-
 </style>
 @endsection
 @include('layout.nav')
@@ -21,7 +19,11 @@
                         text-align: center;
                         margin: 27px 0;
                         background-color: #dae8ed;
+<<<<<<< HEAD
                         padding: 25px;"> تأكيد حجز غرفة  
+=======
+                        padding: 25px;"> تأكيد حجز غرفة
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
             </h2>
     <div class="container">
         <div class="row">
@@ -30,7 +32,11 @@
                     action="{{ route('sotororderhoter' ,  ['hotelId' =>  $order->hotel_id ,'roomId' =>  $order->room_id] ) }}">
                     @csrf
                     @method('POST')
+<<<<<<< HEAD
                         
+=======
+
+>>>>>>> 7bcabcb142c75e0562e9283727ef6146fc3ac33e
                         <tbody style="text-align:center;font-white" >
                             <tr>
                                 <td> اسم الفندق </td>
