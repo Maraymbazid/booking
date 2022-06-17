@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MeetingOrder;
 use Illuminate\Http\Request;
 use App\Models\ReservationCar;
 use App\Models\ReservationTaxi;
@@ -49,11 +50,23 @@ class OrdersController extends Controller
     }
 
 
-
-
     public function userAppartOrder()
     {
         $apparts = ReservationApartement::where('user_id',  '=', Auth::user()->id)->paginate(6);
         return view('orders.indexAppart', compact('apparts'));
+    }
+
+
+    public function userMeetOrder()
+    {
+        $meets = MeetingOrder::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        return view('orders.indexMeetingRoom', compact('meets'));
+    }
+
+    public function singleMeetOrder($id)
+    {
+        $order = MeetingOrder::where('id', $id)->first();
+        // return $order;
+        return view('orders.single.singlemeet', compact('order'));
     }
 }

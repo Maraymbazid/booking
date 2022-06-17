@@ -68,36 +68,37 @@
             <thead class="thead-dark">
                 <tr>
                     <th>  الاسم   </th>
+                    <th>    الرقم المرجعي   </th>
                     <th>   رقم الواتساب   </th>
-                    <th>   عدد الايام    </th>
-                    <th>   تاريخ الوصول     </th>
-                    <th>   تاريخ المغادرة     </th>
+                    <th>   عدد الساعات    </th>
+                    <th>   التاريخ      </th>
+                    {{-- <th>   تاريخ المغادرة     </th> --}}
                     <th>     حالة الطلب     </th>
                     <th>     تفاصيل </th>
                 </tr>
             </thead>
             <tbody>
 
-                @foreach ($taxis as $taxi)
+                @foreach ($meets as $meet)
                     <tr>
-                        <td> {{ $taxi->user->name }}</td>
+                        <td> {{ $meet->customername }}</td>
 
-                        <td> {{ $taxi->Num }}    </td>
-                        <td> {{$taxi->number }} </td>
-                        {{-- <td> {{ $taxi->taxi->model }}</td> --}}
-                        <td> {{ $taxi->customername }}</td>
-                        <td> @if($taxi->status == '0' )
+                        <td> {{ $meet->order_number }}    </td>
+                        <td> {{$meet->number }} </td>
+                        <td> {{ $meet->hours }}</td>
+                        <td> {{ $meet->date  }}</td>
+                        <td> @if($meet->status == '0' )
                             جارى المراجعة
-                            @elseif ($taxi->status == 1)
+                            @elseif ($meet->status == 1)
                             تم  قبول الطلب
-                            @elseif ($taxi->status == 2)
+                            @elseif ($meet->status == 2)
                                 تم إالغاء الطلب
                             @else
                             هناك خطأ ما ونحاول التواصل معك
                             @endif
                             </td>
                         <td>   <button class="btn btn-primary">
-                            <a href="{{ route('H_O', $taxi->id) }}" >
+                            <a href="{{ route('singleMeetOrder', $meet->id) }}" >
                                 <span style="color: #fff;">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                 </span>
@@ -107,28 +108,28 @@
                 @endforeach
             </tbody>
             </table>
-                    @if ($taxis->hasPages())
+                    @if ($meets->hasPages())
 
                     <nav>
                         <ul class="pagination">
                             {{-- Previous Page Link --}}
-                            @if ($taxis->onFirstPage())
+                            @if ($meets->onFirstPage())
                                 <li class="page-item disabled">
                                     <a class="page-link" href="#" tabindex="-1">Previous</a>
                                 </li>
                             @else
                                 <li class="page-item ">
-                                    <a class="page-link" href=" {{ $taxis->previousPageUrl() }}"
+                                    <a class="page-link" href=" {{ $meets->previousPageUrl() }}"
                                         tabindex="-1">Previous</a>
                                 </li>
                             @endif
 
 
                             {{-- Next Page Link --}}
-                            @if ($taxis->hasMorePages())
+                            @if ($meets->hasMorePages())
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="{{ $taxis->nextPageUrl() }}">Next</a>
+                                        href="{{ $meets->nextPageUrl() }}">Next</a>
                                 </li>
                             @else
                                 <li class="page-item disabled" aria-disabled="true"

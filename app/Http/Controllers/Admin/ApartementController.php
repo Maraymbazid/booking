@@ -171,6 +171,7 @@ class ApartementController extends Controller
         if(is_integer($id))
         {
             $apartement=Apartement::find($id);
+
             if($apartement)
             {
                         $apartement->image =  url('/') . '/assets/admin/img/apartements/' . $apartement->image;
