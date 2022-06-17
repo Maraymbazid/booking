@@ -29,6 +29,7 @@ Auth::routes();
 
 // ->middleware(['auth', 'verified']);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::group(['prefix' => 'cars'/*, 'middleware' => 'auth' */], function () {
     Route::get('/', [CarController::class, 'userIndex'])->name('userIndexCar');
