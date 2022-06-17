@@ -34,18 +34,29 @@
             <div class="row">
                 <div class="col-lg-4 hight borderr border">
                     <p class="title-desS mt-2 ">  </p>
-                    <p class="title-des">السيارة :{{$apartement->name_ar}} </p>
+                    <p class="title-des">الاسم  :{{$apartement->name_ar}} </p>
                     <hr>
-                    <p class="title-des">الموديل : t</p>
+                    <p class="title-des">المساحه : {{$apartement->area}} </p>
                     <hr>
                     <p class="title-des">سعر اليوم :  {{$apartement->price}} $</p>
+                    <p class="title-des"> الوصف  :  {{$apartement->description_ar}} $</p>
+                    <p class="title-des">  العنوان  :  {{$apartement->address_ar}} $</p>
+                    {{--
+                        اسم الشقه
+                        المساحه
+                        السعر
+                        الوصف
+                        العنوان
+                        المميزات
+                        واخير ا الخصومات
+                         --}}
                 </div>
                 <div class="col-lg-8 hight border borderr">
                     <p class="title-des">الخصم:</p>
                     <div class="boxes">
                         <div class="row">
-                            @if($apartement->discount)
-                            @foreach($apartement->discount as $discount)
+                            @if($apartement->discounts)
+                            @foreach($apartement->discounts as $discount)
                                 <div class="para col-lg-3 col-3 m-1" >
                                 <p class="title-des-left p-1">
                                     %{{$discount->rate}} => لـ 5أيام
@@ -54,6 +65,22 @@
                             @endforeach
                             @endif
                         </div>
+                        <p class="title-des">المميزات:</p>
+
+                        <div class="row">
+                            @if($apartement->services)
+                          @foreach($apartement->services as $service)
+                                <div class="para col-lg-3 col-3 m-1" >
+                                <p class="title-des-left p-1">
+                                   {{$service->name}}
+                                    </p>
+                                </div>
+                            @endforeach
+                            @endif
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
