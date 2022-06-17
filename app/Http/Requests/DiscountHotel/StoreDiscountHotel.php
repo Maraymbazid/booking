@@ -25,7 +25,6 @@ class StoreDiscountHotel extends FormRequest
     {
         return  [
             'day_count' => 'required|integer|min:1',
-            'day_count' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
             'discount' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
             'hotel_id' => 'required|integer',
             'room_id' => 'required|integer',
@@ -39,7 +38,7 @@ class StoreDiscountHotel extends FormRequest
             'discount.required' => 'لا يمكن ترك حقل نسبة الخصم فارغا',
             'hotel_id.required' => 'اختيار الفندق ضروري',
             'room_id.required' => 'اختيار الغرفة ضروري',
-            'gouvernement_id.required' => 'اختيار المحافظة ضروري',
+            'gouvernement_id.required' =>'اختيار المحافظة ضروري',
             'numeric' => 'من فضلك أدخل صيغة صحيحة',
             'integer'  => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',

@@ -1,6 +1,5 @@
 @extends('admin.layouts.lay')
 @section('content')
-
     <!-- Content Wrapper. Contains page content -->
     <section class="content" style="text-align: center; direction: rtl;">
         <div class="container-fluid">
@@ -85,28 +84,32 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                           <th>  اسم المحافظة  </th>
-                                            <th>  اسم الشقة  </th>
+                                            <th>  تاكسي المطار  </th>
+                                            <th>   البرمو  </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($allapartements as $allapartement)
-                                            <tr class="apartementRow{{$allapartement->id}}">
-                                            <td> {{ $allapartement->gouvernemente->name }}</td>
-                                                <td> {{ $allapartement->name_ar }}</td>
+
+                                        @foreach ($allpromo as $promo)
+                                            <tr class="promoRow{{$promo->id}}">
+                                                <td> {{ $promo->taxi->name }}</td>
+                                                <td> {{ $promo->name }}</td>
                                                 <td>
-                                                     <button  type="button" class="btn btn-warning"> <a
-                                                            href="{{route('editapartement',$allapartement->id)}}">
+                                                     <button type="button" class="btn btn-warning">  <a
+                                                            href="{{ route('editpromo', $promo->id) }}" class="">
                                                             <i  class="far fa-edit" aria-hidden="true"></i> </a>
+
                                                     </button>
+
                                                 </td>
                                                 <td>
-                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" apartement_id="{{ $allapartement->id}}">
-                                                   <i class="fas fa-trash"></i></button>
-                                                        </a>
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" promo_id="{{$promo->id}}">
+                                                   <i class="fas fa-trash"></i> </a> </button>
+                                                        
                                                 </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -146,17 +149,17 @@
 <script>
         $(document).on('click', '.button-delete', function (e) {
             e.preventDefault();
-             var apartement_id = $(this).attr('apartement_id');
+            var promo_id = $(this).attr('promo_id');
             $.ajax({
                 type: 'post',
-                url: "{{route('delete-apartement')}}",
+                url: "{{route('delete-promo')}}",
                 data: {
                     '_token': "{{csrf_token()}}",
-                    'id' :apartement_id
+                    'id' :promo_id
                 },
                 success: (response) => {
                     if (response) {
-                    $('.apartementRow'+response.id).remove();
+                    $('.promoRow'+response.id).remove();
                     Swal.fire({
                             position: 'top-center',
                             icon: 'success',
@@ -166,10 +169,10 @@
                         })
                 }}
                 , error: function (reject) {
-                    console.log('no'); 
+
                 }
             });
-           // console.log(apartement_id);
+           // console.log(gouvernement_id);
         });
     </script>
     <script>

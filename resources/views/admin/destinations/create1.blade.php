@@ -133,8 +133,11 @@
                 error: function (reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(name, msg) {
-                       $('#' + name + '_error').text(msg[0]);
-                       //console.log('#' + name);
+                      swal({
+                                title: msg[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     });
                 }
             });

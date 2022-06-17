@@ -33,9 +33,28 @@ class StoreApartementRequest extends FormRequest
             'status' => 'required|integer|between:0,1',
             'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
             'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
-            'gouvernement'=>'required',
+            'gouvernement'=>'required|integer',
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
         
+    }
+    public function messages()
+    {
+        return  [
+            'name_ar.required' => 'لا يمكن ترك اسم الشقة فارغا',
+            'description_ar.required' => 'لا يمكن ترك حقل التوصيف فارغا',
+            'address_ar.required' => 'لا يمكن ترك حقل العنوان فارغا',
+            'image.required' => 'لا يمكن ترك حقل الصور فارغا',
+            'status.required' =>'من فضلك اختار حالة مناسبة',
+            'price.required' => 'لا يمكن ترك حقل الثمن فارغا',
+            'area.required' => 'لا يمكن ترك حقل الحجم فارغا',
+            'gouvernement.required'=> 'من فضلك حدد المحافظة الموجودة بيها هذه الشقة',
+            'numeric' => 'من فضلك أدخل صيغة صحيحة',
+            'integer'  => 'من فضلك أدخل صيغة صحيحة',
+            'mimes' => 'من فضلك أدخل صيغة صحيحة',
+            'min' => 'من فضلك ادخل رقم صحيح',
+            'between' => 'من فضلك ادخل رقم صحيح',
+            'max' => 'عدد الأحرف يتجاوز الحد المطلوب'
+        ];
     }
 }

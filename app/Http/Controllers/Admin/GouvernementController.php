@@ -90,7 +90,7 @@ class GouvernementController extends Controller
         }
 
     }
-    public function update(Request $request)
+    public function update(GouvernementRequest $request)
     {
         $gouvernement = Gouvernement::find($request ->id);
         if (!$gouvernement)

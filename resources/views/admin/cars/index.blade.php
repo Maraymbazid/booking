@@ -97,9 +97,13 @@
                                     <tbody>
 
                                         @foreach ($cars as $car)
-                                            <tr>
+                                            <tr class="carRow{{$car->id}}">
                                                 <td> {{ $car->name }}</td>
-                                                <td> {{ $car->company }}</td>
+                                                @if($car->company_id != '')
+                                                <td> {{ $car->company->name }}</td>
+                                                @else
+                                                <td> ________</td>
+                                                @endif
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a
                                                             href="{{ route('editcar', $car->id) }}">
@@ -107,12 +111,8 @@
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('deleteHotel', $car->id) }}" method="post"
-                                                        class="d-inline">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button class="btn btn-danger rounded"> <i class="fas fa-trash"></i></button>
-                                                    </form>
+                                                <button class="btn btn-danger rounded"> <a href="" class="button-delete" car_id="{{$car->id}}">
+                                                   <i class="fas fa-trash"></i> </a> </button>
                                                 </td>
 
                                             </tr>
@@ -146,8 +146,6 @@
 
 @endsection
 @section('js')
-
-
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -159,12 +157,7 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-
-
-
         Swal.bindClickHandler()
-
-
         Swal.mixin({
             title: 'هل تريد الاستمرار؟',
             icon: 'question',
@@ -175,6 +168,39 @@
             showCloseButton: true
         }).bindClickHandler('data-swal-toast-template')
     </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script>
+            $(document).on('click', '.button-delete', function (e) {
+                e.preventDefault();
+                var car_id = $(this).attr('car_id');
+                $.ajax({
+                    type: 'post',
+                    url: "{{route('delete-car')}}",
+                    data: {
+                        '_token': "{{csrf_token()}}",
+                        'id' :car_id
+                    },
+                    success: (response) => {
+                        if (response) {
+                        $('.carRow'+response.id).remove();
+                        Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: response.msg,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                    }}
+                    , error: function (reject) {
 
+                    }
+                });
+            // console.log(gouvernement_id);
+            });
+        </script>
 
     @endsection

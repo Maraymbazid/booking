@@ -106,6 +106,7 @@ class DiscountHotel extends Controller
     }
     public function update(UpdateDiscountHotel $data)
     {
+        // $discount=RoomDiscount::find($data->id);
         $discount = RoomDiscount::find($data->id);
         if ($discount)
          {

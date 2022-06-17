@@ -24,10 +24,6 @@ class UpdateDiscountHotel extends FormRequest
     public function rules()
     {
         return  [
-            'number_days'=>'required|integer|min:1',
-            'rate' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            // 'hotel_id' => 'required|integer',
-            // 'room_id' => 'required|integer',
             'day_count' => 'required|integer|min:1',
             'discount' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
         ];

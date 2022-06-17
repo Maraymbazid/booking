@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ReservationTaxi;
 use App\Models\Company;
+use App\Models\Admin\PromoCode;
 class Taxi extends Model
 {
     use HasFactory;
@@ -29,6 +30,10 @@ class Taxi extends Model
     public function reservations()
     {
         return $this->hasMany(ReservationTaxi::class,'taxi_id');
+    }
+    public function promos()
+    {
+        return $this->hasMany(PromoCode::class,'taxi_id');
     }
 
 }

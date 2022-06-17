@@ -91,7 +91,7 @@ Route::group(['prefix' => 'meeting'], function () {
 
 
 });
-//Route::get('/test1', [HotelController::class, 'test1'])->name('test1');
+Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
 Route::group(['prefix' => 'orders', 'middleware' => 'auth'], function () {
     Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');

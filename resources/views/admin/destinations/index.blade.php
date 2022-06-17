@@ -106,8 +106,8 @@
                                                 </td>
                                                 <td>
                                                 <button class="btn btn-danger rounded"> <a href="" class="button-delete" destination_id="{{$destination->id}}">
-                                                   <i class="fas fa-trash"></i></button>
-                                                        </a>
+                                                   <i class="fas fa-trash"></i> </a> </button>
+                                                        
                                                 </td>
 
                                             </tr>

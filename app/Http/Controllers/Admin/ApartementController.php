@@ -12,6 +12,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ReservationApartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
+use App\Http\Traits\media;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 
@@ -52,7 +55,7 @@ class ApartementController extends Controller
     public function index()
     {
 
-        $allapartements=Apartement::select('id','name_ar')->get();
+        $allapartements=Apartement::select()->get();
         return view('admin.Apartments.index',compact('allapartements'));
     }
     public function delete(Request $request)

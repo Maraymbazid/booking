@@ -200,7 +200,7 @@
                                         <span id='image_error' role="alert" id='price_error' class="invalid-feedback"> </span>
                                     </div>
                                  </div>
-                                 <div class="col-md-4 col-12"> </div>
+                                 <div class="col-md-12 col-12"> </div>
                                  @foreach($NamesServices as $name)
                                  @if(isset($services))
                                  <label style="color:black; font-size:18px; margin-right:20px;"> {{$name->name}}  </label>
@@ -310,11 +310,16 @@
                     }
                 },
                 error: function(reject) {
-                    // var response = $.parseJSON(reject.responseText);
-                    // $.each(response.errors, function(key, val) {
-                    //     $("#" + key + "_error").text(val[0]);
-                    // })
-                    console.log('erro');
+                    var response = $.parseJSON(reject.responseText);
+                    $.each(response.errors, function(key, val) {
+                       // $("#" + key + "_error").text(val[0]);
+                       swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
+                    })
+
                 }
             });
         });
