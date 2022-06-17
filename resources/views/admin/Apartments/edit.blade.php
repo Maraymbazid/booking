@@ -81,7 +81,7 @@
                 <hr>
                 <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data" id='update' action="">
+                <form method="POST" enctype="multipart/form-data" id='update'>
                     @csrf
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
@@ -143,6 +143,16 @@
                                         <div class="input-group input-group-lg">
                                             <input type="file" name="image" id="" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label> صور الغلاف </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='image_error'> </span>
                                     </div>

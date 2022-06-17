@@ -11,7 +11,7 @@ use App\Models\Admin\DiscountCar;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-
+use App\Models\Admin\ImageCar;
 class CarController extends Controller
 {
     use media;
@@ -31,6 +31,10 @@ class CarController extends Controller
         $car->price  = $request->price;
         $car->model  = $request->model;
         $car->save();
+        for ($x = 0; $x <= count($request->images) - 1; $x++) {
+            $imageName = $this->uploadManyMedia($request->images[$x], 'cars/covers/', $x);
+            ImageCar::create(['image' =>  $imageName, 'car_id' => $car->id]);
+        }
 
         return response()->json(['msg' => 'تم حفظ الداتا بنجاح '], 200);
     }
@@ -44,10 +48,10 @@ class CarController extends Controller
     public function edit($id)
     {
         $car = DB::table('cars')->where('id', $id)->first();
-        $arr = [];
-        array_push($arr, $car);
+        // $arr = [];
+        // array_push($arr, $car);
         if ($car) {
-            return view('admin.cars.edit')->with('arr', json_encode($arr));
+            return view('admin.cars.edit',compact('car'));
         } else {
             return redirect()->back();
         }
@@ -55,30 +59,60 @@ class CarController extends Controller
 
     public function update(Request $data)
     {
-        // dd($data);
-        $result = $data->except('page', 'image',  'carId', '_token', '_method');
-        if ($data->has('image')) {
-            $oldImage = DB::table('cars')->select('image')->where('id', $data->carId)->first()->image;
-            $this->deleteMedia($oldImage, 'cars');
-            $imageName = $this->uploadMedia($data->image, 'cars');
-            $result['image'] = $imageName;
+        $result = $data->except('page', 'image',  'carId', '_token', '_method','images');
+        $car=Car::find($data->carId);
+        if($car)
+        {
+            if ($data->has('image')) 
+            {
+                $oldImage = DB::table('cars')->select('image')->where('id', $data->carId)->first()->image;
+                $this->deleteMedia($oldImage, 'cars');
+                $imageName = $this->uploadMedia($data->image, 'cars');
+                $result['image'] = $imageName;
+            }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $car->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'cars/covers/');
+                       DB::table('imagescars')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'cars/covers/', $x);
+                       ImageCar::create(['image' =>  $imageName, 'car_id' => $car->id]);
+                   }
+           }
+            $updatecar = $car->update($result);
+            if ($updatecar) 
+            {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+
+            }
+            else
+            {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
         }
-        $update = DB::table('cars')->where('id', $data->carId)->update($result);
-        if ($update) {
-            return response()->json([
-                'status' => 'done',
-                'msg' => 'تم تعديل الداتا بنجاح ',
-            ]);
-        } else {
-            alert()->error('Oops....', 'Something went wrong .. try again');
-            return redirect()->route('Hotels');
+        else
+        {
+           $status = 500;
+           $msg  = ' تعذر التعديل هناك خطأ ما';
         }
+        return response()->json
+       ([
+           'status' => $status,
+           'msg' => $msg,
+       ]);
     }
     public function delete(Request $request)
     {
         $car=Car::find($request->id);
         if($car)
         {
+            $car->images()->delete();
             $car->delete();
             return response()->json
             ([

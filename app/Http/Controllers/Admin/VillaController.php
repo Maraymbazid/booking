@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\media;
-
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\ServiceApartement;
 use App\Http\Requests\Villa\StoreVilla;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Villa\UpdateVilla;
 use App\Models\Admin\DiscountVilla;
 use App\Models\ReservationVilla;
+use App\Models\Admin\ImagesVillas;
 class VillaController extends Controller
 {
     use media;
@@ -27,13 +27,17 @@ class VillaController extends Controller
     public function  store(StoreVilla $data)
     {
         $imageName = $this->uploadMedia($data->image, 'villas');
-        $request = $data->except('_token', 'image','services','page');
+        $request = $data->except('_token', 'image','services','page','images');
         $request['image'] = $imageName;
         $stored = DB::table('villas')->insertGetId($request);
         if ($stored)
         {
             $villa = Villa::find($stored);
             $villa->services()->attach($data->services);
+            for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                $imageName = $this->uploadManyMedia($data->images[$x], 'villas/covers/', $x);
+                ImagesVillas::create(['image' =>  $imageName, 'villa_id' => $stored]);
+            }
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else
@@ -59,6 +63,7 @@ class VillaController extends Controller
         if($villa)
         {
             $villa->services()->detach();
+            $villa->images()->delete();
             $villa->delete();
             return response()->json
             ([
@@ -102,13 +107,25 @@ class VillaController extends Controller
         if ($villa)
          {
             $id=$data->id;
-            $result = $data->except('page', 'image', '_token', '_method','id','services');
+            $result = $data->except('page', 'image', '_token', '_method','id','services','images');
             if ($data->has('image')) {
                 $oldImage = DB::table('villas')->select('image')->where('id', $id)->first()->image;
                 $this->deleteMedia($oldImage, 'villas');
                 $imageName = $this->uploadMedia($data->image, 'villas');
                 $result['image'] = $imageName;
             }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $villa->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'villas/covers/');
+                       DB::table('imagesvillas')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'villas/covers/', $x);
+                       ImagesVillas::create(['image' =>  $imageName, 'villa_id' => $villa->id]);
+                   }
+           }
             $update = $villa->update($result);
             $villa->services()->sync($data->services);
             if ($update)

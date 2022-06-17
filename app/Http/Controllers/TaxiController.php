@@ -9,7 +9,7 @@ use App\Models\ReservationTaxi;
 use App\Models\Admin\Destination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Admin\ImageTaxi;
 class TaxiController extends Controller
 {
     use media;
@@ -26,10 +26,14 @@ class TaxiController extends Controller
         $taxi = new Taxi();
         $taxi->name = $request->name;
         $taxi->image = $imageName;
-        // $taxi->company_id = $request->company_id;
+        $taxi->company_id = $request->company_id;
         $taxi->price  = $request->price;
         $taxi->model  = $request->model;
         $taxi->save();
+        for ($x = 0; $x <= count($request->images) - 1; $x++) {
+            $imageName = $this->uploadManyMedia($request->images[$x], 'taxi/covers/', $x);
+            ImageTaxi::create(['image' =>  $imageName, 'taxi_id' => $taxi->id]);
+        }
         return response()->json(['msg' => 'تم حفظ الداتا بنجاح '], 200);
     }
 
@@ -40,41 +44,74 @@ class TaxiController extends Controller
     }
     public function edit($id)
     {
-        $tax = DB::table('taxis')->where('id', $id)->first();
-        $arr = [];
-        array_push($arr, $tax);
-        if ($tax) {
-            return view('admin.taxi.edit')->with('arr', json_encode($arr));
-        } else {
+        $taxi = DB::table('taxis')->where('id', $id)->first();
+        // $arr = [];
+        // array_push($arr, $tax);
+        if ($taxi)
+         {
+            return view('admin.taxi.edit',compact('taxi'));  
+        }
+        else
+        {
             return redirect()->back();
         }
     }
     public function update(Request $data)
     {
-        // dd($data);
-        $result = $data->except('page', 'image',  'taxId', '_token', '_method');
-        if ($data->has('image')) {
-            $oldImage = DB::table('taxis')->select('image')->where('id', $data->taxId)->first()->image;
-            $this->deleteMedia($oldImage, 'taxi');
-            $imageName = $this->uploadMedia($data->image, 'taxi');
-            $result['image'] = $imageName;
+        $taxi =Taxi::find($data->taxId);
+        $result = $data->except('page', 'image','taxId', '_token', '_method','images');
+        if($taxi)
+        {
+            if ($data->has('image')) {
+                $oldImage = DB::table('taxis')->select('image')->where('id', $data->taxId)->first()->image;
+                $this->deleteMedia($oldImage, 'taxi');
+                $imageName = $this->uploadMedia($data->image, 'taxi');
+                $result['image'] = $imageName;
+            }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $taxi->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'taxi/covers/');
+                       DB::table('imagestaxis')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x < count($data->images); $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'taxi/covers/', $x);
+                       ImageTaxi::create(['image' =>  $imageName, 'taxi_id' => $taxi->id]);
+                   }
+           }
+            $updatetaxi = $taxi->update($result);
+            if ($updatetaxi) 
+            {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+
+            }
+            else
+            {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
         }
-        $update = DB::table('taxis')->where('id', $data->taxId)->update($result);
-        if ($update) {
-            return response()->json([
-                'status' => 'done',
-                'msg' => 'تم تعديل الداتا بنجاح ',
-            ]);
-        } else {
-            alert()->error('Oops....', 'Something went wrong .. try again');
-            return redirect()->route('Hotels');
+        else
+        {
+           $status = 500;
+           $msg  = ' تعذر التعديل هناك خطأ ما';
         }
+        return response()->json
+       ([
+           'status' => $status,
+           'msg' => $msg,
+       ]);
+   
     }
     public function delete(Request $request)
     {
         $taxi=Taxi::find($request->id);
         if($taxi)
         {
+            $taxi->images()->delete();
             $taxi->delete();
             return response()->json
             ([

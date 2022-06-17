@@ -101,6 +101,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> صور الغلاف </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
+                                    </div>
+                                </div>
                                 {{-- end image  --}}
                                 <div class="col-6">
                                     <div class="form-group">
@@ -120,7 +130,7 @@
                                     </div>
                                 </div>
                                 {{-- end price  --}}
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="form-group">
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">

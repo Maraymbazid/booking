@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\Gouvernement;
 use App\Models\Admin\DiscountVilla;
+use App\Models\Admin\ImagesVillas;
 use App\Models\ReservationVilla;
 class Villa extends Model
 {
@@ -48,5 +49,9 @@ class Villa extends Model
     public function reservations()
     {
         return $this->hasMany(ReservationVilla::class,'villa_id');
+    }
+    public function images()
+    {
+        return $this->hasMany(ImagesVillas::class,'villa_id');
     }
 }

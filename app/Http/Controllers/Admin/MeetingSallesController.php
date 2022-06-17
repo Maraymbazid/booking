@@ -9,14 +9,13 @@ use App\Models\MeetingDiscount;
 use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\MeetingSalles;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Admin\MeetingServices;
 use App\Http\Requests\Meeting\StoreSalle;
 use App\Http\Requests\Meeting\UpdateSalle;
-
+use App\Models\Admin\ImagesMeeting;
 class MeetingSallesController extends Controller
 {
     use media;
@@ -30,13 +29,17 @@ class MeetingSallesController extends Controller
     public function  store(StoreSalle $data)
     {
         $imageName = $this->uploadMedia($data->image, 'salles');
-        $request = $data->except('_token', 'image','services','page');
+        $request = $data->except('_token', 'image','services','page','images');
         $request['image'] = $imageName;
         $stored = DB::table('meeting_rooms')->insertGetId($request);
         if ($stored)
         {
             $salle = MeetingSalles::find($stored);
             $salle->services()->attach($data->services);
+            for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                $imageName = $this->uploadManyMedia($data->images[$x], 'salles/covers/', $x);
+                ImagesMeeting::create(['image' =>  $imageName, 'meeting_id' =>$stored]);
+            }
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         }
@@ -63,6 +66,7 @@ class MeetingSallesController extends Controller
         if($salle)
         {
             $salle->services()->detach();
+            $salle->images()->delete();
             $salle->delete();
             return response()->json
             ([
@@ -108,13 +112,25 @@ class MeetingSallesController extends Controller
         if ($salle)
          {
             $id=$data->id;
-            $result = $data->except('page', 'image', '_token', '_method','id','services');
+            $result = $data->except('page', 'image', '_token', '_method','id','services','images');
             if ($data->has('image')) {
                 $oldImage = DB::table('meeting_rooms')->select('image')->where('id', $id)->first()->image;
                 $this->deleteMedia($oldImage, 'salles');
                 $imageName = $this->uploadMedia($data->image, 'salles');
                 $result['image'] = $imageName;
             }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $salle->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'salles/covers/');
+                       DB::table('imagesmeetings')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                    $imageName = $this->uploadManyMedia($data->images[$x], 'salles/covers/', $x);
+                    ImagesMeeting::create(['image' =>  $imageName, 'meeting_id' =>$salle->id]);
+                   }
+           }
             $update = $salle->update($result);
             $salle->services()->sync($data->services);
             if ($update)

@@ -7,17 +7,14 @@ use App\Http\Traits\media;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\Gouvernement;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ReservationApartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
-use App\Http\Traits\media;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
-use App\Http\Requests\Apartement\StoreApartementRequest;
-
+use App\Models\Admin\ImgaeApartement;
 class ApartementController extends Controller
 {
     use media;
@@ -32,13 +29,17 @@ class ApartementController extends Controller
     public function store(StoreApartementRequest $data)
     {
         $imageName = $this->uploadMedia($data->image, 'apartements');
-        $request = $data->except('_token', 'image','services','page');
+        $request = $data->except('_token', 'image','services','page','images');
         $request['image'] = $imageName;
         $stored = DB::table('apartments')->insertGetId($request);
        //$stored=Apartement::create($request);
         if ($stored) {
             $apartement = Apartement::find($stored);
             $apartement->services()->attach($data->services);
+            for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                $imageName = $this->uploadManyMedia($data->images[$x], 'apartements/covers/', $x);
+                ImgaeApartement::create(['image' =>  $imageName, 'apartement_id' => $stored]);
+            }
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
             $status = 200;
@@ -64,6 +65,7 @@ class ApartementController extends Controller
         if($apartement)
         {
             $apartement->services()->detach();
+            $apartement->images()->delete();
             $apartement->delete();
             return response()->json
             ([
@@ -109,13 +111,25 @@ class ApartementController extends Controller
         if ($apartement)
          {
             $id=$data->id;
-            $result = $data->except('page', 'image', '_token', '_method','id','services');
+            $result = $data->except('page', 'image', '_token', '_method','id','services','images');
             if ($data->has('image')) {
                 $oldImage = DB::table('apartments')->select('image')->where('id', $id)->first()->image;
                 $this->deleteMedia($oldImage, 'apartements');
                 $imageName = $this->uploadMedia($data->image, 'apartements');
                 $result['image'] = $imageName;
             }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $apartement->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'apartements/covers/');
+                       DB::table('imagesapartements')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'apartements/covers/', $x);
+                       ImgaeApartement::create(['image' =>  $imageName, 'apartement_id' => $apartement->id]);
+                   }
+           }
             $update = $apartement->update($result);
             $apartement->services()->sync($data->services);
             if ($update)

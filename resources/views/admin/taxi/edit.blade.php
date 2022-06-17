@@ -80,16 +80,16 @@
                     <hr>
                     <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data" id='edittax' >
+                <form method="POST" enctype="multipart/form-data" id="updatetaxi" >
                     @csrf
                     <div class="row">
-                        <input type="hidden" name='taxId' v-model='taxId' />
+                        <input type="hidden" name='taxId' value="{{$taxi->id}}" />
                                 {{-- name  --}}
                                 <div class="col-6 ">
                                     <div class="form-group">
                                         <label>اسم  سياره </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='name' id='name' name='name'  class="form-control form-control-lg"  >
+                                            <input type="text"  value="{{$taxi->name}}" id='name' name='name'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -102,12 +102,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> صور الغلاف </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
+                                    </div>
+                                </div>
                                 {{-- end image  --}}
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label> الموديل   </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='model' name='model'  class="form-control form-control-lg"  >
+                                            <input type="text"  value="{{$taxi->model}}" name='model'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +126,7 @@
                                     <div class="form-group">
                                         <label> السعر   </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="float" v-model='price' name='price'  class="form-control form-control-lg"  >
+                                            <input type="float"  value="{{$taxi->price}}" name='price'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -173,87 +183,41 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
     <script>
-        tax = new Vue({
-            'el': '#edittax',
-            'data' : {
-                'id' : JSON.parse('{!!    $arr !!}'),
-                'name' : '',
-                'model': '',
-                'price': '',
-                'comID': '',
-                'taxId' : '',
-                'error' : []
-            },
-            methods :{
-                setData:function(){
-                    this.taxId = this.id[0].id,
-                    this.name = this.id[0].name,
-                    this.model = this.id[0].model,
-                    this.price = this.id[0].price,
-                    this.comID = this.id[0].company_id
-                },
-                falidation: function(item, val) {
-                    if (item == '') {
-                        this.error.push({
-                            'err' : 'err'
-                        });
-                        swal({
-                            title: val,
-                            type: 'warning',
-                            confirmButtonText: 'ok',
-                        });
-                        return false
+       $('#updatetaxi').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: `{{ route('updateTaxi') }}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if (response) {
+                        this.reset();
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: response.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        window.location.href='{{ route('indexTaxi')}}';
                     }
                 },
-                saveData: function(e){
-                    e.preventDefault();
-                    this.error = [],
-                    $.ajaxSetup({
-                            headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
+                error: function (reject) {
+                    var response = $.parseJSON(reject.responseText);
+                    $.each(response.errors, function(name, msg) {
+                      swal({
+                                title: msg[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     });
-                    this.falidation(this.name , 'لا يمكن ترك الاسم فارغا ')
-                    this.falidation(this.model , 'لا يمكن ترك الموديل فارغا')
-                    this.falidation(this.price , 'لا يمكن ترك السعر فارغا  ')
-                    if (this.error.length != 0) {
-                        return false
-                    }
-                    const formData = new FormData(document.getElementById("edittax"));
-                    $.ajax({
-                        type: 'POST',
-                        enctype: 'multipart/form-data',
-                        url: '{{ route('updateTax') }}',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            swal({
-                                title:  res.msg,
-                                type: 'success',
-                                confirmButtonText: 'ok',
-                                });
-                                window.location.href='{{ route('indexTaxi')}}';
-                        },
-                        error: function(res) {
-                            var response = $.parseJSON(res.responseText);
-                            $.each(response.errors, function(name, msg) {
-                                swal({
-                                        title:  msg[0],
-                                        type: 'warning',
-                                        confirmButtonText: 'ok',
-                                        });
-                                    });
-                            return 0;
-                        }
-                    })
                 }
-            },
-            created(){
-                this.setData();
-            }
+            });
         });
-
     </script>
 
 

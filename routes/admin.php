@@ -125,7 +125,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/create', [TaxiController::class, 'create'])->name('createTaxi');
         Route::get('/edit/{id}', [TaxiController::class, 'edit'])->name('editTaxi');
         Route::post('/store', [TaxiController::class, 'store'])->name('storeTaxi');
-        Route::any('/update', [TaxiController::class, 'update'])->name('updateTax');
+        Route::any('/update', [TaxiController::class, 'update'])->name('updateTaxi');
         Route::get('/', [TaxiController::class, 'index'])->name('indexTaxi');
         Route::post('delete-taxi', [TaxiController::class, 'delete'])->name('delete-taxi');
     }); 

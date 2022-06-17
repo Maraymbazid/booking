@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\DiscountCar;
 use App\Models\Company;
 use App\Models\ReservationCar;
+use App\Models\Admin\ImageCar;
 class Car extends Model
 {
     use HasFactory;
@@ -34,5 +35,9 @@ class Car extends Model
     public function reservations()
     {
         return $this->hasMany(ReservationCar::class,'car_id');
+    }
+    public function images()
+    {
+        return $this->hasMany(ImageCar::class,'car_id');
     }
 }
