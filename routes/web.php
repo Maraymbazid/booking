@@ -95,6 +95,8 @@ Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
 Route::group(['prefix' => 'orders', 'middleware' => 'auth'], function () {
     Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');
+    Route::get('/meetingOrders', [OrdersController::class, 'userMeetOrder'])->name('userMeetOrder');
+    Route::get('/singleMeetOrders/{id}', [OrdersController::class, 'singleMeetOrder'])->name('singleMeetOrder');
     Route::get('/carOrders', [OrdersController::class, 'userCarOrder'])->name('userCarOrder');
     Route::get('/singlecarOrder/{id}', [OrdersController::class, 'singleCarOrder'])->name('singlecarOrder');
     Route::get('/hotelOrders', [OrdersController::class, 'userHotelOrder'])->name('userHotelOrder');
