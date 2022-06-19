@@ -198,11 +198,11 @@ class MeetingSallesController extends Controller
             if ($room) {
                 if ($request->numberdays !== null) {
                     $discount = MeetingDiscount::where('salle_id', $id)
-                        ->where('day_count', '<=', $request->numberdays)->orderby('day_count', 'DESC')->get();
+                        ->where('hour_count', '<=', $request->numberdays)->orderby('hour_count', 'DESC')->get();
                     if ($discount->count() > 0) {
                         $mainPrice = $room->price;
                         $price = $room->price *  $request->hours;    //before dis
-                        $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                        $dis =  ($discount[0]->hour_count * $price) / 100;  // dis    %
                         $finallPrice = $price - $dis;  // after dis
                     } else {
                         $dis = 0;
@@ -252,11 +252,11 @@ class MeetingSallesController extends Controller
             if ($room) {
                 if ($request->numberdays !== null) {
                     $discount = MeetingDiscount::where('salle_id', $id)
-                        ->where('day_count', '<=', $request->numberdays)->orderby('day_count', 'DESC')->get();
+                        ->where('hour_count', '<=', $request->numberdays)->orderby('hour_count', 'DESC')->get();
                     if ($discount->count() > 0) {
                         $mainPrice = $room->price;
                         $price = $room->price *  $request->hours;    //before dis
-                        $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                        $dis =  ($discount[0]->hour_count * $price) / 100;  // dis    %
                         $finallPrice = $price - $dis;  // after dis
                     } else {
                         $dis = 0;
