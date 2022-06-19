@@ -290,7 +290,7 @@ class MeetingSallesController extends Controller
                 $cart->status = 1;
                 $cart->note      = '';
                 $cart->save();
-                $msg =  "لقد قام " . '  ' .  $request->customrname  . '  ' . " بطلب حجز قاعة اجتماعات     " . '  ' . $room->name  . " ";
+                $msg =  "لقد قام " . '  ' .  $request->customername  . '  ' . " بطلب حجز قاعة اجتماعات     " . '  ' . $room->name  . " ";
                 $msg .= " ورقم الواتساب الخاص به " . '  ' . $request->number . '  ';
                 if ($request->numberdays !== null) {
                     $msg .= " وحجز  " . '  ' . $request->numberdays . "  يوم ";
