@@ -98,7 +98,7 @@
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">   صورة التذكرة  </label>
-                                <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
+                                <input type="file" class="form-control" id="ticket" @change="fileChange1" ref="image" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">  معها سائق    </label>
@@ -120,7 +120,7 @@
                             </div>
 
                             <div class="col-md-12 col-12 yas">
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">احجز الان</button>
+                                <button type="submit" @click='sendOrder' class="btn btn-primary btn-lg btn-block">احجز الان</button>
                             </div>
 
                         </div>
@@ -184,10 +184,14 @@
                 'receivingplace' : '',
                 'destination' : '',
                 'chauffeur' : '',
+                'image' : '',
+                'file1' : '',
                 'erorrs' : []
             },
             methods :{
-
+                fileChange1(event) {
+                      this.file1 = this.$refs.image.files.length;
+                },
                 validation:function(el , msg){
                     if(el == ''){
                         this.erorrs.push({
@@ -204,11 +208,12 @@
                 sendOrder: function(e){
                     this.erorrs  = []
                     this.validation(this.chauffeur , ' من فضلك هل تحتاج سائق ام لا ')
+                    this.validation(this.file1 , '  صورة التذكرة من فضلك  ')
                     this.validation(this.destination , ' من فضلك اختر وجهه ')
                     this.validation(this.phone , 'رقم الواتساب  او التليجرام مطلوب ')
                     this.validation(this.datearrive , '  التاريخ  مطلوب ')
                     this.validation(this.customrname , 'الاسم مطلوب ')
-                    this.validation(this.receivingplace , '  موقع استلام التاكسي مطلوب ')
+                    this.validation(this.deliveryplace , '  موقع استلام التاكسي مطلوب ')
                     if (this.erorrs.length != 0) {
                         e.preventDefault();
                     }
