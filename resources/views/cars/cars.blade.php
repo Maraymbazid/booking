@@ -99,7 +99,7 @@
                     <div class="col-4 border-me">
                         <p class="no-1">حجزك</p>
                         <p class="no-2"> @{{car.price}}</p>
-                        <p class="no-3">لكل  يوم </p>
+                        <p class="no-3">  @{{car.meth}}  </p>
                     </div>
                 </div>
             </div>

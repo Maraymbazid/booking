@@ -409,6 +409,9 @@ class CarController extends Controller
         $cars = Car::get();
         foreach ($cars as $car) {
             $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
+            if ($car->meth == 3)   $car->image = 'شهر';
+            if ($car->meth == 2)   $car->image = 'اسبوع';
+            if ($car->meth == 1)   $car->image = 'يوم';
         }
         return response()->json(['cars' => $cars], 200);
     }
