@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Traits\media;
-use App\Models\Admin\Gouvernement;
-use App\Models\Admin\ServiceApartement;
-use App\Http\Requests\Villa\StoreVilla;
 use App\Models\Admin\Villa;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\Villa\UpdateVilla;
-use App\Models\Admin\DiscountVilla;
+use Illuminate\Http\Request;
 use App\Models\ReservationVilla;
+use App\Models\Admin\Gouvernement;
 use App\Models\Admin\ImagesVillas;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\DiscountVilla;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Http\Requests\Villa\StoreVilla;
+use App\Models\Admin\ServiceApartement;
+use App\Http\Requests\Villa\UpdateVilla;
+
 class VillaController extends Controller
 {
     use media;
@@ -194,26 +197,30 @@ class VillaController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
-                        $price = $villa->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
-                        $price = $villa->price;
-                        $finallPrice = $villa->price;
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $finallPrice =  $villa->price * $data->numberdays;  // after dis
                     }
-                     $cartvilla = new \stdClass();
-                     $cartvilla->villa_id=$villa->id;
-                     $cartvilla->villa_name=$villa->name_ar;
-                     $cartvilla->price=$finallPrice;
-                     $cartvilla->begindate=$data->begindate;
-                     $cartvilla->enddate=$data->enddate;
-                     $cartvilla->customrname=$data->customrname;
-                $cartvilla->numberdays = $data->numberdays;
-                $cartvilla->number = $data->number;
-                     $cartvilla->personnes=$data->persones;
-                     return view('villas.detail',compact('cartvilla'));
+                $cartvilla = new \stdClass();
+                $cartvilla->villa_id           = $villa->id;
+                $cartvilla->villa_name         = $villa->name_ar;
+                $cartvilla->main_price              = $villa->price;
+                $cartvilla->discount           = $dis;
+                $cartvilla->pricebefore        = $price;
+                $cartvilla->finallPrice        = $finallPrice;
+                $cartvilla->begindate          = $data->begindate;
+                $cartvilla->enddate            = $data->enddate;
+                $cartvilla->customrname        = $data->customrname;
+                $cartvilla->numberdays         = $data->numberdays;
+                $cartvilla->number             = $data->number;
+                $cartvilla->personnes          = $data->persones;
+                return view('villas.detail', compact('cartvilla'));
             }
             else
             {
@@ -240,28 +247,39 @@ class VillaController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
-                        $price = $villa->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
-                        $price = $villa->price;
-                        $finallPrice = $villa->price;
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $finallPrice =  $villa->price * $data->numberdays;  // after dis
                     }
                     $newreservation=new ReservationVilla;
-                    $newreservation->user_id=1;
-                    $newreservation->villa_id=$id;
-                    $newreservation->price=$finallPrice;
-                    $newreservation->Num='DE0001';
-                    $newreservation->numerdays=$data->numberdays;
+                $newreservation->user_id =  Auth::user()->id;
+                $newreservation->villa_id  = $id;
+                $newreservation->villa_name  =  $villa->name_ar;
+                $newreservation->price             = $villa->price;
+                $newreservation->discount                = $dis;
+                $newreservation->pricebefore        = $price;
+                $newreservation->finallprice        = $finallPrice;
+                $newreservation->Num          =  'V' . Auth::user()->id . time();
+                $newreservation->numerdays  = $data->numberdays;
                     $newreservation->customrname=$data->customrname;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
                     $newreservation->enddate=$data->enddate;
                     $newreservation->phone=$data->number;
-                    $newreservation->status='pending';
+                $newreservation->status = 1;
+                $newreservation->note = '....';
                     $newreservation->save();
+                $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . "  بطلب تأجير فيلا    " . '    ' . $villa->name_ar  . "وعدد الاشخاص " . $data->personnes;
+                $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays . "  يوم ";
+                $msg .= " وتاريخ الاستلام " . $data->begindate . "حتى تاريخ " . $data->enddate  .  "   والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+                $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+                $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
                     return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
             }
             else

@@ -53,6 +53,70 @@
 
 <div class="container" id='cars'>
 <div class="row">
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-if='loading' >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-if='loading' >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-if='loading' >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-for='taxi in taxis'>
         <div class="cards" @click='gottoOnetaxi(taxi)'>
             <div class="card-image" style="background-image: url('images/22443294.jpg');" v-bind:style="{ backgroundImage: 'url(' + taxi.image + ')' }">

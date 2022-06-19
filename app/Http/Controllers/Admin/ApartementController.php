@@ -7,14 +7,17 @@ use App\Http\Traits\media;
 use Illuminate\Http\Request;
 use App\Models\Admin\Apartement;
 use App\Models\Admin\Gouvernement;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Models\Admin\ImgaeApartement;
 use App\Models\ReservationApartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
-use App\Models\Admin\ImgaeApartement;
+use App\Http\Requests\Apartement\StoreApartementRequest;
+
 class ApartementController extends Controller
 {
     use media;
@@ -126,7 +129,7 @@ class ApartementController extends Controller
                        DB::table('imagesapartements')->where('id', $old->id)->delete();
                    }
                    for ($x = 0; $x <= count($data->images) - 1; $x++) {
-                       $imageName = $this->uploadManyMedia($data->images[$x], 'apartements/covers/', $x);
+                    $imageName = $this->uploadManyMedia($data->images[$x], 'apartements/covers', $x);
                        ImgaeApartement::create(['image' =>  $imageName, 'apartement_id' => $apartement->id]);
                    }
            }
@@ -159,7 +162,7 @@ class ApartementController extends Controller
     }
     public function userIndex()
     {
-        $apartements =Apartement::get();
+        $apartements = Apartement::get()->Where('status', 1);        
         foreach ($apartements as $apart) {
             $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
         }
@@ -170,7 +173,7 @@ class ApartementController extends Controller
         $id=(int)$id;
         if(is_integer($id))
         {
-            $apartement=Apartement::find($id);
+            $apartement = Apartement::find($id);
 
             if($apartement)
             {
@@ -198,26 +201,31 @@ class ApartementController extends Controller
             $apartement=Apartement::find($id);
             if($apartement)
             {
+                
                     $discount = DiscountApartement::where('apartement_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
-                        $price = $apartement->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+                    $mainPrice = $apartement->price;
+                    $price = $apartement->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
-                        $price = $apartement->price;
-                        $finallPrice = $apartement->price;
+                    $price = $apartement->price * $data->numberdays;
+                    $finallPrice =   $apartement->price * $data->numberdays;
                     }
                      $cartapart = new \stdClass();
-                     $cartapart->apart_id=$apartement->id;
-                     $cartapart->apart_name=$apartement->name_ar;
-                     $cartapart->price=$finallPrice;
-                     $cartapart->begindate=$data->begindate;
-                     $cartapart->enddate=$data->enddate;
-                     $cartapart->customrname=$data->customrname;
+                $cartapart->apart_id =   $apartement->id;
+                $cartapart->apart_name = $apartement->name_ar;
+                $cartapart->main_price = $apartement->price;
+                $cartapart->pricebefore  = $price;
+                $cartapart->discount = $dis;
+                $cartapart->finallPrice  = $finallPrice;
+                $cartapart->begindate =  $data->begindate;
+                $cartapart->enddate =     $data->enddate;
+                $cartapart->customrname = $data->customrname;
                 $cartapart->numberdays = $data->numberdays;
                 $cartapart->number = $data->number;
                      $cartapart->personnes=$data->persones;
@@ -248,28 +256,39 @@ class ApartementController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $apartement->price) / 100;  // dis
-                        $price = $apartement->price *  $data->numberdays;    //before dis
+
+                    $price = $apartement->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
                         $finallPrice = $price - $dis;  // after dis
                     } else
                     {
-                        $dis = 0;
-                        $price = $apartement->price;
-                        $finallPrice = $apartement->price;
+                    $dis = 0;
+                    $price = $apartement->price * $data->numberdays;    //before dis
+                    $finallPrice = $apartement->price * $data->numberdays;   // after dis
                     }
                     $newreservation=new ReservationApartement;
-                    $newreservation->user_id=1;
-                    $newreservation->apartement_id=$id;
-                    $newreservation->price=$finallPrice;
-                    $newreservation->Num='DE0001';
-                    $newreservation->numerdays=$data->numberdays;
-                    $newreservation->customrname=$data->customrname;
-                    $newreservation->personnes=$data->personnes;
-                    $newreservation->begindate=$data->begindate;
-                    $newreservation->enddate=$data->enddate;
-                    $newreservation->phone=$data->number;
-                    $newreservation->status='pending';
+                $newreservation->user_id            = Auth::user()->id;
+                $newreservation->apartement_id      = $id;
+                $newreservation->apartement_name    = $apartement->name_ar;
+                $newreservation->price              = $apartement->price;
+                $newreservation->dis                = $dis;
+                $newreservation->pricebefore        = $price;
+                $newreservation->finallprice        = $finallPrice;
+                $newreservation->Num                =  'A' . Auth::user()->id . time();
+                $newreservation->numerdays          = $data->numberdays;
+                $newreservation->customrname         = $data->customrname;
+                $newreservation->personnes          = $data->personnes;
+                $newreservation->begindate = $data->begindate;
+                $newreservation->enddate   = $data->enddate;
+                $newreservation->phone = $data->number;
+                $newreservation->status =   1;
+                $newreservation->Note =  '....';
                     $newreservation->save();
+                $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير شقة    " . '  ' . $apartement->name_ar  . "وعدد الاشخاص " . $data->personnes;
+                $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays . "  يوم ";
+                $msg .= " وتاريخ الاستلام " . $data->date . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+                $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+                $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
                     return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
             }
             else
@@ -359,7 +378,7 @@ class ApartementController extends Controller
 
     public function apartementApi()
     {
-        $apartements = Apartement::get();
+        $apartements = Apartement::get()->Where('status', 1);
         foreach ($apartements as $apart) {
             $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
         }
@@ -370,7 +389,7 @@ class ApartementController extends Controller
     {
         // $hotels = DB::table('hotels')->where('gouvernement', $govId)->orderBy('sort', 'DESC')->get();
 
-        $apartements = Apartement::where('gouvernement', $govId)->get();
+        $apartements = Apartement::where('gouvernement', $govId)->get()->Where('status', 1);
         foreach ($apartements as $apart) {
             $apart->image = url('/') . '/assets/admin/img/apartements/' . $apart->image;
         }

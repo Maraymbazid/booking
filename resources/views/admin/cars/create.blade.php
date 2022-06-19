@@ -120,6 +120,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> المحاسبه </label>
+                                        <div class="input-group input-group-lg">
+                                            <select  class="form-control"
+                                                v-model="meth"  name='meth'>
+                                                <option value="">إختار نوع </option>
+                                                <option value="1"> يوم  </option>
+                                                <option value="2"> اسبوع </option>
+                                                <option value="3">  شهر </option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
                                 {{-- end model  --}}
                                 <div class="col-6">
                                     <div class="form-group">
@@ -130,7 +145,7 @@
                                     </div>
                                 </div>
                                 {{-- end price  --}}
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">

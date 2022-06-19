@@ -54,8 +54,15 @@
 
 
     <div class="container">
+        <div class="row">
+            @if (session()->has('ordersucess'))
+            <div class="alert alert-success mt-5 " role="alert">
+                {{ session()->get('ordersucess') }}
+            </div>
+            @endif
+        </div>
     <h3 class="mayati-title">
-           طلباتي
+            حجز الفنادق
         </h3>
 
             <div class="cards ">
@@ -68,11 +75,11 @@
             <thead class="thead-dark">
                 <tr>
                     <th>  الاسم   </th>
+                    <th>   الرقم المرجعي    </th>
                     <th>   رقم الواتساب   </th>
                     <th>   عدد الايام    </th>
-                    <th>   تاريخ الوصول     </th>
-                    <th>   تاريخ المغادرة     </th>
                     <th>     حالة الطلب     </th>
+                    <th>     تاريخ الطلب      </th>
                     <th>     تفاصيل </th>
                 </tr>
             </thead>
@@ -81,10 +88,9 @@
          @foreach ($orders as $order)
             <tr>
                 <td> {{ $order->user_name }}</td>
+                <td> {{ $order->order_number }}</td>
                 <td> {{ $order->whatsapp }}</td>
                 <td> {{ $order->daycount }}</td>
-                <td> {{ $order->arrival }}</td>
-                <td> {{ $order->checkout }}</td>
                 <td> @if($order->status == '0' )
                     جارى المراجعة
                     @elseif ($order->status == 1)
@@ -95,8 +101,10 @@
                     هناك خطأ ما ونحاول التواصل معك
                     @endif
                     </td>
+                <td> {{ $order->created_at }}</td>
+
                 <td>   <button class="btn btn-primary">
-                    <a href="{{ route('H_O', $order->id) }}" >
+                    <a href="{{ route('singlehotelOrder', $order->id) }}" >
                         <span style="color: #fff;">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                         </span>
@@ -120,10 +128,8 @@
 
 
 <script type="text/javascript">
-function load()
-{
-setTimeout("window.open(self.location, '_self');", 580000);
-}
+
+
 $(document).ready(function() {
 
 
@@ -197,6 +203,6 @@ window.onresize = function(event) {
 
 
 </script>
-<body onload="load()">
 
-    @endsection
+
+@endsection

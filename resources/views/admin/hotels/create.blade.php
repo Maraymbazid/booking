@@ -147,9 +147,9 @@
                                 {{-- cover  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>صورة الغلاف </label>
+                                        <label>صور الغلاف </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file" @change="fileChange2"   ref="cover" name="cover" id="cover" class="form-control form-control-lg"
+                                            <input type="file" @change="fileChange2" multiple  ref="covers" name="covers[]" id="covers" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
                                     </div>
@@ -268,15 +268,9 @@
             methods:{
                 fileChange1(event) {
                       this.file1 = this.$refs.image.files.length;
-                      console.log(this.$refs.image.files.length)
-                    //   const data = URL.createObjectURL(event.target.files[0]);
-                    //    this.my_photo = data;
                 },
                 fileChange2(event) {
-                      this.file2 = this.$refs.cover.files.length;
-                      console.log(this.$refs.cover.files.length)
-                    //   const data = URL.createObjectURL(event.target.files[0]);
-                    //    this.my_photo = data;
+                      this.file2 = this.$refs.covers.files.length;
                 },
                 convert:function(){
                     var mylocation = this.fram
@@ -309,14 +303,7 @@
                 deletesubservice: function(subservice) {
                     this.subservices.splice(this.subservices.indexOf(subservice), 1);
                 },
-                resetForm :function(){
-                    this.name_ar = '',
-                    this.description_ar = '',
-                    this.status = '',
-                    this.gouvernement = '',
-                    this.subservices = '',
-                    this.sort = ''
-                },
+             
                 falidation: function(item, val) {
                     if (item == '') {
                         this.error.push({

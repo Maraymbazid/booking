@@ -1,79 +1,24 @@
 @extends('layout.flay')
 
 @section('moving-image')
-
-<div class="section">
-    <div class="row">
-        <div id="carousel" class="carousel slide" data-ride="carousel">
-
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            <div class="d-none d-lg-block">
-                <div class="slide-box">
-                <img src="https://images6.alphacoders.com/349/thumb-1920-349835.jpg" alt="First slide">
-                <img src="https://images4.alphacoders.com/267/267498.jpg" alt="First slide">
-                <img src="https://c4.wallpaperflare.com/wallpaper/624/380/1000/life-resort-hotel-resort-hotel-wallpaper-preview.jpg" alt="First slide">
-                <img src="https://wallpapershome.com/images/pages/ico_h/19257.jpg" alt="First slide">
-                </div>
-            </div>
-            <div class="d-none d-md-block d-lg-none">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="First slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/4610.jpg" alt="First slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/424.jpg" alt="First slide">
-                </div>
-            </div>
-            <div class="d-none d-sm-block d-md-none">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/424.jpg" alt="First slide">
-                <img src="https://images6.alphacoders.com/349/thumb-1920-349835.jpg" alt="First slide">
-                </div>
-            </div>
-            <div class="d-block d-sm-none">
-                <img class="d-block w-100" src="https://picsum.photos/600/400/?image=0&random" alt="First slide">
-            </div>
-            </div>
-            <div class="carousel-item">
-            <div class="d-none d-lg-block">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-none d-md-block d-lg-none">
-                <div class="slide-box">
-                <img src="https://picsum.photos/240/200/?image=3&random" alt="Second slide">
-                <img src="https://picsum.photos/240/200/?image=4&random" alt="Second slide">
-                <img src="https://picsum.photos/240/200/?image=5&random" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-none d-sm-block d-md-none">
-                <div class="slide-box">
-                <img src="https://picsum.photos/270/200/?image=2&random" alt="Second slide">
-                <img src="https://picsum.photos/270/200/?image=3&random" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-block d-sm-none">
-                <img class="d-block w-100" src="https://picsum.photos/600/400/?image=1&random" alt="Second slide">
-            </div>
-            </div>
+<section aria-label="Newest Photos">
+        <div class="carousel" data-carousel>
+            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
+          <ul data-slides>
+            @foreach ($hotel->images as $i)
+            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+                <img src="{{ url("/") . "/assets/admin/img/hotels/covers/" . $i->image}} " alt="nature image #1"  />
+            </li>
+            @endforeach>
+          </ul>
+          </div>
+          </div>
         </div>
-        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-        </div>
-    </div>
-
-
-</div>
+    </section>
 @endsection
+
+
 
 
 @section('content')
@@ -144,9 +89,9 @@
                                                             <p style="margin-top:10px">
                                                                 <i class="far fa-images"></i>  صور الغرفه
                                                             </p>
-                                                            <div :id="'slide'+room.id" class="carousel slide" data-ride="carousel">
+                                                            <div :id="'slide'+room.id" class="carousel " data-ride="carousel">
                                                                 <div class="carousel-inner">
-                                                                    <div class="carousel-item " v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
+                                                                    <div class="carousel-item roomim" v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
 
                                                                     </div>
                                                                 </div>
@@ -178,7 +123,7 @@
                                         <div class="row">
                                             <div class="para col-lg-3 col-3 m-1" v-for='r in room.discount'>
                                                 <p class="title-des-left p-1">
-                                                    @{{r.discount}}% لـ 5أيام
+                                                    @{{r.discount}}% لـ  @{{r.day_count}}أيام
                                                 </p>
                                             </div>
                                         </div>
@@ -193,7 +138,7 @@
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                            <h5 class="modal-title" id="exampleModalLongTitle"> @{{room.name_ar}} </h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -229,6 +174,8 @@
                                         <p class="money"><i class="fa-solid fa-user"></i> تتسع لـ @{{room.adults}}</p>
                                         <p class="money"><i class="fas fa-child"></i></i> تتسع لـ @{{room.children}}</p>
                                         <p class="money"><i class="fa-solid fa-bed"></i>    @{{room.beds}}</p>
+                                        <p class="money"><i class="fa-solid fa-minimize"></i> @{{room.area}}  م  </p>
+                                        <p class="money" v-if="room.internet == 1" >  <i class="fa-solid fa-wifi"></i>   متوفر</p>
                                     </div>
                                 </div>
 
@@ -290,6 +237,37 @@
             $(document).ready(function(){
                 $('.carousel').carousel()
             })
+            const buttons = document.querySelectorAll(
+    '[data-carousel-button]'
+    );
+
+    buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const offset =
+        button.dataset.carouselButton === 'next'
+            ? 1
+            : -1;
+        const slides = button
+        .closest('[data-carousel]')
+        .querySelector('[data-slides]');
+
+        const activeSlide = slides.querySelector(
+        '[data-active]'
+        );
+        let newIndex =
+        [...slides.children].indexOf(activeSlide) +
+        offset;
+        if (newIndex < 0)
+        newIndex = slides.children.length - 1;
+        if (newIndex >= slides.children.length)
+        newIndex = 0;
+
+        slides.children[
+        newIndex
+        ].dataset.active = true;
+        delete activeSlide.dataset.active;
+    });
+    });
         hotels = new Vue({
             'el' : '#content',
             'data' : {
@@ -304,11 +282,6 @@
                 'erorrs' : []
             },
             methods:{
-                getSer: function(e){
-                console.log(e);
-                },
-                getMainServicesRoom:function(){
-                },
                 setDate:function(){
                     if(this.arrival == '')
                         return;

@@ -30,4 +30,8 @@ class ReservationVilla extends Model
     {
         return $this->belongsTo(Villa::class,'villa_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

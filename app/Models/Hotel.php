@@ -44,6 +44,10 @@ class Hotel extends Model
 
         return $this->belongsTo(Gouvernement::class, 'gouvernement');
     }
+    public function images()
+    {
+        return $this->hasMany(HotelImage::class, 'hotel_id');
+    }
     // public function getCoverAttribute($val)
     // {
     //     return ($val !== null) ? asset('assets/admin/img/hotels/cover/' . $val) : "";

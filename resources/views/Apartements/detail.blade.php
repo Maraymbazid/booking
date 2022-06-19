@@ -36,7 +36,21 @@ padding: 25px;"> تأكيد حجز شقة
                     </tr>
                     <tr >
                         <td> السعر فى اليوم      </td>
-                        <td> {{$cartapart->price}} </td>
+                        <td> {{$cartapart->main_price}} </td>
+                    </tr>
+                    @if($cartapart->discount < 0 )
+                    <tr >
+                        <td>  الاجمالي قبل الخصم         </td>
+                        <td> {{$cartapart->pricebefore}} </td>
+                    </tr>
+                    <tr >
+                        <td>    الخصم         </td>
+                        <td> {{$cartapart->discount}} </td>
+                    </tr>
+                    @endif
+                    <tr >
+                        <td>  التكلفه الاجمالية       </td>
+                        <td> {{$cartapart->finallPrice}} </td>
                     </tr>
                     <tr >
                         <td>  اسم الشخص المعني بالحجز   </td>

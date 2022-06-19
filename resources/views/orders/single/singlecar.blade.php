@@ -39,7 +39,7 @@
                             <dd class="col-sm-6">{{$order->customrname}}</dd>
                             <dt class="col-sm-4"> رقم الواتساب </dt>
                             <dd class="col-sm-6"> {{$order->number}}</dd>
-                            <dt class="col-sm-4"> عدد الايام </dt>
+                            <dt class="col-sm-4"> عدد {{$order->show}} </dt>
                             <dd class="col-sm-6"> {{$order->numberdays}}</dd>
                             <dt class="col-sm-4"> تاريخ الاستلام </dd>
                             <dd class="col-sm-6"> {{$order->date}}</dd>
@@ -47,7 +47,7 @@
                             <dd class="col-sm-6"> {{$order->deliveryplace}}</dd>
                             <dt class="col-sm-4">  مكان التسليم </dt>
                             <dd class="col-sm-6"> {{$order->receivingplace}}</dd>
-                            <dt class="col-sm-4">  تكلفة اليوم   </dt>
+                            <dt class="col-sm-4">  تكلفة {{$order->method}}   </dt>
                             <dd class="col-sm-6"> {{$order->mainPrice}}</dd>
                             @if($order->discount > 0)
                             <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
