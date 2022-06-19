@@ -30,5 +30,9 @@ class ReservationApartement extends Model
     {
         return $this->belongsTo(Apartement::class,'apartement_id');
     }
-   
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

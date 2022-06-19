@@ -60,16 +60,20 @@
                         <i class="fa-regular fa-user"></i>   {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        @if (Route::has('userHotelOrder'))
-                        <a class="dropdown-item" href="{{ route('userHotelOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
-                            <span class="nav-link-text">  طلبات الفنادق  </span>  </a>
-                            <a class="dropdown-item" href="{{ route('userTaxiOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
-                                <span class="nav-link-text">  طلبات تاكسي المطار </span>  </a>
-                                <a class="dropdown-item" href="{{ route('userCarOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
+                    
+                        <a class="dropdown-item" href="{{ route('userHotelOrder')}}"  >      <span><i class="fa-solid fa-hotel"></i>
+                            <span class="nav-link-text"> حجز الفنادق  </span>  </a>
+                            <a class="dropdown-item" href="{{ route('userTaxiOrder')}}"  >      <span><i class="fa-solid fa-taxi"></i></span>
+                                <span class="nav-link-text">   حجز تاكسي  </span>  </a>
+                                <a class="dropdown-item" href="{{ route('userCarOrder')}}"  >      <span><i class="fa-solid fa-handshake-simple"></i></span>
                                     <span class="nav-link-text">    حجز السيارات </span>  </a>
-                                    <a class="dropdown-item" href="{{ route('userMeetOrder')}}"  >      <span><i class="fas fa-bell"></i></span>
+                                    <a class="dropdown-item" href="{{ route('userMeetOrder')}}"  >      <span><i class="fa-solid fa-castle"></i></span>
                                         <span class="nav-link-text">    حجز الاجتماعات </span>  </a>
-                        @endif
+                                        <a class="dropdown-item" href="{{ route('userAppartOrder')}}"  >      <span><i class="fa-solid fa-castle"></i></span>
+                                            <span class="nav-link-text">    حجز الشقق  </span>  </a>
+                                            <a class="dropdown-item" href="{{ route('userVillaOrder')}}"  >      <span><i class="fa-solid fa-house"></i></span>
+                                                <span class="nav-link-text">    حجز الفلل </span>  </a>
+                      
                         <div class="dropdown-divider"></div>
                         @if (Route::has('register'))
                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -111,12 +115,14 @@
                         @yield('content')
                     </div>
 
-    <footer class="footer">
-        <div class="container">
-            COPY RIGHY BY kkkkkkkkkkkkkk
-        </div>
+                    <footer class="footer">
+                        <div class="container">
+                            <div class="aboute-us">
+                                تمت برمجة هذا الموقع من قبل <a href="#">M.A.Y</a> جميع الحقوق محفوظة
+                            </div>
+                        </div>
 
-  </footer>
+                  </footer>
 
 
 

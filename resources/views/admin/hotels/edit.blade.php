@@ -148,9 +148,9 @@
                                 {{-- cover  --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>صورة الغلاف </label>
+                                        <label>صور الغلاف </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file"  name="cover" id="cover" class="form-control form-control-lg"
+                                            <input type="file"  multiple name="covers[]"  id="cover" class="form-control form-control-lg"
                                                 style="padding-bottom: 45px;" placeholder="" areia-describedby="helper">
                                         </div>
                                     </div>

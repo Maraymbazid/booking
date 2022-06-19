@@ -19,9 +19,21 @@
 @endsection
 
 @section('moving-image')
-<div class="section">
-    <div class="moving-image"   style="background-image: url({{$salle->image}});"></div>
-</div>
+<section aria-label="Newest Photos">
+        <div class="carousel" data-carousel>
+            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
+          <ul data-slides>
+            @foreach ($salle->images as $i)
+            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+                <img src="{{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}} " alt="nature image #1" />
+            </li>
+            @endforeach>
+          </ul>
+          </div>
+          </div>
+        </div>
+    </section>
 @endsection
 
 

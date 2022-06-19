@@ -55,7 +55,7 @@
 
     <div class="container">
     <h3 class="mayati-title">
-           طلباتي
+           حجز قاعات الاجتماعات
         </h3>
 
             <div class="cards ">
@@ -72,6 +72,7 @@
                     <th>   رقم الواتساب   </th>
                     <th>   عدد الساعات    </th>
                     <th>   التاريخ      </th>
+                    <th>   تاريخ الطلب      </th>
                     {{-- <th>   تاريخ المغادرة     </th> --}}
                     <th>     حالة الطلب     </th>
                     <th>     تفاصيل </th>
@@ -87,6 +88,7 @@
                         <td> {{$meet->number }} </td>
                         <td> {{ $meet->hours }}</td>
                         <td> {{ $meet->date  }}</td>
+                        <td> {{ $meet->created_at  }}</td>
                         <td> @if($meet->status == '0' )
                             جارى المراجعة
                             @elseif ($meet->status == 1)
@@ -153,10 +155,8 @@
 
 
 <script type="text/javascript">
-function load()
-{
-setTimeout("window.open(self.location, '_self');", 580000);
-}
+
+
 $(document).ready(function() {
 
 
@@ -230,7 +230,7 @@ window.onresize = function(event) {
 
 
 </script>
-<body onload="load()">
+
 
     @endsection
 

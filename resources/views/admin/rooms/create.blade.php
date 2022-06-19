@@ -133,7 +133,7 @@
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>الانترنيت</label>
+                                        <label>الانترنت</label>
                                         <select name="internet" id="internet" class="form-control" style="width: 100%;">
                                             <option {{ old('status') == 1 ? 'selected' : '' }} value="1"> متوفر</option>
                                             <option {{ old('status') == 0 ? 'selected' : '' }} value="0">غير متوفر</option>

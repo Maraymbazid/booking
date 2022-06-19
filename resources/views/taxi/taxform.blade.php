@@ -14,10 +14,23 @@
 </style>
 @endsection
 @section('moving-image')
-<div class="section">
-    <div class="moving-image"   style="background-image: url({{$taxi->image}});"></div>
-</div>
+<section aria-label="Newest Photos">
+        <div class="carousel" data-carousel>
+            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
+          <ul data-slides>
+            @foreach ($taxi->images as $i)
+            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+                <img src="{{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}} " alt="nature image #1" />
+            </li>
+            @endforeach>
+          </ul>
+          </div>
+          </div>
+        </div>
+    </section>
 @endsection
+
 
 
 
@@ -31,16 +44,15 @@
             <div class="row mt-5" >
                 <div class="col-lg-12 ">
                     <div class="row">
-                        <div class="col-lg-4 hight borderr border">
+                        <div class="col-lg-12 hight borderr border">
                             <p class="title-desS mt-2 ">  </p>
-                            <p class="title-des">السيارة : {{$taxi->name}} </p>
+                            <p class="title-des">اسم التاكسي  : {{$taxi->name}} </p>
                             <hr>
                             <p class="title-des">الموديل :  {{$taxi->model}}</p>
                             <hr>
-                            <p class="title-des">سعر اليوم :  {{$taxi->company->name}}$</p>
+                            <p class="title-des"> سعر الرحله  :  {{$taxi->price}}$</p>
                         </div>
-                        <div class="col-lg-8 hight border borderr">
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -97,6 +109,11 @@
                                     </select>
                             </div>
                             <div class="col-md-12 col-12 ">
+                                @if (session()->has('promomsg'))
+                                <div class="alert alert-danger mt-5 " role="alert">
+                                    {{ session()->get('promomsg') }}
+                                </div>
+                                @endif
                                 <label  class="form-group text-capitalize m-1 ">   كود خصم  </label>
                                 <input type="text" class="form-control"  name="promo" placeholder="كود خصم إن وجد ">
 

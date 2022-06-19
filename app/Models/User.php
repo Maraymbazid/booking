@@ -50,4 +50,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReservationCar::class, 'user_id');
     }
+    public function ReservationAppart()
+    {
+        return $this->hasMany(ReservationApartement::class, 'user_id');
+    }
+    public function ReservationVilla()
+    {
+        return $this->hasMany(ReservationVilla::class, 'user_id');
+    }
 }

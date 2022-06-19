@@ -58,7 +58,6 @@ Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');
     Route::any('/hotelorder/{hotelId}', [HotelOrderController::class, 'order'])->name('hotelorder');
     Route::any('/storeorder/{hotelId}/{roomId}', [HotelOrderController::class, 'store'])->name('sotororderhoter');
-    Route::any('/singleorderhotel/{orderId}', [HotelOrderController::class, 'showOneOrderFoUser'])->name('H_O');
 });
 Route::group(['prefix' => 'Apartement'], function () {
     Route::get('/apartorderd/{govId}', [ApartementController::class, 'Apartordered'])->name('Apartordered');
@@ -94,10 +93,16 @@ Route::group(['prefix' => 'meeting'], function () {
 Route::get('/test', [HotelController::class, 'test'])->name('test');
 //Route::get('/test', [TaxiController::class, 'test'])->name('test');
 Route::group(['prefix' => 'orders', 'middleware' => 'auth'], function () {
-    Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');
-    Route::get('/meetingOrders', [OrdersController::class, 'userMeetOrder'])->name('userMeetOrder');
-    Route::get('/singleMeetOrders/{id}', [OrdersController::class, 'singleMeetOrder'])->name('singleMeetOrder');
+    Route::get('/hotelOrders', [OrdersController::class, 'userHotelOrder'])->name('userHotelOrder');
+    Route::any('/singleorderhotel/{id}', [OrdersController::class, 'showOneOrderFoUser'])->name('singlehotelOrder');
     Route::get('/carOrders', [OrdersController::class, 'userCarOrder'])->name('userCarOrder');
     Route::get('/singlecarOrder/{id}', [OrdersController::class, 'singleCarOrder'])->name('singlecarOrder');
-    Route::get('/hotelOrders', [OrdersController::class, 'userHotelOrder'])->name('userHotelOrder');
+    Route::get('/taxiOrders', [OrdersController::class, 'userTaxiOrder'])->name('userTaxiOrder');
+    Route::get('/singleTaxOrder/{id}', [OrdersController::class, 'singleTaxOrder'])->name('singleTaxOrder');
+    Route::get('/meetingOrders', [OrdersController::class, 'userMeetOrder'])->name('userMeetOrder');
+    Route::get('/singleMeetOrders/{id}', [OrdersController::class, 'singleMeetOrder'])->name('singleMeetOrder');
+    Route::get('/appartOrders', [OrdersController::class, 'userAppartOrder'])->name('userAppartOrder');
+    Route::get('/singleappartOrder/{id}', [OrdersController::class, 'singleApartOrder'])->name('singleApartOrder');
+    Route::get('/villaOrders', [OrdersController::class, 'userVillaOrder'])->name('userVillaOrder');
+    Route::get('/singleVillaOrder/{id}', [OrdersController::class, 'singleVillaOrder'])->name('singleVillaOrder');
 });

@@ -31,6 +31,7 @@ class CarController extends Controller
         $car->image = $imageName;
         $car->company_id = $request->company_id;
         $car->price  = $request->price;
+        $car->meth  = $request->meth;
         $car->model  = $request->model;
         $car->save();
         for ($x = 0; $x <= count($request->images) - 1; $x++) {
@@ -65,7 +66,7 @@ class CarController extends Controller
         $car=Car::find($data->carId);
         if($car)
         {
-            if ($data->has('image')) 
+            if ($data->has('image'))
             {
                 $oldImage = DB::table('cars')->select('image')->where('id', $data->carId)->first()->image;
                 $this->deleteMedia($oldImage, 'cars');
@@ -85,7 +86,7 @@ class CarController extends Controller
                    }
            }
             $updatecar = $car->update($result);
-            if ($updatecar) 
+            if ($updatecar)
             {
 
                 $status = 200;
@@ -148,21 +149,22 @@ class CarController extends Controller
             $car=Car::find($id);
             if($car)
             {
-                // return $car->discount->rate;
-                // if(!empty($car->company_id))
-                //   {
-                //     $car = DB::table('cars')
-                //     ->join('companies', 'cars.company_id', '=', 'companies.id')
-                //     ->select('cars.*', 'companies.name as company')
-                //     ->where('cars.id', $id)->first();
-                //     $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
-                //     return view('cars.carForm')->with('car',  $car);
-                //   }
-                //   else
-                //   {
+                if ($car->meth == 3) {
+                    $car->meth = ' شهريا ';
+                    $car->dis = ' شهور ';
+                    $car->inp = 'المده بالشهر ';
+                } elseif ($car->meth == 2) {
+                    $car->meth = ' اسبوعيا ';
+                    $car->dis = ' اسبوع ';
+                    $car->inp = ' المده بالاسابيع ';
+                } else {
+                    $car->meth = ' يوميا ';
+                    $car->dis = ' يوم ';
+                    $car->inp = 'المده باليوم ';
+                }
                      $car->image = url('/') . '/assets/admin/img/cars/' . $car->image;
                       return view('cars.carForm')->with('car',  $car);
-                  //}
+
             }
             else
             {
@@ -194,12 +196,21 @@ class CarController extends Controller
                     $price = $car->price *  $data->numberdays;    //before dis
                     $dis =  ($discount[0]->rate * $price) / 100;  // dis    %
                     $finallPrice = $price - $dis;  // after dis
-                    } else
-                    {
-                        $dis = 0;
+                } else {
                     $mainPrice = $car->price;
-                        $price = $car->price;
-                        $finallPrice = $car->price;
+                    $dis = 0;
+                    $price = $car->price *  $data->numberdays;
+                    $finallPrice = $car->price *  $data->numberdays;
+                }
+                if ($car->meth == 3) {
+                    $method = ' الشهر ';
+                    $show = ' الشهور ';
+                } elseif ($car->meth == 2) {
+                    $method = ' الاسبوع ';
+                    $show = ' الاسابيع ';
+                } else {
+                    $method = ' اليوم ';
+                    $show = ' الايام ';
                     }
                 $cartcar = new \stdClass();
                 $cartcar->mainPrice = $mainPrice;     //main price in day
@@ -208,6 +219,8 @@ class CarController extends Controller
                 $cartcar->price = $finallPrice;          // price after dis
                 $cartcar->car_id = $car->id;           //car_id
                 $cartcar->car_name = $car->name;
+                $cartcar->method = $method;
+                $cartcar->show = $show;
                 $cartcar->modal = $car->model;
                 $cartcar->deliveryplace = $data->deliveryplace;
                 $cartcar->customrname = $data->customrname;
@@ -245,8 +258,22 @@ class CarController extends Controller
             } else {
                 $mainPrice = $car->price;
                 $dis = 0;
-                $price = $car->price;
-                $finallPrice = $car->price;
+                $price = $car->price *  $data->numberdays;
+                $finallPrice = $car->price *  $data->numberdays;
+            }
+            if ($car->meth == 3) {
+                $method = ' الشهر ';
+                $show = ' الشهور ';
+                $ms = ' شهر ';
+            } elseif ($car->meth == 2) {
+                $method = ' الاسبوع ';
+                $show = ' الاسابيع ';
+                $ms = ' اسبوع ';
+            } else {
+                $method = ' اليوم ';
+                $show = ' الايام ';
+                $ms = ' يوم ';
+
             }
             $newreservation=new ReservationCar;
             $newreservation->user_id   = Auth::user()->id;
@@ -255,6 +282,8 @@ class CarController extends Controller
             $newreservation->beforeDis = $price;          // price before dis
             $newreservation->discount  = $dis;          //  dis
             $newreservation->price     = $finallPrice;
+            $newreservation->method     = $method;
+            $newreservation->show       = $show;
             $newreservation->Num = 'C' . Auth::user()->id . time();
             $newreservation->deliveryplace=$data->deliveryplace;
             $newreservation->customrname = $data->customrname;
@@ -265,10 +294,10 @@ class CarController extends Controller
             $newreservation->status = 0;
             $newreservation->save();
 
-            $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير سياره    " . '  ' . $car->name  . " " . " والموديل" . $car->model;
-            $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays . "  يوم ";
+            $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير سياره    " . '  ' . $car->name  . "  " . " والموديل" . " " .  $car->model;
+            $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays .  $ms;
             $msg .= " وتاريخ الاستلام " . $data->date . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
-            $msg .= "   ومكان استلام السياره   " . "  " .  $data->receivingplace . "ومكان تسليم السياره " . " " . $data->deliveryplace . " ";
+            $msg .= "   ومكان استلام السياره   " . "    " .  $data->receivingplace . "    " .   "ومكان تسليم السياره " . "   " . $data->deliveryplace . "    ";
             $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
             $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
             return response()->json(['msg' => 'تم حفظ بيانتك بنجاح',], 200);

@@ -35,7 +35,7 @@
                                 <td> {{$cartcar->modal}} </td>
                             </tr>
                             <tr>
-                                <td> السعر فى اليوم      </td>
+                                <td> السعر فى {{$cartcar->method}}      </td>
                                 <td> {{$cartcar->mainPrice}} $</td>
                             </tr>
 
@@ -73,7 +73,7 @@
                                 <td>{{$cartcar->date}} <input type="hidden" name="date" value="{{$cartcar->date}}" /> </td>
                             </tr>
                             <tr>
-                                <td>   عدد الايام   </td>
+                                <td>   عدد {{$cartcar->show}}   </td>
                                 <td> {{$cartcar->numberdays}} <input type="hidden" name="numberdays" value="{{$cartcar->numberdays}}" /> </td>
                             </tr>
                             <input type="hidden" name="id" value="{{$cartcar->car_id}}" />

@@ -36,14 +36,14 @@ class Car extends Model
     {
         return $this->hasMany(ImageCar::class,'car_id');
     }
-    public static function boot() {
-        parent::boot();
-        self::deleting(function($car) { // before delete() method call this
-             $car->images()->each(function($image) {
-                $image->delete(); // <-- direct deletion
-             });
-             // do the rest of the cleanup...
-        });
-    }
+    // public static function boot() {
+    //     parent::boot();
+    //     self::deleting(function($car) { // before delete() method call this
+    //          $car->images()->each(function($image) {
+    //             $image->delete(); // <-- direct deletion
+    //          });
+    //          // do the rest of the cleanup...
+    //     });
+    // }
     
 }

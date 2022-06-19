@@ -55,7 +55,7 @@
 
     <div class="container">
     <h3 class="mayati-title">
-           طلباتي
+         حجز السيارات
         </h3>
 
             <div class="cards ">
@@ -71,6 +71,7 @@
                     <th>  الاسم   </th>
                     <th>  رقم التواصل    </th>
                     <th>    السعر الاجمالي</th>
+                    <th>     تاريخ الطلب   </th>
                     <th>     حالة الطلب   </th>
                     <th>     تفاصيل </th>
                     {{-- <th>   رقم الواتساب   </th>
@@ -91,7 +92,7 @@
                         <td> {{ $car->customrname }}    </td>
                         <td> {{ $car->number }} </td>
                         <td> {{ $car->price }}</td>
-
+                        <td> {{ $car->created_at }}</td>
                         <td> @if($car->status == '0' )
                             جارى المراجعة
                             @elseif ($car->status == 1)
@@ -158,10 +159,7 @@
 
 
 <script type="text/javascript">
-function load()
-{
-setTimeout("window.open(self.location, '_self');", 580000);
-}
+
 $(document).ready(function() {
 
 
@@ -235,7 +233,7 @@ window.onresize = function(event) {
 
 
 </script>
-<body onload="load()">
+
 
     @endsection
 
