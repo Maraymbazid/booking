@@ -51,7 +51,7 @@ class HotelController extends Controller
     {
         DB::beginTransaction();
         try {
-            $imageName = $this->uploadMedia($data->image, 'Hotels');
+            $imageName = $this->uploadMedia($data->image, 'hotels');
             $hotel = new Hotel();
             $hotel->name_ar = $data->name_ar;
             $hotel->description_ar = $data->description_ar;
@@ -71,7 +71,7 @@ class HotelController extends Controller
                 ]);
             }
             for ($x = 0; $x <= count($data->covers) - 1; $x++) {
-                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'Hotels/covers', $x);
+                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'hotels/covers', $x);
                 HotelImage::create(['image' =>  $imageName1, 'hotel_id' => $hotel->id]);
             }
         } catch (\Exception $e) {
@@ -127,7 +127,7 @@ class HotelController extends Controller
             }
             for ($x = 0; $x <= count($data->covers) - 1; $x++) {
                 // $imageName = $this->uploadManyMedia($data->images[$x], 'hotels/covers', $x);
-                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'Hotels/covers', $x);
+                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'hotels/covers', $x);
                 HotelImage::create(['image' =>  $imageName1, 'hotel_id' => $data->hotelId]);
             }
         }
