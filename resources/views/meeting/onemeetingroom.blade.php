@@ -26,7 +26,7 @@
           <ul data-slides>
             @foreach ($salle->images as $i)
             <li class="slide" @if( $loop->first == 1 )data-active @endif  >
-                <img src="{{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}} " alt="nature image #1" />
+                <img src="{{ url("/") . "/assets/admin/img/salles/covers/" . $i->image}} " alt="nature image #1" />
             </li>
             @endforeach>
           </ul>
