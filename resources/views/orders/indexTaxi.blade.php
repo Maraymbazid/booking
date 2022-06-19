@@ -87,15 +87,17 @@
                         {{-- <td> {{ $taxi->taxi->model }}</td> --}}
                         <td> {{ $taxi->datearrive }}</td>
                         <td> {{ $taxi->created_at }}</td>
-                        <td> @if($taxi->status == '0' )
-                            جارى المراجعة
-                            @elseif ($taxi->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($taxi->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>       @if($taxi->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($taxi->status == 2)
+                            تم القبول
+                      @elseif ($taxi->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($taxi->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singleTaxOrder', $taxi->id) }}" >

@@ -23,7 +23,7 @@
                     <div class="card">
                         <div class="card-header">
                         <h3 class="card-title">
-                              تفاصيل  الطلب
+                              تفاصيل  طلب فندق
                         </h3>
                         </div>
                         <!-- /.card-header -->
@@ -32,7 +32,7 @@
                             <dt class="col-sm-4"> اسم الشخص  </dt>
                             <dd class="col-sm-6">{{$order->name}}</dd>
                             <dt class="col-sm-4">  الرقم المرجعي  </dt>
-                            <dd class="col-sm-6">{{$order->name}}</dd>
+                            <dd class="col-sm-6">{{$order->order_number}}</dd>
                             <dt class="col-sm-4">رقم الواتساب </dt>
                             <dd class="col-sm-6"> {{$order->whatsapp}}</dd>
                             <dt class="col-sm-4"> عدد الايام </dt>
@@ -56,11 +56,23 @@
                             <dt class="col-sm-4">  الاجمالي   </dt>
                             <dd class="col-sm-6"> {{$order->total}}</dd>
                             <dt class="col-sm-4">  حالة الطلب   </dt>
-                            <dd class="col-sm-6"> {{$order->status}}</dd>
+                            <dd class="col-sm-6">
+                                @if($order->status == 1 )
+                                قيد التنفيذ
+                          @elseif ($order->status == 2)
+                                تم القبول
+                          @elseif ($order->status == 3)
+                              انتظر مكالمة للقبول
+                          @elseif ($order->status == 4)
+                                   مرفوض
+                          @else
+                          هناك خطأ ما من فضلك تواصل معنا
+                          @endif
+                                </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
                             <dd class="col-sm-6"> {{$order->note}}</dd>
                             <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
-                            <dd class="col-sm-6"> {{$order->user_name}}</dd>
+                            <dd class="col-sm-6"> {{$order->user->name}}</dd>
                             <dt class="col-sm-4">   تاريخ الطلب      </dt>
                             <dd class="col-sm-6"> {{$order->created_at}}</dd>
                         <!-- /.card-body -->
@@ -90,8 +102,6 @@
 
     @section('js')
 
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-
+        {{-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> --}}
 
     @endsection

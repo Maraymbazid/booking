@@ -59,15 +59,17 @@
                             <dd class="col-sm-6"> {{$order->price}}</dd>
                             <dt class="col-sm-4">  حالة الطلب   </dt>
                             <dd class="col-sm-6">
-                                @if($order->status == '0' )
-                            جارى المراجعة
-                            @elseif ($order->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($order->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                                @if($order->status == 1 )
+                                قيد التنفيذ
+                          @elseif ($order->status == 2)
+                                تم القبول
+                          @elseif ($order->status == 3)
+                              انتظر مكالمة للقبول
+                          @elseif ($order->status == 4)
+                                   مرفوض
+                          @else
+                          هناك خطأ ما من فضلك تواصل معنا
+                          @endif
                             </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
                             <dd class="col-sm-6"> {{$order->note}}</dd>

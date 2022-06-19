@@ -58,4 +58,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReservationVilla::class, 'user_id');
     }
+    public function HotelOrder()
+    {
+        return $this->hasMany(HotelOrder::class, 'user_id');
+    }
 }

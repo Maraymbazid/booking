@@ -29,4 +29,10 @@ class MeetingOrder extends Model
         'status',
         'note',
     ];
+
+    public function user()
+    {
+        return  $this->belongsTo(User::class, 'user_id');
+    }
+
 }

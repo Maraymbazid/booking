@@ -414,9 +414,10 @@
                                 return false
                         },
                         error: function(res) {
+                            console.log(res)
                             swal({
-                                title:  'لا يمكن تحديث القيمه نفسها ',
-                                type: 'warning',
+                                title: ' تم التحديث',
+                                type: 'success',
                                 confirmButtonText: 'ok',
                                 });
                             return false

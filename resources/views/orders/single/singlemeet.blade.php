@@ -31,6 +31,8 @@
                         <dl class="row">
                             <dt class="col-sm-4">  الرقم المرجعي   </dt>
                             <dd class="col-sm-6"> {{$order->order_number}}</dd>
+                            <dt class="col-sm-4">  اسم القاعه     </dt>
+                            <dd class="col-sm-6"> {{$order->meeting_name}}</dd>
                             <dt class="col-sm-4"> اسم العميل  </dt>
                             <dd class="col-sm-6">{{$order->customername}}</dd>
                             <dt class="col-sm-4"> رقم الواتساب </dt>
@@ -61,21 +63,23 @@
                             <dd class="col-sm-6"> {{$order->finallPrice}}</dd>
                             <dt class="col-sm-4">  حالة الطلب   </dt>
                             <dd class="col-sm-6">
-                                @if($order->status == '0' )
-                            جارى المراجعة
-                            @elseif ($order->status == 1)
-                            تم  قبول الطلب
+                                @if($order->status == 1 )
+                                  قيد التنفيذ
                             @elseif ($order->status == 2)
-                                تم إالغاء الطلب
+                                  تم القبول
+                            @elseif ($order->status == 3)
+                                انتظر مكالمة للقبول
+                            @elseif ($order->status == 4)
+                                     مرفوض
                             @else
-                            هناك خطأ ما ونحاول التواصل معك
+                            هناك خطأ ما من فضلك تواصل معنا
                             @endif
                             </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
                             <dd class="col-sm-6"> {{$order->note}}</dd>
 
                             <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
-                            <dd class="col-sm-6"> {{$order->user_id }}</dd>
+                            <dd class="col-sm-6"> {{$order->user->name }}</dd>
 
 
 
