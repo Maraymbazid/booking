@@ -300,7 +300,7 @@ class MeetingSallesController extends Controller
                 $msg .= "   والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
                 $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $cart->order_number;
                 $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
-                return redirect()->route('meetinguserindex');
+                return redirect()->route('userMeetOrder');
             } else {
                 alert()->error('Oops....', 'this element does not exist .. try again');
                 return redirect()->back();

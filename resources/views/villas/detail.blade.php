@@ -118,7 +118,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexVilla')}}';
+                        window.location.href='{{ route('userVillaOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');

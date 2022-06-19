@@ -125,7 +125,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexTax')}}';
+                        window.location.href='{{ route('userTaxiOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');

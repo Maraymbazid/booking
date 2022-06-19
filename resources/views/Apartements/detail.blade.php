@@ -124,7 +124,7 @@ padding: 25px;"> تأكيد حجز شقة
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexApartement')}}';
+                        window.location.href='{{ route('userAppartOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');

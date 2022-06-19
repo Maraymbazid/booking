@@ -122,7 +122,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexCar')}}';
+                        window.location.href='{{ route('userCarOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');
