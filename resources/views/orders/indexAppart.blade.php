@@ -55,7 +55,7 @@
 
     <div class="container">
     <h3 class="mayati-title">
-           طلباتي
+           حجز الشقق
         </h3>
 
             <div class="cards ">
@@ -68,36 +68,38 @@
             <thead class="thead-dark">
                 <tr>
                     <th>  الاسم   </th>
+                    <th>   رقم الطلب   </th>
                     <th>   رقم الواتساب   </th>
                     <th>   عدد الايام    </th>
-                    <th>   تاريخ الوصول     </th>
-                    <th>   تاريخ المغادرة     </th>
+                    <th>    تاريخ الطلب    </th>
                     <th>     حالة الطلب     </th>
                     <th>     تفاصيل </th>
                 </tr>
             </thead>
             <tbody>
 
-                @foreach ($taxis as $taxi)
+                @foreach ($apparts as $appart)
                     <tr>
-                        <td> {{ $taxi->user->name }}</td>
-
-                        <td> {{ $taxi->Num }}    </td>
-                        <td> {{$taxi->number }} </td>
+                        <td> {{ $appart->customrname }}</td>
+                        <td> {{ $appart->Num }}    </td>
+                        <td> {{$appart->phone }} </td>
+                        <td> {{ $appart->numerdays }}</td>
+                        <td> {{ $appart->created_at }}</td>
                         {{-- <td> {{ $taxi->taxi->model }}</td> --}}
-                        <td> {{ $taxi->customername }}</td>
-                        <td> @if($taxi->status == '0' )
-                            جارى المراجعة
-                            @elseif ($taxi->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($taxi->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>        @if($appart->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($appart->status == 2)
+                            تم القبول
+                      @elseif ($appart->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($appart->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
-                            <a href="{{ route('H_O', $taxi->id) }}" >
+                            <a href="{{ route('singleApartOrder', $appart->id) }}" >
                                 <span style="color: #fff;">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                 </span>
@@ -107,28 +109,28 @@
                 @endforeach
             </tbody>
             </table>
-                    @if ($taxis->hasPages())
+                    @if ($apparts->hasPages())
 
                     <nav>
                         <ul class="pagination">
                             {{-- Previous Page Link --}}
-                            @if ($taxis->onFirstPage())
+                            @if ($apparts->onFirstPage())
                                 <li class="page-item disabled">
                                     <a class="page-link" href="#" tabindex="-1">Previous</a>
                                 </li>
                             @else
                                 <li class="page-item ">
-                                    <a class="page-link" href=" {{ $taxis->previousPageUrl() }}"
+                                    <a class="page-link" href=" {{ $apparts->previousPageUrl() }}"
                                         tabindex="-1">Previous</a>
                                 </li>
                             @endif
 
 
                             {{-- Next Page Link --}}
-                            @if ($taxis->hasMorePages())
+                            @if ($apparts->hasMorePages())
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="{{ $taxis->nextPageUrl() }}">Next</a>
+                                        href="{{ $apparts->nextPageUrl() }}">Next</a>
                                 </li>
                             @else
                                 <li class="page-item disabled" aria-disabled="true"
@@ -152,10 +154,7 @@
 
 
 <script type="text/javascript">
-function load()
-{
-setTimeout("window.open(self.location, '_self');", 580000);
-}
+
 $(document).ready(function() {
 
 
@@ -229,7 +228,7 @@ window.onresize = function(event) {
 
 
 </script>
-<body onload="load()">
+
 
     @endsection
 

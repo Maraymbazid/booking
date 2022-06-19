@@ -99,12 +99,15 @@
                         window.location.href='{{ route('indexcompany')}}';
                     }
                 },
-                error: function (reject) {
-                    // var response = $.parseJSON(reject.responseText);
-                    // $.each(response.errors, function(name, msg) {
-                    //    $('#' + name + '_ar_error').text(msg[0]);
-                    //    //console.log('#' + name);
-                    // });
+                error: function(reject) {
+                    var response = $.parseJSON(reject.responseText);
+                    $.each(response.errors, function(key, val) {
+                       swal({
+                                title: val[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
+                    })
                 }
             });
         });

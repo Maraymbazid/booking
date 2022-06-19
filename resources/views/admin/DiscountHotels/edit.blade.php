@@ -36,7 +36,7 @@
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="day_count" id="day_count"
                                                 class="form-control form-control-lg" placeholder="days"
-                                                areia-describedby="helper" value="{{ $discounthotel->number_days}}">
+                                                areia-describedby="helper" value="{{ $discounthotel->day_count}}">
                                             <input type="hidden" value="{{ $discounthotel->id}}" name="id">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='number_days_error' style="">
@@ -50,7 +50,7 @@
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="discount" id="discount"
                                                 class="form-control form-control-lg" placeholder="discount"
-                                                areia-describedby="helper"  value="{{ $discounthotel->rate}}">
+                                                areia-describedby="helper"  value="{{ $discounthotel->discount}}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='rate_error' style="">
                                             <h1></h1>
@@ -144,7 +144,6 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        //$("#" + key + "_error").text(val[0]);
                         swal({
                                 title: val[0],
                                 type: 'warning',

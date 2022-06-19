@@ -6,7 +6,8 @@ use App\Models\MeetingDiscount;
 use App\Models\Admin\MeetingServices;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Admin\ImagesMeeting;
+use App\Models\Admin\Gouvernement;
 class MeetingSalles extends Model
 {
     use HasFactory;
@@ -36,6 +37,15 @@ class MeetingSalles extends Model
     }
     public function Discount()
     {
-        return $this->hasMany(MeetingDiscount::class, 'salle_id');
+        return $this->hasMany(MeetingDiscount::class, 'salle_id'); 
     }
+    public function images()
+    {
+        return $this->hasMany(ImagesMeeting::class, 'meeting_id'); 
+    }
+    public function gouvernemente()
+    {
+        return $this->belongsTo(Gouvernement::class,'gouvernement');
+    }
+
 }

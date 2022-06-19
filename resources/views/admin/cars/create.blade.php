@@ -101,6 +101,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> صور الغلاف </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
+                                    </div>
+                                </div>
                                 {{-- end image  --}}
                                 <div class="col-6">
                                     <div class="form-group">
@@ -108,6 +118,21 @@
                                         <div class="input-group input-group-lg">
                                             <input type="text" v-model='model' name='model'  class="form-control form-control-lg"  >
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> المحاسبه </label>
+                                        <div class="input-group input-group-lg">
+                                            <select  class="form-control"
+                                                v-model="meth"  name='meth'>
+                                                <option value="">إختار نوع </option>
+                                                <option value="1"> يوم  </option>
+                                                <option value="2"> اسبوع </option>
+                                                <option value="3">  شهر </option>
+                                            </select>
+                                        </div>
+
                                     </div>
                                 </div>
                                 {{-- end model  --}}
@@ -179,6 +204,7 @@
                 'model': '',
                 'price': '',
                 'comID': '',
+                'image':'',
                 'error' : []
             },
             methods :{

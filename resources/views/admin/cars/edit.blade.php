@@ -74,22 +74,22 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid" id='createhotel'>
-                    <h2 class="text-center display-4">اضافة سياره
+                    <h2 class="text-center display-4">تعديل سياره
                     </h2>
 
                     <hr>
                     <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data" id='editcar' >
+                <form method="POST" enctype="multipart/form-data" id="updatecar">
                     @csrf
-                    <input type='hidden' v-model='carId' name='carId'>
+                    <input type='hidden' value="{{$car->id}}" name='carId'>
                     <div class="row">
                                 {{-- name  --}}
                                 <div class="col-6 ">
                                     <div class="form-group">
                                         <label>اسم  سياره </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='name' id='name' name='name'  class="form-control form-control-lg"  >
+                                            <input type="text" value="{{$car->name}}" id='name' name='name'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -102,12 +102,36 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label> صور الغلاف </label>
+                                        <div class="input-group input-group-lg">
+                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
+                                        </div>
+                                        <span class="invalid-feedback" role="alert" id='image_error'> </span>
+                                    </div>
+                                </div>
                                 {{-- end image  --}}
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label> الموديل   </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="text" v-model='model' name='model'  class="form-control form-control-lg"  >
+                                            <input type="text" value="{{$car->model}}" name='model'  class="form-control form-control-lg"  >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>  محاسبة  </label>
+                                        <div class="input-group input-group-lg">
+                                            <select  class="form-control"
+                                                v-model="meth"  name='meth'>
+                                                <option  value="">إختار نوع </option>
+                                                <option @if($car->meth == 1) selected @endif value="1"> يوم  </option>
+                                                <option @if($car->meth == 2) selected @endif value="2"> اسبوع </option>
+                                                <option @if($car->meth == 3) selected @endif value="3">  شهر </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +140,7 @@
                                     <div class="form-group">
                                         <label> السعر   </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="float"  v-model='price' name='price'  class="form-control form-control-lg"  >
+                                            <input type="float" value="{{$car->price}}" name='price'  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -126,12 +150,18 @@
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">
                                             <select  class="form-control"
-                                                v-model="comID" name='company_id'>
+                                                 name='company_id'>
                                                 <option value="">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
-                                                        <option value="{{ $com->id }}">
+                                                    @if($car->company_id != '' && $com->id==$car->company_id)
+                                                        <option value="{{ $com->id }}" selected>
                                                             {{ $com->name }}
                                                         </option>
+                                                    @else
+                                                    <option value="{{ $com->id }}">
+                                                            {{ $com->name }}
+                                                        </option>
+                                                    @endif
                                                     @endforeach
 
                                             </select>
@@ -173,88 +203,41 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
     <script>
-        cars = new Vue({
-            'el': '#editcar',
-            'data' : {
-                'id' : JSON.parse('{!!    $arr !!}'),
-                'name' : '',
-                'model': '',
-                'price': '',
-                'comID': '',
-                'carId': '',
-                'error' : []
-            },
-            methods :{
-                setData: function(){
-                    this.carId = this.id[0].id,
-                    this.name = this.id[0].name,
-                    this.model = this.id[0].model,
-                    this.price = this.id[0].price,
-                    this.comID = this.id[0].company_id
-
-                },
-                falidation: function(item, val) {
-                    if (item == '') {
-                        this.error.push({
-                            'err' : 'err'
-                        });
-                        swal({
-                            title: val,
-                            type: 'warning',
-                            confirmButtonText: 'ok',
-                        });
-                        return false
+       $('#updatecar').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: `{{ route('updateCar') }}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if (response) {
+                        this.reset();
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: response.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        window.location.href='{{ route('carindex')}}';
                     }
                 },
-                saveData: function(e){
-                    e.preventDefault();
-                    this.error = [],
-                    $.ajaxSetup({
-                            headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
+                error: function (reject) {
+                    var response = $.parseJSON(reject.responseText);
+                    $.each(response.errors, function(name, msg) {
+                      swal({
+                                title: msg[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
                     });
-                    this.falidation(this.name , 'لا يمكن ترك الاسم فارغا ')
-                    this.falidation(this.model , 'لا يمكن ترك الموديل فارغا')
-                    this.falidation(this.price , 'لا يمكن ترك السعر فارغا  ')
-                    if (this.error.length != 0) {
-                        return false
-                    }
-                    const formData = new FormData(document.getElementById("editcar"));
-                    $.ajax({
-                        type: 'POST',
-                        enctype: 'multipart/form-data',
-                        url: '{{ route('updateCar') }}',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            swal({
-                                title:  res.msg,
-                                type: 'success',
-                                confirmButtonText: 'ok',
-                                });
-                                window.location.href='{{ route('carindex')}}';
-                        },
-                        error: function(res) {
-                            var response = $.parseJSON(res.responseText);
-                            $.each(response.errors, function(name, msg) {
-                                swal({
-                                        title:  msg[0],
-                                        type: 'warning',
-                                        confirmButtonText: 'ok',
-                                        });
-                                    });
-                            return ;
-                        }
-                    })
                 }
-            },
-            created(){
-                this.setData()
-            }
+            });
         });
-
     </script>
 
 

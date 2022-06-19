@@ -57,13 +57,6 @@ class HotelOrderController extends Controller
         $order->price2 = $finallPrice;
         $order->oneday = $room->price;
         $order->discount = $dis;
-        $order->status = 0;
-        // $username = ' احمد ';
-        // $msg =  "لقد قام " . $request->name  . "بطلب غرفة   " . $room->name_ar . " التابعة لفندق " .  $hotel->name_ar;
-        // $msg .= " ورقم الواتساب الخاص به " . $request->whtsapp . " وحجز  " .  $request->daycount . "يوم ";
-        // $msg .= " وتاريخ وصوله " . $request->arrival . " والتكلفه الاجماليه " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
-        // $msg .= "وهذا الطلب تم تنفيذه من حساب " . $username . " وتم تسجيل الطلب بنجاح ";
-        // $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
         return view('hotels.invoke', compact('order'));
     }
 
@@ -84,31 +77,32 @@ class HotelOrderController extends Controller
             $finallPrice = $price;
         }
         $order = new HotelOrder();
-        $order->hotel_id    = $hotelId;
-        $order->room_id     = $roomId;
+        $order->order_number    = 'H' . Auth::user()->id . time();
+        $order->hotel_id       = $hotelId;
+        $order->hotel_name    = $hotel->name_ar;
+        $order->room_id       = $roomId;
+        $order->room_name    = $room->name_ar;
         $order->name        = $request->name;
         $order->whatsapp    = $request->whatsapp;
         $order->daycount    = $request->daycount;
         $order->arrival     = $request->arrival;
         $order->checkout    = $request->checkout;
+        $order->main_price       =  $room->price;
         $order->price       = $price;
         $order->total       = $finallPrice;
         $order->discount    = $dis;
-        $order->status      = 0;
-        $order->note        = 'معلق';
+        $order->status      =  1;
+        $order->note        = '....';
         $order->user_id    =  Auth::user()->id;
         $order->save();
-
-
         $msg =  "لقد قام " . '  ' .  $request->name  . '  ' . "بطلب غرفة   " . '  ' . $room->name_ar . '  ' . " التابعة لفندق " . '  ' . $hotel->name_ar;
         $msg .= " ورقم الواتساب الخاص به " . '  ' . $request->whatsapp . '  ' . " وحجز  " . '  ' . $request->daycount . "يوم ";
-
         $msg .= " وتاريخ وصوله " . $request->arrival . "  والتكلفه الاجماليه قبل الخصم" . $price . "$" . "والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
-        $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . " وتم تسجيل الطلب بنجاح ";
+        $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . " وتم تسجيل الطلب بنجاح " . " الرقم المرجعي : " .  $order->order_number;
         $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
 
 
-        return redirect()->route('userIndexhotel')->with(['status' => 'تم ارسال الطلب بنجاح ']);
+        return redirect()->route('userHotelOrder')->with(['ordersucess' => 'تم ارسال الطلب بنجاح ']);
 
     }
 
@@ -188,17 +182,5 @@ class HotelOrderController extends Controller
 
         return view('admin.hotels.singleorder', compact('order'));
     }
-    public function showOneOrderFoUser($id)
-    {
-        $order = DB::table('hotel_orders')
-        ->join('rooms', 'hotel_orders.room_id', 'rooms.id')
-        ->join('hotels', 'hotel_orders.hotel_id', 'hotels.id')
-        ->join('users', 'hotel_orders.user_id', 'users.id')
-        ->select('hotel_orders.*', 'rooms.name_ar as room_name', 'rooms.id as room_id', 'hotels.name_ar as hotel_name', 'hotels.id as hotel_id', 'users.name as user_name', 'users.id as user_id')
-        ->where('hotel_orders.id', $id)
-            ->where('hotel_orders.user_id',  Auth::user()->id)
-            ->first();
-
-        return view('orders.singlehotelorder', compact('order'));
-    }
+   
 }

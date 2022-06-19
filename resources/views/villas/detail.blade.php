@@ -30,9 +30,23 @@
                         <td>   اسم فلة   </td>
                         <td>  {{$cartvilla->villa_name}}  </td>
                     </tr>
-                    <tr>
+                    <tr >
                         <td> السعر فى اليوم      </td>
-                        <td> {{$cartvilla->price}} </td>
+                        <td> {{$cartvilla->main_price}} </td>
+                    </tr>
+                    @if($cartvilla->discount < 0 )
+                    <tr >
+                        <td>  الاجمالي قبل الخصم         </td>
+                        <td> {{$cartvilla->pricebefore}} </td>
+                    </tr>
+                    <tr >
+                        <td>    الخصم         </td>
+                        <td> {{$cartvilla->discount}} </td>
+                    </tr>
+                    @endif
+                    <tr >
+                        <td>  التكلفه الاجمالية       </td>
+                        <td> {{$cartvilla->finallPrice}} </td>
                     </tr>
                     <tr >
                         <td>  اسم الشخص المعني بالحجز   </td>
@@ -104,7 +118,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexVilla')}}';
+                        window.location.href='{{ route('userVillaOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');

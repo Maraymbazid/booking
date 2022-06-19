@@ -26,7 +26,7 @@ class StoreDestination extends FormRequest
         return  [
             'name' => 'required|max:100',
             'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
-            'gouvernement_id'=>'required|integer',
+            'gouvernement_id'=>'required|integer|exists:App\Models\Admin\Gouvernement,id',
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
         

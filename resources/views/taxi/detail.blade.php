@@ -34,9 +34,22 @@
                                 <td> نوع  التاكسي   </td>
                                 <td> {{$carttaxi->model}} </td>
                             </tr>
+                            @if ($carttaxi->pr !==  null )
                             <tr>
-                                <td> السعر        </td>
-                                <td> {{$carttaxi->price}} </td>
+                                <td>    كود الخصم     </td>
+                                <input type="hidden" name="promo" value="{{$carttaxi->pr}}" /> </td>
+                                <td> {{$carttaxi->pr}} </td>
+                            </tr>
+                            @endif
+                            @if ($carttaxi->discount > 0 )
+                            <tr>
+                                <td>    الخصم     </td>
+                                <td> {{$carttaxi->discount}} </td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td>      الاجمالي   </td>
+                                <td> {{$carttaxi->finallPrice}} </td>
                             </tr>
                             <tr>
                                 <td> رقم الواتساب </td>
@@ -112,7 +125,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        window.location.href='{{ route('userIndexTax')}}';
+                        window.location.href='{{ route('userTaxiOrder')}}';
                 }}
                 , error: function (reject) {
                     console.log('no');

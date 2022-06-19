@@ -39,7 +39,7 @@
                             <dd class="col-sm-6">{{$order->customrname}}</dd>
                             <dt class="col-sm-4"> رقم الواتساب </dt>
                             <dd class="col-sm-6"> {{$order->number}}</dd>
-                            <dt class="col-sm-4"> عدد الايام </dt>
+                            <dt class="col-sm-4"> عدد {{$order->show}} </dt>
                             <dd class="col-sm-6"> {{$order->numberdays}}</dd>
                             <dt class="col-sm-4"> تاريخ الاستلام </dd>
                             <dd class="col-sm-6"> {{$order->date}}</dd>
@@ -47,7 +47,7 @@
                             <dd class="col-sm-6"> {{$order->deliveryplace}}</dd>
                             <dt class="col-sm-4">  مكان التسليم </dt>
                             <dd class="col-sm-6"> {{$order->receivingplace}}</dd>
-                            <dt class="col-sm-4">  تكلفة اليوم   </dt>
+                            <dt class="col-sm-4">  تكلفة {{$order->method}}   </dt>
                             <dd class="col-sm-6"> {{$order->mainPrice}}</dd>
                             @if($order->discount > 0)
                             <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
@@ -59,15 +59,17 @@
                             <dd class="col-sm-6"> {{$order->price}}</dd>
                             <dt class="col-sm-4">  حالة الطلب   </dt>
                             <dd class="col-sm-6">
-                                @if($order->status == '0' )
-                            جارى المراجعة
-                            @elseif ($order->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($order->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                                @if($order->status == 1 )
+                                قيد التنفيذ
+                          @elseif ($order->status == 2)
+                                تم القبول
+                          @elseif ($order->status == 3)
+                              انتظر مكالمة للقبول
+                          @elseif ($order->status == 4)
+                                   مرفوض
+                          @else
+                          هناك خطأ ما من فضلك تواصل معنا
+                          @endif
                             </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
                             <dd class="col-sm-6"> {{$order->note}}</dd>

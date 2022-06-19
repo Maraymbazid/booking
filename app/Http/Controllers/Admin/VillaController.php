@@ -1,19 +1,22 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\media;
-
-use App\Models\Admin\Gouvernement;
-use App\Models\Admin\ServiceApartement;
-use App\Http\Requests\Villa\StoreVilla;
 use App\Models\Admin\Villa;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\Villa\UpdateVilla;
-use App\Models\Admin\DiscountVilla;
 use App\Models\ReservationVilla;
+use App\Models\Admin\Gouvernement;
+use App\Models\Admin\ImagesVillas;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\DiscountVilla;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Http\Requests\Villa\StoreVilla;
+use App\Models\Admin\ServiceApartement;
+use App\Http\Requests\Villa\UpdateVilla;
+
 class VillaController extends Controller
 {
     use media;
@@ -27,13 +30,17 @@ class VillaController extends Controller
     public function  store(StoreVilla $data)
     {
         $imageName = $this->uploadMedia($data->image, 'villas');
-        $request = $data->except('_token', 'image','services','page');
+        $request = $data->except('_token', 'image','services','page','images');
         $request['image'] = $imageName;
         $stored = DB::table('villas')->insertGetId($request);
         if ($stored)
         {
             $villa = Villa::find($stored);
             $villa->services()->attach($data->services);
+            for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                $imageName = $this->uploadManyMedia($data->images[$x], 'villas/covers/', $x);
+                ImagesVillas::create(['image' =>  $imageName, 'villa_id' => $stored]);
+            }
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else
@@ -50,7 +57,7 @@ class VillaController extends Controller
     public function index()
     {
 
-        $allvillas=Villa::select()->get();
+        $allvillas=Villa::paginate(8);
         return view('admin.villas.index',compact('allvillas'));
     }
     public function delete(Request $request)
@@ -59,6 +66,7 @@ class VillaController extends Controller
         if($villa)
         {
             $villa->services()->detach();
+            $villa->images()->delete();
             $villa->delete();
             return response()->json
             ([
@@ -81,7 +89,7 @@ class VillaController extends Controller
             $villa = Villa::find($id);  // search in given table id only
             if (!$villa) {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $villa = villa::select()->find($id);
             $allservices=ServiceApartement::select()->get();
@@ -92,7 +100,7 @@ class VillaController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
@@ -102,13 +110,25 @@ class VillaController extends Controller
         if ($villa)
          {
             $id=$data->id;
-            $result = $data->except('page', 'image', '_token', '_method','id','services');
+            $result = $data->except('page', 'image', '_token', '_method','id','services','images');
             if ($data->has('image')) {
                 $oldImage = DB::table('villas')->select('image')->where('id', $id)->first()->image;
                 $this->deleteMedia($oldImage, 'villas');
                 $imageName = $this->uploadMedia($data->image, 'villas');
                 $result['image'] = $imageName;
             }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $villa->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'villas/covers/');
+                       DB::table('imagesvillas')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x <= count($data->images) - 1; $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'villas/covers/', $x);
+                       ImagesVillas::create(['image' =>  $imageName, 'villa_id' => $villa->id]);
+                   }
+           }
             $update = $villa->update($result);
             $villa->services()->sync($data->services);
             if ($update)
@@ -177,26 +197,30 @@ class VillaController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
-                        $price = $villa->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
-                        $price = $villa->price;
-                        $finallPrice = $villa->price;
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $finallPrice =  $villa->price * $data->numberdays;  // after dis
                     }
-                     $cartvilla = new \stdClass();
-                     $cartvilla->villa_id=$villa->id;
-                     $cartvilla->villa_name=$villa->name_ar;
-                     $cartvilla->price=$finallPrice;
-                     $cartvilla->begindate=$data->begindate;
-                     $cartvilla->enddate=$data->enddate;
-                     $cartvilla->customrname=$data->customrname;
-                $cartvilla->numberdays = $data->numberdays;
-                $cartvilla->number = $data->number;
-                     $cartvilla->personnes=$data->persones;
-                     return view('villas.detail',compact('cartvilla'));
+                $cartvilla = new \stdClass();
+                $cartvilla->villa_id           = $villa->id;
+                $cartvilla->villa_name         = $villa->name_ar;
+                $cartvilla->main_price              = $villa->price;
+                $cartvilla->discount           = $dis;
+                $cartvilla->pricebefore        = $price;
+                $cartvilla->finallPrice        = $finallPrice;
+                $cartvilla->begindate          = $data->begindate;
+                $cartvilla->enddate            = $data->enddate;
+                $cartvilla->customrname        = $data->customrname;
+                $cartvilla->numberdays         = $data->numberdays;
+                $cartvilla->number             = $data->number;
+                $cartvilla->personnes          = $data->persones;
+                return view('villas.detail', compact('cartvilla'));
             }
             else
             {
@@ -223,29 +247,40 @@ class VillaController extends Controller
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
                     if ($discount->count() > 0)
                     {
-                        $dis =  ($discount[0]->rate * $villa->price) / 100;  // dis
-                        $price = $villa->price *  $data->numberdays;    //before dis
-                        $finallPrice = $price - $dis;  // after dis
+
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                         $dis = 0;
-                        $price = $villa->price;
-                        $finallPrice = $villa->price;
+                    $price = $villa->price * $data->numberdays;    //before dis
+                    $finallPrice =  $villa->price * $data->numberdays;  // after dis
                     }
                     $newreservation=new ReservationVilla;
-                    $newreservation->user_id=1;
-                    $newreservation->villa_id=$id;
-                    $newreservation->price=$finallPrice;
-                    $newreservation->Num='DE0001';
-                    $newreservation->numerdays=$data->numberdays;
+                    $newreservation->user_id =  Auth::user()->id;
+                    $newreservation->villa_id  = $id;
+                    $newreservation->villa_name  =  $villa->name_ar;
+                    $newreservation->price             = $villa->price;
+                    $newreservation->discount                = $dis;
+                    $newreservation->pricebefore        = $price;
+                    $newreservation->finallprice        = $finallPrice;
+                    $newreservation->Num          =  'V' . Auth::user()->id . time();
+                    $newreservation->numerdays  = $data->numberdays;
                     $newreservation->customrname=$data->customrname;
                     $newreservation->personnes=$data->personnes;
                     $newreservation->begindate=$data->begindate;
                     $newreservation->enddate=$data->enddate;
                     $newreservation->phone=$data->number;
-                    $newreservation->status='pending';
+                    $newreservation->status = 1;
+                    $newreservation->note = '....';
                     $newreservation->save();
-                    return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
+                    $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . "  بطلب تأجير فيلا    " . '    ' . $villa->name_ar  . "وعدد الاشخاص " . $data->personnes;
+                    $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays . "  يوم ";
+                    $msg .= " وتاريخ الاستلام " . $data->begindate . "حتى تاريخ " . $data->enddate  .  "   والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+                    $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+                    $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
+                        return response()->json(['msg' => 'تم تأكيد حجزك'], 200);
             }
             else
             {
@@ -261,7 +296,7 @@ class VillaController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationVilla::get();
+        $allorders = ReservationVilla::paginate(8);
         return view('admin.ordervillas.index', compact('allorders'));
     }
     public function editordervilla($id)
@@ -280,6 +315,13 @@ class VillaController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationVilla::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         if ($order)
         {
             $update = $order->update([

@@ -128,7 +128,38 @@
                 </div>
                 <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+            @if ($alldestinations->hasPages())
+                    <nav>
+                        <ul class="pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($alldestinations->onFirstPage())
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                            @else
+                                <li class="page-item ">
+                                    <a class="page-link" href=" {{ $alldestinations->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+                            @endif
+
+
+                            {{-- Next Page Link --}}
+                            @if ($alldestinations->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ $alldestinations->nextPageUrl() }}">Next</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled" aria-disabled="true"
+                                    aria-label="@lang('pagination.next')">
+                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                    @endif
+ 
         </section>
 
 

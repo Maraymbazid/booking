@@ -100,7 +100,7 @@
                                         <label>  عدد السرائر </label>
                                         <div class="input-group input-group-lg">
                                             <input type="number" name="beds" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="{{$room->beds}}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='children_error'> </span>
@@ -111,7 +111,7 @@
                                         <label>  عدد الاطفال </label>
                                         <div class="input-group input-group-lg">
                                             <input type="number" name="children" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="{{$room->children}}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='children_error'> </span>
@@ -123,7 +123,7 @@
                                         <label>   عدد البالغين </label>
                                         <div class="input-group input-group-lg">
                                         <input type="number" name="adults" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="{{$room->adults}}">
                                         </div>
                                         <span id='adults_error' role="alert" id='children_error' class="invalid-feedback"> </span>
@@ -262,29 +262,11 @@
     <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
-        function validationArabic(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[\u0621-\u064A\s]+$/gmu;
-            return regex.test(value);
-        }
-        $('#name_ar').bind('keypress', validationArabic);
-        //$('#description_ar').bind('keypress', validationArabic);
-        // // filter english
-        // function validationEnglish(event) {
-        //     var value = String.fromCharCode(event.which);
-        //     var regex = /^[a-z ]+[a-z0-9 ]*$/i;
-        //     return regex.test(value);
-        // }
-        // $('#description_en').bind('keypress', validationEnglish);
-        // $('#name_en').bind('keypress', validationEnglish);
-
-        //save data
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // save data
         $('#editroom').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
@@ -312,7 +294,6 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                       // $("#" + key + "_error").text(val[0]);
                        swal({
                                 title: val[0],
                                 type: 'warning',

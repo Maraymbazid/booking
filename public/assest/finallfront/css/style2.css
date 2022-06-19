@@ -14,12 +14,14 @@
 }
 
 .title-desS {
-    font-weight: 700;
+    font-weight: bolder;
     text-align: center;
 }
 
 .title-des {
     margin-bottom: 0px;
+    font-size: 17px;
+    font-weight: bolder;
 }
 
 #ma-top {
@@ -40,5 +42,15 @@
 }
 
 .borderr {
-    padding-top: 5px;
+    padding: 15px;
+}
+
+.big {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sos {
+    color: #888;
+    font-size: 14px;
 }

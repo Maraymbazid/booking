@@ -86,7 +86,6 @@
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
                             <div class="row">
-
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label> اسم الغرفة</label>
@@ -102,7 +101,7 @@
                                         <label>  عدد الاطفال </label>
                                         <div class="input-group input-group-lg">
                                             <input type="number" name="children" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='children_error'> </span>
@@ -113,7 +112,7 @@
                                         <label>  عدد السرائر </label>
                                         <div class="input-group input-group-lg">
                                             <input type="number" name="beds" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='children_error'> </span>
@@ -125,7 +124,7 @@
                                         <label>   عدد البالغين </label>
                                         <div class="input-group input-group-lg">
                                         <input type="number" name="adults" id=""
-                                                class="form-control form-control-lg" min="0" max="10"
+                                                class="form-control form-control-lg" min="0" max="20"
                                                 areia-describedby="helper" value="">
                                         </div>
                                         <span id='adults_error' role="alert" id='children_error' class="invalid-feedback"> </span>
@@ -134,7 +133,7 @@
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label>الانترنيت</label>
+                                        <label>الانترنت</label>
                                         <select name="internet" id="internet" class="form-control" style="width: 100%;">
                                             <option {{ old('status') == 1 ? 'selected' : '' }} value="1"> متوفر</option>
                                             <option {{ old('status') == 0 ? 'selected' : '' }} value="0">غير متوفر</option>
@@ -244,34 +243,15 @@
     <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
-        function validationArabic(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[\u0621-\u064A\s]+$/gmu;
-            return regex.test(value);
-        }
-        $('#name_ar').bind('keypress', validationArabic);
-        //$('#description_ar').bind('keypress', validationArabic);
-        // // filter english
-        // function validationEnglish(event) {
-        //     var value = String.fromCharCode(event.which);
-        //     var regex = /^[a-z ]+[a-z0-9 ]*$/i;
-        //     return regex.test(value);
-        // }
-        // $('#description_en').bind('keypress', validationEnglish);
-        // $('#name_en').bind('keypress', validationEnglish);
-
-        //save data
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // save data
         $('#addroom').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
             $('#license_name_error').text('');
-
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
@@ -294,7 +274,6 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                        //$("#" + key + "_error").text(val[0]);
                         swal({
                                 title: val[0],
                                 type: 'warning',

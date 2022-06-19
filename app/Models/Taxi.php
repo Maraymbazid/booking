@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\ReservationTaxi;
 use App\Models\Company;
 use App\Models\Admin\PromoCode;
+use App\Models\Admin\ImageTaxi;
 class Taxi extends Model
 {
     use HasFactory;
@@ -34,6 +35,10 @@ class Taxi extends Model
     public function promos()
     {
         return $this->hasMany(PromoCode::class,'taxi_id');
+    }
+    public function images()
+    {
+        return $this->hasMany(ImageTaxi::class,'taxi_id');
     }
 
 }

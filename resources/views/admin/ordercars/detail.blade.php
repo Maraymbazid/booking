@@ -36,9 +36,9 @@
                             <dt class="col-sm-4"> رقم الطلب  </dt>
                             <dd class="col-sm-6">{{ $order->Num}}</dd>
                             <dt class="col-sm-4">  اسم السيارة  </dt>
-                            <dd class="col-sm-6"> {{$order->car->name}}</dd>
+                            <dd class="col-sm-6"> {{$order->car_name}}</dd>
                             <dt class="col-sm-4">  نوع السيارة  </dt>
-                            <dd class="col-sm-6"> {{$order->car->model}}</dd>
+                            <dd class="col-sm-6"> {{$order->car_model}}</dd>
                             <dt class="col-sm-4"> اسم الشخص المعني بالحجز </dt>
                             <dd class="col-sm-6"> {{$order->customrname	}}</dd>
                             <dt class="col-sm-4">  رقم الواتساب  </dd>
@@ -51,15 +51,14 @@
                             <dd class="col-sm-6"> {{$order->date }}</dd>
                             <dt class="col-sm-4">   المده  </dt>
                             <dd class="col-sm-6">  {{ $order->numberdays}} </dd>
-                            @if($order->car->price != $order->price)
+                            <dt class="col-sm-4">  سعر اليوم  </dt>
+                            <dd class="col-sm-6">  {{$order->mainPrice }}</dd>
                             <dt class="col-sm-4">سعر قبل الخصم  </dt>
-                            <dd class="col-sm-6">  {{$order->car->price }}</dd>
+                            <dd class="col-sm-6">  {{$order->beforeDis }}</dd>
                             <dt class="col-sm-4"> سعر بعد الخصم   </dt>
                             <dd class="col-sm-6"> {{$order->price}} </dd>
-                            @else
-                            <dt class="col-sm-4">   السعر </dt>
-                            <dd class="col-sm-6"> {{$order->price}}</dd>
-                            @endif
+                            <dt class="col-sm-4">   نسبة الخصم </dt>
+                            <dd class="col-sm-6"> {{$order->discount}}</dd>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

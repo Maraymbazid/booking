@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\Compnay\UpdateCompany;
 class CompanyController extends Controller
 {
   public function create()
@@ -21,7 +21,7 @@ class CompanyController extends Controller
     }
     public function index()
     {
-        $companies=Company::get();
+        $companies=Company::paginate(8);
         return view('admin.company.index',compact('companies'));
     }
     public function delete(Request $request)
@@ -29,6 +29,8 @@ class CompanyController extends Controller
         $company=Company::find($request->id);
         if($company)
         {
+            $company->cars()->delete();
+            $company->taxis()->delete();
             $company->delete();
             return response()->json
             ([
@@ -53,7 +55,7 @@ class CompanyController extends Controller
         if (!$company)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $company = Company::select()->find($id);
            return view('admin.company.edit', compact('company'));
@@ -61,10 +63,10 @@ class CompanyController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
     }
-    public function update(Request $request)
+    public function update(UpdateCompany $request)
     {
         $company = Company::find($request ->id);
         if (!$company)

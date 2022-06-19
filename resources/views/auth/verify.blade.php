@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layout.flay')
+@include('layout.nav')
 
 @section('content')
 <div class="container">

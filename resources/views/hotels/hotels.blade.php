@@ -31,6 +31,82 @@
             </div>
             </div>
     </div>
+    <div class="row" v-if='loading'>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3"  >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3"  >
+        <div class="cards">
+            <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
+            </div>
+            <div class="card-des">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="card-title-me">
+
+                        </p>
+                        <p class="loly"  > </p>
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="col-4 border-me">
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                        <p class="no-1"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row" v-show='empty'>
+        <div class='alert-danger col-12 m-4 p-5' style='text-align: center'>
+            <h3>  نأ سف  هذا المحتوي غير متاح او يمكنك تحديث الصفحة</h3>
+        </div>
+    </div>
+  
+
+
     <div class="row">
         <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-for='hotel in hotels'>
             <div class="cards" @click='gotoOnehotel(hotel)'>
@@ -48,10 +124,8 @@
                             </p>
                             <p class="loly"></p>
                             <i class="fa-solid fa-location-dot"></i><span>   @{{hotel.title}}</span>
-
-
                         </div>
-                      
+
                     </div>
                 </div>
             </div>
@@ -77,7 +151,8 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
         data:{
             'loading' : false,
             'govId' : '',
-            'hotels' : null
+            'hotels' : [],
+            'empty'  : false
         },
         methods:{
             getHotels: function(){
@@ -87,8 +162,10 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                         // get body data
                         this.loading = false;
                         this.hotels = response.data[1]
-                        // this.jobs = response.data;
+                        if(this.hotels.length == 0) this.empty = true
                     }, response => {
+                        this.loading = false;
+                        this.empty   = true;
                         // error callback
                     })
             },
@@ -98,14 +175,17 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                 window.location.href = url;
             },
             getHotelsByGov:function(){
+                this.loading = true;
+                this.empty = false;
                 url = '{{ route('hotelsordered' , ':id')}}',
                 url = url.replace(':id' , this.govId)
                 this.$http.get(url).then(response => {
-                        // get body data
-                        console.log(response.data[1])
+                        this.loading = false;
                         this.hotels = response.data[1]
+                        if(this.hotels.length == 0) this.empty = true
                     }, response => {
-                        // error callback
+                        this.loading = false;
+                        this.empty   = true;
                     })
             }
         },

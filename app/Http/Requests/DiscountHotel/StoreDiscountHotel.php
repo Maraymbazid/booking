@@ -26,9 +26,9 @@ class StoreDiscountHotel extends FormRequest
         return  [
             'day_count' => 'required|integer|min:1',
             'discount' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            'hotel_id' => 'required|integer',
-            'room_id' => 'required|integer',
-            'gouvernement_id' => 'required|integer',
+            'hotel_id' => 'required|integer|exists:App\Models\Hotel,id',
+            'room_id' => 'required|integer|exists:App\Models\Admin\Room,id',
+            'gouvernement_id'=>'required|integer|exists:App\Models\Admin\Gouvernement,id',
         ];
     }
     public function messages()
@@ -42,6 +42,7 @@ class StoreDiscountHotel extends FormRequest
             'numeric' => 'من فضلك أدخل صيغة صحيحة',
             'integer'  => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',
+            'exists' => 'من فضلك اختار عناصر موجودة',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Hotel;
 use App\Http\Traits\media;
 use App\Models\Admin\Room;
+use App\Models\HotelImage;
 use App\Models\HotelOrder;
 use App\Models\RoomDiscount;
 use Illuminate\Http\Request;
@@ -11,8 +12,9 @@ use App\Models\Admin\Service;
 use App\Models\MainServicesHotel;
 use App\Models\Admin\Gouvernement;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\UpdateHotelRequest;
 use Illuminate\Support\Facades\Crypt;
+use App\Http\Requests\UpdateHotelRequest;
+
 class HotelController extends Controller
 {
     use media;
@@ -47,34 +49,38 @@ class HotelController extends Controller
      */
     public function store(Request $data)
     {
-
-        $imageName = $this->uploadMedia($data->image, 'Hotels');
-        $cover = $this->uploadMedia($data->cover, 'Hotels/cover');
-
-        $hotel = new Hotel();
-        $hotel->name_ar = $data->name_ar;
-        $hotel->description_ar = $data->description_ar;
-        $hotel->status = $data->status;
-        $hotel->gouvernement = $data->gouvernement;
-        $hotel->sort = $data->sort;
-        $hotel->location = $data->location;
-        $hotel->title = $data->title;
-        $hotel->image = $imageName;
-        $hotel->cover = $cover;
-        $hotel->save();
-        $subServices = json_decode($data->subserv);
-        $count =  count($subServices);
-        for ($i = 0; $i < $count; $i++) {
-            DB::table('services_hotel')->insert([
+        DB::beginTransaction();
+        try {
+            $imageName = $this->uploadMedia($data->image, 'Hotels');
+            $hotel = new Hotel();
+            $hotel->name_ar = $data->name_ar;
+            $hotel->description_ar = $data->description_ar;
+            $hotel->status = $data->status;
+            $hotel->gouvernement = $data->gouvernement;
+            $hotel->sort = $data->sort;
+            $hotel->location = $data->location;
+            $hotel->title = $data->title;
+            $hotel->image = $imageName;
+            $hotel->save();
+            $subServices = json_decode($data->subserv);
+            $count =  count($subServices);
+            for ($i = 0; $i < $count; $i++) {
+                DB::table('services_hotel')->insert([
                 'hotel_id' =>   $hotel->id,
                 'sub_id'    => $subServices[$i]->service_id
-            ]);
+                ]);
+            }
+            for ($x = 0; $x <= count($data->covers) - 1; $x++) {
+                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'Hotels/covers', $x);
+                HotelImage::create(['image' =>  $imageName1, 'hotel_id' => $hotel->id]);
+            }
+        } catch (\Exception $e) {
+            Db::rollBack();
+            return response()->json(['msg' => $e->getMessage()], 500);
         }
-
+        DB::commit();
 
         if ($hotel) {
-            // $hotel = Hotel::find($stored);
-            // $hotel->services()->attach($data->services);
             $status = 200;
             $msg  = 'تم حفظ الداتا بنجاح ';
         } else {
@@ -105,18 +111,25 @@ class HotelController extends Controller
     public function update(Request $data)
     {
 
-        $result = $data->except('page', 'image', 'cover', 'hotelId', '_token', '_method');
+        $result = $data->except('page', 'image', 'covers', 'hotelId', '_token', '_method');
         if ($data->has('image')) {
             $oldImage = DB::table('hotels')->select('image')->where('id', $data->hotelId)->first()->image;
             // $this->deleteMedia($oldImage, 'hotels');
             $imageName = $this->uploadMedia($data->image, 'hotels');
             $result['image'] = $imageName;
         }
-        if ($data->has('cover')) {
-            $oldcoverName = DB::table('hotels')->select('cover')->where('id', $data->hotelId)->first()->cover;
-            // $this->deleteMedia($oldcoverName, 'hotels/cover/');
-            $coverName = $this->uploadMedia($data->cover, 'hotels/cover/');
-            $result['cover'] = $coverName;
+        if ($data->has('covers')) {
+            $oldImages = DB::table('hotel_images')->where('hotel_id', $data->hotelId)->get();
+            foreach ($oldImages as $old) {
+                $this->deleteMedia($old->image, 'Hotels/covers');
+
+                DB::table('hotel_images')->where('id', $old->id)->delete();
+            }
+            for ($x = 0; $x <= count($data->covers) - 1; $x++) {
+                // $imageName = $this->uploadManyMedia($data->images[$x], 'hotels/covers', $x);
+                $imageName1 = $this->uploadManyMedia($data->covers[$x], 'Hotels/covers', $x);
+                HotelImage::create(['image' =>  $imageName1, 'hotel_id' => $data->hotelId]);
+            }
         }
         $update = DB::table('hotels')->where('id', $data->hotelId)->update($result);
         if ($update) {
@@ -135,7 +148,9 @@ class HotelController extends Controller
 
     public function destroy($id)
     {
-        $delete = DB::table('hotels')->where('id', $id)->delete();
+        $delete = Hotel::find($id);
+        $delete->rooms()->delete();
+        $delete->delete();
         if ($delete) {
             alert()->success('deleted....', '  تم مسح الفندق بنجاح');
             return redirect()->route('Hotels');
@@ -144,13 +159,6 @@ class HotelController extends Controller
             return redirect()->route('Hotels');
         }
     }
-    // public function test()
-    // {
-    //     $hotel = Hotel::find(7);
-    //     $hotel->services()->attach(12);
-    // }
-
-
     public function userIndex()
     {
         return view('hotels.hotels');
@@ -161,6 +169,7 @@ class HotelController extends Controller
         $hotels = DB::table('hotels')
             ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
             ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
+            ->where('status', 1)
             ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
             $t->image = url('/') . '/assets/admin/img/Hotels/' . $t->image;
@@ -175,6 +184,7 @@ class HotelController extends Controller
             ->join('gouvernements', 'hotels.gouvernement', '=', 'gouvernements.id')
             ->select('hotels.*', 'gouvernements.name', 'gouvernements.id as govid')
             ->where('hotels.gouvernement', $govId)
+            ->where('status', 1)
             ->orderby('hotels.sort', 'DESC')->get();
         foreach ($hotels as $t) {
             $t->image = url('/') . '/assets/admin/img/Hotels/' . $t->image;

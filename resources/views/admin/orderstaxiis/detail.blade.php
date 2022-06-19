@@ -36,9 +36,9 @@
                             <dt class="col-sm-4"> رقم الطلب  </dt>
                             <dd class="col-sm-6">{{ $order->Num}}</dd>
                             <dt class="col-sm-4">  اسم التاكسي  </dt>
-                            <dd class="col-sm-6"> {{$order->taxi->name}}</dd>
+                            <dd class="col-sm-6"> {{$order->taxi_name}}</dd>
                             <dt class="col-sm-4">  نوع التاكسي  </dt>
-                            <dd class="col-sm-6"> {{$order->taxi->model}}</dd>
+                            <dd class="col-sm-6"> {{$order->taxi_model}}</dd>
                             <dt class="col-sm-4"> اسم الشخص المعني بالحجز </dt>
                             <dd class="col-sm-6"> {{$order->customername}}</dd>
                             <dt class="col-sm-4">  رقم الواتساب  </dd>
@@ -47,10 +47,19 @@
                             <dd class="col-sm-6"> {{$order->deliveryplace }} }</dd>
                             <dt class="col-sm-4">  الوجهة </dt>
                             <dd class="col-sm-6"> {{$order->destination }}</dd>
-                            <dt class="col-sm-4">  سعر </dt>
-                            <dd class="col-sm-6">  {{$order->price}}</dd>
                             <dt class="col-sm-4">  تاريخ الوصول  </dt>
                             <dd class="col-sm-6">  {{$order->datearrive }} </dd>
+                            <dt class="col-sm-4">  سعر </dt>
+                            <dd class="col-sm-6">  {{$order->price}}</dd>
+                            <dt class="col-sm-4">  سعر </dt>
+                            <dd class="col-sm-6">  {{$order->finallprice}}</dd>
+                            <dt class="col-sm-4">  برمو </dt>
+                            <dd class="col-sm-6">  {{$order->pro}}</dd>
+                            @if({{$order->chauffeur == 1}})
+                            <dt class="col-sm-4">    مع سائق  </dt>
+                            @else
+                            <dt class="col-sm-4">    بدون سائق  </dt>
+                            @endif
                             <dt class="col-sm-4">   صورة التذكرة  </dt>
                             <dd class="col-sm-6"> <img src="{{$order->ticket}}" /></dd>
                         <!-- /.card-body -->

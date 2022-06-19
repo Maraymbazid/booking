@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DiscountCar\StoreDiscountCar;
@@ -10,11 +9,12 @@ use App\Models\Company;
 use App\Models\Car;
 use App\Models\Admin\DiscountCar;
 use Illuminate\Support\Facades\DB;
+use Exception;
 class DiscountCarController extends Controller
 {
     public function index()
     {
-        $allDiscounts=DiscountCar::get();
+        $allDiscounts=DiscountCar::paginate(8); 
         return view('admin.DiscountCar.index',compact('allDiscounts'));
     }
     public function create()
@@ -70,7 +70,7 @@ class DiscountCarController extends Controller
         if (!$discountcar)
             {                
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $discountcar = DiscountCar::select()->find($id);
             return view('admin.DiscountCar.edit', compact('discountcar'));
@@ -78,7 +78,7 @@ class DiscountCarController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }

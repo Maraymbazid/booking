@@ -1,22 +1,20 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\DiscountCar;
 use App\Models\Company;
 use App\Models\ReservationCar;
+use App\Models\Admin\ImageCar;
 class Car extends Model
 {
     use HasFactory;
-
     protected $table = 'cars';
-
     protected $fillable =
     [
         'id',
         'name',
+        'meth',
         'image',
         'company_id',
         'price',
@@ -35,4 +33,18 @@ class Car extends Model
     {
         return $this->hasMany(ReservationCar::class,'car_id');
     }
+    public function images()
+    {
+        return $this->hasMany(ImageCar::class,'car_id');
+    }
+    // public static function boot() {
+    //     parent::boot();
+    //     self::deleting(function($car) { // before delete() method call this
+    //          $car->images()->each(function($image) {
+    //             $image->delete(); // <-- direct deletion
+    //          });
+    //          // do the rest of the cleanup...
+    //     });
+    // }
+    
 }

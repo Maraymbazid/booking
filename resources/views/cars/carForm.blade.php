@@ -15,9 +15,21 @@
 @endsection
 
 @section('moving-image')
-<div class="section">
-    <div class="moving-image"   style="background-image: url({{$car->image}});"></div>
-</div>
+<section aria-label="Newest Photos">
+        <div class="carousel" data-carousel>
+            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
+          <ul data-slides>
+            @foreach ($car->images as $i)
+            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+                <img src="{{ url("/") . "/assets/admin/img/cars/covers/" . $i->image}} " alt="nature image #1" />
+            </li>
+            @endforeach>
+          </ul>
+          </div>
+          </div>
+        </div>
+    </section>
 @endsection
 
 @section('content')
@@ -139,7 +151,7 @@
                             <hr>
                             <p class="title-des">الموديل :  {{$car->model}}</p>
                             <hr>
-                            <p class="title-des">سعر اليوم :  {{$car->price}}$</p>
+                            <p class="title-des">السعر  {{$car->meth}} :  {{$car->price}}$</p>
                         </div>
                         <div class="col-lg-8 hight border borderr">
                             <p class="title-des">الخصم:</p>
@@ -149,7 +161,7 @@
                                         @foreach($car->discount as $discount)
                                         <div class="para col-lg-3 col-3 m-1" >
                                         <p class="title-des-left p-1">
-                                        %{{$discount->rate}} => لـ   {{$discount->number_days}}أيام
+                                        %{{$discount->rate}} => لـ   {{$discount->number_days}} {{$car->dis}}
                                             </p>
                                         </div>
 
@@ -175,31 +187,31 @@
             <h3 class="mayati-title">
                 الحجز
             </h3>
-            <form method="post" action="{{route('checkordercar')}}">
+            <form method="post" id='carform' action="{{route('checkordercar')}}">
                 @csrf
                 <div class="row mb-5 form">
                     <input type="hidden" name="id" value="{{$car->id}}">
                     <div class="col-md-6 col-12 yas">
-                        <input type="text" class="form-control" id="receivingplace"  name="receivingplace"  placeholder="موقع استلام السياره ">
+                        <input type="text" class="form-control" id="receivingplace"  v-model='receivingplace' name="receivingplace"  placeholder="موقع استلام السياره ">
                     </div>
                     <div class="col-md-6 col-12 yas">
-                        <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace"  placeholder="موقع تسليم السياره ">
+                        <input type="text" class="form-control" id="deliveryplace" v-model='deliveryplace'  name="deliveryplace"  placeholder="موقع تسليم السياره ">
                     </div>
                     <div class="col-md-6 col-12 yas">
-                        <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
+                        <input type="text" class="form-control" id="customrname"  v-model='customrname' name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
                     </div>
                     <div class="col-md-6 col-12 yas">
-                        <input type="number" class="form-control" id="number" name="number" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
+                        <input type="number" class="form-control" id="number" v-model='number' name="number" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                     </div>
                     <div class="col-md-12 col-12 yas">
-                        <input type="number" class="form-control" id="numberdays"  name="numberdays" placeholder="عدد الأيام ">
+                        <input type="number" class="form-control" id="numberdays" v-model='numberdays'  name="numberdays" placeholder=" {{$car->inp}} ">
                     </div>
                     <div class="col-md-12 col-12 yas">
                         <label  class="form-group text-capitalize m-1 "> تاريخ الاستلام :</label>
-                        <input type="date" class="form-control" id="date"  name="date" >
+                        <input type="date" class="form-control" id="date"  v-model='date' name="date" >
                     </div>
                     <div class="col-md-12 col-12 yas">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">احجز الان</button>
+                    <button type="submit" @click='sendOrder' class="btn btn-primary btn-lg btn-block">احجز الان</button>
 
                     </div>
                 </div>
@@ -222,11 +234,86 @@
 
 
 @endsection
+
 @section('js')
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
     function myFunction() {
             $(':button').prop('disabled', true);
         }
+    const buttons = document.querySelectorAll(
+    '[data-carousel-button]'
+    );
+    buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const offset =
+        button.dataset.carouselButton === 'next'
+            ? 1
+            : -1;
+        const slides = button
+        .closest('[data-carousel]')
+        .querySelector('[data-slides]');
+
+        const activeSlide = slides.querySelector(
+        '[data-active]'
+        );
+        let newIndex =
+        [...slides.children].indexOf(activeSlide) +
+        offset;
+        if (newIndex < 0)
+        newIndex = slides.children.length - 1;
+        if (newIndex >= slides.children.length)
+        newIndex = 0;
+        slides.children[ newIndex].dataset.active = true;
+        delete activeSlide.dataset.active;
+    });
+    });
+
+    carform = new Vue({
+            'el' : '#carform',
+            'data' : {
+                'numberdays' : '',
+                'date' : '',
+                'customrname' : '',
+                'number' : '',
+                'deliveryplace' : '',
+                'receivingplace' : '',
+                'erorrs' : []
+            },
+            methods :{
+
+                validation:function(el , msg){
+                    if(el == ''){
+                        this.erorrs.push({
+                            'err' : 'err'
+                        });
+                        swal({
+                                title:  msg,
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
+                        return 0;
+                    }
+                },
+                sendOrder: function(e){
+                    this.erorrs  = []
+                    this.validation(this.date , '  التاريخ  مطلوب ')
+                    this.validation(this.numberdays , ' عدد الايام مطلوب ')
+                    this.validation(this.number , 'رقم الواتساب  او التليجرام مطلوب ')
+                    this.validation(this.customrname , 'الاسم مطلوب ')
+                    this.validation(this.deliveryplace , '  موقع تسليم السياره مطلوب ')
+                    this.validation(this.receivingplace , '  موقع استلام السياره مطلوب ')
+                    if (this.erorrs.length != 0) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+
+
 </script>
 
+
 @endsection
+

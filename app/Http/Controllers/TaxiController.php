@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Taxi;
 use App\Http\Traits\media;
 use Illuminate\Http\Request;
+use App\Models\Admin\ImageTaxi;
+use App\Models\Admin\PromoCode;
 use App\Models\ReservationTaxi;
 use App\Models\Admin\Destination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Car\UpdateCar;
+use Exception;
+use Illuminate\Support\Facades\Http;
 
 class TaxiController extends Controller
 {
@@ -26,55 +31,92 @@ class TaxiController extends Controller
         $taxi = new Taxi();
         $taxi->name = $request->name;
         $taxi->image = $imageName;
-        // $taxi->company_id = $request->company_id;
+        $taxi->company_id = $request->company_id;
         $taxi->price  = $request->price;
         $taxi->model  = $request->model;
         $taxi->save();
+        for ($x = 0; $x <= count($request->images) - 1; $x++) {
+            $imageName = $this->uploadManyMedia($request->images[$x], 'taxi/covers/', $x);
+            ImageTaxi::create(['image' =>  $imageName, 'taxi_id' => $taxi->id]);
+        }
         return response()->json(['msg' => 'تم حفظ الداتا بنجاح '], 200);
     }
 
     public function index()
     {
-        $taxis =Taxi::get();
+        $taxis =Taxi::paginate(8);
         return view('admin.taxi.index')->with('taxis', $taxis);
     }
     public function edit($id)
     {
-        $tax = DB::table('taxis')->where('id', $id)->first();
-        $arr = [];
-        array_push($arr, $tax);
-        if ($tax) {
-            return view('admin.taxi.edit')->with('arr', json_encode($arr));
-        } else {
+        $taxi = DB::table('taxis')->where('id', $id)->first();
+        // $arr = [];
+        // array_push($arr, $tax);
+        if ($taxi)
+         {
+            return view('admin.taxi.edit', compact('taxi'));
+        }
+        else
+        {
             return redirect()->back();
         }
     }
-    public function update(Request $data)
+    public function update(UpdateCar $data)
     {
-        // dd($data);
-        $result = $data->except('page', 'image',  'taxId', '_token', '_method');
-        if ($data->has('image')) {
-            $oldImage = DB::table('taxis')->select('image')->where('id', $data->taxId)->first()->image;
-            $this->deleteMedia($oldImage, 'taxi');
-            $imageName = $this->uploadMedia($data->image, 'taxi');
-            $result['image'] = $imageName;
+        $taxi =Taxi::find($data->taxId);
+        $result = $data->except('page', 'image','taxId', '_token', '_method','images');
+        if($taxi)
+        {
+            if ($data->has('image')) {
+                $oldImage = DB::table('taxis')->select('image')->where('id', $data->taxId)->first()->image;
+                $this->deleteMedia($oldImage, 'taxi');
+                $imageName = $this->uploadMedia($data->image, 'taxi');
+                $result['image'] = $imageName;
+            }
+            if ($data->has('images'))
+            {
+                   $oldImages =  $taxi->images;
+                   foreach ($oldImages as $old) {
+                       $this->deleteMedia($old->image, 'taxi/covers/');
+                       DB::table('imagestaxis')->where('id', $old->id)->delete();
+                   }
+                   for ($x = 0; $x < count($data->images); $x++) {
+                       $imageName = $this->uploadManyMedia($data->images[$x], 'taxi/covers/', $x);
+                       ImageTaxi::create(['image' =>  $imageName, 'taxi_id' => $taxi->id]);
+                   }
+           }
+            $updatetaxi = $taxi->update($result);
+            if ($updatetaxi)
+            {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+
+            }
+            else
+            {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
         }
-        $update = DB::table('taxis')->where('id', $data->taxId)->update($result);
-        if ($update) {
-            return response()->json([
-                'status' => 'done',
-                'msg' => 'تم تعديل الداتا بنجاح ',
-            ]);
-        } else {
-            alert()->error('Oops....', 'Something went wrong .. try again');
-            return redirect()->route('Hotels');
+        else
+        {
+           $status = 500;
+           $msg  = ' تعذر التعديل هناك خطأ ما';
         }
+        return response()->json
+       ([
+           'status' => $status,
+           'msg' => $msg,
+       ]);
+
     }
     public function delete(Request $request)
     {
         $taxi=Taxi::find($request->id);
         if($taxi)
         {
+            $taxi->images()->delete();
             $taxi->delete();
             return response()->json
             ([
@@ -129,28 +171,65 @@ class TaxiController extends Controller
         $value = $request->get('id');
         $dependent = $request->get('dependent');
         $destination =Destination::find($value);
-        $output='<label for="place" class="col-sm-2 col-form-label">   سعر الواجهة  </label>
-                    <div class="col-lg-10 col-12">
-                        <input type="text" class="form-control" id="price" name="price" value="' .$destination->price . '">
-                    </div>';
+        $output = '   <label  class="form-group text-capitalize m-1 ">   سعر الواجهة  </label>
+                        <input type="text" disabled class="form-control" id="price" name="price" value="' . $destination->price . '">';
         echo $output;
-
+    }
+    public function applyPromo($promo)
+    {
+        $pro =  PromoCode::where('name', $promo)->where('status', 1)->where('personnes', '>', 0)->first();
+        if ($pro) {
+            $now = date('Y-m-d');
+            if ($now <= $pro->enddate) {
+                return ['status' => true, 'promo' => $pro];
+            } else {
+                return  ['status'  => false, 'promo' =>  'هذا الكود منتهي '];
+            }
+        } else {
+            return ['status' => false, 'promo' =>  'هذا الكود غير صالح '];
+        }
     }
     public function checkorder(Request $data)
     {
         $id = $data->id;
         $id = (int)$id;
         $id_destination=$data->destination;
+
         if (is_integer($id)) {
             $taxi = Taxi::find($id);
-            $destination=Destination::find($id_destination);
+            $destination = Destination::find($id_destination);
             if ($taxi && $destination) {
+                if ($data->promo) {
+                    $promo = $this->applyPromo($data->promo);
+                    if ($promo['status'] !== false) {
+                        $discount = $promo['promo']->discount;
+                    } else {
+                        return redirect()->back()->with(['promomsg' => $promo['promo']]);
+                    }
+                } else {
+                    $discount = null;
+                }
+                if ($discount !== null) {
+                    $mainPrice = $destination->price;
+                    $price = $destination->price;    //before dis
+                    $dis =  ($discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
+                    $pr = $promo['promo']->name;
+                } else {
+                    $mainPrice = $destination->price;
+                    $price     = $destination->price;    //before dis
+                    $dis       = 0;
+                    $finallPrice = $destination->price;
+                    $pr = null;
+                }
                 $image = $this->uploadMedia($data->ticket, 'taxi/tickets');
                 $carttaxi =  new \stdClass();
-                $carttaxi->user_id = 1;
+                $carttaxi->user_id =   Auth::user()->id;
                 $carttaxi->taxi_id = $id;
                 $carttaxi->taxi_name = $taxi->name;
-                $carttaxi->price = $destination->price;
+                $carttaxi->discount = $dis;
+                $carttaxi->pr = $pr;
+                $carttaxi->finallPrice = $finallPrice;
                 $carttaxi->model = $taxi->model;
                 $carttaxi->phone = $data->phone;
                 $carttaxi->deliveryplace = $data->deliveryplace;
@@ -160,6 +239,7 @@ class TaxiController extends Controller
                 $carttaxi->destination_id= $destination->id;
                 $carttaxi->chauffeur = $data->chauffeur;
                 $carttaxi->ticket = $image;
+
                 return view('taxi.detail', compact('carttaxi'));
             } else {
                 alert()->error('Oops....', 'this element does not exist .. try again');
@@ -177,22 +257,75 @@ class TaxiController extends Controller
         $id_destination=$data->destination_id;
         $taxi = Taxi::find($id);
         $destination=Destination::find($id_destination);
+
         if ($taxi && $destination)
         {
+            if ($data->promo) {
+                $promo = $this->applyPromo($data->promo);
+                if ($promo['status'] !== false) {
+                    $discount = $promo['promo']->discount;
+                    $mainPrice = $destination->price;
+                    $price = $destination->price;    //before dis
+                    $dis =  ($discount * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
+                    $pr = $promo['promo']->name;
+                } else {
+                    $mainPrice = $destination->price;
+                    $price     = $destination->price;    //before dis
+                    $dis       = 0;
+                    $finallPrice = $destination->price;
+                    $pr = null;
+                }
+            } else {
+                $mainPrice = $destination->price;
+                $price     = $destination->price;    //before dis
+                $dis       = 0;
+                $finallPrice = $destination->price;
+                $pr = null;
+            }
             $newreservation = new ReservationTaxi;
             $newreservation->user_id =  Auth::user()->id;
             $newreservation->taxi_id = $id;
-            $newreservation->Num = 'DE0001';
+            $newreservation->taxi_name =  $taxi->name;
+            $newreservation->Num = 'T' . Auth::user()->id . time();
             $newreservation->price = $destination->price;
-            $newreservation->number = 4544545;
+            $newreservation->pro = $pr;
+            $newreservation->discount = $dis;
+            $newreservation->finallprice = $finallPrice;
+            $newreservation->number = $data->phone;
             $newreservation->deliveryplace = $data->deliveryplace;
             $newreservation->customername = $data->customername;
             $newreservation->datearrive = $data->datearrive;
             $newreservation->destination = $data->destination_id;
+            $newreservation->destination_name = $destination->name;
             $newreservation->chauffeur = $data->chauffeur;
-            $newreservation->status = 'pending';
+            $newreservation->status = 1;
             $newreservation->ticket = $data->ticket;
+            $newreservation->note = '.....';
             $newreservation->save();
+            $im =   url('/') . "/assets/admin/img/taxi/tickets/" .  $data->ticket;
+            if ($pr !== null) {
+                $promoTry = $promo['promo']->personnes - 1;
+                PromoCode::where('id',  $promo['promo']->id)->update([
+                    'personnes' =>  $promoTry,
+                ]);
+            }
+            $msg =  "لقد قام " . '  ' .  $data->customername  . '  ' . " بطلب تأجير تاكسي    " . '  ' .  $taxi->name  . " " . " والموديل" . $taxi->model;
+            if ($pr !== null) {
+                $msg .= "  واستعمل برومو " . '  ' . $pr;
+                $msg .= "  وباقي  " . '  ' .  $promoTry . " استعمال";
+            }
+            $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->phone;
+            $msg .= " وتاريخ الوصول " . $data->datearrive . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
+            $msg .= "   ومكان استلام السياره   " . "  " .  $data->deliveryplace . "  والواجهة " . " " . $destination->name . " ";
+            if ($data->chauffeur !== 0) {
+                $msg .= " وطلب معها سائق ";
+            }
+            $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+            $msg .=  " وصورة التيكت ";
+            $msg  .=  "   " . $im;
+            $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
+
             return response()->json([
                 'status' => 200,
                 'msg' => 'تم حفظ بيانتك بنجاح',
@@ -207,7 +340,7 @@ class TaxiController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationTaxi::get();
+        $allorders = ReservationTaxi::paginate(8);
         return view('admin.orderstaxiis.index', compact('allorders'));
     }
     public function editordertaxi($id)
@@ -224,9 +357,16 @@ class TaxiController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationTaxi::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         if ($order) {
             $update = $order->update([
-                'Note' => $data->note,
+                'note' => $data->note,
                 'status' => $data->status,
             ]);
             if ($update) {

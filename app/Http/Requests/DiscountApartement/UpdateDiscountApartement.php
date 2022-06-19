@@ -26,8 +26,6 @@ class UpdateDiscountApartement extends FormRequest
         return  [
             'number_days'=>'required|integer|min:1',
             'rate' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            // 'hotel_id' => 'required|integer',
-            // 'room_id' => 'required|integer',
         ];
     }
     public function messages()

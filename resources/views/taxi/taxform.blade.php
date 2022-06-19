@@ -14,10 +14,23 @@
 </style>
 @endsection
 @section('moving-image')
-<div class="section">
-    <div class="moving-image"   style="background-image: url({{$taxi->image}});"></div>
-</div>
+<section aria-label="Newest Photos">
+        <div class="carousel" data-carousel>
+            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
+          <ul data-slides>
+            @foreach ($taxi->images as $i)
+            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+                <img src="{{ url("/") . "/assets/admin/img/taxi/covers/" . $i->image}} " alt="nature image #1" />
+            </li>
+            @endforeach>
+          </ul>
+          </div>
+          </div>
+        </div>
+    </section>
 @endsection
+
 
 
 
@@ -31,45 +44,44 @@
             <div class="row mt-5" >
                 <div class="col-lg-12 ">
                     <div class="row">
-                        <div class="col-lg-4 hight borderr border">
+                        <div class="col-lg-12 hight borderr border">
                             <p class="title-desS mt-2 ">  </p>
-                            <p class="title-des">السيارة : {{$taxi->name}} </p>
+                            <p class="title-des">اسم التاكسي  : {{$taxi->name}} </p>
                             <hr>
                             <p class="title-des">الموديل :  {{$taxi->model}}</p>
                             <hr>
-                            <p class="title-des">سعر اليوم :  {{$taxi->company->name}}$</p>
+                            <p class="title-des"> سعر الرحله  :  {{$taxi->price}}$</p>
                         </div>
-                        <div class="col-lg-8 hight border borderr">
-                        </div>
+
                     </div>
                 </div>
             </div>
             <h3 class="mayati-title mt-2">
                 الحجز
             </h3>
-                        <form method="post" action="{{route('checkordertaxi')}}" enctype="multipart/form-data">
+                        <form method="post" id='taxForm' action="{{route('checkordertaxi')}}" enctype="multipart/form-data">
                             <div class="row mb-5 form">
                             @csrf
                             <input type="hidden" name="id" value="{{$taxi->id}}">
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 "> موقع  الاستلام :</label>
-                                <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace" placeholder="موقع استلام السياره " >
+                                <input type="text" class="form-control" id="deliveryplace" v-model='deliveryplace'  name="deliveryplace" placeholder="موقع استلام السياره " >
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 "> اسم الشخص المعني بالحجز   :</label>
-                                <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه" >
+                                <input type="text" class="form-control" id="customrname" v-model='customrname' name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه" >
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">  تاريخ الوصول </label>
-                                <input type="date" class="form-control" id="datearrive" name="datearrive" placeholder="  من فضلك حدد ميعاد الوصول">
+                                <input type="date" class="form-control" v-model='datearrive' id="datearrive" name="datearrive" placeholder="  من فضلك حدد ميعاد الوصول">
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">   رقم التليفون </label>
-                                <input type="number" class="form-control" id="phone" name="phone" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
+                                <input type="number" class="form-control" v-model='phone' id="phone" name="phone" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
                             </div>
-                            <div class="col-md-12 col-12 yas">
+                            <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">  الواجهة  </label>
-                                <select _ngcontent-c9="" class="form-control destinations" id="destination" name="destination" data-dependent="price">
+                                <select _ngcontent-c9="" class="form-control destinations" id="destination" v-model='destination' name="destination" data-dependent="price">
                                             <option value=""> اختار الواجهة من فضلك </option>
                                         @if($alldestinations && $alldestinations -> count() > 0)
                                             @foreach($alldestinations as $destination)
@@ -82,28 +94,33 @@
                                     </select>
                             </div>
 
-                            <div class="col-md-12 col-12 " id="price" name="price">
+                            <div class="col-md-6 col-12 yas" id="price" name="price">
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">   صورة التذكرة  </label>
-                                <input type="file" class="form-control" id="ticket" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
+                                <input type="file" class="form-control" id="ticket" @change="fileChange1" ref="image" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
                             </div>
                             <div class="col-md-6 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">  معها سائق    </label>
-                                    <select id="chauffeur" name="chauffeur" class="form-control">
+                                    <select id="chauffeur" v-model='chauffeur' name="chauffeur" class="form-control">
                                         <option selected>هل تريد سائق مع السياره أم لا </option>
                                         <option value="1"> نعم </option>
                                         <option value="0"> لا  </option>
                                     </select>
                             </div>
                             <div class="col-md-12 col-12 ">
+                                @if (session()->has('promomsg'))
+                                <div class="alert alert-danger mt-5 " role="alert">
+                                    {{ session()->get('promomsg') }}
+                                </div>
+                                @endif
                                 <label  class="form-group text-capitalize m-1 ">   كود خصم  </label>
                                 <input type="text" class="form-control"  name="promo" placeholder="كود خصم إن وجد ">
 
                             </div>
 
                             <div class="col-md-12 col-12 yas">
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">احجز الان</button>
+                                <button type="submit" @click='sendOrder' class="btn btn-primary btn-lg btn-block">احجز الان</button>
                             </div>
 
                         </div>
@@ -128,8 +145,83 @@
     function myFunction() {
             $(':button').prop('disabled', true);
         }
-</script>
-<script>
+        const buttons = document.querySelectorAll(
+    '[data-carousel-button]'
+    );
+    buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const offset =
+        button.dataset.carouselButton === 'next'
+            ? 1
+            : -1;
+        const slides = button
+        .closest('[data-carousel]')
+        .querySelector('[data-slides]');
+
+        const activeSlide = slides.querySelector(
+        '[data-active]'
+        );
+        let newIndex =
+        [...slides.children].indexOf(activeSlide) +
+        offset;
+        if (newIndex < 0)
+        newIndex = slides.children.length - 1;
+        if (newIndex >= slides.children.length)
+        newIndex = 0;
+        slides.children[ newIndex].dataset.active = true;
+        delete activeSlide.dataset.active;
+    });
+    });
+
+    taxForm = new Vue({
+            'el' : '#taxForm',
+            'data' : {
+                'numberdays' : '',
+                'datearrive' : '',
+                'customrname' : '',
+                'phone' : '',
+                'deliveryplace' : '',
+                'receivingplace' : '',
+                'destination' : '',
+                'chauffeur' : '',
+                'image' : '',
+                'file1' : '',
+                'erorrs' : []
+            },
+            methods :{
+                fileChange1(event) {
+                      this.file1 = this.$refs.image.files.length;
+                },
+                validation:function(el , msg){
+                    if(el == ''){
+                        this.erorrs.push({
+                            'err' : 'err'
+                        });
+                        swal({
+                                title:  msg,
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
+                        return 0;
+                    }
+                },
+                sendOrder: function(e){
+                    this.erorrs  = []
+                    this.validation(this.chauffeur , ' من فضلك هل تحتاج سائق ام لا ')
+                    this.validation(this.file1 , '  صورة التذكرة من فضلك  ')
+                    this.validation(this.destination , ' من فضلك اختر وجهه ')
+                    this.validation(this.phone , 'رقم الواتساب  او التليجرام مطلوب ')
+                    this.validation(this.datearrive , '  التاريخ  مطلوب ')
+                    this.validation(this.customrname , 'الاسم مطلوب ')
+                    this.validation(this.deliveryplace , '  موقع استلام التاكسي مطلوب ')
+                    if (this.erorrs.length != 0) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+
+
 
  $('.destinations').change(function() {
             if ($(this).val() != '') {
@@ -137,17 +229,17 @@
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-                    });
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                });
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('getpricedestination') }}",
                     data: {
                         'id': value,
                         'dependent': dependent,
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        '_token': "{{csrf_token()}}",
                     },
                     success: function(result) {
                         $('#' + dependent).html(result);

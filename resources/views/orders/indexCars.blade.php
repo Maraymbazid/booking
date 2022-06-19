@@ -55,7 +55,7 @@
 
     <div class="container">
     <h3 class="mayati-title">
-           طلباتي
+         حجز السيارات
         </h3>
 
             <div class="cards ">
@@ -71,6 +71,7 @@
                     <th>  الاسم   </th>
                     <th>  رقم التواصل    </th>
                     <th>    السعر الاجمالي</th>
+                    <th>     تاريخ الطلب   </th>
                     <th>     حالة الطلب   </th>
                     <th>     تفاصيل </th>
                     {{-- <th>   رقم الواتساب   </th>
@@ -91,16 +92,18 @@
                         <td> {{ $car->customrname }}    </td>
                         <td> {{ $car->number }} </td>
                         <td> {{ $car->price }}</td>
-
-                        <td> @if($car->status == '0' )
-                            جارى المراجعة
-                            @elseif ($car->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($car->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td> {{ $car->created_at }}</td>
+                        <td>       @if($car->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($car->status == 2)
+                            تم القبول
+                      @elseif ($car->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($car->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singlecarOrder', $car->id) }}" >
@@ -158,10 +161,7 @@
 
 
 <script type="text/javascript">
-function load()
-{
-setTimeout("window.open(self.location, '_self');", 580000);
-}
+
 $(document).ready(function() {
 
 
@@ -235,7 +235,7 @@ window.onresize = function(event) {
 
 
 </script>
-<body onload="load()">
+
 
     @endsection
 

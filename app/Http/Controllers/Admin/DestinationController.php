@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Gouvernement;
 use  App\Http\Requests\Destination\StoreDestination;
 use App\Models\Admin\Destination;
+use Exception;
 class DestinationController extends Controller
 {
     public function create()
@@ -40,13 +41,13 @@ class DestinationController extends Controller
     {
         try
         {
-            $alldestinations=Destination::select()->get();
+            $alldestinations=Destination::paginate(8);
             return view('admin.destinations.index',compact('alldestinations'));
         }
         catch(Exception $ex)
         {
                 alert()->error('Oops....','Something went wrong .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
         }
     }
     public function delete(Request $request)
@@ -74,7 +75,7 @@ class DestinationController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
     }
     public function edit($id)
@@ -86,14 +87,14 @@ class DestinationController extends Controller
         if (!$destination)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
            return view('admin.destinations.edit', compact('destination','allgouvernements'));
         }
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
