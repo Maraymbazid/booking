@@ -199,20 +199,20 @@ class ApartementController extends Controller
         if(is_integer($id))
         {
             $apartement=Apartement::find($id);
-            if($apartement)
-            {
-                
+            if ($apartement) {
                     $discount = DiscountApartement::where('apartement_id',$id)
                     ->where('number_days', '<=', $data->numberdays)->orderby('number_days', 'DESC')->get();
+           
                     if ($discount->count() > 0)
                     {
+                 
                     $mainPrice = $apartement->price;
                     $price = $apartement->price * $data->numberdays;    //before dis
-                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
+                    $dis =  ($discount[0]->rate * $price) / 100;  // dis    %
                     $finallPrice = $price - $dis;  // after dis
                     } else
                     {
-                        $dis = 0;
+                    $dis = 0;
                     $price = $apartement->price * $data->numberdays;
                     $finallPrice =   $apartement->price * $data->numberdays;
                     }
@@ -258,8 +258,8 @@ class ApartementController extends Controller
                     {
 
                     $price = $apartement->price * $data->numberdays;    //before dis
-                    $dis =  ($discount[0]->discount * $price) / 100;  // dis    %
-                        $finallPrice = $price - $dis;  // after dis
+                    $dis =  ($discount[0]->rate * $price) / 100;  // dis    %
+                    $finallPrice = $price - $dis;  // after dis
                     } else
                     {
                     $dis = 0;

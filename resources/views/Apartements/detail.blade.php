@@ -38,7 +38,7 @@ padding: 25px;"> تأكيد حجز شقة
                         <td> السعر فى اليوم      </td>
                         <td> {{$cartapart->main_price}} </td>
                     </tr>
-                    @if($cartapart->discount < 0 )
+                    @if($cartapart->discount > 0 )
                     <tr >
                         <td>  الاجمالي قبل الخصم         </td>
                         <td> {{$cartapart->pricebefore}} </td>
