@@ -292,7 +292,7 @@ class CarController extends Controller
             $newreservation->date=$data->date;
             $newreservation->numberdays=$data->numberdays;
             $newreservation->number=$data->number;
-            $newreservation->status = 0;
+            $newreservation->status = 1;
             $newreservation->save();
 
             $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير سياره    " . '  ' . $car->name  . "  " . " والموديل" . " " .  $car->model;

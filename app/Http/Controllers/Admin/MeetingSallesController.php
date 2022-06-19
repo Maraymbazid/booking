@@ -287,7 +287,7 @@ class MeetingSallesController extends Controller
                 $cart->pricebefore = $price;          // price before dis
                 $cart->discount  = $dis;          //  dis
                 $cart->finallPrice = $finallPrice;          // price after dis
-                $cart->status = 0;
+                $cart->status = 1;
                 $cart->note      = '';
                 $cart->save();
                 $msg =  "لقد قام " . '  ' .  $request->customrname  . '  ' . " بطلب حجز قاعة اجتماعات     " . '  ' . $room->name  . " ";
