@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Traits\media;
 use App\Models\MeetingOrder;
 use Illuminate\Http\Request;
@@ -16,6 +15,8 @@ use App\Models\Admin\MeetingServices;
 use App\Http\Requests\Meeting\StoreSalle;
 use App\Http\Requests\Meeting\UpdateSalle;
 use App\Models\Admin\ImagesMeeting;
+use App\Models\Admin\OrderMeeting;
+use Exception;
 class MeetingSallesController extends Controller
 {
     use media;
@@ -56,8 +57,7 @@ class MeetingSallesController extends Controller
     }
     public function index()
     {
-
-        $allmeetingrooms=MeetingSalles::select()->get();
+        $allmeetingrooms=MeetingSalles::paginate(8);
         return view('admin.meetings.index',compact('allmeetingrooms'));
     }
     public function delete(Request $request)
@@ -91,7 +91,7 @@ class MeetingSallesController extends Controller
         if (!$salle)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $salle = MeetingSalles::select()->find($id);
             $allservices=MeetingServices::select()->get();
@@ -102,7 +102,7 @@ class MeetingSallesController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
@@ -305,6 +305,86 @@ class MeetingSallesController extends Controller
                 return redirect()->back();
             }
         } else {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function getallorders()
+    {
+        $allorders=OrderMeeting::paginate(2);
+        return view('admin.ordermeetings.index',compact('allorders'));
+    }
+    public function editordersalle($id)
+    {
+        $salle = OrderMeeting::find($id);
+        if ($salle) {
+            return view('admin.ordermeetings.edit', compact('salle'));
+        } else {
+            alert()->error('Oops....', 'this element does not exist .. try again');
+            return redirect()->back();
+        }
+    }
+    public function updateordersalles(Request $data)
+    {
+        $id = $data->id;
+        $order=OrderMeeting::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
+        if ($order)
+        {
+            $update = $order->update([
+                'note' => $data->note,
+                'status' => $data->status,
+            ]);
+            if ($update) {
+
+                $status = 200;
+                $msg  = 'تم تعديل الداتا بنجاح ';
+            } else {
+                $status = 500;
+                $msg  = ' تعذر التعديل هناك خطأ ما';
+            }
+        }
+        else
+         {
+            $status = 500;
+            $msg  = ' تعذر التعديل هناك خطأ ما';
+        }
+        return response()->json([
+                'status' => $status,
+                'msg' => $msg,
+            ]);
+    }
+    public function deleteordersalle(Request $request)
+    {
+        $ordersalle = OrderMeeting::find($request->id);
+        if ($ordersalle)
+         {
+            $ordersalle->delete();
+            return response()->json([
+                    'msg'  => 'تم حذف الداتا بنجاح ',
+                    'id' => $request->id,
+                ], 200);
+        } else
+         {
+            return response()->json([
+                    'msg'  => ' تعذر الحذف هناك خطأ ما ',
+                ], 500);
+        }
+    }
+    public function showdetailsalles($id)
+    {
+        $order = OrderMeeting::find($id);
+        if ($order)
+         {
+            return view('admin.ordermeetings.detail', compact('order'));
+        } else
+        {
             alert()->error('Oops....', 'this element does not exist .. try again');
             return redirect()->back();
         }

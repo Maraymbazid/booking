@@ -8,6 +8,7 @@ use App\Models\Admin\Apartement;
 use App\Models\Admin\Apartement\Villa;
 use App\Models\Hotel;
 use App\Models\Admin\Destination;
+use App\Models\Admin\MeetingSalles;
 class Gouvernement extends Model
 {
     use HasFactory;
@@ -37,6 +38,10 @@ class Gouvernement extends Model
     public function destinations()
     {
         return $this->hasMany(Destination::class,'gouvernement_id');
+    }
+    public function meetings()
+    {
+        return $this->hasMany(MeetingSalles::class,'gouvernement');
     }
     
 }

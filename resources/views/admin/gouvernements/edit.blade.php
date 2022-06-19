@@ -23,8 +23,7 @@
                 </h2>
                 <hr>
                 <span id='sucess_msg'> </span>
-
-                <form method="POST"  enctype="multipart/form-data" id='addgov'>
+                <form method="POST"  enctype="multipart/form-data" id='updategov'>
                     @csrf
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
@@ -76,13 +75,7 @@
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script>
-        function validationArabic(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[\u0621-\u064A\s]+$/gmu;
-            return regex.test(value);
-        }
-        $('#name').bind('keypress', validationArabic);
-        $('#addgov').submit(function(e) {
+        $('#updategov').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
             $.ajax({
@@ -106,11 +99,14 @@
                     }
                 },
                 error: function (reject) {
-                    // var response = $.parseJSON(reject.responseText);
-                    // $.each(response.errors, function(name, msg) {
-                    //    $('#' + name + '_ar_error').text(msg[0]);
-                    //    //console.log('#' + name);
-                    // });
+                    var response = $.parseJSON(reject.responseText);
+                    $.each(response.errors, function(name, msg) {
+                        swal({
+                                title: msg[0],
+                                type: 'warning',
+                                confirmButtonText: 'error',
+                            });
+                    });
                 }
             });
         });

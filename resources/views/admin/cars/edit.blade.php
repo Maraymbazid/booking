@@ -74,13 +74,13 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid" id='createhotel'>
-                    <h2 class="text-center display-4">اضافة سياره
+                    <h2 class="text-center display-4">تعديل سياره
                     </h2>
 
                     <hr>
                     <span id='sucess_msg'> </span>
 
-                <form method="POST" enctype="multipart/form-data"  id="updatecar">
+                <form method="POST" enctype="multipart/form-data" id="updatecar">
                     @csrf
                     <input type='hidden' value="{{$car->id}}" name='carId'>
                     <div class="row">
@@ -139,9 +139,15 @@
                                                  name='company_id'>
                                                 <option value="">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
-                                                        <option value="{{ $com->id }}">
+                                                    @if($car->company_id != '' && $com->id==$car->company_id)
+                                                        <option value="{{ $com->id }}" selected>
                                                             {{ $com->name }}
                                                         </option>
+                                                    @else
+                                                    <option value="{{ $com->id }}">
+                                                            {{ $com->name }}
+                                                        </option>
+                                                    @endif
                                                     @endforeach
 
                                             </select>

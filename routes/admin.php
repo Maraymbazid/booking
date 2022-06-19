@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\DiscountApartementController;
 use App\Http\Controllers\Admin\DiscountCarController;
 use App\Http\Controllers\Admin\DestinationController;
 use App\Http\Controllers\Admin\PromoCodeController;
+use App\Http\Controllers\Admin\DiscountSalleController;
 Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -28,14 +29,16 @@ Route::group(['middleware' => 'auth:admin'], function () {
     {
         return view('admin.layouts.lay');
     })->name('adminHome');
-    Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
-    Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
-    Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
-    Route::post('storegouvernement', [GouvernementController::class, 'store'])->name('storegouvernement');
-    Route::get('editgouvernement/{id}', [GouvernementController::class, 'edit'])->name('editgouvernement');
-    Route::post('updategouvernement', [GouvernementController::class, 'update'])->name('updategouvernement');
-    Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
-    Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
+    Route::group(['prefix' => 'gouvernement'], function () {
+        Route::get('allgouvernement', [GouvernementController::class, 'index'])->name('allgouvernement');
+        Route::get('actionresponse', [GouvernementController::class, 'action'])->name('actionresponse');
+        Route::get('creategouvernement', [GouvernementController::class, 'create'])->name('creategouvernement');
+        Route::post('storegouvernement', [GouvernementController::class, 'store'])->name('storegouvernement');
+        Route::get('editgouvernement/{id}', [GouvernementController::class, 'edit'])->name('editgouvernement');
+        Route::post('updategouvernement', [GouvernementController::class, 'update'])->name('updategouvernement');
+        Route::post('delete-gouvernement', [GouvernementController::class, 'delete'])->name('delete-gouvernement');
+        Route::post('edit-gouvernement', [GouvernementController::class, 'edit'])->name('edit-gouvernement');
+    });
     Route::group(['prefix' => 'holels'], function () {
         Route::any('/', [HotelController::class, 'index'])->name('Hotels');
         Route::any('/edit/{id}', [HotelController::class, 'edit'])->name('editHotel');
@@ -103,7 +106,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/', [CompanyController::class, 'index'])->name('indexcompany');
         Route::post('delete-company', [CompanyController::class, 'delete'])->name('delete-company');
         Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('editcompany');
-        Route::any('/update', [CompanyController::class, 'update'])->name('updatecompany');
+        Route::post('/update', [CompanyController::class, 'update'])->name('updatecompany');
     });
     Route::group(['prefix' => 'cars'], function () {
         Route::get('/create', [CarController::class, 'create'])->name('createCar');
@@ -174,6 +177,14 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('editdiscountcar/{id}', [DiscountCarController::class, 'edit'])->name('editdiscountcar');
         Route::post('updatediscountcar', [DiscountCarController::class, 'update'])->name('updatediscountcar');
     });
+    Route::group(['prefix' => 'discountsalle'], function () {
+        Route::get('/alldiscountsalle', [DiscountSalleController::class, 'index'])->name('alldiscountsalle');
+        Route::get('/create', [DiscountSalleController::class, 'create'])->name('creatediscountsalle');
+        Route::post('/store', [DiscountSalleController::class, 'store'])->name('storediscountsalle');
+        Route::post('/delete-discountsalle', [DiscountSalleController::class, 'delete'])->name('delete-discountsalle');
+        Route::get('editdiscountsalle/{id}', [DiscountSalleController::class, 'edit'])->name('editdiscountsalle');
+        Route::post('updatediscountsalle', [DiscountSalleController::class, 'update'])->name('updatediscountsalle');
+    });
     Route::group(['prefix' => 'ordercar'], function () {
         Route::get('/allorderscars', [CarController::class, 'getallorders'])->name('allorderscars');
         Route::get('editordercar/{id}', [CarController::class, 'editordercar'])->name('editordercar');
@@ -201,6 +212,13 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('/updateorder', [VillaController::class, 'updateordervilla'])->name('updateordervilla');
         Route::get('showdetailvilla/{id}', [VillaController::class, 'showdetailvilla'])->name('showdetailvilla');
         Route::post('deleteordervilla', [VillaController::class, 'deleteordervilla'])->name('deleteordervilla');
+    });
+    Route::group(['prefix' => 'ordersalles'], function () {
+        Route::get('/allorderssalles', [MeetingSallesController::class, 'getallorders'])->name('allorderssalles');
+        Route::get('editordersalles/{id}', [MeetingSallesController::class, 'editordersalle'])->name('editordersalles');
+        Route::post('/updateordersalle', [MeetingSallesController::class, 'updateordersalles'])->name('updateordersalle');
+        Route::get('showdetailsalles/{id}', [MeetingSallesController::class, 'showdetailsalles'])->name('showdetailsalles');
+        Route::post('deleteordersalle', [MeetingSallesController::class, 'deleteordersalle'])->name('deleteordersalle');
     });
 });
 

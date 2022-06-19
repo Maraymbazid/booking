@@ -74,12 +74,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> 
 
     <script>
-        function validationArabic(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[\u0621-\u064A\s]+$/gmu;
-            return regex.test(value);
-        }
-        $('#name').bind('keypress', validationArabic);
         $('#addgov').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
@@ -100,19 +94,16 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        //$('#sucess_msg').text(response.msg);
                     }
                 },
                 error: function (reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(name, msg) {
-                      // $('#' + name + '_ar_error').text(msg[0]);
                       swal({
                                 title: msg[0],
                                 type: 'warning',
                                 confirmButtonText: 'error',
                             });
-                       //console.log('#' + name);
                     });
                 }
             });

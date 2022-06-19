@@ -119,8 +119,6 @@
         $('#updatediscountvilla').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
-            $('#number_days_error').text('');
-            $('#rate_error').text('');
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
@@ -144,7 +142,6 @@
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                       // $("#" + key + "_error").text(val[0]);
                        swal({
                                 title: val[0],
                                 type: 'warning',

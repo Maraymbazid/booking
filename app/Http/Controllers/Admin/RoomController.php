@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Models\Hotel;
 use App\Models\Image;
 use App\Http\Traits\media;
@@ -14,13 +13,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Rooms\StoreRoom;
 use App\Http\Requests\Rooms\UpdateRoom;
-
+use Exception;
 class RoomController extends Controller
 {
     use media;
     public function index()
     {
-        $allrooms=Room::get();
+        $allrooms=Room::paginate(8);
         return view('admin.rooms.index',compact('allrooms'));
     }
     public function create()
@@ -69,6 +68,7 @@ class RoomController extends Controller
             if($room)
             {
                 $room->services()->detach();
+                $room->Images()->delete();
                 $room->delete();
                 return response()->json
                 ([
@@ -94,7 +94,7 @@ class RoomController extends Controller
         if (!$room)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('allrooms');
+                return redirect() -> route('adminHome');
             }
             $room = Room::select()->find($id);
             $services = ServiceRoom::get();
@@ -106,7 +106,7 @@ class RoomController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('allrooms');
+            return redirect() -> route('adminHome');
         }
 
     }
@@ -148,10 +148,5 @@ class RoomController extends Controller
        ]);
 
     }
-    // public function test()
-    // {
-    //     $room=Hotel::find(28);
-    //     return $room->rooms->name_ar;
-    // }
 
 }

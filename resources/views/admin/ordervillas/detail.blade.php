@@ -40,7 +40,7 @@
                             <dt class="col-sm-4"> رقم الواتساب </dt>
                             <dd class="col-sm-6"> {{$order->phone }}</dd>
                             <dt class="col-sm-4">  اسم الفلة  </dt>
-                            <dd class="col-sm-6">  {{$order->villa->name_ar}}</dd>
+                            <dd class="col-sm-6">  {{$order->villa_name}}</dd>
                             <dt class="col-sm-4"> عدد الايام  </dt> 
                             <dd class="col-sm-6">   {{ $order->numerdays}}</dd>
                             <dt class="col-sm-4"> تاريخ القدوم  </dt>
@@ -49,15 +49,14 @@
                             <dd class="col-sm-6">{{$order->enddate }} </dd>
                             <dt class="col-sm-4">  عدد الأشخاص  </dt>
                             <dd class="col-sm-6"> {{$order->personnes}} </dd>  
-                            @if($order->villa->price != $order->price)
                             <dt class="col-sm-4">سعر قبل الخصم  </dt>
-                            <dd class="col-sm-6">  {{$order->villa->price }}</dd>
+                            <dd class="col-sm-6">  {{$order->pricebefore }}</dd>
+                            <dt class="col-sm-4">سعر قبل الخصم  </dt>
+                            <dd class="col-sm-6">  {{$order->price }}</dd>
                             <dt class="col-sm-4"> سعر بعد الخصم   </dt>
-                            <dd class="col-sm-6"> {{$order->price}} </dd>
-                            @else
-                            <dt class="col-sm-4">   السعر </dt>
-                            <dd class="col-sm-6"> {{$order->price}}</dd>
-                            @endif
+                            <dd class="col-sm-6"> {{$order->finallprice}} </dd>
+                            <dt class="col-sm-4">   نسبة الخصم </dt>
+                            <dd class="col-sm-6"> {{$order->discount}}</dd>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

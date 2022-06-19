@@ -10,6 +10,8 @@ use App\Models\Admin\Destination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\ImageTaxi;
+use App\Http\Requests\Car\UpdateCar;
+use Exception;
 class TaxiController extends Controller
 {
     use media;
@@ -39,7 +41,7 @@ class TaxiController extends Controller
 
     public function index()
     {
-        $taxis =Taxi::get();
+        $taxis =Taxi::paginate(8);
         return view('admin.taxi.index')->with('taxis', $taxis);
     }
     public function edit($id)
@@ -56,7 +58,7 @@ class TaxiController extends Controller
             return redirect()->back();
         }
     }
-    public function update(Request $data)
+    public function update(UpdateCar $data)
     {
         $taxi =Taxi::find($data->taxId);
         $result = $data->except('page', 'image','taxId', '_token', '_method','images');
@@ -244,7 +246,7 @@ class TaxiController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationTaxi::get();
+        $allorders = ReservationTaxi::paginate(8);
         return view('admin.orderstaxiis.index', compact('allorders'));
     }
     public function editordertaxi($id)
@@ -261,9 +263,16 @@ class TaxiController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationTaxi::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         if ($order) {
             $update = $order->update([
-                'Note' => $data->note,
+                'note' => $data->note,
                 'status' => $data->status,
             ]);
             if ($update) {

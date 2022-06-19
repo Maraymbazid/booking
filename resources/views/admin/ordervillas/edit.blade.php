@@ -48,9 +48,10 @@
                                         <div class="input-group input-group-lg">
                                         <select _ngcontent-c9="" class="form-control" id="status_id" name="status">
                                             <option value=""> اختار الحالة </option>
-                                            <option value="confirmed">  تأكيد </option>
-                                            <option value="rejected">  إلغاء </option>
-                                            <option value="pending" > قيد التنفيذ</option>
+                                            <option value="1">  قيد التنفيذ </option>
+                                            <option value="2">  تم القبول </option>
+                                            <option value="3" >  انتظر مكالمة للقبول</option>
+                                            <option value="4" >   مرفوض  </option>
                                         </select>
                                        </div>
                                     </div>

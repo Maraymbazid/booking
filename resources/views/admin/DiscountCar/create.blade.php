@@ -47,7 +47,7 @@
                                         <label>  نسبة الخصم</label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="rate" id="rate"
-                                                class="form-control form-control-lg" placeholder="name"
+                                                class="form-control form-control-lg" placeholder="rate"
                                                 areia-describedby="helper" value="{{ old('name') }}">
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='rate_error' style="">
@@ -59,7 +59,7 @@
                                     <div class="form-group">
                                         <div class="input-group input-group-lg">
                                             <select _ngcontent-c9="" class="form-control gouvernements" id="gouvernement_id" name="car_id" data-dependent="gouvernements">
-                                                <option value="">   اختر شركة </option>
+                                                <option value="">    اختار سيارة </option>
                                                     @if($allcars && $allcars -> count() > 0)
                                                         @foreach($allcars as $car)
                                                         <option
@@ -106,12 +106,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
  <script>
-        // function validationArabic(event) {
-        //     var value = String.fromCharCode(event.which);
-        //     var regex = /^[\u0621-\u064A\s]+$/gmu;
-        //     return regex.test(value);
-        // }
-        // $('#name').bind('keypress', validationArabic);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -120,10 +114,6 @@
         $('#adddiscountcar').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
-            $('#number_days_error').text('');
-            $('#rate_error').text('');
-            //$('#gouvernement_id_error').text('');
-            $('#car_id_error').text('');
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
@@ -141,14 +131,11 @@
                             showConfirmButton: false,
                             timer: 1500
                         })
-                       // $('#sucess_msg').text(response.msg);
-                       console.log(response.msg)
                     }
                 },
                 error: function(reject) {
                     var response = $.parseJSON(reject.responseText);
                     $.each(response.errors, function(key, val) {
-                       // $("#" + key + "_error").text(val[0]);
                        swal({
                                 title: val[0],
                                 type: 'warning',

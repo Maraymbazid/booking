@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Gouvernement;
@@ -49,7 +48,7 @@ class DiscountApartementController extends Controller
     }
     public function index()
     {
-        $allDiscounts=DiscountApartement::get();
+        $allDiscounts=DiscountApartement::paginate(8);
         return view('admin.DiscountApartements.index',compact('allDiscounts'));
     }
     public function delete(Request $request)
@@ -81,7 +80,7 @@ class DiscountApartementController extends Controller
         if (!$discountapartement)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $discountapartement = DiscountApartement::select()->find($id);
             return view('admin.DiscountApartements.edit', compact('discountapartement'));
@@ -89,7 +88,7 @@ class DiscountApartementController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }

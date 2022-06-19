@@ -15,12 +15,16 @@ class MeetingDiscount extends Model
     protected $fillable =
     [
         'salle_id',
-        'day_count',
-        'discount'
+        'hour_count',
+        'discount',
+        'created_at',
+        'updated_at',
     ];
-
-
-    public function meetings()
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    public function meeting()
     {
         return $this->belongsTo(MeetingSalles::class, 'salle_id');
     }

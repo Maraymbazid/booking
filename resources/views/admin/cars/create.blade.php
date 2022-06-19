@@ -189,6 +189,7 @@
                 'model': '',
                 'price': '',
                 'comID': '',
+                'image':'',
                 'error' : []
             },
             methods :{

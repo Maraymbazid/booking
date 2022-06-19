@@ -74,7 +74,7 @@
             <!-- Main content -->
             <section class="content">
             <div class="container-fluid" id=''>
-                    <h2 class="text-center display-4">اضافة تاكسي مطار
+                    <h2 class="text-center display-4">تعديل تاكسي مطار
                     </h2>
 
                     <hr>
@@ -87,7 +87,7 @@
                                 {{-- name  --}}
                                 <div class="col-6 ">
                                     <div class="form-group">
-                                        <label>اسم  سياره </label>
+                                        <label>اسم  تاكسي </label>
                                         <div class="input-group input-group-lg">
                                             <input type="text"  value="{{$taxi->name}}" id='name' name='name'  class="form-control form-control-lg"  >
                                         </div>
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                                 {{-- end price  --}}
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="form-group">
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">

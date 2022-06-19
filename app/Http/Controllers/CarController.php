@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Admin\ImageCar;
+use App\Http\Requests\Car\UpdateCar;
+use Exception;
 class CarController extends Controller
 {
     use media;
@@ -41,7 +43,7 @@ class CarController extends Controller
 
     public function index()
     {
-        $cars =Car::get();
+        $cars =Car::paginate(8);
         return view('admin.cars.index')->with('cars', $cars);
     }
 
@@ -57,7 +59,7 @@ class CarController extends Controller
         }
     }
 
-    public function update(Request $data)
+    public function update(UpdateCar $data)
     {
         $result = $data->except('page', 'image',  'carId', '_token', '_method','images');
         $car=Car::find($data->carId);
@@ -280,7 +282,7 @@ class CarController extends Controller
 
     public function getallorders()
     {
-        $allorders=ReservationCar::get();
+        $allorders=ReservationCar::paginate(8);
         return view('admin.ordercars.index',compact('allorders'));
     }
     public function editordercar($id)
@@ -300,10 +302,17 @@ class CarController extends Controller
     {
        $id=$data->id;
        $order=$order=ReservationCar::find($id);
+       if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+       {
+           return response()->json([
+               'status' => 500,
+               'msg' =>' تعذر التعديل هناك خطأ ما'
+           ]);
+       }
        if($order)
        {
           $update=$order->update([
-              'Note' => $data->note,
+              'note' => $data->note,
               'status'=> $data->status,
           ]);
           if ($update)

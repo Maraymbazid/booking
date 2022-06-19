@@ -427,16 +427,6 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="nav-item ">
-                            <a href="{{route('hotelOrders')}}" class="nav-link">
-                                <i class="fas fa-folder-open"></i>
-                                <p>
-                                   طلبات الفنادق
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-
                         <li class="nav-item ">
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
@@ -456,6 +446,72 @@
                                     <a href="{{route('alldiscountcar')}}" class="nav-link">
                                         <i class="fas fa-plus-square"></i>
                                         <p>كل الخصومات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                خصم قاعات الاجتماعات 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('creatediscountsalle')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p>إضافة خصم </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('alldiscountsalle')}}" class="nav-link">
+                                        <i class="fas fa-plus-square"></i>
+                                        <p>كل الخصومات</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{route('hotelOrders')}}" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                   طلبات الفنادق
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>   
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                   طلبات الشقق 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('allordersapartement')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> عرض الكل </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                  طلبات الفلل  
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('allordersvilla')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> عرض الكل </p>
                                     </a>
                                 </li>
                             </ul>
@@ -498,30 +554,13 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                   طلبات الشقق 
+                                طلبات قاعات الاجتماعات  
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('allordersapartement')}}" class="nav-link">
-                                        <i class="fas fa-folder"></i>
-                                        <p> عرض الكل </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-folder-open"></i>
-                                <p>
-                                  طلبات الفلل  
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('allordersvilla')}}" class="nav-link">
+                                    <a href="{{route('allorderssalles')}}" class="nav-link">
                                         <i class="fas fa-folder"></i>
                                         <p> عرض الكل </p>
                                     </a>

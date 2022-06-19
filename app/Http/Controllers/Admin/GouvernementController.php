@@ -1,25 +1,23 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Gouvernements\GouvernementRequest;
 use App\Models\Admin\Gouvernement;
-
+use Exception;
 class GouvernementController extends Controller
 {
     public function index()
     {
         try
         {
-            $allgouvernements=Gouvernement::select('id','name')->get();
+            $allgouvernements=Gouvernement::paginate(8);
             return view('admin.gouvernements.index',compact('allgouvernements'));
         }
         catch(Exception $ex)
         {
                 alert()->error('Oops....','Something went wrong .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
         }
     }
     public function create()
@@ -54,8 +52,13 @@ class GouvernementController extends Controller
             if (!$gouvernement)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
+            $gouvernement->apartements()->delete();
+            $gouvernement->villas()->delete();
+            $gouvernement->meetings()->delete();
+            $gouvernement->hotels()->delete();
+            $gouvernement->destinations()->delete();
             $gouvernement->delete();
                 return response()->json([
                     'status' => true,
@@ -67,7 +70,7 @@ class GouvernementController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
     }
     public function edit($id)
@@ -78,7 +81,7 @@ class GouvernementController extends Controller
         if (!$gouvernement)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $gouvernement = Gouvernement::select('id', 'name')->find($id);
            return view('admin.gouvernements.edit', compact('gouvernement'));
@@ -86,7 +89,7 @@ class GouvernementController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }

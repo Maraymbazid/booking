@@ -135,7 +135,9 @@ class HotelController extends Controller
 
     public function destroy($id)
     {
-        $delete = DB::table('hotels')->where('id', $id)->delete();
+        $delete = Hotel::find($id);
+        $delete->rooms()->delete();
+        $delete->delete();
         if ($delete) {
             alert()->success('deleted....', '  تم مسح الفندق بنجاح');
             return redirect()->route('Hotels');

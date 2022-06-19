@@ -26,8 +26,6 @@ class UpdateDiscountVilaa extends FormRequest
         return  [
             'number_days'=>'required|integer|min:1',
             'rate' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            // 'gouvernement_id' => 'required|integer',
-            // 'villa_id' => 'required|integer',
         ];
     }
     public function messages()

@@ -12,12 +12,12 @@ use App\Models\Admin\HotelDiscount;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiscountHotel\StoreDiscountHotel;
 use App\Http\Requests\DiscountHotel\UpdateDiscountHotel;
-
+use Exception;
 class DiscountHotel extends Controller
 {
     public function index()
     {
-        $allDiscounts = RoomDiscount::get();
+        $allDiscounts = RoomDiscount::paginate(8);
         return view('admin.DiscountHotels.index', compact('allDiscounts'));
     }
     public function create()
@@ -92,7 +92,7 @@ class DiscountHotel extends Controller
             $discounthotel = RoomDiscount::find($id);  // search in given table id only
             if (!$discounthotel) {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $discounthotel = RoomDiscount::select()->find($id);
             return view('admin.DiscountHotels.edit', compact('discounthotel'));
@@ -100,7 +100,7 @@ class DiscountHotel extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }

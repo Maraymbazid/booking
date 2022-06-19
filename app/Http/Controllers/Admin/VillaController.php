@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\media;
@@ -54,7 +54,7 @@ class VillaController extends Controller
     public function index()
     {
 
-        $allvillas=Villa::select()->get();
+        $allvillas=Villa::paginate(8);
         return view('admin.villas.index',compact('allvillas'));
     }
     public function delete(Request $request)
@@ -86,7 +86,7 @@ class VillaController extends Controller
             $villa = Villa::find($id);  // search in given table id only
             if (!$villa) {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $villa = villa::select()->find($id);
             $allservices=ServiceApartement::select()->get();
@@ -97,7 +97,7 @@ class VillaController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
@@ -278,7 +278,7 @@ class VillaController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationVilla::get();
+        $allorders = ReservationVilla::paginate(8);
         return view('admin.ordervillas.index', compact('allorders'));
     }
     public function editordervilla($id)
@@ -297,6 +297,13 @@ class VillaController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationVilla::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         if ($order)
         {
             $update = $order->update([

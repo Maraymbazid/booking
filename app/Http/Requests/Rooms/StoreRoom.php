@@ -26,18 +26,15 @@ class StoreRoom extends FormRequest
     {
         return  [
             'name_ar' => 'required|max:100',
-            //'name_en' => 'required|max:100',
-            'children'=> 'required|integer|between:0,10',
-            'beds' => 'required|integer|between:0,10',
-           // 'description_en'=> 'required|max:100',
-            'adults'=> 'required|integer|between:0,10',
-            'images' => 'required',
+            'children'=> 'required|integer|between:0,20',
+            'beds' => 'required|integer|between:0,20',
+            'adults'=> 'required|integer|between:0,20',
             'images.*' => 'required|mimes:jpeg,jpg,png',
             'internet' => 'required|integer|between:0,1',
             'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
             'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
-            // 'image' => 'required|mimes:jpeg,jpg,png',
-            'hotel_id'=>'required',
+            'hotel_id'=>'required|exists:App\Models\Hotel,id',
+            'services.*'=>'exists:App\Models\Admin\ServiceRoom,id'
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
 
@@ -59,6 +56,7 @@ class StoreRoom extends FormRequest
             'mimes' => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',
             'between' => 'من فضلك ادخل رقم صحيح',
+            'exists' => 'من فضلك اختار عناصر موجودة'
         ];
     }
 

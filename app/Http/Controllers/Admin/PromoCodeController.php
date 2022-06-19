@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Taxi;
 use App\Models\Admin\PromoCode;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Promo\StorePromo;
+use Exception;
 class PromoCodeController extends Controller
 {
     public function create()
@@ -14,7 +15,7 @@ class PromoCodeController extends Controller
         $alltaxis=Taxi::get();
         return view('admin.promocode.create',compact('alltaxis'));
     }
-    public function store(Request $request)
+    public function store(StorePromo $request)
     {
         $request = $request->except('_token','page');
         $stored = DB::table('promocode')->insert($request);
@@ -35,7 +36,7 @@ class PromoCodeController extends Controller
     }
     public function index()
     {
-        $allpromo=PromoCode::get();
+        $allpromo=PromoCode::paginate(8);
         return view('admin.promocode.index',compact('allpromo'));
     }
     public function delete(Request $request)
@@ -67,7 +68,7 @@ class PromoCodeController extends Controller
         if (!$promo)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $promo = PromoCode::select()->find($id);
             $alltaxis=Taxi::get();
@@ -76,10 +77,10 @@ class PromoCodeController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
     }
-    public function update(Request $data)
+    public function update(StorePromo $data)
     {
         $promo=PromoCode::find($data->id);
         if ($promo)

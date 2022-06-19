@@ -30,10 +30,12 @@ class UpdateVilla extends FormRequest
            // 'description_en'=> 'required|max:100',
             'address_ar'=>'required|max:100',
             'image' => 'mimes:jpeg,jpg,png',
+            'images.*' => 'mimes:jpeg,jpg,png',
             'status' => 'required|integer|between:0,1',
             'price' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
             'area' => 'required|regex:/^\d+(\.\d{1,5})?$/|min:1|numeric',
-            'gouvernement'=>'required',
+            'gouvernement'=>'required|integer|exists:App\Models\Admin\Gouvernement,id',
+            'services.*'=>'exists:App\Models\Admin\ServiceApartement,id'
             // we must need verify the id given by admin shoud equal to id stored in db
         ];
     }
@@ -52,7 +54,8 @@ class UpdateVilla extends FormRequest
             'mimes' => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',
             'between' => 'من فضلك ادخل رقم صحيح',
-            'max' => 'عدد الأحرف يتجاوز الحد المطلوب'
+            'max' => 'عدد الأحرف يتجاوز الحد المطلوب',
+            'exists' => 'من فضلك اختار عناصر موجودة'
         ];
     }
 }

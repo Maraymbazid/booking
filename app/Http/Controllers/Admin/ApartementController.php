@@ -56,7 +56,7 @@ class ApartementController extends Controller
     public function index()
     {
 
-        $allapartements=Apartement::select()->get();
+        $allapartements=Apartement::paginate(8);
         return view('admin.Apartments.index',compact('allapartements'));
     }
     public function delete(Request $request)
@@ -90,7 +90,7 @@ class ApartementController extends Controller
         if (!$apartement)
             {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $apartement = Apartement::select()->find($id);
             $allservices=ServiceApartement::select('id','name')->get();
@@ -101,7 +101,7 @@ class ApartementController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
@@ -286,7 +286,7 @@ class ApartementController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationApartement::get();
+        $allorders = ReservationApartement::paginate(8);
         return view('admin.orderapartements.index', compact('allorders'));
     }
     public function editorderapart($id)
@@ -303,6 +303,13 @@ class ApartementController extends Controller
     {
         $id = $data->id;
         $order = $order = ReservationApartement::find($id);
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         if ($order)
         {
             $update = $order->update([

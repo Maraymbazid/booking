@@ -26,7 +26,7 @@ class StoreDiscountCar extends FormRequest
         return  [
             'number_days'=>'required|integer|min:1',
             'rate' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            'car_id' => 'required|integer',
+            'car_id' => 'required|integer|exists:App\Models\Car,id',
             //'apartement_id' => 'required|integer',
         ];
     }
@@ -39,6 +39,7 @@ class StoreDiscountCar extends FormRequest
             'numeric' => 'من فضلك أدخل صيغة صحيحة',
             'integer'  => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',
+            'exists' => 'من فضلك اختار عناصر موجودة',
         ];
     }
 }

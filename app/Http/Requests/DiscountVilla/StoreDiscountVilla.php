@@ -26,8 +26,8 @@ class StoreDiscountVilla extends FormRequest
         return  [
             'number_days'=>'required|integer|min:1',
             'rate' => 'required|regex:/^\d+(\.\d{1,3})?$/|min:1|numeric',
-            'gouvernement_id' => 'required|integer',
-            'villa_id' => 'required|integer',
+            'gouvernement_id' => 'required|integer|exists:App\Models\Admin\Gouvernement,id',
+            'villa_id' => 'required|integer|exists:App\Models\Admin\Villa,id',
         ];
     }
     public function messages()
@@ -40,6 +40,7 @@ class StoreDiscountVilla extends FormRequest
             'numeric' => 'من فضلك أدخل صيغة صحيحة',
             'integer'  => 'من فضلك أدخل صيغة صحيحة',
             'min' => 'من فضلك ادخل رقم صحيح',
+            'exists' => 'من فضلك اختار عناصر موجودة',
         ];
     }
 }

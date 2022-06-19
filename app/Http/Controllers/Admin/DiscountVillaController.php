@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Villa;
@@ -10,6 +9,7 @@ use App\Models\Admin\DiscountVilla;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DiscountVilla\StoreDiscountVilla;
 use App\Http\Requests\DiscountVilla\UpdateDiscountVilaa;
+use Exception;
 class DiscountVillaController extends Controller
 {
     public function create()
@@ -49,7 +49,7 @@ class DiscountVillaController extends Controller
     }
     public function index()
     {
-        $allDiscounts=DiscountVilla::get();
+        $allDiscounts=DiscountVilla::paginate(8);
         return view('admin.DiscountVillas.index',compact('allDiscounts'));
     }
     public function delete(Request $request)
@@ -79,7 +79,7 @@ class DiscountVillaController extends Controller
             $discountvilla = DiscountVilla::find($id);  // search in given table id only
         if (!$discountvilla) {
                 alert()->error('Oops....','this element does not exist .. try again');
-                return redirect() -> route('home');
+                return redirect() -> route('adminHome');
             }
             $discountvilla = DiscountVilla::select()->find($id);
             return view('admin.DiscountVillas.edit', compact('discountvilla'));
@@ -87,7 +87,7 @@ class DiscountVillaController extends Controller
         catch(Exception $ex)
         {
             alert()->error('Oops....','Something went wrong .. try again');
-            return redirect() -> route('home');
+            return redirect() -> route('adminHome');
         }
 
     }
