@@ -86,15 +86,17 @@
                         <td> {{ $appart->numerdays }}</td>
                         <td> {{ $appart->created_at }}</td>
                         {{-- <td> {{ $taxi->taxi->model }}</td> --}}
-                        <td> @if($appart->status == '0' )
-                            جارى المراجعة
-                            @elseif ($appart->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($appart->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>        @if($appart->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($appart->status == 2)
+                            تم القبول
+                      @elseif ($appart->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($appart->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singleApartOrder', $appart->id) }}" >

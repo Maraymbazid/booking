@@ -22,7 +22,7 @@ class OrdersController extends Controller
     public function showOneOrderFoUser($id)
     {
         $order = HotelOrder::find($id);
-        return view('orders.single.singlehotel', compact('order'));
+        return view('orders.single.singlehotelorder', compact('order'));
     }
     public function userTaxiOrder()
     {

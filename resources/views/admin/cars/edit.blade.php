@@ -121,6 +121,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>  محاسبة  </label>
+                                        <div class="input-group input-group-lg">
+                                            <select  class="form-control"
+                                                v-model="meth"  name='meth'>
+                                                <option  value="">إختار نوع </option>
+                                                <option @if($car->meth == 1) selected @endif value="1"> يوم  </option>
+                                                <option @if($car->meth == 2) selected @endif value="2"> اسبوع </option>
+                                                <option @if($car->meth == 3) selected @endif value="3">  شهر </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{-- end model  --}}
                                 <div class="col-6">
                                     <div class="form-group">
@@ -131,7 +145,7 @@
                                     </div>
                                 </div>
                                 {{-- end price  --}}
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">

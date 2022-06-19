@@ -278,6 +278,7 @@ class CarController extends Controller
             $newreservation=new ReservationCar;
             $newreservation->user_id   = Auth::user()->id;
             $newreservation->car_id    = $id;
+            $newreservation->car_name    =  $car->name;
             $newreservation->mainPrice = $mainPrice;     //main price in day
             $newreservation->beforeDis = $price;          // price before dis
             $newreservation->discount  = $dis;          //  dis

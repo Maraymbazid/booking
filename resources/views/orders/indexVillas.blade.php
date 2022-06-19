@@ -86,15 +86,17 @@
                         {{-- <td> {{ $taxi->taxi->model }}</td> --}}
                         <td> {{ $villa->numerdays }}</td>
                         <td> {{ $villa->created_at }}</td>
-                        <td> @if($villa->status == '0' )
-                            جارى المراجعة
-                            @elseif ($villa->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($villa->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>        @if($villa->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($villa->status == 2)
+                            تم القبول
+                      @elseif ($villa->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($villa->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singleVillaOrder', $villa->id) }}" >

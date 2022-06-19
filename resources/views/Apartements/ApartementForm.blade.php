@@ -197,7 +197,7 @@
                 <label  class="form-group text-capitalize m-1 "> تاريخ القدوم :</label>
                 <input @change='setDate' type="date" class="form-control" v-model='arrival' id="begindate"  name="begindate"  placeholder="تاريخ القدوم ">
             </div>
-            <div class="col-md-6 col-12 yas">   
+            <div class="col-md-6 col-12 yas">
                 <label  class="form-group text-capitalize m-1 "> عدد الايام  :</label>
                 <input @change='setDate' type="text" class="form-control" v-model='daycount' id="numberdays"  name="numberdays" placeholder="  من فضلك ادخل عدد الايام ">
             </div>

@@ -273,6 +273,7 @@ class MeetingSallesController extends Controller
                 $cart = new MeetingOrder();
                 $cart->order_number = 'M' . Auth::user()->id . time();
                 $cart->meeting_id   = $room->id;           //meet_id
+                $cart->meeting_name   = $room->name_ar;
                 $cart->user_id      =  Auth::user()->id;
                 $cart->date = $request->date;
                 $cart->start_time = $request->start_time;

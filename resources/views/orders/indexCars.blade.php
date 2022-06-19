@@ -93,15 +93,17 @@
                         <td> {{ $car->number }} </td>
                         <td> {{ $car->price }}</td>
                         <td> {{ $car->created_at }}</td>
-                        <td> @if($car->status == '0' )
-                            جارى المراجعة
-                            @elseif ($car->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($car->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>       @if($car->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($car->status == 2)
+                            تم القبول
+                      @elseif ($car->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($car->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singlecarOrder', $car->id) }}" >

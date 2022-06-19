@@ -89,15 +89,17 @@
                         <td> {{ $meet->hours }}</td>
                         <td> {{ $meet->date  }}</td>
                         <td> {{ $meet->created_at  }}</td>
-                        <td> @if($meet->status == '0' )
-                            جارى المراجعة
-                            @elseif ($meet->status == 1)
-                            تم  قبول الطلب
-                            @elseif ($meet->status == 2)
-                                تم إالغاء الطلب
-                            @else
-                            هناك خطأ ما ونحاول التواصل معك
-                            @endif
+                        <td>        @if($meet->status == 1 )
+                            قيد التنفيذ
+                      @elseif ($meet->status == 2)
+                            تم القبول
+                      @elseif ($meet->status == 3)
+                          انتظر مكالمة للقبول
+                      @elseif ($meet->status == 4)
+                               مرفوض
+                      @else
+                      هناك خطأ ما من فضلك تواصل معنا
+                      @endif
                             </td>
                         <td>   <button class="btn btn-primary">
                             <a href="{{ route('singleMeetOrder', $meet->id) }}" >

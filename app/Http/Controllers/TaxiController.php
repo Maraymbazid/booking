@@ -171,10 +171,8 @@ class TaxiController extends Controller
         $value = $request->get('id');
         $dependent = $request->get('dependent');
         $destination =Destination::find($value);
-        $output='<label for="place" class="col-sm-2 col-form-label">   سعر الواجهة  </label>
-                    <div class="col-lg-10 col-12">
-                        <input type="text" class="form-control" id="price" name="price" value="' .$destination->price . '">
-                    </div>';
+        $output = '   <label  class="form-group text-capitalize m-1 ">   سعر الواجهة  </label>
+                        <input type="text" disabled class="form-control" id="price" name="price" value="' . $destination->price . '">';
         echo $output;
     }
     public function applyPromo($promo)
