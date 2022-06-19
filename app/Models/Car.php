@@ -14,6 +14,7 @@ class Car extends Model
     [
         'id',
         'name',
+        'meth',
         'image',
         'company_id',
         'price',
