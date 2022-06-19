@@ -322,7 +322,8 @@ class TaxiController extends Controller
                 $msg .= " وطلب معها سائق ";
             }
             $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
-            $msg .=  " وصورة التيكت " .  $im;
+            $msg .=  " وصورة التيكت ";
+            $msg  .=  "   " . $im;
             $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
 
             return response()->json([
