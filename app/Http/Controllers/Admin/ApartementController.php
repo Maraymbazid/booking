@@ -67,8 +67,6 @@ class ApartementController extends Controller
         $apartement=Apartement::find($request->id);
         if($apartement)
         {
-            $apartement->services()->detach();
-            $apartement->images()->delete();
             $apartement->delete();
             return response()->json
             ([

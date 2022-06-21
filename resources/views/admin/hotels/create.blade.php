@@ -385,14 +385,6 @@
 
             }
         });
-        function validationArabic(event) {
-            var value = String.fromCharCode(event.which);
-            var regex = /^[\u0621-\u064A\s]+$/gmu;
-            return regex.test(value);
-        }
-        $('#name_ar').bind('keypress', validationArabic);
-        $('#description_ar').bind('keypress', validationArabic);
-        //save data
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

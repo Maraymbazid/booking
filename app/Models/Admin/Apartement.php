@@ -53,4 +53,19 @@ class Apartement extends Model
     {
         return $this->hasMany(ImgaeApartement::class,'apartement_id');
     }
+    protected static function booted()
+    {
+            self::deleting(function($apartement) {
+                $apartement->images()->each(function($image) {
+                    deleteMedia($image->image, 'apartements/covers/');
+                    $image->delete(); 
+                });
+                $apartement->services()->detach();
+                $apartement->discounts()->each(function($discount) {
+                    $discount->delete(); 
+                });
+                $oldImage=$apartement->image;
+                deleteMedia($oldImage, 'apartements');
+            });
+    }
 }

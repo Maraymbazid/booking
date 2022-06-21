@@ -27,4 +27,16 @@ class Company extends Model
     {
         return $this->hasMany(Taxi::class,'company_id');
     }
+    protected static function booted()
+    {
+            self::deleting(function($company) {
+                $company->cars()->each(function($car) {
+                    $car->delete(); 
+                });
+                $company->taxis()->each(function($taxi) {
+                    $taxi->delete(); 
+                });
+               
+            });
+    }
 }

@@ -29,8 +29,6 @@ class CompanyController extends Controller
         $company=Company::find($request->id);
         if($company)
         {
-            $company->cars()->delete();
-            $company->taxis()->delete();
             $company->delete();
             return response()->json
             ([

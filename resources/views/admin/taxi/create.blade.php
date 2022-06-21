@@ -136,7 +136,7 @@
                                         <div class="input-group input-group-lg">
                                             <select  class="form-control"
                                                 v-model="comID" name='company_id'>
-                                                <option value="">إختار شركة </option>
+                                                <option value="NULL">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
                                                         <option value="{{ $com->id }}">
                                                             {{ $com->name }}

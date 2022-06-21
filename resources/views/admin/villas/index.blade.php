@@ -85,7 +85,8 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
-                                            <th> الاسم بالعربي  </th>
+                                            <th> اسم محافظة </th>
+                                            <th>  اسم فلة  </th>
                                             <th>   تعديل   </th>
                                             <th>  مسح     </th>
                                         </tr>
@@ -93,6 +94,7 @@
                                     <tbody>
                                         @foreach ($allvillas as $villa)
                                             <tr class="villaRow{{$villa->id}}">
+                                                <td> {{ $villa->gouvernemente->name}}
                                                 <td> {{ $villa->name_ar }}</td>
                                                 <td>
                                                      <button  type="button" class="btn btn-warning"> <a

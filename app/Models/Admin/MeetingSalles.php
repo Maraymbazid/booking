@@ -47,5 +47,19 @@ class MeetingSalles extends Model
     {
         return $this->belongsTo(Gouvernement::class,'gouvernement');
     }
-
+    protected static function booted()
+    {
+            self::deleting(function($MeetingSalles) {
+                $MeetingSalles->images()->each(function($image) {
+                    deleteMedia($image->image, 'salles/covers/');
+                    $image->delete(); 
+                });
+                $MeetingSalles->services()->detach();
+                $MeetingSalles->Discount()->each(function($discount) {
+                    $discount->delete(); 
+                });
+                $oldImage=$MeetingSalles->image;
+                deleteMedia($oldImage, 'salles');
+            });
+    }
 }

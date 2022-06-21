@@ -65,8 +65,6 @@ class MeetingSallesController extends Controller
         $salle=MeetingSalles::find($request->id);
         if($salle)
         {
-            $salle->services()->detach();
-            $salle->images()->delete();
             $salle->delete();
             return response()->json
             ([

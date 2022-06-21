@@ -221,12 +221,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('deleteordersalle', [MeetingSallesController::class, 'deleteordersalle'])->name('deleteordersalle');
     });
 });
-
-// Route::get('/test',  function()
-// {
-//     return view('testt');
-// });
-//Route::get('/test', [CarController::class, 'test'])->name('test');
 Route::get('/home1',  function () {
     return view('layout.lay');
 })->name('home1');
+Route::get('helper', function(){
+   test();
+});

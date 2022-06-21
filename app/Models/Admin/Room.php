@@ -53,4 +53,17 @@ class Room extends Model
     {
         return $this->hasMany(Image::class, 'room_id');
     }
+    protected static function booted()
+    {
+            self::deleting(function($room) {
+                $room->Images()->each(function($image) {
+                    deleteMedia($image->name, 'rooms');
+                    $image->delete(); 
+                });
+                $room->services()->detach();
+                $room->Discount()->each(function($discount) {
+                    $discount->delete(); 
+                });
+            });
+    }
 }

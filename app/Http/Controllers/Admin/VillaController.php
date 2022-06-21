@@ -65,8 +65,6 @@ class VillaController extends Controller
         $villa=Villa::find($request->id);
         if($villa)
         {
-            $villa->services()->detach();
-            $villa->images()->delete();
             $villa->delete();
             return response()->json
             ([

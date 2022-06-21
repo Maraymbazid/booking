@@ -52,4 +52,18 @@ class Hotel extends Model
     // {
     //     return ($val !== null) ? asset('assets/admin/img/hotels/cover/' . $val) : "";
     // }
+    protected static function booted()
+    {
+            self::deleting(function($hotel) {
+                $hotel->images()->each(function($image) {
+                    deleteMedia($image->image, 'Hotels/covers/');
+                    $image->delete(); 
+                });
+                $hotel->rooms()->each(function($room) {
+                    $room->delete(); 
+                });
+                $oldImage=$hotel->image;
+                deleteMedia($oldImage, 'hotels');
+            });
+    }
 }

@@ -115,7 +115,6 @@ class CarController extends Controller
         $car=Car::find($request->id);
         if($car)
         {
-            $car->images()->delete();
             $car->delete();
             return response()->json
             ([

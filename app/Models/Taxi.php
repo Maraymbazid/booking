@@ -40,5 +40,19 @@ class Taxi extends Model
     {
         return $this->hasMany(ImageTaxi::class,'taxi_id');
     }
+    protected static function booted()
+    {    
+            self::deleting(function($taxi) { 
+                $taxi->images()->each(function($image) {
+                    deleteMedia($image->image, 'taxi/covers/');
+                    $image->delete(); 
+                });
+                $taxi->promos()->each(function($promo) {
+                    $promo->delete(); 
+                });
+                $oldImage=$taxi->image;
+                deleteMedia($oldImage, 'taxi');
+            });
+    }
 
 }

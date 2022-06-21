@@ -181,13 +181,9 @@
                                         <button type="reset" class="btn btn-danger btn-lg btn-block">Cancel</button>
                                     </div>
                                 </div>
-
-
                         </div>
                 </form>
-
             </div>
-
         </section>
     </div>
 </div>

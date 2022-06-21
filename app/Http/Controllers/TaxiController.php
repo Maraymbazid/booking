@@ -116,7 +116,6 @@ class TaxiController extends Controller
         $taxi=Taxi::find($request->id);
         if($taxi)
         {
-            $taxi->images()->delete();
             $taxi->delete();
             return response()->json
             ([

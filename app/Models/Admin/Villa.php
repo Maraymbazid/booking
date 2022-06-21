@@ -54,4 +54,19 @@ class Villa extends Model
     {
         return $this->hasMany(ImagesVillas::class,'villa_id');
     }
+    protected static function booted()
+    {
+            self::deleting(function($villa) {
+                $villa->images()->each(function($image) {
+                    deleteMedia($image->image, 'villas/covers/');
+                    $image->delete(); 
+                });
+                $villa->services()->detach();
+                $villa->discounts()->each(function($discount) {
+                    $discount->delete(); 
+                });
+                $oldImage=$villa->image;
+                deleteMedia($oldImage, 'villas');
+            });
+    }
 }

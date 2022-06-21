@@ -5,7 +5,7 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\Apartement;
-use App\Models\Admin\Apartement\Villa;
+use App\Models\Admin\Villa;
 use App\Models\Hotel;
 use App\Models\Admin\Destination;
 use App\Models\Admin\MeetingSalles;
@@ -42,6 +42,27 @@ class Gouvernement extends Model
     public function meetings()
     {
         return $this->hasMany(MeetingSalles::class,'gouvernement');
+    }
+    protected static function booted()
+    {
+            self::deleting(function($gouvernement) {
+                $gouvernement->apartements()->each(function($apartement) {
+                    $apartement->delete(); 
+                });
+                $gouvernement->villas()->each(function($villa) {
+                    $villa->delete(); 
+                });
+                $gouvernement->hotels()->each(function($hotel) {
+                    $hotel->delete(); 
+                });
+                $gouvernement->destinations()->each(function($destination) {
+                    $destination->delete(); 
+                });
+                $gouvernement->meetings()->each(function($meeting) {
+                    $meeting->delete(); 
+                });
+               
+            });
     }
     
 }

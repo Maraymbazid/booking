@@ -54,11 +54,6 @@ class GouvernementController extends Controller
                 alert()->error('Oops....','this element does not exist .. try again');
                 return redirect() -> route('adminHome');
             }
-            $gouvernement->apartements()->delete();
-            $gouvernement->villas()->delete();
-            $gouvernement->meetings()->delete();
-            $gouvernement->hotels()->delete();
-            $gouvernement->destinations()->delete();
             $gouvernement->delete();
                 return response()->json([
                     'status' => true,
