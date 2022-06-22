@@ -1,20 +1,39 @@
 @extends('layout.flay')
 
+
+@section('css')
+
+
+<style>
+
+
+.adaw .active {
+    background-color: blue !important;
+}
+
+.carousel-indicators li .active {
+    background-color: blue !important;
+}
+    </style>
+
+@endsection
+
 @section('moving-image')
 <section aria-label="Newest Photos">
-        <div class="carousel" data-carousel>
+        <div class="carousel coversss" data-carousel>
             <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
             <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
           <ul data-slides>
             @foreach ($hotel->images as $i)
             <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+
                 <img src="{{ url("/") . "/assets/admin/img/Hotels/covers/" . $i->image}} " alt="nature image #1"  />
             </li>
             @endforeach>
           </ul>
           </div>
-          </div>
-        </div>
+
+
     </section>
 @endsection
 
@@ -80,29 +99,29 @@
                             <div class="row" style='height:200px; background-size: cover' v-bind:style="{ backgroundImage: 'url(' + room.images[0].name + ')' }" >
                             </div>
                             <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
-                                            <a style="margin-top:10px" type="button" @click='getSer(room.id)' :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
+                                            <a style="margin-top:10px" type="button"  :value='room.id'  data-toggle="modal" :data-target="'#'+ 'image'+room.id">
                                             <i class="far fa-images"></i> المزيد من الصور
                                             </a>
-                                                <div class="modal fade" :id="'image'+room.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal fade" :id="'image'+room.id" tabindex="-1"  aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
+
                                                         <div class="modal-content " style="text-align:center">
                                                             <p style="margin-top:10px">
                                                                 <i class="far fa-images"></i>  صور الغرفه
                                                             </p>
-                                                            <div :id="'slide'+room.id" class="carousel " data-ride="carousel">
-                                                                <div class="carousel-inner">
-                                                                    <div class="carousel-item roomim" v-bind:class='{active:index == 0 }' v-for='(i , index) in room.images' style='height:400px;background-size: cover;background-position: center center;'  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
-
+                                                            <div :id="'slideroom'+ room.id" class="carousel " data-ride="carousel">
+                                                            <ol class="carousel-indicators">
+                                                                <li     v-for='(i , index) in room.images' :data-target="'#slideroom'+ room.id"  v-bind:class='{active:index == 0 }' class='adaw'  :data-slide-to="index" ></li>
+                                                                {{-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> --}}
+                                                            </ol>
+                                                            <div class="carousel-inner">
+                                                                <div class="carousel-item "  v-for='(i , index) in room.images'    v-bind:class='{active:index == 0 }'  >
+                                                                    <div class="sosy"  v-bind:style="{ backgroundImage: 'url(' + i.name + ')' }" >
                                                                     </div>
                                                                 </div>
-                                                                <a class="carousel-control-prev" :href="'#slide'+ room.id" role="button" data-slide="prev">
-                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                    <span class="sr-only">Previous</span>
-                                                                </a>
-                                                                <a class="carousel-control-next" :href="'#slide'+ room.id" role="button" data-slide="next">
-                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                    <span class="sr-only">Next</span>
-                                                                </a>
+                                                            </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,7 +148,7 @@
                                         </div>
 
                                         <ul class="ul">
-                                            <button type="button" @click='getSer(room.id)' :value='room.id' class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
+                                            <button type="button"  :value='room.id' class="btn btn-success btn-lg btn-block mt-3" data-toggle="modal" :data-target="'#'+ 'togle'+room.id">
                                                 مميزات الغرفة
                                             </button>
 
@@ -234,15 +253,19 @@
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
-            $(document).ready(function(){
-                $('.carousel').carousel()
-            })
-            const buttons = document.querySelectorAll(
+
+
+
+
+    const buttons = document.querySelectorAll(
     '[data-carousel-button]'
     );
 
+
+
     buttons.forEach((button) => {
     button.addEventListener('click', () => {
+
         const offset =
         button.dataset.carouselButton === 'next'
             ? 1
@@ -317,9 +340,7 @@
                 }
             }
         });
-    function myFunction() {
-            $(':button').prop('disabled', true);
-        }
+
 </script>
 
 @endsection
