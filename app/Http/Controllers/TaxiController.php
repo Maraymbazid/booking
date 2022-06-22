@@ -314,6 +314,9 @@ class TaxiController extends Controller
                 $msg .= "  واستعمل برومو " . '  ' . $pr;
                 $msg .= "  وباقي  " . '  ' .  $promoTry . " استعمال";
             }
+            if ($taxi->company !== null) {
+                $msg .= "  والشركة "  . $taxi->company->name;
+            }
             $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->phone;
             $msg .= " وتاريخ الوصول " . $data->datearrive . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
             $msg .= "   ومكان استلام السياره   " . "  " .  $data->deliveryplace . "  والواجهة " . " " . $destination->name . " ";

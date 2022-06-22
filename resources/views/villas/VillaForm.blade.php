@@ -18,7 +18,7 @@
 
 @section('moving-image')
 <section aria-label="Newest Photos">
-        <div class="carousel" data-carousel>
+        <div class="carousel coversss" data-carousel>
             <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
             <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
           <ul data-slides>

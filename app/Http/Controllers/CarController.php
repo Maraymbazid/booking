@@ -293,12 +293,17 @@ class CarController extends Controller
             $newreservation->number=$data->number;
             $newreservation->status = 1;
             $newreservation->save();
+            $url =   url('/') . '/assets/admin/img/cars/' . $car->image;
 
             $msg =  "لقد قام " . '  ' .  $data->customrname  . '  ' . " بطلب تأجير سياره    " . '  ' . $car->name  . "  " . " والموديل" . " " .  $car->model;
+            if ($car->company_id !== null) {
+                $msg .= " واسم الشركة "  . $car->company->name . "   ";
+            }
             $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->number . '  ' . " وحجز  " . '  ' . $data->numberdays .  $ms;
             $msg .= " وتاريخ الاستلام " . $data->date . "  والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";
             $msg .= "   ومكان استلام السياره   " . "    " .  $data->receivingplace . "    " .   "ومكان تسليم السياره " . "   " . $data->deliveryplace . "    ";
             $msg .= "وهذا الطلب تم تنفيذه من حساب " .  Auth::user()->name . "  وتم تسجيل الطلب بنجاح والرقم المرجعي للطلب " . " " . $newreservation->Num;
+            $msg  .= " وصورة السياره " .  $url;
             $res = Http::timeout(15)->get('https://api.telegram.org/bot5418440137:AAGUCn9yFMZWFNyf-o075nr5aL-Qu6nmvns/sendMessage?chat_id=@adawe23&text=' . $msg);
             return response()->json(['msg' => 'تم حفظ بيانتك بنجاح',], 200);
 
