@@ -293,6 +293,7 @@ class MeetingSallesController extends Controller
                 if ($request->numberdays !== null) {
                     $msg .= " وحجز  " . '  ' . $request->numberdays . "  يوم ";
                 }
+                $msg .= " وحجز  " . '  ' . $request->hours . "  ساعه فى اليوم  ";
                 $msg .= " وتاريخ الحجز " . '  ' . $request->date . '  ' . " من الساعه   " . '  ' . $request->start_time . "  الي الساعة  "  . '  ' . $request->end_time;
                 $msg .= " وعدد الافراد " .  $request->persones;
                 $msg .= "   والتكلفه الاجماليه قبل الخصم   " . $price . "$" . "  والتكلفه الاجماليه بعد الخصم " . $finallPrice .  "$ بعد خصم مقداره " . $dis . "$";

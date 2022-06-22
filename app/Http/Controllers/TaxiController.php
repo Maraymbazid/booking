@@ -314,7 +314,7 @@ class TaxiController extends Controller
                 $msg .= "  واستعمل برومو " . '  ' . $pr;
                 $msg .= "  وباقي  " . '  ' .  $promoTry . " استعمال";
             }
-            if ($taxi->company !== null) {
+            if ($taxi->company_id !== null) {
                 $msg .= "  والشركة "  . $taxi->company->name;
             }
             $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->phone;
