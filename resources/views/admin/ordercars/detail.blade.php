@@ -43,6 +43,8 @@
                             <dd class="col-sm-6"> {{$order->customrname	}}</dd>
                             <dt class="col-sm-4">  رقم الواتساب  </dd>
                             <dd class="col-sm-6"> {{$order->number }}</dd>
+                            <dt class="col-sm-4"> عدد {{$order->show}} </dt>
+                            <dd class="col-sm-6"> {{$order->numberdays}}</dd>
                             <dt class="col-sm-4">  موقع تسليم السياره  </dt>
                             <dd class="col-sm-6"> {{$order->deliveryplace }}</dd>
                             <dt class="col-sm-4">  موقع إستلام السياره </dt>
@@ -51,16 +53,36 @@
                             <dd class="col-sm-6"> {{$order->date }}</dd>
                             <dt class="col-sm-4">   المده  </dt>
                             <dd class="col-sm-6">  {{ $order->numberdays}} </dd>
-                            <dt class="col-sm-4">  سعر اليوم  </dt>
-                            <dd class="col-sm-6">  {{$order->mainPrice }}</dd>
-                            @if( $order->discount > 0)
-                            <dt class="col-sm-4">  سعر قبل الخصم  </dt>
-                            <dd class="col-sm-6">  {{$order->beforeDis }}</dd>
-                            <dt class="col-sm-4">   نسبة الخصم </dt>
+                            <dt class="col-sm-4">  تكلفة {{$order->method}}   </dt>
+                            <dd class="col-sm-6"> {{$order->mainPrice}}</dd>
+                            @if($order->discount > 0)
+                            <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
+                            <dd class="col-sm-6"> {{$order->beforeDis}}</dd>
+                            <dt class="col-sm-4">  قيمة الخصم   </dt>
                             <dd class="col-sm-6"> {{$order->discount}}</dd>
                             @endif
-                            <dt class="col-sm-4">  التكلفة الاجمالية  </dt>
-                            <dd class="col-sm-6"> {{$order->price}} </dd>
+                            <dt class="col-sm-4">  الاجمالي   </dt>
+                            <dd class="col-sm-6"> {{$order->price}}</dd>
+                            <dt class="col-sm-4">  حالة الطلب   </dt>
+                            <dd class="col-sm-6">
+                                @if($order->status == 1 )
+                                قيد التنفيذ
+                          @elseif ($order->status == 2)
+                                تم القبول
+                          @elseif ($order->status == 3)
+                              انتظر مكالمة للقبول
+                          @elseif ($order->status == 4)
+                                   مرفوض
+                          @else
+                          هناك خطأ ما من فضلك تواصل معنا
+                          @endif
+                            </dd>
+                            <dt class="col-sm-4">  ملاحظات  </dt>
+                            <dd class="col-sm-6"> {{$order->note}}</dd>
+
+                            <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
+                            <dd class="col-sm-6"> {{$order->user->name }}</dd>
+
                     </div>
                     </div>
             </div>

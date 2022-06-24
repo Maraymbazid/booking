@@ -48,19 +48,38 @@
                             <dd class="col-sm-6"> {{$order->destination }}</dd>
                             <dt class="col-sm-4">  تاريخ الوصول  </dt>
                             <dd class="col-sm-6">  {{$order->datearrive }} </dd>
-                            <dt class="col-sm-4">  سعر </dt>
-                            <dd class="col-sm-6">  {{$order->price}}</dd>
-                            <dt class="col-sm-4">  سعر </dt>
-                            <dd class="col-sm-6">  {{$order->finallprice}}</dd>
-                            <dt class="col-sm-4">  برمو </dt>
-                            <dd class="col-sm-6">  {{$order->pro}}</dd>
-                            @if($order->chauffeur == 1)  
-                            <dt class="col-sm-4">    مع سائق  </dt>
-                            @else
-                            <dt class="col-sm-4">    بدون سائق  </dt>
+                            <dt class="col-sm-4">    معها سائق   </dd>
+                           <dd class="col-sm-6">   @if($order->chauffeur == 0) بدون سائق     @else مع سائق    @endif </dd>
+                            @if($order->pro !== null)
+                            <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
+                            <dd class="col-sm-6">{{$order->price}} </dd>
+                            <dt class="col-sm-4">  كود الخصم       </dt>
+                            <dd class="col-sm-6">{{$order->pro}} </dd>
+                            <dt class="col-sm-4">  قيمة الخصم   </dt>
+                            <dd class="col-sm-6"> {{$order->discount}}</dd>
                             @endif
-                            <dt class="col-sm-4">   صورة التذكرة  </dt>
-                            <dd class="col-sm-6"> <img src="{{$order->ticket}}" /></dd>
+                            <dt class="col-sm-4">  الاجمالي   </dt>
+                            <dd class="col-sm-6"> {{$order->finallprice}}</dd>
+                            <dt class="col-sm-4">  حالة الطلب   </dt>
+                            <dd class="col-sm-6">
+                                @if($order->status == 1 )
+                                  قيد التنفيذ
+                            @elseif ($order->status == 2)
+                                  تم القبول
+                            @elseif ($order->status == 3)
+                                انتظر مكالمة للقبول
+                            @elseif ($order->status == 4)
+                                     مرفوض
+                            @else
+                            هناك خطأ ما من فضلك تواصل معنا
+                            @endif
+                            </dd>
+                            <dt class="col-sm-4">  ملاحظات  </dt>
+                            <dd class="col-sm-6"> {{$order->Note}}</dd>
+                            <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
+                            <dd class="col-sm-6"> {{$order->user->name }}</dd>
+                             <dt class="col-sm-4">   صورة التذكرة  </dt>
+                            <dt class="col-sm-6">  <img src="{{$order->ticket}}" /></dt>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

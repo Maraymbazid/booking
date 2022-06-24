@@ -54,9 +54,6 @@
                            <dd class="col-sm-6">   @if($order->chauffeur == 0) بدون سائق     @else مع سائق    @endif </dd>
 
 
-                            <dt class="col-sm-4">  تكلفة الرحله   </dt>
-                            <dd class="col-sm-6"> {{$order->price}}</dd>
-
                             @if($order->pro !== null)
                             <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
                             <dd class="col-sm-6">{{$order->price}} </dd>
