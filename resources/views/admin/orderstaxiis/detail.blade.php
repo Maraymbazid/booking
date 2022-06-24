@@ -15,7 +15,6 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -44,7 +43,7 @@
                             <dt class="col-sm-4">  رقم الواتساب  </dd>
                             <dd class="col-sm-6"> {{$order->number }}</dd>
                             <dt class="col-sm-4">   مكان إستلام</dt>
-                            <dd class="col-sm-6"> {{$order->deliveryplace }} }</dd>
+                            <dd class="col-sm-6"> {{$order->deliveryplace }}</dd>
                             <dt class="col-sm-4">  الوجهة </dt>
                             <dd class="col-sm-6"> {{$order->destination }}</dd>
                             <dt class="col-sm-4">  تاريخ الوصول  </dt>
@@ -55,7 +54,7 @@
                             <dd class="col-sm-6">  {{$order->finallprice}}</dd>
                             <dt class="col-sm-4">  برمو </dt>
                             <dd class="col-sm-6">  {{$order->pro}}</dd>
-                            @if({{$order->chauffeur == 1}})
+                            @if($order->chauffeur == 1)  
                             <dt class="col-sm-4">    مع سائق  </dt>
                             @else
                             <dt class="col-sm-4">    بدون سائق  </dt>
@@ -69,26 +68,14 @@
                     <!-- ./col -->
             </div>
                 <!-- /.row -->
-                <!-- Main row -->
-
-
-
-                <!-- Modal -->
-
+                <!-- Main row -->     <!-- Modal -->
                 <!-- /.row (main row) -->
             </div>
             <!-- /.container-fluid -->
         </section>
         <!-- Main content -->
-
-
     </div>
-
-
-
-
 @endsection
-
 @section('js')
     <script>
         function myFunction() {

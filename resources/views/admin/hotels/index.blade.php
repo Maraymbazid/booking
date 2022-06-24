@@ -140,7 +140,38 @@
                 </div>
                 <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+            @if ($hotels->hasPages())
+                    <nav>
+                        <ul class="pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($hotels->onFirstPage())
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                            @else
+                                <li class="page-item ">
+                                    <a class="page-link" href=" {{ $hotels->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+                            @endif
+
+
+                            {{-- Next Page Link --}}
+                            @if ($hotels->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ $hotels->nextPageUrl() }}">Next</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled" aria-disabled="true"
+                                    aria-label="@lang('pagination.next')">
+                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                    @endif
+
         </section>
 
 
@@ -149,39 +180,6 @@
 
     </div>
 
-
-
 @endsection
 @section('js')
-
-
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "info": false,
-                "bPaginate": true,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-
-
-
-        Swal.bindClickHandler()
-
-
-        Swal.mixin({
-            title: 'هل تريد الاستمرار؟',
-            icon: 'question',
-            iconHtml: '؟',
-            confirmButtonText: 'نعم',
-            cancelButtonText: 'لا',
-            showCancelButton: true,
-            showCloseButton: true
-        }).bindClickHandler('data-swal-toast-template')
-    </script>
-
-
     @endsection

@@ -19,5 +19,10 @@ class AdminController extends Controller
        }
        return redirect()->back()->with(['error' => 'the Credentials does not match records ']);
    }
+   public function logout()
+   {
+       auth()->guard('admin')->logout();
+       return  redirect()->route('get.admin.login');
+   }
 
 }

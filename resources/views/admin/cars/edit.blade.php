@@ -151,7 +151,7 @@
                                         <div class="input-group input-group-lg">
                                             <select  class="form-control"
                                                  name='company_id'>
-                                                <option value="">إختار شركة </option>
+                                                <option value="NULL">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
                                                     @if($car->company_id != '' && $com->id==$car->company_id)
                                                         <option value="{{ $com->id }}" selected>

@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
-    <link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
+<link rel="stylesheet" href="{{ url('assest/front2/css/in.css') }}">
 <style>
 .option-description{
     max-width: 90%;
@@ -10,12 +10,8 @@
 </style>
 @endsection
 @include('layout.nav')
-
 @section('content')
-
-
-
-            <h2 style="text-align:center;
+  <h2 style="text-align:center;
                         text-align: center;
                         margin: 27px 0;
                         background-color: #dae8ed;
@@ -46,6 +42,7 @@
                                 <td> تكلفة الاقامة لليوم  </td>
                                 <td> {{$order->oneday }} </td>
                             </tr>
+                            @if($order->discount > 0)
                             <tr>
                                 <td> التكلفة الاجمالية قبل الخصم  </td>
                                 <td> {{ $order->price1}} </td>
@@ -54,12 +51,16 @@
                                 <td> الخصم </td>
                                 <td>{{$order->discount}} </td>
                             </tr>
-
                             <tr>
                                 <td>  التكلفة الاجمالية بعد الخصم  </td>
                                 <td> {{ $order->price2}} </td>
                             </tr>
-
+                            @else
+                            <tr>
+                                <td> التكلفة الاجمالية    </td>
+                                <td> {{ $order->price1}} </td>
+                            </tr>
+                            @endif
                             <tr>
                                 <td> رقم الواتساب </td>
                                 <td> {{$order->whatsapp }} <input type="hidden" name="whatsapp" value="{{$order->whatsapp }} " /> </td>

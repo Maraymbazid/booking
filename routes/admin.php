@@ -19,11 +19,12 @@ use App\Http\Controllers\Admin\DiscountApartementController;
 use App\Http\Controllers\Admin\DiscountCarController;
 use App\Http\Controllers\Admin\DestinationController;
 use App\Http\Controllers\Admin\PromoCodeController;
-use App\Http\Controllers\Admin\DiscountSalleController;
+use App\Http\Controllers\Admin\DiscountSalleController; 
 Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 });
+Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
 Route::group(['middleware' => 'auth:admin'], function () {
      Route::get('/adminHome',function()
     {
@@ -221,9 +222,4 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('deleteordersalle', [MeetingSallesController::class, 'deleteordersalle'])->name('deleteordersalle');
     });
 });
-Route::get('/home1',  function () {
-    return view('layout.lay');
-})->name('home1');
-Route::get('helper', function(){
-   test();
-});
+

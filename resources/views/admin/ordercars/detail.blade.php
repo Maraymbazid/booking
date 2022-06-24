@@ -53,35 +53,18 @@
                             <dd class="col-sm-6">  {{ $order->numberdays}} </dd>
                             <dt class="col-sm-4">  سعر اليوم  </dt>
                             <dd class="col-sm-6">  {{$order->mainPrice }}</dd>
-                            <dt class="col-sm-4">سعر قبل الخصم  </dt>
+                            @if( $order->discount > 0)
+                            <dt class="col-sm-4">  سعر قبل الخصم  </dt>
                             <dd class="col-sm-6">  {{$order->beforeDis }}</dd>
-                            <dt class="col-sm-4"> سعر بعد الخصم   </dt>
-                            <dd class="col-sm-6"> {{$order->price}} </dd>
                             <dt class="col-sm-4">   نسبة الخصم </dt>
                             <dd class="col-sm-6"> {{$order->discount}}</dd>
-                        <!-- /.card-body -->
+                            @endif
+                            <dt class="col-sm-4">  التكلفة الاجمالية  </dt>
+                            <dd class="col-sm-6"> {{$order->price}} </dd>
                     </div>
-                    <!-- /.card -->
                     </div>
-                    <!-- ./col -->
             </div>
-                <!-- /.row -->
-                <!-- Main row -->
-
-
-
-                <!-- Modal -->
-
-                <!-- /.row (main row) -->
             </div>
-            <!-- /.container-fluid -->
         </section>
-        <!-- Main content -->
-
-
     </div>
-
-
-
-
 @endsection

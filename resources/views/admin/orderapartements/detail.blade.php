@@ -49,14 +49,15 @@
                             <dd class="col-sm-6">{{$order->enddate }} </dd>
                             <dt class="col-sm-4">  عدد الأشخاص  </dt>
                             <dd class="col-sm-6"> {{$order->personnes}} </dd>  
+                            @if($order->dis > 0)
                             <dt class="col-sm-4">سعر قبل الخصم  </dt>
                             <dd class="col-sm-6">  {{$order->pricebefore }}</dd>
-                            <dt class="col-sm-4">سعر قبل الخصم  </dt>
-                            <dd class="col-sm-6">  {{$order->price }}</dd>
-                            <dt class="col-sm-4"> سعر بعد الخصم   </dt>
-                            <dd class="col-sm-6"> {{$order->finallprice}} </dd>
                             <dt class="col-sm-4">   نسبة الخصم </dt>
                             <dd class="col-sm-6"> {{$order->dis}}</dd>
+                            @endif
+                            <dt class="col-sm-4">التكلفة الاجمالية </dt>
+                            <dd class="col-sm-6"> {{$order->finallprice}} </dd>
+                            
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

@@ -67,8 +67,6 @@ class RoomController extends Controller
         $room = Room::find($request->id);
             if($room)
             {
-                $room->services()->detach();
-                $room->Images()->delete();
                 $room->delete();
                 return response()->json
                 ([

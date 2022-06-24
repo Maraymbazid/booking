@@ -7,7 +7,6 @@ use App\Models\Hotel;
 use App\Models\Image;
 use App\Models\RoomDiscount;
 use App\Models\Admin\ServiceRoom;
-
 use App\Models\Admin\HotelDiscount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

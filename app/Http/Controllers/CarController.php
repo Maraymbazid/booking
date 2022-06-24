@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use \stdClass;
 use App\Models\Car;
 use App\Http\Traits\media;
@@ -25,6 +23,13 @@ class CarController extends Controller
 
     public function store(Request $request)
     {
+        if($request->meth != 1 && $request->meth != 2 && $request->meth!= 3)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر حفظ هناك خطأ ما'
+            ]);
+        }
         $imageName = $this->uploadMedia($request->image, 'cars');
         $car = new Car();
         $car->name = $request->name;
@@ -62,6 +67,13 @@ class CarController extends Controller
 
     public function update(UpdateCar $data)
     {
+        if($data->meth != 1 && $data->meth != 2 && $data->meth != 3)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر حفظ هناك خطأ ما'
+            ]);
+        }
         $result = $data->except('page', 'image',  'carId', '_token', '_method','images');
         $car=Car::find($data->carId);
         if($car)

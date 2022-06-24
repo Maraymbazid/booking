@@ -568,7 +568,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/logout') }}" class="nav-link">
+                            <a href="{{route('admin.logout')}}" class="nav-link">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <p>
                                     تسجيل خروج
