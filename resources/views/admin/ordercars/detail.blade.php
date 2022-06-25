@@ -79,10 +79,8 @@
                             </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
                             <dd class="col-sm-6"> {{$order->note}}</dd>
-
                             <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
                             <dd class="col-sm-6"> {{$order->user->name }}</dd>
-
                     </div>
                     </div>
             </div>
