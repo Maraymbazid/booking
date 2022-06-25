@@ -286,6 +286,7 @@ class TaxiController extends Controller
             $newreservation->user_id =  Auth::user()->id;
             $newreservation->taxi_id = $id;
             $newreservation->taxi_name =  $taxi->name;
+            $newreservation->taxi_model =  $taxi->model;
             $newreservation->Num = 'T' . Auth::user()->id . time();
             $newreservation->price = $destination->price;
             $newreservation->pro = $pr;

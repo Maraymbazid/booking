@@ -55,18 +55,24 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    تسجيل الدخول
-                                </button>
 
+                        <div class="col-md-12 col-12 yas">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block"> تسجيل الدخول </button>
+                        </div>
+                        <div class="row" style='text-align: center'>
+                            <div class="col-md-6 col-12 ">
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        هل نسيت كلمة السر ؟
-                                    </a>
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    هل نسيت كلمة السر ؟
+                                </a>
                                 @endif
-                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 ">
+                            <a class="btn btn-link" href="{{ route('register') }}" >
+                              أو يمكنك إنشاء حساب جديد
+                          </a>
+                        </div>
+
                         </div>
                     </form>
                 </div>

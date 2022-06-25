@@ -13,6 +13,7 @@ class MeetingOrder extends Model
     protected $fillable = [
         'order_number',
         'meeting_id',
+        'meeting_name',
         'user_id',
         'date',
         'start_time',

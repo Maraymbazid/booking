@@ -15,128 +15,41 @@
 @endsection
 
 @section('moving-image')
-<section aria-label="Newest Photos">
-        <div class="carousel coversss" data-carousel>
-            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
-            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
-          <ul data-slides>
-            @foreach ($car->images as $i)
-            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
-                <img src="{{ url("/") . "/assets/admin/img/cars/covers/" . $i->image}} " alt="nature image #1" />
-            </li>
-            @endforeach>
-          </ul>
-          </div>
-          </div>
-        </div>
-    </section>
+            <section aria-label="Newest Photos">
+                <div id="car1" class="carousel " data-ride="carousel">
+                    <ol class="carousel-indicators" >
+                        @foreach ($car->images as $i)
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach ($car->images as $i)
+                        <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                            <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/cars/covers/" . $i->image}});" >
+                            </div>
+                        </div>
+                        @endforeach>
+                    </div>
+                </div>
+
+            </section>
 @endsection
+
+
+
+
+
+
+
+
+
 
 @section('content')
 @include('layout.nav2')
 <div class="title">
     {{$car->name}}
 </div>
-      {{-- <div class="container">
-                <div class="container">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-12" >
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">السيارة</th>
-                                    <th scope="col">الموديل  </th>
-                                    <th scope="col">سعر اليوم </th>
-                                    @if($car->company)
-                                    <th scope="col"> شركة </th>
-                                    @endif
-                                    @if($car->discount)
-                                    <th scope="col"> الخصم </th>
-                                    @endif
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <tr>
-                                        <td data-label="اسم السيارة">{{$car->name}}</td>
-                                        <td data-label="موديل السيارة">
-                                            {{$car->model}}
-                                        </td>
-                                        <td data-label="السعر"> {{$car->price}} </td>
-                                        @if($car->company)
-                                        <td>{{$car->company->name}}  </td>
-                                        @endif
-                                        @if($car->discount)
 
-                                        <td> <ul>
-                                            @foreach($car->discount as $discount)
-                                                    <li>  %{{$discount->rate}}</li>
-                                            @endforeach
-                                            </ul>
-                                        </td>
-
-
-                                        @endif
-                                    </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-
-                    <div class="row mt-5">
-                    <div class="col">
-                        <form method="post" action="{{route('checkordercar')}}">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$car->id}}">
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">موقع إستلام السياره </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="receivingplace"  name="receivingplace"  placeholder="موقع استلام السياره ">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">موقع تسليم السياره </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="deliveryplace"  name="deliveryplace"  placeholder="موقع تسليم السياره ">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  المده </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="number" class="form-control" id="numberdays"  name="numberdays" placeholder="  من فضلك ادخل عدد الايام ">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  تاريخ الاستلام </label>
-                                <div class="col-lg-10 col-12">
-                                  <input type="date" class="form-control" id="date"  name="date" placeholder="  من فضلك حدد ميعاد استلام السيارة">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  رقم التليفون </label>
-                                <div class="col-lg-10 col-12">
-                                     <input type="number" class="form-control" id="number" name="number" placeholder=" من فضلك ادخل رقم واتساب للتواصل ">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">  اسم الشخص المعني بالحجز </label>
-                                <div class="col-md-10 col-12">
-                                  <input type="text" class="form-control" id="customrname"  name="customrname" placeholder="من فضلك ادخل اسم الشخص الذي يتم الحجز باسمه">
-                                </div>
-                            </div>
-                            <div class="form-group row mb-2">
-                                <label for="place" class="col-sm-2 col-form-label">       </label>
-                                <div class="col-lg-10 col-12 p-2">
-                                       <button type="sumbit" class="btn btn-primary p-1 form-control" > أطلب الان  </button>
-                                </div>
-                            </div>
-                          </form>
-                    </div>
-                </div>
-
-                </div>
-            </div>
-        </div> --}}
 
 
 
@@ -145,6 +58,38 @@
             <div class="row mt-5" >
                 <div class="col-lg-12 ">
                     <div class="row">
+                        <div class="col-12" >
+                            <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                                 <a style="margin-top:10px" type="button"  value='{{$car->id}}'  data-toggle="modal" data-target="#carImages">
+                                <i class="far fa-images"></i> المزيد من الصور
+                                </a>
+                                  <div class="modal fade" id="carImages" tabindex="-1"  aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                             <div class="modal-content " style="text-align:center">
+                                                <p style="margin-top:10px">
+                                                    <i class="far fa-images"></i>  صور السياره
+                                                </p>
+                                                <div id="slideroom{{$car->id}}" class="carousel " data-ride="carousel">
+                                                <ol class="carousel-indicators">
+                                                    @foreach ($car->images as $i)
+                                                    <li   data-target="#slideroom{{$car->id}}"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                                                    @endforeach
+
+                                                </ol>
+                                                <div class="carousel-inner">
+                                                    @foreach ($car->images as $i)
+                                                    <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                                                        <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/cars/covers/" . $i->image}});" >
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                            </p>
+                        </div>
                         <div class="col-lg-4 hight borderr border">
                             <p class="title-desS mt-2 ">  </p>
                             <p class="title-des">السيارة : {{$car->name}} </p>

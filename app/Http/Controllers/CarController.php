@@ -278,6 +278,7 @@ class CarController extends Controller
             $newreservation->user_id   = Auth::user()->id;
             $newreservation->car_id    = $id;
             $newreservation->car_name    =  $car->name;
+            $newreservation->car_model    =  $car->model;
             $newreservation->mainPrice = $mainPrice;     //main price in day
             $newreservation->beforeDis = $price;          // price before dis
             $newreservation->discount  = $dis;          //  dis
@@ -285,10 +286,10 @@ class CarController extends Controller
             $newreservation->method     = $method;
             $newreservation->show       = $show;
             $newreservation->Num = 'C' . Auth::user()->id . time();
-            $newreservation->deliveryplace=$data->deliveryplace;
-            $newreservation->customrname = $data->customrname;
-            $newreservation->receivingplace=$data->receivingplace;
-            $newreservation->date=$data->date;
+            $newreservation->deliveryplace  = $data->deliveryplace;
+            $newreservation->customrname    = $data->customrname;
+            $newreservation->receivingplace = $data->receivingplace;
+            $newreservation->date      = $data->date;
             $newreservation->numberdays=$data->numberdays;
             $newreservation->number=$data->number;
             $newreservation->status = 1;

@@ -16,9 +16,12 @@ class HotelOrder extends Model
     [
         'hotel_id',
         'room_id',
+        'hotel_name',
+        'room_name',
+        'order_number',
+        'name',
         'day_count',
         'discount',
-        'name',
         'whatsapp',
         'arrival',
         'checkout',
