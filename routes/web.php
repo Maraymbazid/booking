@@ -50,9 +50,14 @@ Route::group(['prefix' => 'taxis'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/taxApi', [TaxiController::class, 'taxApi'])->name('taxApi');
 
 });
-Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
+
+
+Route::group(['prefix' => 'hotels'], function () {
     Route::get('/', [HotelController::class, 'userIndex'])->name('userIndexhotel');
     Route::get('/getAllHotelsForUser', [HotelController::class, 'getAllHotelsForUser'])->name('getAllHotelsForUser');
+});
+
+Route::group(['prefix' => 'hotels', 'middleware' => 'auth'], function () {
     Route::get('/rooms/{id}', [HotelController::class, 'getRoomsByHotelId'])->name('getRoomsByHotelId');
     Route::get('/hotelsorderd/{govId}', [HotelController::class, 'hotelsordered'])->name('hotelsordered');
     Route::get('hoteldetail/{id}', [HotelController::class, 'hoteldetail'])->name('hoteldetail');

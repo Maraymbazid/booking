@@ -50,6 +50,38 @@
       <div class="container">
         <div class="container">
             <div class="row mt-5" >
+                <div class="col-12" >
+                    <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                         <a style="margin-top:10px" type="button"  value='{{$taxi->id}}'  data-toggle="modal" data-target="#carImages">
+                        <i class="far fa-images"></i> المزيد من الصور
+                        </a>
+                          <div class="modal fade" id="carImages" tabindex="-1"  aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                     <div class="modal-content " style="text-align:center">
+                                        <p style="margin-top:10px">
+                                            <i class="far fa-images"></i>  صور التاكسي
+                                        </p>
+                                        <div id="slideroom{{$taxi->id}}" class="carousel " data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            @foreach ($taxi->images as $i)
+                                            <li   data-target="#slideroom{{$taxi->id}}"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{ $loop->index }}" > </li>
+                                            @endforeach
+
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            @foreach ($taxi->images as $i)
+                                            <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                                                <div class="sosy"  style="background-image: url({{ url("/") .  "/assets/admin/img/taxi/covers/" . $i->image}});" >
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                    </p>
+                </div>
                 <div class="col-lg-12 ">
                     <div class="row">
                         <div class="col-lg-12 hight borderr border">
