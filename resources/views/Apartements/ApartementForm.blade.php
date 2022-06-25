@@ -12,97 +12,33 @@
 
     }
 
-
-
-
 </style>
 @endsection
 
-{{-- @section('moving-image')
 
-<div class="section">
-    <div class="row">
-        <div id="carousel" class="carousel slide" data-ride="carousel">
-
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            <div class="d-none d-block">
-                <div class="slide-box">
-                    @foreach ($apartement->images as $i)
-                    <img style='max-hight:100px '  class='img-fluid' src="{{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}} "  >
-                    @endforeach>
-                </div>
-            </div>
-            {{-- <div class="d-none d-md-block d-lg-none">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="First slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/4610.jpg" alt="First slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/424.jpg" alt="First slide">
-                </div>
-            </div> --}}
-            {{-- <div class="d-none d-sm-block d-md-none">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/424.jpg" alt="First slide">
-                <img src="https://images6.alphacoders.com/349/thumb-1920-349835.jpg" alt="First slide">
-                </div>
-            </div> --}}
-            {{-- <div class="d-block d-sm-none">
-                <img class="d-block w-100" src="https://picsum.photos/600/400/?image=0&random" alt="First slide">
-            </div> --}}
-            </div>
-            {{-- <div class="carousel-item">
-            <div class="d-none d-lg-block">
-                <div class="slide-box">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                <img src="https://wallpapershome.com/images/pages/pic_h/378.jpg" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-none d-md-block d-lg-none">
-                <div class="slide-box">
-                <img src="https://picsum.photos/240/200/?image=3&random" alt="Second slide">
-                <img src="https://picsum.photos/240/200/?image=4&random" alt="Second slide">
-                <img src="https://picsum.photos/240/200/?image=5&random" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-none d-sm-block d-md-none">
-                <div class="slide-box">
-                <img src="https://picsum.photos/270/200/?image=2&random" alt="Second slide">
-                <img src="https://picsum.photos/270/200/?image=3&random" alt="Second slide">
-                </div>
-            </div>
-            <div class="d-block d-sm-none">
-                <img class="d-block w-100" src="https://picsum.photos/600/400/?image=1&random" alt="Second slide">
-            </div>
-            </div>
-        </div>
-
-
-        </div>
-    </div>
-
-
-</div>
-@endsection --}}
 
 @section('moving-image')
-<section aria-label="Newest Photos">
-        <div class="carousel" data-carousel>
-            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
-            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
-          <ul data-slides>
-            @foreach ($apartement->images as $i)
-            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
-                <img src="{{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}} " alt="nature image #1" />
-            </li>
-            @endforeach>
-          </ul>
-          </div>
-          </div>
-        </div>
-    </section>
+            <section aria-label="Newest Photos">
+                <div id="car1" class="carousel " data-ride="carousel">
+                    <ol class="carousel-indicators" >
+                        @foreach ($apartement->images as $i)
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach ($apartement->images as $i)
+                        <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                            <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/apartements/covers/" . $i->image}});" >
+                            </div>
+                        </div>
+                        @endforeach>
+                    </div>
+                </div>
+
+            </section>
 @endsection
+
+
 
 
 

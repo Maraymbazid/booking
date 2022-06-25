@@ -13,23 +13,31 @@
 
 </style>
 @endsection
+
+
 @section('moving-image')
-<section aria-label="Newest Photos">
-        <div class="carousel coversss" data-carousel>
-            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
-            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
-          <ul data-slides>
-            @foreach ($taxi->images as $i)
-            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
-                <img src="{{ url("/") . "/assets/admin/img/taxi/covers/" . $i->image}} " alt="nature image #1" />
-            </li>
-            @endforeach>
-          </ul>
-          </div>
-          </div>
-        </div>
-    </section>
+            <section aria-label="Newest Photos">
+                <div id="car1" class="carousel " data-ride="carousel">
+                    <ol class="carousel-indicators" >
+                        @foreach ($taxi->images as $i)
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach ($taxi->images as $i)
+                        <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                            <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/taxi/covers/" . $i->image}});" >
+                            </div>
+                        </div>
+                        @endforeach>
+                    </div>
+                </div>
+
+            </section>
 @endsection
+
+
+
 
 
 

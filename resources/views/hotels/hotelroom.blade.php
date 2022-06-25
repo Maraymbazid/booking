@@ -1,41 +1,31 @@
 @extends('layout.flay')
 
 
-@section('css')
 
 
-<style>
 
-
-.adaw .active {
-    background-color: blue !important;
-}
-
-.carousel-indicators li .active {
-    background-color: blue !important;
-}
-    </style>
-
-@endsection
 
 @section('moving-image')
-<section aria-label="Newest Photos">
-        <div class="carousel coversss" data-carousel>
-            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
-            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
-          <ul data-slides>
-            @foreach ($hotel->images as $i)
-            <li class="slide" @if( $loop->first == 1 )data-active @endif  >
+            <section aria-label="Newest Photos">
+                <div id="car1" class="carousel " data-ride="carousel">
+                    <ol class="carousel-indicators" >
+                        @foreach ($hotel->images as $i)
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach ($hotel->images as $i)
+                        <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                            <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/Hotels/covers/" . $i->image}});" >
+                            </div>
+                        </div>
+                        @endforeach>
+                    </div>
+                </div>
 
-                <img src="{{ url('/') . '/assets/admin/img/Hotels/covers/' . $i->image}} " alt="nature image #1"  />
-            </li>
-            @endforeach>
-          </ul>
-          </div>
-
-
-    </section>
+            </section>
 @endsection
+
 
 
 

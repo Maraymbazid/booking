@@ -20,7 +20,6 @@ class Hotel extends Model
         'name_ar',
         'name_en',
         'image',
-        'cover',
         'sort',
         'location',
         'status',
@@ -57,10 +56,10 @@ class Hotel extends Model
             self::deleting(function($hotel) {
                 $hotel->images()->each(function($image) {
                     deleteMedia($image->image, 'Hotels/covers/');
-                    $image->delete(); 
+                $image->delete();
                 });
                 $hotel->rooms()->each(function($room) {
-                    $room->delete(); 
+                $room->delete();
                 });
                 $oldImage=$hotel->image;
                 deleteMedia($oldImage, 'hotels');

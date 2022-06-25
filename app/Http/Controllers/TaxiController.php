@@ -286,6 +286,7 @@ class TaxiController extends Controller
             $newreservation->user_id =  Auth::user()->id;
             $newreservation->taxi_id = $id;
             $newreservation->taxi_name =  $taxi->name;
+            $newreservation->taxi_model =  $taxi->model;
             $newreservation->Num = 'T' . Auth::user()->id . time();
             $newreservation->price = $destination->price;
             $newreservation->pro = $pr;
@@ -314,7 +315,7 @@ class TaxiController extends Controller
                 $msg .= "  واستعمل برومو " . '  ' . $pr;
                 $msg .= "  وباقي  " . '  ' .  $promoTry . " استعمال";
             }
-            if ($taxi->company !== null) {
+            if ($taxi->company_id !== null) {
                 $msg .= "  والشركة "  . $taxi->company->name;
             }
             $msg .= " ورقم الواتساب الخاص به " . '  ' . $data->phone;
