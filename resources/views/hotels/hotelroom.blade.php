@@ -10,7 +10,7 @@
                 <div id="car1" class="carousel " data-ride="carousel">
                     <ol class="carousel-indicators" >
                         @foreach ($hotel->images as $i)
-                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{ $loop->index }}" > </li>
                         @endforeach
                     </ol>
                     <div class="carousel-inner">
