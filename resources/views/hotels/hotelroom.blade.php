@@ -37,6 +37,38 @@
 </div>
                 <div class="container" >
                     <div class="row">
+                        <div class="col-12" >
+                            <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                                 <a style="margin-top:10px" type="button"  value='{{$hotel->id}}'  data-toggle="modal" data-target="#carImages">
+                                <i class="far fa-images"></i> المزيد من الصور
+                                </a>
+                                  <div class="modal fade" id="carImages" tabindex="-1"  aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                             <div class="modal-content " style="text-align:center">
+                                                <p style="margin-top:10px">
+                                                    <i class="far fa-images"></i>  صور الفندق
+                                                </p>
+                                                <div id="slideroom{{$hotel->id}}" class="carousel " data-ride="carousel">
+                                                <ol class="carousel-indicators">
+                                                    @foreach ($hotel->images as $i)
+                                                    <li   data-target="#slideroom{{$hotel->id}}"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{ $loop->index }}" > </li>
+                                                    @endforeach
+
+                                                </ol>
+                                                <div class="carousel-inner">
+                                                    @foreach ($hotel->images as $i)
+                                                    <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                                                        <div class="sosy"  style="background-image: url({{ url("/") . "/assets/admin/img/Hotels/covers/" . $i->image}});" >
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                            </p>
+                        </div>
                         @foreach ($main_services as $main)
                         <div class="col-md-3 col-4 mt-3">
                             <ul class='ul'  style="text-align:center"> <i class="fa-solid {{$main->font_aws}}"></i> {{$main->name}}

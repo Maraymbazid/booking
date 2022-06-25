@@ -22,7 +22,7 @@
                 <div id="car1" class="carousel " data-ride="carousel">
                     <ol class="carousel-indicators" >
                         @foreach ($apartement->images as $i)
-                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{$i}}" > </li>
+                        <li  data-target="#car1"   class='adaw @if( $loop->first == 1 ) active @endif' data-slide-to="{{ $loop->index }}" > </li>
                         @endforeach
                     </ol>
                     <div class="carousel-inner">
@@ -53,6 +53,40 @@
 
         <div class="col-lg-12 ">
             <div class="row">
+                <div class="col-12" >
+                    <p style="text-align:center;cursor: pointer; color:red; font-size:18px ">
+                         <a style="margin-top:10px" type="button"  value='{{$apartement->id}}'  data-toggle="modal" data-target="#carImages">
+                        <i class="far fa-images"></i> المزيد من الصور
+                        </a>
+                          <div class="modal fade" id="carImages" tabindex="-1"  aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                     <div class="modal-content " style="text-align:center">
+                                        <p style="margin-top:10px">
+                                            <i class="far fa-images"></i>  صور الشقة
+                                        </p>
+                                        <div id="slideroom{{$apartement->id}}" class="carousel " data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            @foreach ($apartement->images as $i)
+                                            <li   data-target="#slideroom{{$apartement->id}}"   class='adaw @if( $loop->first == 1 ) active @endif'  data-slide-to="{{ $loop->index }}" > </li>
+                                            @endforeach
+
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            @foreach ($apartement->images as $i)
+                                            <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
+                                                <div class="sosy"  style="background-image: url({{ url("/") .  "/assets/admin/img/taxi/covers/" . $i->image}});" >
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                    </p>
+                </div>
+
+
                 <div class="col-lg-4 hight borderr border">
                     <p class="title-desS mt-2 ">  </p>
                     <p class="title-des"><i class="fa-solid fa-person"></i> الاسم  :{{$apartement->name_ar}} </p>
