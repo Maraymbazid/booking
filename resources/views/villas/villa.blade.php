@@ -168,6 +168,9 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                 window.location.href = url;
             },
             getVillaByGov:function(){
+                if(this.govId == ''){
+                    return false
+                }
                 url = '{{ route('Villaordered' , ':id')}}',
                 url = url.replace(':id' , this.govId)
                 this.$http.get(url).then(response => {

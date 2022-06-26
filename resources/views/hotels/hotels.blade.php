@@ -175,6 +175,9 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                 window.location.href = url;
             },
             getHotelsByGov:function(){
+                if(this.govId == ''){
+                    return false
+                }
                 this.loading = true;
                 this.empty = false;
                 url = '{{ route('hotelsordered' , ':id')}}',
