@@ -176,6 +176,9 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
                 window.location.href = url;
             },
             getAppByGov:function(){
+                if(this.govId == ''){
+                    return false
+                }
                 this.empty = false;
                 url = '{{ route('Apartordered' , ':id')}}',
                 url = url.replace(':id' , this.govId)
