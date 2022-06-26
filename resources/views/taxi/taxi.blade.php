@@ -127,13 +127,12 @@
                         <p class="card-title-me">
                           @{{taxi.name}}
                         </p>
-                        <i class="fa-solid fa-location-dot"></i><span>  @{{ taxi.company }}</span>
+                        <i class="fa-solid fa-location-dot"></i><span>  @{{ taxi.company_id }}</span>
                         <p class="loly" v-if='taxi.company_id' >  </p>
                     </div>
                     <div class="col-4 border-me">
-
                         <p class="no-1">متوسط </p>
-                        <p class="no-2"> @{{taxi.price}} </p>
+                        <p class="no-2"> @{{taxi.price}} $</p>
                         <p class="no-3"> </p>
                     </div>
                 </div>

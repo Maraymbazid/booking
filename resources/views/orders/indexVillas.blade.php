@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
- <meta http-equiv="refresh" content="30" />
+ <meta http-equiv="refresh" content="60" />
 <style>
     .table-responsive-stack tr {
   display: -webkit-box;
@@ -233,10 +233,4 @@ window.onresize = function(event) {
     @endsection
 
 
-    {{-- @if ($order->status == 0)
-    <span style="color: orange;"><i class="fas fa-clock"></i></span>
-@elseif ($order->status == 1)
-    <span style="color: green;"><i class="fas fa-check-circle "></i></span>
-@elseif ($order->status == 2)
-    <span style="color: red;"><i class="far fa-times-circle"></i></span>
-@endif --}}
+

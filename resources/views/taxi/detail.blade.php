@@ -73,10 +73,7 @@
                                 <td>   مكان التوصيل     </td>
                                 <td>{{$carttaxi->deliveryplace}} <input type="hidden" name="deliveryplace" value="{{$carttaxi->deliveryplace}}" /> </td>
                             </tr>
-                            <tr>
-                                <td>   سيارة مع سائق     </td>
-                                <td> @if($carttaxi->chauffeur == 0) بدون سائق     @else مع سائق    @endif <input type="hidden" name="chauffeur" value="{{$carttaxi->chauffeur}}" /> </td>
-                            </tr>
+
                             <input type="hidden" name="ticket" value="{{ $carttaxi->ticket}}" />
                                 <input type="hidden" name="id" value="{{ $carttaxi->taxi_id}}" />
                                 <input type="hidden" name="destination_id" value="{{$carttaxi->destination_id}}" />

@@ -25,7 +25,7 @@ class ReservationTaxi extends Model
         'deliveryplace',
         'customername',
         'datearrive',
-        'chauffeur',
+
         'ticket',
         'number',
         'status',

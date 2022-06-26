@@ -247,7 +247,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                  الشركات 
+                                  الشركات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -316,7 +316,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                برومو كود 
+                                برومو كود
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -454,7 +454,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                خصم قاعات الاجتماعات 
+                                خصم قاعات الاجتماعات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -480,13 +480,13 @@
                                    طلبات الفنادق
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
-                            </a>   
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                   طلبات الشقق 
+                                   طلبات الشقق
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -503,7 +503,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                  طلبات الفلل  
+                                  طلبات الفلل
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -554,7 +554,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                طلبات قاعات الاجتماعات  
+                                طلبات قاعات الاجتماعات
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -658,21 +658,7 @@
     <script src="{{ url('assest/admin/dist/js/demo.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ url('assest/admin/dist/js/pages/dashboard2.js') }}"></script>
-    <script>
-        $(function() {
-
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-
-        });
-    </script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
 
 
     @yield('js')

@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label> صوره   </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file"  name='image'  class="form-control form-control-lg"  >
+                                            <input type="file"  name='image'  @change="fileChange1" ref="file1"  class="form-control form-control-lg"  >
                                         </div>
                                     </div>
                                 </div>
@@ -105,8 +105,8 @@
                                     <div class="form-group">
                                         <label> صور الغلاف </label>
                                         <div class="input-group input-group-lg">
-                                            <input type="file" name="images[]" id="" class="form-control form-control-lg"
-                                                style="padding-bottom: 45px;" placeholder="" areia-describedby="helper" multiple>
+                                            <input type="file" name="images[]"  class="form-control form-control-lg"
+                                                style="padding-bottom: 45px;"  multiple  @change="fileChange2" ref="file2" >
                                         </div>
                                         <span class="invalid-feedback" role="alert" id='image_error'> </span>
                                     </div>
@@ -135,7 +135,7 @@
                                         <label> الشركة </label>
                                         <div class="input-group input-group-lg">
                                             <select  class="form-control"
-                                                v-model="comID" name='company_id'>
+                                               name='company_id'>
                                                 <option value="NULL">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
                                                         <option value="{{ $com->id }}">
@@ -172,26 +172,29 @@
 </div>
 @endsection
 @section('js')
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.6.1/vue-resource.min.js"></script>
-    <script>
-        cars = new Vue({
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+<script>
+        addtaxi = new Vue({
             'el': '#addcar',
             'data' : {
                 'name' : '',
                 'model': '',
+                'file1' : '',
+                'file2' : '',
                 'price': '',
                 'comID': '',
                 'error' : []
             },
             methods :{
+                fileChange1(event) {
+                      this.file1 = this.$refs.file1.files.length;
+                },
+                fileChange2(event) {
+                      this.file2 = this.$refs.file2.files.length;
+                },
                 falidation: function(item, val) {
                     if (item == '') {
                         this.error.push({
@@ -208,44 +211,26 @@
                 saveData: function(e){
                     e.preventDefault();
                     this.error = [],
-                    $.ajaxSetup({
-                            headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
-                    });
-                    this.falidation(this.name , 'لا يمكن ترك الاسم فارغا ')
-                    this.falidation(this.model , 'لا يمكن ترك الموديل فارغا')
+
                     this.falidation(this.price , 'لا يمكن ترك السعر فارغا  ')
+                    this.falidation(this.model , 'لا يمكن ترك الموديل فارغا')
+                    this.falidation(this.file2 , ' صور الغلاف مطلوبه')
+                    this.falidation(this.file1 , ' صورة السياره مطلوبه')
+                    this.falidation(this.name , 'لا يمكن ترك الاسم فارغا ')
                     if (this.error.length != 0) {
                         return false
                     }
-                    const formData = new FormData(document.getElementById("addcar"));
-                    $.ajax({
-                        type: 'POST',
-                        enctype: 'multipart/form-data',
-                        url: '{{ route('storeTaxi') }}',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
+                        let formData = new FormData(document.getElementById("addcar"));
+                        axios.post('{{ route('storeTaxi')}}', formData).then(response => {
+                            document.getElementById("addcar").reset();
                             swal({
-                                title:  res.msg,
-                                type: 'success',
-                                confirmButtonText: 'ok',
+                                    title:  response.data.msg,
+                                    type: 'success',
+                                    confirmButtonText: 'موافق',
                                 });
-                        },
-                        error: function(res) {
-                            var response = $.parseJSON(res.responseText);
-                            $.each(response.errors, function(name, msg) {
-                                swal({
-                                        title:  msg[0],
-                                        type: 'warning',
-                                        confirmButtonText: 'ok',
-                                        });
-                                    });
-                            return 0;
-                        }
-                    })
+                        }).catch(response => {
+                            console.log(response)
+                        })
                 }
             }
         });
