@@ -48,8 +48,6 @@
                             <dd class="col-sm-6"> {{$order->destination }}</dd>
                             <dt class="col-sm-4">  تاريخ الوصول  </dt>
                             <dd class="col-sm-6">  {{$order->datearrive }} </dd>
-                            <dt class="col-sm-4">    معها سائق   </dd>
-                           <dd class="col-sm-6">   @if($order->chauffeur == 0) بدون سائق     @else مع سائق    @endif </dd>
                             @if($order->pro !== null)
                             <dt class="col-sm-4">  الاجمالى قبل الخصم     </dt>
                             <dd class="col-sm-6">{{$order->price}} </dd>
