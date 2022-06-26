@@ -122,6 +122,13 @@ class HotelOrderController extends Controller
     public function updateorderhotel(Request $data)
     {
         $id=$data->id;
+        if($data->status!= 1 && $data->status!= 2 && $data->status!= 3 && $data->status!= 4)
+        {
+            return response()->json([
+                'status' => 500,
+                'msg' =>' تعذر التعديل هناك خطأ ما'
+            ]);
+        }
         $order=$order=HotelOrder::find($id);
         if($order)
         {
