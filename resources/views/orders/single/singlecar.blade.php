@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
- <meta http-equiv="refresh" content="30" />
+ <meta http-equiv="refresh" content="120" />
 
 @endsection
 
@@ -19,7 +19,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <!-- ./col -->
-                    <div class="col-12 m-5 ml-5">
+                    <div class="col-12 m-2">
                     <div class="card">
                         <div class="card-header">
                         <h3 class="card-title">
@@ -32,9 +32,9 @@
                             <dt class="col-sm-4">  الرقم المرجعي   </dt>
                             <dd class="col-sm-6"> {{$order->Num}}</dd>
                             <dt class="col-sm-4">  اسم السياره    </dt>
-                            <dd class="col-sm-6"> {{$order->car->name}}</dd>
+                            <dd class="col-sm-6"> {{$order->car_model}}</dd>
                             <dt class="col-sm-4">  موديل السياره    </dt>
-                            <dd class="col-sm-6"> {{$order->car->model}}</dd>
+                            <dd class="col-sm-6"> {{$order->car_model}}</dd>
                             <dt class="col-sm-4"> اسم العميل  </dt>
                             <dd class="col-sm-6">{{$order->customrname}}</dd>
                             <dt class="col-sm-4"> رقم الواتساب </dt>

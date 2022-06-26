@@ -90,7 +90,7 @@
                             <hr>
                             <p class="title-des">الموديل :  {{$taxi->model}}</p>
                             <hr>
-                            <p class="title-des"> سعر الرحله  :  {{$taxi->price}}$</p>
+                            <p class="title-des"> سعر الرحله  : حسب الواجهة</p>
                         </div>
 
                     </div>
@@ -136,18 +136,11 @@
 
                             <div class="col-md-6 col-12 yas" id="price" name="price">
                             </div>
-                            <div class="col-md-6 col-12 yas">
+                            <div class="col-md-12 col-12 yas">
                                 <label  class="form-group text-capitalize m-1 ">   صورة التذكرة  </label>
                                 <input type="file" class="form-control" id="ticket" @change="fileChange1" ref="image" name="ticket" placeholder=" من فضلك قم بإضافة صورة تذكرتك" >
                             </div>
-                            <div class="col-md-6 col-12 yas">
-                                <label  class="form-group text-capitalize m-1 ">  معها سائق    </label>
-                                    <select id="chauffeur" v-model='chauffeur' name="chauffeur" class="form-control">
-                                        <option selected>هل تريد سائق مع السياره أم لا </option>
-                                        <option value="1"> نعم </option>
-                                        <option value="0"> لا  </option>
-                                    </select>
-                            </div>
+
                             <div class="col-md-12 col-12 ">
                                 @if (session()->has('promomsg'))
                                 <div class="alert alert-danger mt-5 " role="alert">
@@ -223,7 +216,7 @@
                 'deliveryplace' : '',
                 'receivingplace' : '',
                 'destination' : '',
-                'chauffeur' : '',
+
                 'image' : '',
                 'file1' : '',
                 'erorrs' : []
@@ -247,7 +240,7 @@
                 },
                 sendOrder: function(e){
                     this.erorrs  = []
-                    this.validation(this.chauffeur , ' من فضلك هل تحتاج سائق ام لا ')
+
                     this.validation(this.file1 , '  صورة التذكرة من فضلك  ')
                     this.validation(this.destination , ' من فضلك اختر وجهه ')
                     this.validation(this.phone , 'رقم الواتساب  او التليجرام مطلوب ')

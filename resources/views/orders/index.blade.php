@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
- <meta http-equiv="refresh" content="30" />
+ <meta http-equiv="refresh" content="60" />
 <style>
     .table-responsive-stack tr {
   display: -webkit-box;

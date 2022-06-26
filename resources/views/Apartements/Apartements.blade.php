@@ -36,8 +36,8 @@
         </div>
     </div>
 <div class="row">
-  
-  
+
+
     <div class="col-lg-4 col-md-6 col-12 mt-3 mb-3" v-if='loading' >
         <div class="cards">
             <div class="card-image" style="background-image: url('https://cdn.dribbble.com/users/902865/screenshots/4814970/loading-opaque.gif');" >
@@ -154,6 +154,7 @@ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6ji
         data:{
             'loading' : false,
             'apartements' : [],
+            'govId' : '',
             'empty' : false
         },
         methods:{

@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
- <meta http-equiv="refresh" content="30" />
+ <meta http-equiv="refresh" content="120" />
 
 @endsection
 
@@ -19,7 +19,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <!-- ./col -->
-                    <div class="col-12 m-5 ml-5">
+                    <div class="col-12 m-2 ">
                     <div class="card">
                         <div class="card-header">
                         <h3 class="card-title">

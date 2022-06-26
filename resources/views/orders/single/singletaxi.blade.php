@@ -1,6 +1,6 @@
 @extends('layout.flay')
 @section('css')
- <meta http-equiv="refresh" content="30" />
+ <meta http-equiv="refresh" content="120" />
 
 @endsection
 
@@ -19,7 +19,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <!-- ./col -->
-                    <div class="col-12 m-5 ml-5">
+                    <div class="col-12 m-2">
                     <div class="card">
                         <div class="card-header">
                         <h3 class="card-title">
@@ -34,6 +34,8 @@
 
                             <dt class="col-sm-4">  اسم التاكسي    </dt>
                             <dd class="col-sm-6"> {{$order->taxi_name}}</dd>
+                            <dt class="col-sm-4">  موديل التاكسي     </dt>
+                            <dd class="col-sm-6"> {{$order->taxi_model}}</dd>
 
                             <dt class="col-sm-4"> اسم العميل  </dt>
                             <dd class="col-sm-6">{{$order->customername}}</dd>
@@ -49,9 +51,6 @@
 
                             <dt class="col-sm-4">    تاريخ  الوصول </dd>
                             <dd class="col-sm-6"> {{$order->datearrive}}</dd>
-
-                            <dt class="col-sm-4">    معها سائق   </dd>
-                           <dd class="col-sm-6">   @if($order->chauffeur == 0) بدون سائق     @else مع سائق    @endif </dd>
 
 
                             <dt class="col-sm-4">  تكلفة الرحله   </dt>

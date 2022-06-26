@@ -235,8 +235,7 @@ class TaxiController extends Controller
                 $carttaxi->customrname = $data->customrname;
                 $carttaxi->datearrive = $data->datearrive;
                 $carttaxi->destination_name = $destination->name;
-                $carttaxi->destination_id= $destination->id;
-                $carttaxi->chauffeur = $data->chauffeur;
+                $carttaxi->destination_id = $destination->id;
                 $carttaxi->ticket = $image;
 
                 return view('taxi.detail', compact('carttaxi'));
@@ -298,7 +297,6 @@ class TaxiController extends Controller
             $newreservation->datearrive = $data->datearrive;
             $newreservation->destination = $data->destination_id;
             $newreservation->destination_name = $destination->name;
-            $newreservation->chauffeur = $data->chauffeur;
             $newreservation->status = 1;
             $newreservation->ticket = $data->ticket;
             $newreservation->note = '.....';
@@ -423,6 +421,10 @@ class TaxiController extends Controller
         $taxis = Taxi::get();
         foreach ($taxis as $t) {
             $t->image = url('/') . '/assets/admin/img/taxi/' . $t->image;
+            if ($t->company_id != '')
+                $t->company_id =  $t->company->name;
+            else
+            $t->company_id =  '';
         }
         return response()->json(['taxis' => $taxis], 200);
     }
