@@ -568,6 +568,23 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>
+                                قائمة المستخدمين 
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('allusers')}}" class="nav-link">
+                                        <i class="fas fa-folder"></i>
+                                        <p> عرض الكل </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('admin.logout')}}" class="nav-link">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <p>

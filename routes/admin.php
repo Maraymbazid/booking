@@ -24,8 +24,11 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('login', [AdminController::class, 'getlogin'])->name('get.admin.login');
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 });
-Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
 Route::group(['middleware' => 'auth:admin'], function () {
+    Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::get('allusers', [AdminController::class, 'users'])->name('allusers'); 
+    Route::post('disableuser', [AdminController::class, 'disableuser'])->name('disable-user');
+    Route::post('enableuser', [AdminController::class, 'enableuser'])->name('enable-user');
      Route::get('/adminHome',function()
     {
         return view('admin.layouts.lay');

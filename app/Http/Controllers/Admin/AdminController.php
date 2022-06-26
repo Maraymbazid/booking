@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\User;
 class AdminController extends Controller
 {
     public function getlogin()
@@ -23,6 +23,51 @@ class AdminController extends Controller
    {
        auth()->guard('admin')->logout();
        return  redirect()->route('get.admin.login');
+   }
+   public function users()
+   {
+    $allusers=User::paginate(2);
+    return view('admin.users.index',compact('allusers'));
+   }
+   public function disableuser(Request $request)
+   {
+    $user=User::find($request->id);
+    if($user)
+    {
+        $user->update([
+            'status' => '0',
+        ]);
+        return response()->json([
+            'msg'  => '  تم إلغاء تفعيل المستخدم  بنجاح',
+            ], 200);
+    } 
+    else 
+    {
+        return response()->json([
+                //'status' => false,
+                'msg'  => ' تعذر  تفعيل هناك خطأ ما ',
+            ], 500);
+    }
+   }
+   public function enableuser(Request $request)
+   {
+    $user=User::find($request->id);
+    if($user)
+    {
+        $user->update([
+            'status' => '1',
+        ]);
+        return response()->json([
+                'msg'  => 'تم تفعيل المستخدم بنجاح',
+            ], 200);
+    } 
+    else 
+    {
+        return response()->json([
+                //'status' => false,
+                'msg'  => ' تعذر  تفعيل هناك خطأ ما ',
+            ], 500);
+    }
    }
 
 }
