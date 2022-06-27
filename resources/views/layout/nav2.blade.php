@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-2 col-4 text-center">
             <a href="{{ route('userIndexhotel')}}">
-                <img src="{{ url('assest/finallfront/images/otel.png') }}" alt="" width="50" height="50">
+                <img src="https://img.icons8.com/external-wanicon-lineal-wanicon/50/000000/external-hotel-summertime-wanicon-lineal-wanicon.png"/>
                 <p class="jo-title">
                     حجز فنادق
                 </p>
@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center">
             <a href="{{ route('userIndexApartement')}}">
-                <img src="{{ url('assest/finallfront/images/house.png') }}" alt="" width="50" height="50">
+                <img src="https://img.icons8.com/external-out-line-pongsakorn-tan/50/000000/external-apartment-travel-out-line-pongsakorn-tan.png"/>
                 <p class="jo-title">
                     حجز شقق
                 </p>
@@ -20,7 +20,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center border-none">
             <a href="{{ route('userIndexVilla')}}">
-                <img src="{{ url('assest/finallfront/images/castel.png') }}" alt="" width="50" height="50">
+                <img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/50/000000/external-house-real-estate-xnimrodx-lineal-xnimrodx.png"/>
                 <p class="jo-title">
                     فلل
                 </p>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center">
             <a href="{{ route('meetinguserindex')}}">
-                <img src="{{ url('assest/finallfront/images/toblanti.png') }}" alt="" width="50" height="50"">
+                <img src="https://img.icons8.com/external-smashingstocks-mixed-smashing-stocks/50/000000/external-meeting-industrial-revolution-smashingstocks-mixed-smashing-stocks.png"/>
                 <p class="jo-title">
                     حجز قاعات اجتماع
                 </p>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center">
             <a href="{{ route('userIndexCar')}}">
-                <img src="{{ url('assest/finallfront/images/car.png')}}" alt="" width="50" height="50">
+                <img src="https://img.icons8.com/ios-filled/50/000000/cab-stand.png"/>
                 <p class="jo-title">
                     تأجير سيارات
                 </p>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-lg-2 col-4 text-center border-none">
             <a href="{{ route('userIndexTax')}}">
-                <img src="{{ url('assest/finallfront/images/taxi.png ') }}" alt="" width="50" height="50">
+                <img src="https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/50/000000/external-car-rental-car-repair-smashingstocks-detailed-outline-smashing-stocks.png"/>
                 <p class="jo-title">
                     تاكسي المطار
                 </p>
