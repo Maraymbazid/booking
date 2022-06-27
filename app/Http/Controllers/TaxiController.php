@@ -341,7 +341,7 @@ class TaxiController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationTaxi::paginate(8);
+        $allorders = ReservationTaxi::orderBy('created_at', 'desc')->paginate(8);
         return view('admin.orderstaxiis.index', compact('allorders'));
     }
     public function editordertaxi($id)

@@ -294,7 +294,7 @@ class VillaController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationVilla::paginate(8);
+        $allorders = ReservationVilla::orderBy('created_at', 'desc')->paginate(8);
         return view('admin.ordervillas.index', compact('allorders'));
     }
     public function editordervilla($id)

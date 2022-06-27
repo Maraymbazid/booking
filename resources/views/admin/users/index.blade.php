@@ -97,17 +97,17 @@
                                         <td> {{ $user->name }}</td>
                                         <td> {{ $user->email }}</td>
                                         <td>
-                                            <button  type="button" class="btn btn-warning"> <a
+                                            <button  type="button" class=""> <a
                                                      class="enable-user" user_id="{{$user->id}}">
-                                                    <i  class="fa fa-slack" aria-hidden="true"></i> </a>
+                                                    <i  class="fa-solid fa-chart-line" aria-hidden="true"></i> </a>
                                             </button>
                                         </td>
                                         <td>
+                                        <button class=""> 
                                             <a href="" class="disable-user" user_id="{{$user->id}}">
-                                                <button class="btn btn-danger rounded">
-                                                <i class="fa fa-slack"></i>
-                                                </button>
+                                                <i class="fa-solid fa-bell-slash"></i>
                                             </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach

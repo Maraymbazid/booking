@@ -78,7 +78,6 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"> الخصومات   </h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -87,6 +86,7 @@
                                         <tr>
                                             <th>   رقم الطلب </th>
                                             <th>  اسم الزبون </th>
+                                            <th> تاريخ إنشاء الطلب  </th>
                                             <th>   تعديل   </th>
                                             <th>  تفاصيل الطلب     </th>
                                             <th>  مسح     </th>
@@ -98,6 +98,7 @@
                                             <tr class="OrderRow{{$order->id}}">
                                                 <td> {{ $order->order_number }}</td>
                                                 <td>{{ $order->customername}}</td>
+                                                <td> {{ $order->created_at }}</td>
                                                 <td>
                                                      <button type="button" class="btn btn-warning">
                                                           <a

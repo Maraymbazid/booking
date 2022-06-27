@@ -88,9 +88,11 @@
                                 <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr>
+                                            
                                             <th>   الفندق   </th>
                                             <th>   الغرفة   </th>
                                             <th>  اسم الزبون </th>
+                                            <th> تاريخ إنشاء الطلب </th>
                                             <th>   حالة الطلب  </th>
                                             <th>   تعديل   </th>
                                             <th>  تفاصيل الطلب     </th>
@@ -104,6 +106,7 @@
                                                 <td> {{ $order->hotel_name }}</td>
                                                 <td> {{ $order->room_name }}</td>
                                                 <td> {{$order->user_name}}</td>
+                                                <td> {{ $order->created_at }} </td>
                                                 <td> {{$order->status}}</td>
                                                 <td>
                                                      <button type="button" class="btn btn-warning">
@@ -146,13 +149,39 @@
                 </div>
                 <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+            @if ($orders->hasPages())
+                    <nav>
+                        <ul class="pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($orders->onFirstPage())
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                            @else
+                                <li class="page-item ">
+                                    <a class="page-link" href=" {{ $orders->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+                            @endif
+
+
+                            {{-- Next Page Link --}}
+                            @if ($orders->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ $orders->nextPageUrl() }}">Next</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled" aria-disabled="true"
+                                    aria-label="@lang('pagination.next')">
+                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                    @endif
+
         </section>
-
-
-
-
-
     </div>
 
 

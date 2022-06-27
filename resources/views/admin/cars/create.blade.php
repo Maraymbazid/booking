@@ -16,11 +16,9 @@
         cursor: pointer;
         font-size: 20px;
       }
-      /* Hide the default checkbox */
       input[type=checkbox] {
         visibility: hidden;
       }
-      /* creating a custom checkbox based on demand */
       .w3docs {
         position: absolute;
         top: 0;
@@ -29,7 +27,6 @@
         width: 25px;
         background-color: #DCDCDC;
       }
-      /* specify the background color to be shown when hovering over checkbox */
       .script:hover input ~ .w3docs {
         background-color: white;
       }
@@ -248,8 +245,5 @@
                 }
             }
         });
-
     </script>
-
-
 @endsection

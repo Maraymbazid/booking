@@ -329,7 +329,7 @@ class CarController extends Controller
 
     public function getallorders()
     {
-        $allorders=ReservationCar::paginate(8);
+        $allorders=ReservationCar::orderBy('created_at', 'desc')->paginate(8);
         return view('admin.ordercars.index',compact('allorders'));
     }
     public function editordercar($id)

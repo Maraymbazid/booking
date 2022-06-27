@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use Exception;
 use App\Http\Traits\media;
 use Illuminate\Http\Request;
@@ -15,12 +13,8 @@ use App\Models\Admin\ImgaeApartement;
 use App\Models\ReservationApartement;
 use App\Models\Admin\ServiceApartement;
 use App\Models\Admin\DiscountApartement;
-
-
 use App\Http\Requests\Apartement\StoreApartementRequest;
 use App\Http\Requests\Apartement\UpdateApartement;
-
-
 class ApartementController extends Controller
 {
     use media;
@@ -267,7 +261,7 @@ class ApartementController extends Controller
     }
     public function getallorders()
     {
-        $allorders = ReservationApartement::paginate(8);
+        $allorders = ReservationApartement::orderBy('created_at', 'desc')->paginate(8);
         return view('admin.orderapartements.index', compact('allorders'));
     }
     public function editorderapart($id)
@@ -337,7 +331,6 @@ class ApartementController extends Controller
             return redirect()->back();
         }
     }
-
     public function apartementApi()
     {
         $apartements = Apartement::get()->Where('status', 1);
@@ -346,7 +339,6 @@ class ApartementController extends Controller
         }
         return response()->json(['apartements' => $apartements], 200);
     }
-
     public function Apartordered($govId)
     {
         // $hotels = DB::table('hotels')->where('gouvernement', $govId)->orderBy('sort', 'DESC')->get();

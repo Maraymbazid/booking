@@ -311,7 +311,7 @@ class MeetingSallesController extends Controller
     }
     public function getallorders()
     {
-        $allorders=OrderMeeting::paginate(2);
+        $allorders=OrderMeeting::orderBy('created_at', 'desc')->paginate(8);
         return view('admin.ordermeetings.index',compact('allorders'));
     }
     public function editordersalle($id)

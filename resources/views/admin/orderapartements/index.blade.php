@@ -78,7 +78,6 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"> الخصومات   </h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -86,6 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>   رقم الطلب </th>
+                                            <th> تاريخ إنشاء الطلب  </th>
                                             <th>  اسم الزبون </th>
                                             <th>   تعديل   </th>
                                             <th>  تفاصيل الطلب     </th>
@@ -97,7 +97,8 @@
                                         @foreach ($allorders as $order)
                                             <tr class="OrderRow{{$order->id}}">
                                                 <td> {{ $order->Num }}</td>
-                                                <td>Ahmed Adwe</td>
+                                                <td> {{ $order->created_at }}</td>
+                                                <td>{{ $order->customrname }}</td>
                                                 <td>
                                                      <button type="button" class="btn btn-warning"> 
                                                           <a
