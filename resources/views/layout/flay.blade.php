@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/stylesheet.css') }}">
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/style2.css') }}">
-        
+
         @yield('css')
     </head>
 
@@ -61,20 +61,18 @@
                         <i class="fa-regular fa-user"></i>   {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    
-                        <a class="dropdown-item" href="{{ route('userHotelOrder')}}"  >      <span><i class="fa-solid fa-hotel"></i>
+                        <a class="dropdown-item" href="{{ route('userHotelOrder')}}"  >      <span>                <img src="https://img.icons8.com/external-wanicon-lineal-wanicon/20/000000/external-hotel-summertime-wanicon-lineal-wanicon.png"/>
                             <span class="nav-link-text"> حجز الفنادق  </span>  </a>
-                            <a class="dropdown-item" href="{{ route('userTaxiOrder')}}"  >      <span><i class="fa-solid fa-taxi"></i></span>
+                            <a class="dropdown-item" href="{{ route('userTaxiOrder')}}"  >      <span>                <img src="https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/20/000000/external-car-rental-car-repair-smashingstocks-detailed-outline-smashing-stocks.png"/>                            </span>
                                 <span class="nav-link-text">   حجز تاكسي  </span>  </a>
-                                <a class="dropdown-item" href="{{ route('userCarOrder')}}"  >      <span><i class="fa-solid fa-handshake-simple"></i></span>
+                                <a class="dropdown-item" href="{{ route('userCarOrder')}}"  >      <span>  <img src="https://img.icons8.com/ios-filled/20/000000/cab-stand.png"/></span>
                                     <span class="nav-link-text">    حجز السيارات </span>  </a>
-                                    <a class="dropdown-item" href="{{ route('userMeetOrder')}}"  >      <span><i class="fa-solid fa-castle"></i></span>
+                                    <a class="dropdown-item" href="{{ route('userMeetOrder')}}"  >      <span><img src="https://img.icons8.com/external-smashingstocks-mixed-smashing-stocks/20/000000/external-meeting-industrial-revolution-smashingstocks-mixed-smashing-stocks.png"/>                                    </span>
                                         <span class="nav-link-text">    حجز الاجتماعات </span>  </a>
-                                        <a class="dropdown-item" href="{{ route('userAppartOrder')}}"  >      <span><i class="fa-solid fa-castle"></i></span>
+                                        <a class="dropdown-item" href="{{ route('userAppartOrder')}}"  >      <span>  <img src="https://img.icons8.com/external-out-line-pongsakorn-tan/20/000000/external-apartment-travel-out-line-pongsakorn-tan.png"/></span>
                                             <span class="nav-link-text">    حجز الشقق  </span>  </a>
-                                            <a class="dropdown-item" href="{{ route('userVillaOrder')}}"  >      <span><i class="fa-solid fa-house"></i></span>
+                                            <a class="dropdown-item" href="{{ route('userVillaOrder')}}"  >      <span><img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/20/000000/external-house-real-estate-xnimrodx-lineal-xnimrodx.png"/></span>
                                                 <span class="nav-link-text">    حجز الفلل </span>  </a>
-                      
                         <div class="dropdown-divider"></div>
                         @if (Route::has('register'))
                         <a class="dropdown-item" href="{{ route('logout') }}"

@@ -16,7 +16,7 @@ class OrdersController extends Controller
 {
     public function userHotelOrder()
     {
-        $orders = HotelOrder::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $orders = HotelOrder::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.index', compact('orders'));
     }
     public function showOneOrderFoUser($id)
@@ -26,7 +26,7 @@ class OrdersController extends Controller
     }
     public function userTaxiOrder()
     {
-        $taxis = ReservationTaxi::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $taxis = ReservationTaxi::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.indexTaxi', compact('taxis'));
     }
     public function singleTaxOrder($id)
@@ -38,7 +38,7 @@ class OrdersController extends Controller
 
     public function userCarOrder()
     {
-        $cars = ReservationCar::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $cars = ReservationCar::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.indexCars', compact('cars'));
     }
     public function singleCarOrder($id)
@@ -51,7 +51,7 @@ class OrdersController extends Controller
 
     public function userVillaOrder()
     {
-        $villas = ReservationVilla::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $villas = ReservationVilla::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.indexVillas', compact('villas'));
     }
     public function singleVillaOrder($id)
@@ -64,7 +64,7 @@ class OrdersController extends Controller
 
     public function userAppartOrder()
     {
-        $apparts = ReservationApartement::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $apparts = ReservationApartement::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.indexAppart', compact('apparts'));
     }
     public function singleApartOrder($id)
@@ -76,7 +76,7 @@ class OrdersController extends Controller
 
     public function userMeetOrder()
     {
-        $meets = MeetingOrder::where('user_id',  '=', Auth::user()->id)->paginate(6);
+        $meets = MeetingOrder::where('user_id',  '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('orders.indexMeetingRoom', compact('meets'));
     }
 
