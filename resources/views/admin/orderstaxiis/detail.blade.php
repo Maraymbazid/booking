@@ -45,7 +45,7 @@
                             <dt class="col-sm-4">   مكان إستلام</dt>
                             <dd class="col-sm-6"> {{$order->deliveryplace }}</dd>
                             <dt class="col-sm-4">  الوجهة </dt>
-                            <dd class="col-sm-6"> {{$order->destination }}</dd>
+                            <dd class="col-sm-6"> {{$order->destination_name }}</dd>
                             <dt class="col-sm-4">  تاريخ الوصول  </dt>
                             <dd class="col-sm-6">  {{$order->datearrive }} </dd>
                             @if($order->pro !== null)
@@ -73,7 +73,7 @@
                             @endif
                             </dd>
                             <dt class="col-sm-4">  ملاحظات  </dt>
-                            <dd class="col-sm-6"> {{$order->Note}}</dd>
+                            <dd class="col-sm-6"> {{$order->note}}</dd>
                             <dt class="col-sm-4">  اسم الحساب الذي تم طلب منه  </dt>
                             <dd class="col-sm-6"> {{$order->user->name }}</dd>
                              <dt class="col-sm-4">   صورة التذكرة  </dt>

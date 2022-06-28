@@ -57,6 +57,22 @@
                             @endif
                             <dt class="col-sm-4">التكلفة الاجمالية </dt>
                             <dd class="col-sm-6"> {{$order->finallprice}} </dd>
+                            <dt class="col-sm-4">  حالة الطلب   </dt>
+                            <dd class="col-sm-6">
+                                @if($order->status == 1 )
+                                قيد التنفيذ
+                          @elseif ($order->status == 2)
+                                تم القبول
+                          @elseif ($order->status == 3)
+                              انتظر مكالمة للقبول
+                          @elseif ($order->status == 4)
+                                   مرفوض
+                          @else
+                          هناك خطأ ما من فضلك تواصل معنا
+                          @endif
+                            </dd>
+                            <dt class="col-sm-4">  ملاحظات  </dt>
+                            <dd class="col-sm-6"> {{$order->Note}}</dd>
                             
                         <!-- /.card-body -->
                     </div>

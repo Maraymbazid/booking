@@ -1,9 +1,6 @@
 @extends('admin.layouts.lay')
 @section('title', 'الفنادق')
-
-
 @section('content')
-
     <!-- Content Wrapper. Contains page content -->
     <section class="content" style="text-align: center; direction: rtl;">
         <div class="container-fluid">
