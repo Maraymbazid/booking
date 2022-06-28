@@ -137,11 +137,16 @@
                                         <div class="input-group input-group-lg">
                                             <select  class="form-control"
                                                 v-model="comID" name='company_id'>
-                                                <option value="NULL">إختار شركة </option>
                                                     @foreach (\App\Models\Company::all() as $com)
-                                                        <option value="{{ $com->id }}">
+                                                    @if($com->id == $taxi->company_id )
+                                                        <option value="{{ $com->id }}" selected>
                                                             {{ $com->name }}
                                                         </option>
+                                                    @else
+                                                    <option value="{{ $com->id }}">
+                                                            {{ $com->name }}
+                                                        </option>
+                                                    @endif
                                                     @endforeach
 
                                             </select>

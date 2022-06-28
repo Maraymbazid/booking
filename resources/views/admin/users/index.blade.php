@@ -98,14 +98,15 @@
                                         <td> {{ $user->email }}</td>
                                         <td>
                                             <button  type="button" class=""> <a
-                                                     class="enable-user" user_id="{{$user->id}}">
-                                                    <i  class="fa-solid fa-chart-line" aria-hidden="true"></i> </a>
+                                                     class="enable-user" user_id="{{$user->id}}" href="">
+                                                    <i  class="fa-thin fa-bell-slash"></i> </a> 
+                                                    
                                             </button>
                                         </td>
                                         <td>
-                                        <button class=""> 
+                                        <button class="" type="button"> 
                                             <a href="" class="disable-user" user_id="{{$user->id}}">
-                                                <i class="fa-solid fa-bell-slash"></i>
+                                                <i class="fa-thin fa-bell-slash"></i> 
                                             </a>
                                             </button>
                                         </td>
