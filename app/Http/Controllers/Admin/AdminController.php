@@ -26,7 +26,7 @@ class AdminController extends Controller
    }
    public function users()
    {
-    $allusers=User::paginate(2);
+    $allusers=User::paginate(8);
     return view('admin.users.index',compact('allusers'));
    }
    public function disableuser(Request $request)

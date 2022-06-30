@@ -87,6 +87,8 @@
                                         <tr>
                                             <th> الاسم بالعربي  </th>
                                             <th> الايميل </th>
+                                            <th> رقم الهاتف  </th>
+                                            <th>  تاريخ التسجيل </th>
                                             <th>   تفعيل   </th>
                                             <th>  إلغاء تفعيل     </th>
                                         </tr>
@@ -96,6 +98,8 @@
                                     <tr>
                                         <td> {{ $user->name }}</td>
                                         <td> {{ $user->email }}</td>
+                                        <td> {{$user->phone}} </td>
+                                        <td> {{$user->created_at}}
                                         <td>
                                             <button  type="button" class=""> <a
                                                      class="enable-user" user_id="{{$user->id}}" href="">
