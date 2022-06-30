@@ -12,6 +12,11 @@
                 <div class="card-header" style='text-align:center'> تسجيل الدخول </div>
 
                 <div class="card-body">
+                    @if (session()->has('ban'))
+                    <div class="alert alert-danger" style='text-align: center' role="alert">
+                        <strong style='color:white'>{{ session()->get('ban') }}</strong>
+                    </div>
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

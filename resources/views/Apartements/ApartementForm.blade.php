@@ -74,7 +74,7 @@
                                         <div class="carousel-inner">
                                             @foreach ($apartement->images as $i)
                                             <div class="carousel-item  @if( $loop->first == 1 ) active @endif "  >
-                                                <div class="sosy"  style="background-image: url({{ url("/") .  "/assets/admin/img/taxi/covers/" . $i->image}});" >
+                                                <div class="sosy"  style="background-image: url({{ url("/") .  "/assets/admin/img/apartements/covers/" . $i->image}});" >
                                                 </div>
                                             </div>
                                             @endforeach

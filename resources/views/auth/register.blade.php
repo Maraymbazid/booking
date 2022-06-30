@@ -1,14 +1,14 @@
 @extends('layout.flay')
 @include('layout.nav')
 @section('content')
-<div class="container">
+<div class="container mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 mb-5" >
             <div class="card">
                 <div class="card-header"  style='text-align:right'> تسجيل حساب جديد</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" class='mb-5'>
                         @csrf
 
                         <div class="row mb-3">
@@ -38,6 +38,18 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="phone" class="col-md-4 col-form-label text-md-end">رقم الهاتف </label>
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+
+                                @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">كلمة المرور</label>
@@ -61,18 +73,30 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                   تسجيل
-                                </button>
-                            </div>
+                        <div class="col-md-12 col-12 yas">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block"> تسجيل  </button>
                         </div>
-                    </form>
+                        <div class="row" style='text-align: center'>
+                            <div class="col-md-6 col-12 ">
+                                <a class="btn btn-link" href="{{ route('register') }}" >
+                                   هل لديك حساب بالفعل ؟
+                              </a>
+                            </div>
+                            <div class="col-md-6 col-12 ">
+                                @if (Route::has('password.request'))
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    هل نسيت كلمة السر ؟
+                                </a>
+                                @endif
+                        </div>
+
+
+                        </div>
+                    </form >
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div >
 @endsection
 

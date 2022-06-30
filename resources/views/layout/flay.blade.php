@@ -3,10 +3,11 @@
 
     <head>
         <meta content="UTF-8">
+        <meta name="theme-color" content="#014760">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=7">
-        <meta name="description" content="hotels">
-        <meta name="keywords" content="hotels">
+        <meta name="description" content="booking system">
+        <meta name="keywords" content="booking system">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
@@ -14,6 +15,7 @@
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/stylesheet.css') }}">
         <link rel="stylesheet" href="{{ url('assest/finallfront/css/style2.css') }}">
+        <link rel="shortcut icon" type="image/x-png" href="{{ url('/logo.png')}}" />
 
         @yield('css')
     </head>
@@ -23,16 +25,24 @@
         .card-title-me{
             color:red
         }
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: red;
+            }
+            .logo{
+                color: white;
+                display: inline;
+            }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger mg-b ">
     <div class="container">
-
         <a class="navbar-brand" href="{{url('/')}}">
+        <h5 class='logo'> JOONAY</h5>
 
-            <img src="https://c8.alamy.com/compfr/2g52jjg/maison-hotel-logo-inspiration-2g52jjg.jpg" alt=""
-                width="30" height="24">
-            فنادق
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -92,7 +102,7 @@
 
                 <li class="nav-item lattel">
                     <a class="nav-link" style="
-                    font-weight: 100;" href="https://wa.me/212680695296?text=أهلاً،  السلام عليكم أبغى استفسر عن شئ فى موقعكم  "><i class="fab fa-whatsapp"> &nbsp &nbsp &nbsp</i> تواصل معنا</a>
+                    font-weight: 100;" href="https://wa.me/+9647507776549?text=أهلاً،  السلام عليكم أبغى استفسر عن شئ فى موقعكم  "><i class="fab fa-whatsapp"> &nbsp &nbsp &nbsp</i> تواصل معنا</a>
                 </li>
             </ul>
 

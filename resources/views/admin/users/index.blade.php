@@ -89,6 +89,7 @@
                                             <th> الايميل </th>
                                             <th> رقم الهاتف  </th>
                                             <th>  تاريخ التسجيل </th>
+                                            <th>  الحالة  </th>
                                             <th>   تفعيل   </th>
                                             <th>  إلغاء تفعيل     </th>
                                         </tr>
@@ -99,18 +100,24 @@
                                         <td> {{ $user->name }}</td>
                                         <td> {{ $user->email }}</td>
                                         <td> {{$user->phone}} </td>
-                                        <td> {{$user->created_at}}
+                                        <td> {{$user->created_at}} </td>
+                                        <td> @if($user->status == '1')
+                                                    مفعل
+                                            @else
+                                                  معطل
+                                              @endif
+                                         </td>
                                         <td>
                                             <button  type="button" class=""> <a
                                                      class="enable-user" user_id="{{$user->id}}" href="">
-                                                    <i  class="fa-thin fa-bell-slash"></i> </a> 
-                                                    
+                                                    <i  class="fa-thin fa-bell-slash"></i> </a>
+
                                             </button>
                                         </td>
                                         <td>
-                                        <button class="" type="button"> 
+                                        <button class="" type="button">
                                             <a href="" class="disable-user" user_id="{{$user->id}}">
-                                                <i class="fa-thin fa-bell-slash"></i> 
+                                                <i class="fa-thin fa-bell-slash"></i>
                                             </a>
                                             </button>
                                         </td>

@@ -51,7 +51,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ url('/admin')}}" class="nav-link">الصفحة الرئيسية</a>
+                    <a href="{{ url('/admin/adminHome')}}" class="nav-link">الصفحة الرئيسية</a>
                 </li>
             </ul>
 
@@ -64,7 +64,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="direction: ltr;">
             <!-- Brand Logo -->
             <a class="brand-link">
-                <img src="{{ url('assest/admin/dist/img/LOGO.png') }}" alt="AdminLTE Logo"
+                <img src="{{ url('LOGO.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Hotels </span>
             </a>
@@ -572,7 +572,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-folder-open"></i>
                                 <p>
-                                قائمة المستخدمين 
+                                قائمة المستخدمين
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
