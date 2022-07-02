@@ -31,7 +31,7 @@
 
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>  عدد الايام</label>
+                                        <label>      الاسابيع / الايام /الشهور </label>
                                         <div class="input-group input-group-lg">
                                             <input type="text" name="number_days" id="number_days"
                                                 class="form-control form-control-lg" placeholder="name"
