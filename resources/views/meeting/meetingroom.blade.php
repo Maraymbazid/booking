@@ -5,7 +5,7 @@
 
  @section('moving-image')
  <div class="section">
-     <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+     <div class="moving-image"  style="background-image:url({{url('/assest/met.jpg')}});"></div>
  </div>
  @endsection
  @section('content')

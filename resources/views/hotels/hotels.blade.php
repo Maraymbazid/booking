@@ -4,7 +4,7 @@
 
 @section('moving-image')
 <div class="section">
-    <div class="moving-image"  style="background-image: url(https://ivang-design.com/svg-load/hotel/move-img@2x.jpg);"></div>
+    <div class="moving-image"  style="background-image:url({{url('/assest/hotel.jpg')}});"></div>
 </div>
 @endsection
 @section('content')
@@ -104,7 +104,7 @@
             <h3>  نأ سف  هذا المحتوي غير متاح او يمكنك تحديث الصفحة</h3>
         </div>
     </div>
-  
+
 
 
     <div class="row">
